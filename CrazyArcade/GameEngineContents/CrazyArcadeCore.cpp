@@ -1,7 +1,6 @@
 ﻿#include <GameEnginePlatform/GameEngineWindow.h>
 
 #include "CrazyArcadeCore.h"
-
 #include "TestLevel.h"
 
 CrazyArcadeCore::CrazyArcadeCore()
@@ -23,10 +22,13 @@ void CrazyArcadeCore::Start()
 }
 void CrazyArcadeCore::Update(float _Delta)
 {
-	}
+
+}
 void CrazyArcadeCore::Render(float _Delta)
 {
-	}
+
+}
 void CrazyArcadeCore::Release()
 {
+
 }

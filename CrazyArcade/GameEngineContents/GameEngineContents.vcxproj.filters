@@ -3,9 +3,11 @@
   <ItemGroup>
     <ClInclude Include="CrazyArcadeCore.h" />
     <ClInclude Include="TestLevel.h" />
+    <ClInclude Include="TestActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrazyArcadeCore.cpp" />
     <ClCompile Include="TestLevel.cpp" />
+    <ClCompile Include="TestActor.cpp" />
   </ItemGroup>
 </Project>
