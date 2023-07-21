@@ -151,7 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ActorEnum.h" />
     <ClInclude Include="BackGround.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BaseCharacter.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -183,6 +188,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter.cpp">
       <SubType>
       </SubType>
     </ClCompile>
