@@ -1,7 +1,8 @@
 ﻿#include <GameEnginePlatform/GameEngineWindow.h>
 
 #include "CrazyArcadeCore.h"
-#include "TestLevel.h"
+#include "TitleLevel.h"
+#include "GlobalValue.h"
 
 CrazyArcadeCore::CrazyArcadeCore()
 {
@@ -16,9 +17,11 @@ CrazyArcadeCore::~CrazyArcadeCore()
 void CrazyArcadeCore::Start()
 {
 	GameEngineWindow::MainWindow.SetPosAndScale({ 100, 100 }, { 1280, 720 });
-	GameEngineCore::CreateLevel<TestLevel>("TestLevel");
+	GlobalValue::Init();
 
-	GameEngineCore::ChangeLevel("TestLevel");
+	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
+
+	GameEngineCore::ChangeLevel("TitleLevel");
 }
 void CrazyArcadeCore::Update(float _Delta)
 {

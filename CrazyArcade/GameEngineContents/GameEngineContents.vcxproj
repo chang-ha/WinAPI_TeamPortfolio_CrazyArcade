@@ -151,29 +151,46 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BackGround.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="CrazyArcadeCore.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TestActor.h">
+    <ClInclude Include="GlobalValue.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TestLevel.h">
+    <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BackGround.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CrazyArcadeCore.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TestActor.cpp">
+    <ClCompile Include="GlobalValue.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TestLevel.cpp">
+    <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

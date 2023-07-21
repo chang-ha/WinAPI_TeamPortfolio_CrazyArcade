@@ -1,13 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="CrazyArcadeCore.h" />
-    <ClInclude Include="TestLevel.h" />
-    <ClInclude Include="TestActor.h" />
+    <ClInclude Include="ContentLevel.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CrazyArcadeCore.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>TitleLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CrazyArcadeCore.cpp" />
-    <ClCompile Include="TestLevel.cpp" />
-    <ClCompile Include="TestActor.cpp" />
+    <ClCompile Include="ContentLevel.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CrazyArcadeCore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>TitleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{149932c1-079f-4cc3-97ea-804c1125bbb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{7e4f451d-1bf4-4808-88e1-7459cfa6f52e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TitleLevel">
+      <UniqueIdentifier>{d8ed522f-ee55-4c87-be18-92d1973b9cb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
