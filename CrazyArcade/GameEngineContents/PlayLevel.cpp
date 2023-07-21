@@ -28,6 +28,8 @@ void PlayLevel::Start()
 	Back = CreateActor<BackGround>(UpdateOrder::Map);
 	Back->Init("PlayLevel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
+
+	int a = 0;
 }
 
 void PlayLevel::Update(float _Delta)
