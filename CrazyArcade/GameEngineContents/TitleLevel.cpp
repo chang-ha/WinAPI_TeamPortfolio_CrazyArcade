@@ -26,13 +26,13 @@ void TitleLevel::LevelEnd(GameEngineLevel* _NextLevel)
 void TitleLevel::Start()
 {
 	Back = CreateActor<BackGround>(UpdateOrder::Map);
-	Back->Init("Title.bmp");
+	Back->Init("TitleLevel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 }
 
 void TitleLevel::Update(float _Delta)
 {
-
+	ContentLevel::Update(_Delta);
 }
 
 void TitleLevel::Render(float _Delta)

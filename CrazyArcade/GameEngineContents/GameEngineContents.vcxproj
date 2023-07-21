@@ -168,6 +168,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MapEditor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
@@ -187,6 +195,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GlobalValue.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MapEditor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

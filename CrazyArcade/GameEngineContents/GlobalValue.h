@@ -14,9 +14,9 @@ public:
 	GlobalValue& operator=(const GlobalValue& _Other) = delete;
 	GlobalValue& operator=(GlobalValue&& _Other) noexcept = delete;
 
-	static void Init();
-
 	static float4 WinScale;
+
+	static void Init();
 protected:
 
 private:

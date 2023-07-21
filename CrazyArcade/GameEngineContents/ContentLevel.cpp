@@ -1,5 +1,7 @@
 ﻿#include <GameEnginePlatform/GameEngineInput.h>
 
+#include <GameEngineCore/GameEngineCore.h>
+
 #include "ContentLevel.h"
 
 ContentLevel::ContentLevel()
@@ -31,6 +33,16 @@ void ContentLevel::Update(float _Delta)
 {
 	if (true == GameEngineInput::IsDown(VK_F1))
 	{
+		GameEngineCore::ChangeLevel("TitleLevel");
+	}
 
+	if (true == GameEngineInput::IsDown(VK_F2))
+	{
+		GameEngineCore::ChangeLevel("PlayLevel");
+	}
+
+	if (true == GameEngineInput::IsDown(VK_F3))
+	{
+		GameEngineCore::ChangeLevel("MapEditor");
 	}
 }

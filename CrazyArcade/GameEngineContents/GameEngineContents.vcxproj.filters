@@ -19,6 +19,12 @@
     <ClInclude Include="GlobalValue.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditor.h">
+      <Filter>MapEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentLevel.cpp">
@@ -36,6 +42,12 @@
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditor.cpp">
+      <Filter>MapEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -46,6 +58,12 @@
     </Filter>
     <Filter Include="TitleLevel">
       <UniqueIdentifier>{d8ed522f-ee55-4c87-be18-92d1973b9cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel">
+      <UniqueIdentifier>{932d9db1-26f7-4bf3-9496-c5d8515b9db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapEditor">
+      <UniqueIdentifier>{cb76d764-55d3-4e7d-8893-eabf4da216bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

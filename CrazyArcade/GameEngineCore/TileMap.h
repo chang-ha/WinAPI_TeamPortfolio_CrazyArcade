@@ -29,6 +29,12 @@ public:
 	TileMap& operator=(const TileMap& _Other) = delete;
 	TileMap& operator=(TileMap&& _Other) noexcept = delete;
 
+	template <typename EnumType>
+	void CreateTileMap(const std::string& _Sprite, int X, int Y, float4 _TileSize, EnumType _Order)
+	{
+		CreateTileMap(_Sprite, X, Y, _TileSize, static_cast<int>(_Order));
+	}
+
 	void CreateTileMap(const std::string& _Sprite, int X, int Y, float4 _TileSize, int _Order);
 
 	GameEngineRenderer* GetTile(int X, int Y);
