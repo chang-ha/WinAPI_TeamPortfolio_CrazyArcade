@@ -18,7 +18,7 @@ CrazyArcadeCore::~CrazyArcadeCore()
 
 void CrazyArcadeCore::Start()
 {
-	GameEngineWindow::MainWindow.SetPosAndScale({ 100, 100 }, { 1280, 720 });
+	GameEngineWindow::MainWindow.SetPosAndScale({ 100, 100 }, { 800, 600 });
 	GlobalValue::Init();
 
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");

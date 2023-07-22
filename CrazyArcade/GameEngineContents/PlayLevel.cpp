@@ -27,7 +27,13 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 void PlayLevel::Start()
 {
 	Back = CreateActor<BackGround>(UpdateOrder::Map);
-	Back->Init("PlayLevel.bmp");
+	if (nullptr == Back)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	Back->Init("PlayPanel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
 	BaseCharacter* Check = CreateActor<BaseCharacter>(UpdateOrder::Character);
