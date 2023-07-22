@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/TileMap.h>
 #include <GameEngineCore/ResourcesManager.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 
 #include "MapEditor.h"
 #include "ContentsEnum.h"
@@ -64,6 +65,9 @@ void MapEditor::Start()
 				Tile->SetTile(X, Y, 0, Tile_StartPos);
 			}
 		}
+
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Grass01.bmp"));
+		ResourcesManager::GetInst().CreateSpriteSheet("Grass01.bmp", 1, 1);
 	}
 }
 
@@ -72,7 +76,7 @@ void MapEditor::Update(float _Delta)
 	ContentLevel::Update(_Delta);
 	CurMousePos = GameEngineWindow::MainWindow.GetMousePos();
 
-	if(true == TileMapInMouse())
+	if(true == MouseInTileMap())
 	{
 		SelectedTile->On();
 		CurTileIndex_X = int(CurMousePos.X - Tile_StartPos.X) / 40;
@@ -86,11 +90,11 @@ void MapEditor::Update(float _Delta)
 	{
 		SelectedTile->Off();
 	}
-
-
-
-
-
+	
+	if (true == GameEngineInput::IsPress(VK_LBUTTON))
+	{
+		Tile->GetTile(CurTileIndex_X, CurTileIndex_Y)->SetTexture("Grass01.bmp");
+	}
 }
 
 void MapEditor::Render(float _Delta)
@@ -98,7 +102,7 @@ void MapEditor::Render(float _Delta)
 
 }
 
-bool MapEditor::TileMapInMouse()
+bool MapEditor::MouseInTileMap()
 {
 	if (CurMousePos.X > Tile_StartPos.X &&
 		CurMousePos.Y > Tile_StartPos.Y &&

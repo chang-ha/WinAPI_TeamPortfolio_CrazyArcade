@@ -24,7 +24,7 @@ protected:
 
 private:
 
-	bool TileMapInMouse();
+	bool MouseInTileMap();
 
 	// Const Value
 	const int Index_X = 15;
