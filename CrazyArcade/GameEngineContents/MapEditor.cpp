@@ -65,7 +65,6 @@ void MapEditor::Start()
 			}
 		}
 	}
-	int a = 0;
 }
 
 void MapEditor::Update(float _Delta)
@@ -76,10 +75,12 @@ void MapEditor::Update(float _Delta)
 	if(true == TileMapInMouse())
 	{
 		SelectedTile->On();
-		CurTileIndex_X = int(CurMousePos.X) / 40;
-		CurTileIndex_Y = int(CurMousePos.Y) / 40;
+		CurTileIndex_X = int(CurMousePos.X - Tile_StartPos.X) / 40;
+		CurTileIndex_Y = int(CurMousePos.Y - Tile_StartPos.Y) / 40;
 
-		SelectedTile->SetPos({ Tile_StartPos.X + (Tile_Size.X * CurTileIndex_X) - Tile_Size.hX(), Tile_StartPos.Y + (Tile_Size.Y * CurTileIndex_Y) - Tile_Size.hY() });
+		SelectedTile->SetPos({ 
+			Tile_StartPos.X + (Tile_Size.X * CurTileIndex_X) + Tile_Size.hX(), 
+			Tile_StartPos.Y + (Tile_Size.Y * CurTileIndex_Y) + Tile_Size.hY() });
 	}
 	else
 	{
