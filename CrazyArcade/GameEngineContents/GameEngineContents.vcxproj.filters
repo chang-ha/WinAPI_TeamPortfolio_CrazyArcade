@@ -57,6 +57,9 @@
     <ClCompile Include="BaseCharacter.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="Bazzi_State.cpp">
+      <Filter>Character\Bazzi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -79,6 +82,9 @@
     </Filter>
     <Filter Include="Character">
       <UniqueIdentifier>{d193bdf2-4440-4d7c-986d-fb7440e11f8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Bazzi">
+      <UniqueIdentifier>{82d394fc-0ed0-4c36-b377-69d7acf8a9be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

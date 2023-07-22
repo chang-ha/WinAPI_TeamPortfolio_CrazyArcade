@@ -1,5 +1,8 @@
 #pragma once
 
+#include "ActorEnum.h"
+
+#include <string>
 #include <GameEngineCore/GameEngineActor.h>
 
 class GameEngineRenderer;
@@ -17,7 +20,18 @@ public:
 	BaseCharacter& operator=(BaseCharacter&& _Other) noexcept = delete;
 
 protected:
+	void DirCheck();
+	void StateUpdate(float _Delta);
+	void ChangeState(CharacterState _State);
+	void ChangeAnimationState(const std::string& _StateName);
 
+	void WaitStart();
+
+	void WaitUpdate(float _Delta);
+
+	ActorDir Dir = ActorDir::Down;
+	CharacterState State = CharacterState::Wait;
+	std::string CurState = "";
 private:
 	GameEngineRenderer* MainRenderer = nullptr;
 

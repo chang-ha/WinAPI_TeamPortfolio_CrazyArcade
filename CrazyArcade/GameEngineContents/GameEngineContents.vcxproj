@@ -195,6 +195,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Bazzi_State.cpp" />
     <ClCompile Include="ContentLevel.cpp">
       <SubType>
       </SubType>
