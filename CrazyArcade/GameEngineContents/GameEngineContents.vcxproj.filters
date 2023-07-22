@@ -25,6 +25,9 @@
     <ClInclude Include="MapEditor.h">
       <Filter>MapEditor</Filter>
     </ClInclude>
+    <ClInclude Include="TileSelect.h">
+      <Filter>MapEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentLevel.cpp">
@@ -46,6 +49,9 @@
       <Filter>PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="MapEditor.cpp">
+      <Filter>MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="TileSelect.cpp">
       <Filter>MapEditor</Filter>
     </ClCompile>
   </ItemGroup>

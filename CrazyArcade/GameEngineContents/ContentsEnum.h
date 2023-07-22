@@ -8,6 +8,7 @@ enum class UpdateOrder
 enum class RenderOrder
 {
 	BackGround,
+	SelectTile,
 };
 
 enum class CollisionOrder

@@ -23,6 +23,25 @@ protected:
 	void Render(float _Delta) override;
 
 private:
+
+	bool TileMapInMouse();
+
+	// Const Value
+	const int Index_X = 15;
+	const int Index_Y = 13;
+	const float4 Tile_Size = { 40, 40 };
+	const float4 Tile_StartPos = { 20, 41 };
+
+
+	float4 CurMousePos = float4::ZERO;
+	int CurTileIndex_X = 0;
+	int CurTileIndex_Y = 0;
+
+
+	class BackGround* Back = nullptr;
+	class TileSelect* SelectedTile = nullptr;
+
+
 	TileMap* Tile = nullptr;
 };
 
