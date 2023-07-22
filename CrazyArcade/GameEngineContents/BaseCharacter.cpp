@@ -17,16 +17,6 @@ BaseCharacter::~BaseCharacter()
 
 void BaseCharacter::Start()
 {
-
-}
-
-void BaseCharacter::Update(float _Delta)
-{
-
-}
-
-void BaseCharacter::Render(float _Delta)
-{
 	if (ResourcesManager::GetInst().FindSprite("Bazzi_Wait.Bmp") == nullptr)
 	{
 		GameEnginePath FilePath;
@@ -35,13 +25,23 @@ void BaseCharacter::Render(float _Delta)
 
 		FilePath.MoveChild("Resources\\Textures\\Character\\Bazzi\\");
 
-		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Bazzi_Wait.Bmp"), 1, 3);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Bazzi_Wait.Bmp"), 3, 1);
 	}
 
 	MainRenderer = CreateRenderer(RenderOrder::Character);
-	MainRenderer->CreateAnimation("Bazzi_Wait", "Bazzi_Wait.Bmp", -1, -1, 0.3f, true);
+	MainRenderer->CreateAnimation("Bazzi_Wait", "Bazzi_Wait.Bmp");
 
 	ChangeState(CharacterState::Wait);
+}
+
+void BaseCharacter::Update(float _Delta)
+{
+	StateUpdate(_Delta);
+}
+
+void BaseCharacter::Render(float _Delta)
+{
+	
 }
 
 void BaseCharacter::DirCheck()

@@ -30,7 +30,7 @@ protected:
 	void WaitUpdate(float _Delta);
 
 	ActorDir Dir = ActorDir::Down;
-	CharacterState State = CharacterState::Wait;
+	CharacterState State = CharacterState::Max;
 	std::string CurState = "";
 private:
 	GameEngineRenderer* MainRenderer = nullptr;

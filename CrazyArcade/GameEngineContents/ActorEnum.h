@@ -10,7 +10,8 @@ enum class CharacterState
 	Trap,
 	Live,
 	Die,
-	Jump
+	Jump,
+	Max
 };
 
 enum class ActorDir
