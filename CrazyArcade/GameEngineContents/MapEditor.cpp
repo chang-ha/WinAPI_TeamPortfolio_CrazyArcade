@@ -65,6 +65,7 @@ void MapEditor::Start()
 			}
 		}
 	}
+	int a = 0;
 }
 
 void MapEditor::Update(float _Delta)
