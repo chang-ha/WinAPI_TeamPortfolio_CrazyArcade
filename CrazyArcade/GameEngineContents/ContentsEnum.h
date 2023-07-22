@@ -10,7 +10,7 @@ enum class UpdateOrder
 enum class RenderOrder
 {
 	BackGround,
-	UI,
+	SelectTile,
 };
 
 enum class CollisionOrder

@@ -25,14 +25,8 @@
     <ClInclude Include="MapEditor.h">
       <Filter>MapEditor</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalUtils.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>PutFilter</Filter>
-    </ClInclude>
-    <ClInclude Include="RoomLevel.h">
-      <Filter>PutFilter</Filter>
+    <ClInclude Include="TileSelect.h">
+      <Filter>MapEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -57,14 +51,8 @@
     <ClCompile Include="MapEditor.cpp">
       <Filter>MapEditor</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalUtils.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>PutFilter</Filter>
-    </ClCompile>
-    <ClCompile Include="RoomLevel.cpp">
-      <Filter>PutFilter</Filter>
+    <ClCompile Include="TileSelect.cpp">
+      <Filter>MapEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
