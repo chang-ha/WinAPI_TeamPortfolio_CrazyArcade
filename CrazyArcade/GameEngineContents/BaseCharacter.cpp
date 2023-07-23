@@ -17,16 +17,7 @@ BaseCharacter::~BaseCharacter()
 
 void BaseCharacter::Start()
 {
-	if (ResourcesManager::GetInst().FindSprite("Bazzi_Wait.Bmp") == nullptr)
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("Resources");
-
-		FilePath.MoveChild("Resources\\Textures\\Character\\Bazzi\\");
-
-		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Bazzi_Wait.Bmp"), 3, 1);
-	}
+	SpriteTextureLoad("Bazzi_Wait.Bmp", 3);
 
 	MainRenderer = CreateRenderer(RenderOrder::Character);
 	MainRenderer->CreateAnimation("Bazzi_Wait", "Bazzi_Wait.Bmp");
@@ -44,6 +35,22 @@ void BaseCharacter::Render(float _Delta)
 	
 }
 
+// 스프라이트용 이미지 로드 함수
+void BaseCharacter::SpriteTextureLoad(const std::string& _TextureName, int _XCount, int _YCount /*= 1*/)
+{
+	if (ResourcesManager::GetInst().FindSprite(_TextureName) == nullptr)
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("Resources");
+
+		FilePath.MoveChild("Resources\\Textures\\Character\\Bazzi\\");
+
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_TextureName), _XCount, _YCount);
+	}
+}
+
+// 캐릭터 방향 변경 함수
 void BaseCharacter::DirCheck()
 {
 	ActorDir CheckDir = Dir;

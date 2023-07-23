@@ -19,6 +19,8 @@ public:
 	BaseCharacter& operator=(const BaseCharacter& _Other) = delete;
 	BaseCharacter& operator=(BaseCharacter&& _Other) noexcept = delete;
 
+	void SpriteTextureLoad(const std::string& _TextureName, int _XCount, int _YCount = 1);
+
 protected:
 	void DirCheck();
 	void StateUpdate(float _Delta);
