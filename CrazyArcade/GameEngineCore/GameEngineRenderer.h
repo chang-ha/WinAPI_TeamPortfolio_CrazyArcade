@@ -31,8 +31,6 @@ public:
 	GameEngineRenderer& operator=(const GameEngineRenderer& _Other) = delete;
 	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
 
-
-
 	float4 GetRenderPos() const
 	{
 		return RenderPos;
@@ -47,7 +45,6 @@ public:
 	{
 		RenderPos += _Value;
 	}
-
 
 	void SetRenderScale(const float4& _Value)
 	{

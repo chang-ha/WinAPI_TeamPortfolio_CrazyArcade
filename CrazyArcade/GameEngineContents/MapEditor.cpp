@@ -51,54 +51,34 @@ void MapEditor::Start()
 	FilePath.MoveParentToExistsChild("Resources");
 	FilePath.MoveChild("Resources\\Textures\\Tile");
 
+	if (false == ResourcesManager::GetInst().IsLoadTexture("DefaultTile.bmp"))
+	{
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("DefaultTile.bmp"));
+		ResourcesManager::GetInst().CreateSpriteSheet("DefaultTile.bmp", 1, 1);
+	}
+
+	if (false == ResourcesManager::GetInst().IsLoadTexture("Ground.bmp"))
+	{
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Ground.bmp"));
+		ResourcesManager::GetInst().CreateSpriteSheet("Ground.bmp", 8, 1);
+	}
+
 	if (nullptr == Tile)
 	{
-		if (false == ResourcesManager::GetInst().IsLoadTexture("DefaultTile.bmp"))
-		{
-			ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("DefaultTile.bmp"));
-			ResourcesManager::GetInst().CreateSpriteSheet("DefaultTile.bmp", 1, 1);
-		}
-		
 		Tile = CreateActor<TileMap>();
-		Tile->CreateTileMap("DefaultTile.bmp", Index_X, Index_Y, Tile_Size, RenderOrder::BackGround);
+		Tile->CreateTileMap("Ground.bmp", Index_X, Index_Y, Tile_Size, RenderOrder::GroundTile);
 
 		for (int Y = 0; Y < Index_Y; Y++)
 		{
 			for (int X = 0; X < Index_X; X++)
 			{
-				Tile->SetTile(X, Y, 0, Tile_StartPos);
+				TileRenderer = Tile->SetTile(X, Y, 0, Tile_StartPos);
 			}
 		}
 	}
 
-	if (LoadTileTexture == false)
-	{
-		// 임시 텍스처 로드
-		LoadTileTexture = true;
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Grass01.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("Grass01.bmp", 1, 1);
-
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Grass02.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("Grass02.bmp", 1, 1);
-
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("GreenBlock01.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("GreenBlock01.bmp", 1, 1);
-
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Road01.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("Road01.bmp", 1, 1);
-
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Road02.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("Road02.bmp", 1, 1);
-
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Road03.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("Road03.bmp", 1, 1);
-	}
-
-	for (int i = 0; i < Index_Y; i++)
-	{
-		std::vector<int> vec(Index_X);
-		TilesInfo.push_back(vec);
-	}
+	// 타일정보 벡터 초기화
+	TilesInfo.assign(Index_Y, (std::vector<int>(Index_X, 0)));
 }
 
 void MapEditor::Update(float _Delta)
@@ -118,7 +98,8 @@ void MapEditor::Update(float _Delta)
 
 		if (true == GameEngineInput::IsPress(VK_LBUTTON))
 		{
-			SetTileTexture();
+			//SetTileTexture();
+			Tile->SetTile(CurTileIndex_X, CurTileIndex_Y, CurSelectedTileType, Tile_StartPos);
 			TilesInfo[CurTileIndex_Y][CurTileIndex_X] = CurSelectedTileType;
 		}
 	}
@@ -127,41 +108,39 @@ void MapEditor::Update(float _Delta)
 		SelectedTile->Off();
 	}
 
+	// 임시 타일 변경 기능
 	if (true == GameEngineInput::IsDown('0'))
 	{
 		CurSelectedTileType = 0;
 	}
-
 	if (true == GameEngineInput::IsDown('1'))
 	{
 		CurSelectedTileType = 1;
 	}
-
 	if (true == GameEngineInput::IsDown('2'))
 	{
 		CurSelectedTileType = 2;
 	}
-
 	if (true == GameEngineInput::IsDown('3'))
 	{
 		CurSelectedTileType = 3;
 	}
-
 	if (true == GameEngineInput::IsDown('4'))
 	{
 		CurSelectedTileType = 4;
 	}
-
 	if (true == GameEngineInput::IsDown('5'))
 	{
 		CurSelectedTileType = 5;
 	}
-
 	if (true == GameEngineInput::IsDown('6'))
 	{
 		CurSelectedTileType = 6;
 	}
-
+	if (true == GameEngineInput::IsDown('7'))
+	{
+		CurSelectedTileType = 7;
+	}
 }
 
 void MapEditor::Render(float _Delta)
@@ -180,38 +159,4 @@ bool MapEditor::MouseInTileMap()
 	}
 
 	return false;
-}
-
-void MapEditor::SetTileTexture()
-{
-	std::string _FileName;
-
-	switch (CurSelectedTileType)
-	{
-	case 0:
-		Tile->GetTile(CurTileIndex_X, CurTileIndex_Y)->SetTexture("DefaultTile.bmp");
-		break;
-	case 1:
-		Tile->GetTile(CurTileIndex_X, CurTileIndex_Y)->SetTexture("Grass01.bmp");
-		break;
-	case 2:
-		Tile->GetTile(CurTileIndex_X, CurTileIndex_Y)->SetTexture("Grass02.bmp");
-		break;
-	case 3:
-		Tile->GetTile(CurTileIndex_X, CurTileIndex_Y)->SetTexture("GreenBlock01.bmp");
-		break;
-	case 4:
-		Tile->GetTile(CurTileIndex_X, CurTileIndex_Y)->SetTexture("Road01.bmp");
-		break;
-	case 5:
-		Tile->GetTile(CurTileIndex_X, CurTileIndex_Y)->SetTexture("Road02.bmp");
-		break;
-	case 6:
-		Tile->GetTile(CurTileIndex_X, CurTileIndex_Y)->SetTexture("Road03.bmp");
-		break;
-
-	default:
-		break;
-	}
-	
 }

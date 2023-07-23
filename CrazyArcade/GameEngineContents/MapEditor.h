@@ -25,7 +25,6 @@ protected:
 private:
 
 	bool MouseInTileMap();
-	void SetTileTexture();
 
 	// Const Value
 	const int Index_X = 15;
@@ -43,7 +42,7 @@ private:
 
 	class BackGround* Back = nullptr;
 	class TileSelect* SelectedTile = nullptr;
-
+	class GameEngineRenderer* TileRenderer = nullptr;
 
 	TileMap* Tile = nullptr;
 	std::vector<std::vector<int>>TilesInfo;
