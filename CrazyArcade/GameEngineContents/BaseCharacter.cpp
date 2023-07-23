@@ -17,7 +17,7 @@ BaseCharacter::~BaseCharacter()
 
 void BaseCharacter::Start()
 {
-	SpriteTextureLoad("Bazzi_Wait.Bmp", 3);
+	CreateSprite("Bazzi_Wait.Bmp", 3);
 
 	MainRenderer = CreateRenderer(RenderOrder::Character);
 	MainRenderer->CreateAnimation("Bazzi_Wait", "Bazzi_Wait.Bmp");
@@ -35,8 +35,8 @@ void BaseCharacter::Render(float _Delta)
 	
 }
 
-// 스프라이트용 이미지 로드 함수
-void BaseCharacter::SpriteTextureLoad(const std::string& _TextureName, int _XCount, int _YCount /*= 1*/)
+// 스프라이트 제작 함수
+void BaseCharacter::CreateSprite(const std::string& _TextureName, int _XCount, int _YCount /*= 1*/)
 {
 	if (ResourcesManager::GetInst().FindSprite(_TextureName) == nullptr)
 	{
