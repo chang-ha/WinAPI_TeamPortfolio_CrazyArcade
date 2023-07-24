@@ -60,7 +60,7 @@ void MapEditor::Start()
 	if (false == ResourcesManager::GetInst().IsLoadTexture("Ground.bmp"))
 	{
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Ground.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("Ground.bmp", 8, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Ground.bmp", 10, 1);
 	}
 
 	if (nullptr == Tile)
@@ -98,7 +98,6 @@ void MapEditor::Update(float _Delta)
 
 		if (true == GameEngineInput::IsPress(VK_LBUTTON))
 		{
-			//SetTileTexture();
 			Tile->SetTile(CurTileIndex_X, CurTileIndex_Y, CurSelectedTileType, Tile_StartPos);
 			TilesInfo[CurTileIndex_Y][CurTileIndex_X] = CurSelectedTileType;
 		}
@@ -138,6 +137,14 @@ void MapEditor::Update(float _Delta)
 		CurSelectedTileType = 6;
 	}
 	if (true == GameEngineInput::IsDown('7'))
+	{
+		CurSelectedTileType = 7;
+	}
+	if (true == GameEngineInput::IsDown('8'))
+	{
+		CurSelectedTileType = 7;
+	}
+	if (true == GameEngineInput::IsDown('9'))
 	{
 		CurSelectedTileType = 7;
 	}

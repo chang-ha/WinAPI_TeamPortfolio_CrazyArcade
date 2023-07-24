@@ -37,8 +37,10 @@ private:
 	int CurTileIndex_Y = 0;
 	int CurSelectedTileType = 1;
 
+
 	// State Value
 	bool LoadTileTexture = false;
+
 
 	class BackGround* Back = nullptr;
 	class TileSelect* SelectedTile = nullptr;
