@@ -51,26 +51,20 @@ void MapEditor::Start()
 	FilePath.MoveParentToExistsChild("Resources");
 	FilePath.MoveChild("Resources\\Textures\\Tile");
 
-	if (false == ResourcesManager::GetInst().IsLoadTexture("DefaultTile.bmp"))
+	if (false == ResourcesManager::GetInst().IsLoadTexture("TownGround.bmp"))
 	{
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("DefaultTile.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("DefaultTile.bmp", 1, 1);
-	}
-
-	if (false == ResourcesManager::GetInst().IsLoadTexture("Ground.bmp"))
-	{
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Ground.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("Ground.bmp", 10, 1);
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("TownGround.bmp"));
+		ResourcesManager::GetInst().CreateSpriteSheet("TownGround.bmp", 10, 1);
 	}
 
 	if (nullptr == Tile)
 	{
 		Tile = CreateActor<TileMap>();
-		Tile->CreateTileMap("Ground.bmp", Index_X, Index_Y, Tile_Size, RenderOrder::GroundTile);
+		Tile->CreateTileMap("TownGround.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::GroundTile);
 
-		for (int Y = 0; Y < Index_Y; Y++)
+		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 		{
-			for (int X = 0; X < Index_X; X++)
+			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 			{
 				TileRenderer = Tile->SetTile(X, Y, 0, Tile_StartPos);
 			}
@@ -78,7 +72,7 @@ void MapEditor::Start()
 	}
 
 	// 타일정보 벡터 초기화
-	TilesInfo.assign(Index_Y, (std::vector<int>(Index_X, 0)));
+	TilesInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<int>(GlobalValue::MapTileIndex_X, 0)));
 }
 
 void MapEditor::Update(float _Delta)
@@ -93,8 +87,8 @@ void MapEditor::Update(float _Delta)
 		CurTileIndex_Y = int(CurMousePos.Y - Tile_StartPos.Y) / 40;
 
 		SelectedTile->SetPos({ 
-			Tile_StartPos.X + (Tile_Size.X * CurTileIndex_X) + Tile_Size.hX(), 
-			Tile_StartPos.Y + (Tile_Size.Y * CurTileIndex_Y) + Tile_Size.hY() });
+			Tile_StartPos.X + (GlobalValue::MapTileSize.X * CurTileIndex_X) + GlobalValue::MapTileSize.hX(),
+			Tile_StartPos.Y + (GlobalValue::MapTileSize.Y * CurTileIndex_Y) + GlobalValue::MapTileSize.hY() });
 
 		if (true == GameEngineInput::IsPress(VK_LBUTTON))
 		{
@@ -142,11 +136,11 @@ void MapEditor::Update(float _Delta)
 	}
 	if (true == GameEngineInput::IsDown('8'))
 	{
-		CurSelectedTileType = 7;
+		CurSelectedTileType = 8;
 	}
 	if (true == GameEngineInput::IsDown('9'))
 	{
-		CurSelectedTileType = 7;
+		CurSelectedTileType = 9;
 	}
 }
 
@@ -159,8 +153,8 @@ bool MapEditor::MouseInTileMap()
 {
 	if (CurMousePos.X > Tile_StartPos.X &&
 		CurMousePos.Y > Tile_StartPos.Y &&
-		CurMousePos.X < Tile_StartPos.X + (Tile_Size.X * Index_X) &&
-		CurMousePos.Y < Tile_StartPos.Y + (Tile_Size.Y * Index_Y))
+		CurMousePos.X < Tile_StartPos.X + (GlobalValue::MapTileSize.X * GlobalValue::MapTileIndex_X) &&
+		CurMousePos.Y < Tile_StartPos.Y + (GlobalValue::MapTileSize.Y * GlobalValue::MapTileIndex_Y))
 	{
 		return true;
 	}

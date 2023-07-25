@@ -27,9 +27,7 @@ private:
 	bool MouseInTileMap();
 
 	// Const Value
-	const int Index_X = 15;
-	const int Index_Y = 13;
-	const float4 Tile_Size = { 40, 40 };
+
 	const float4 Tile_StartPos = { 20, 20 };
 
 	float4 CurMousePos = float4::ZERO;
@@ -37,10 +35,8 @@ private:
 	int CurTileIndex_Y = 0;
 	int CurSelectedTileType = 1;
 
-
 	// State Value
 	bool LoadTileTexture = false;
-
 
 	class BackGround* Back = nullptr;
 	class TileSelect* SelectedTile = nullptr;

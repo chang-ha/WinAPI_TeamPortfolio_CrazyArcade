@@ -11,11 +11,22 @@ enum class RenderOrder
 {
 	BackGround,
 	GroundTile,
+	StructureTile,
 	SelectTile,
 };
 
 enum class CollisionOrder
 {
-	Button,
-	Max,
+};
+
+enum class TileObjectOrder
+{
+	Structure = 1,
+	NonMoveBlock,
+	MoveBlock,
+	Item,
+	Monster,
+	Character,
+	Bubble,
+	PopRange,
 };
