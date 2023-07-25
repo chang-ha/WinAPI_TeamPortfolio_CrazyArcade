@@ -28,6 +28,12 @@
     <ClInclude Include="GlobalUtils.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>PutFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomLevel.h">
+      <Filter>PutFilter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentLevel.cpp">
@@ -54,6 +60,12 @@
     <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>PutFilter</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomLevel.cpp">
+      <Filter>PutFilter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -70,6 +82,9 @@
     </Filter>
     <Filter Include="MapEditor">
       <UniqueIdentifier>{cb76d764-55d3-4e7d-8893-eabf4da216bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PutFilter">
+      <UniqueIdentifier>{aca6dc32-bd14-47f7-9d61-a019c10e667d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

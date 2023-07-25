@@ -8,8 +8,11 @@ enum class UpdateOrder
 enum class RenderOrder
 {
 	BackGround,
+	UI,
 };
 
 enum class CollisionOrder
 {
+	Button,
+	Max,
 };
