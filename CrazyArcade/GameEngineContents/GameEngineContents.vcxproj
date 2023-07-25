@@ -164,12 +164,20 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Bazzi.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="CrazyArcadeCore.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Dao.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -199,12 +207,20 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Bazzi_State.cpp" />
+    <ClCompile Include="BaseCharacter_State.cpp" />
+    <ClCompile Include="Bazzi.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="CrazyArcadeCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Dao.cpp">
       <SubType>
       </SubType>
     </ClCompile>

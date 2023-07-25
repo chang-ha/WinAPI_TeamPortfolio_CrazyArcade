@@ -31,6 +31,12 @@
     <ClInclude Include="ActorEnum.h">
       <Filter>Character</Filter>
     </ClInclude>
+    <ClInclude Include="Bazzi.h">
+      <Filter>Character\Bazzi</Filter>
+    </ClInclude>
+    <ClInclude Include="Dao.h">
+      <Filter>Character\Dao</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentLevel.cpp">
@@ -57,8 +63,14 @@
     <ClCompile Include="BaseCharacter.cpp">
       <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="Bazzi_State.cpp">
+    <ClCompile Include="Bazzi.cpp">
       <Filter>Character\Bazzi</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter_State.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Dao.cpp">
+      <Filter>Character\Dao</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +97,9 @@
     </Filter>
     <Filter Include="Character\Bazzi">
       <UniqueIdentifier>{82d394fc-0ed0-4c36-b377-69d7acf8a9be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Dao">
+      <UniqueIdentifier>{a408cf2c-55dc-4ec2-8c75-dac0a8c9e968}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

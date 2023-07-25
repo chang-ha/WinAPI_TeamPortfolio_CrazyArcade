@@ -19,26 +19,39 @@ public:
 	BaseCharacter& operator=(const BaseCharacter& _Other) = delete;
 	BaseCharacter& operator=(BaseCharacter&& _Other) noexcept = delete;
 
-	void CreateSprite(const std::string& _TextureName, int _XCount, int _YCount = 1);
 
 protected:
-	void DirCheck();
+	virtual void CreateSprite(
+		const std::string& _TextureName,
+		int _XCount,
+		int _YCount = 1
+	);
+
 	void StateUpdate(float _Delta);
 	void ChangeState(CharacterState _State);
-	void ChangeAnimationState(const std::string& _StateName);
+	virtual void ChangeAnimationState(const std::string& _StateName);
 
 	void WaitStart();
-
 	void WaitUpdate(float _Delta);
 
-	ActorDir Dir = ActorDir::Down;
+	void MoveStart();
+	void MoveUpdate(float _Delta);
+
 	CharacterState State = CharacterState::Max;
 	std::string CurState = "";
-private:
 	GameEngineRenderer* MainRenderer = nullptr;
 
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
+
+protected:
+	ActorDir Dir = ActorDir::Down;
+	float Speed = 300.0f;
+
+	void DirCheck();
+
+private:
+
 };
 

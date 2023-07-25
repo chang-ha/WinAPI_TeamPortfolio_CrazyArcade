@@ -17,12 +17,20 @@ BaseCharacter::~BaseCharacter()
 
 void BaseCharacter::Start()
 {
-	CreateSprite("Bazzi_Wait.Bmp", 3);
+	/*CreateSprite("Bazzi_Wait.Bmp", 3);
+	CreateSprite("Bazzi_Left.Bmp", 6);
+	CreateSprite("Bazzi_Right.Bmp", 6);
+	CreateSprite("Bazzi_Up.Bmp", 8);
+	CreateSprite("Bazzi_Down.Bmp", 8);
 
 	MainRenderer = CreateRenderer(RenderOrder::Character);
 	MainRenderer->CreateAnimation("Bazzi_Wait", "Bazzi_Wait.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_Move_Left", "Bazzi_Left.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_Move_Right", "Bazzi_Right.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_Move_Up", "Bazzi_Up.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_Move_Down", "Bazzi_Down.Bmp");
 
-	ChangeState(CharacterState::Wait);
+	ChangeState(CharacterState::Wait);*/
 }
 
 void BaseCharacter::Update(float _Delta)
@@ -38,7 +46,7 @@ void BaseCharacter::Render(float _Delta)
 // 스프라이트 제작 함수
 void BaseCharacter::CreateSprite(const std::string& _TextureName, int _XCount, int _YCount /*= 1*/)
 {
-	if (ResourcesManager::GetInst().FindSprite(_TextureName) == nullptr)
+	/*if (ResourcesManager::GetInst().FindSprite(_TextureName) == nullptr)
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
@@ -47,7 +55,7 @@ void BaseCharacter::CreateSprite(const std::string& _TextureName, int _XCount, i
 		FilePath.MoveChild("Resources\\Textures\\Character\\Bazzi\\");
 
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_TextureName), _XCount, _YCount);
-	}
+	}*/
 }
 
 // 캐릭터 방향 변경 함수
@@ -85,9 +93,9 @@ void BaseCharacter::StateUpdate(float _Delta)
 	{
 	case CharacterState::Wait:
 		return WaitUpdate(_Delta);
-	/*case CharacterState::Move:
-		break;
-	case CharacterState::Ready:
+	case CharacterState::Move:
+		return MoveUpdate(_Delta);
+	/*case CharacterState::Ready:
 		break;
 	case CharacterState::FlashLong:
 		break;
@@ -115,9 +123,10 @@ void BaseCharacter::ChangeState(CharacterState _State)
 		case CharacterState::Wait:
 			WaitStart();
 			break;
-		/*case CharacterState::Move:
+		case CharacterState::Move:
+			MoveStart();
 			break;
-		case CharacterState::Ready:
+		/*case CharacterState::Ready:
 			break;
 		case CharacterState::FlashLong:
 			break;
@@ -139,34 +148,4 @@ void BaseCharacter::ChangeState(CharacterState _State)
 	State = _State;
 }
 
-void BaseCharacter::ChangeAnimationState(const std::string& _StateName)
-{
-	std::string AnimationName = "Bazzi_";
-
-	AnimationName += _StateName;
-
-	if (_StateName == "Move")
-	{
-		switch (Dir)
-		{
-		case ActorDir::Left:
-			AnimationName += "_Left";
-			break;
-		case ActorDir::Right:
-			AnimationName += "_Right";
-			break;
-		case ActorDir::Up:
-			AnimationName += "_Up";
-			break;
-		case ActorDir::Down:
-			AnimationName += "_Down";
-			break;
-		default:
-			break;
-		}
-	}
-
-	CurState = _StateName;
-
-	MainRenderer->ChangeAnimation(AnimationName);
-}
+void BaseCharacter::ChangeAnimationState(const std::string& _StateName) {}

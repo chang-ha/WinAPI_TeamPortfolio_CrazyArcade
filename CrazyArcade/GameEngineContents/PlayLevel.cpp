@@ -1,6 +1,7 @@
 ﻿#include "PlayLevel.h"
 #include "BackGround.h"
-#include "BaseCharacter.h"
+#include "Dao.h"
+#include "Bazzi.h"
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
 
@@ -36,7 +37,7 @@ void PlayLevel::Start()
 	Back->Init("PlayPanel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
-	BaseCharacter* Check = CreateActor<BaseCharacter>(UpdateOrder::Character);
+	BaseCharacter* Check = CreateActor<Bazzi>(UpdateOrder::Character);
 	Check->SetPos(GlobalValue::WinScale.Half());
 }
 
