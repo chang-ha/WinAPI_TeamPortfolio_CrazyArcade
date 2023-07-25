@@ -28,6 +28,12 @@
     <ClInclude Include="TileSelect.h">
       <Filter>MapEditor</Filter>
     </ClInclude>
+    <ClInclude Include="GameMapInfo.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Structure.h">
+      <Filter>Global\TileObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentLevel.cpp">
@@ -54,6 +60,12 @@
     <ClCompile Include="TileSelect.cpp">
       <Filter>MapEditor</Filter>
     </ClCompile>
+    <ClCompile Include="GameMapInfo.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Structure.cpp">
+      <Filter>Global\TileObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -70,6 +82,9 @@
     </Filter>
     <Filter Include="MapEditor">
       <UniqueIdentifier>{cb76d764-55d3-4e7d-8893-eabf4da216bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\TileObject">
+      <UniqueIdentifier>{67082fdf-aa98-4946-9c41-0d2c469be1fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
