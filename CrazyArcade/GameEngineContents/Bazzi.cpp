@@ -25,7 +25,7 @@ void Bazzi::Start()
 	CreateSprite("Bazzi_Right.Bmp", 6);
 	CreateSprite("Bazzi_Up.Bmp", 8);
 	CreateSprite("Bazzi_Down.Bmp", 8);
-
+	
 	MainRenderer = CreateRenderer(RenderOrder::Character);
 	MainRenderer->CreateAnimation("Bazzi_Idle_Up", "Bazzi_Idle_Up.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Idle_Down", "Bazzi_Idle_Down.Bmp");
