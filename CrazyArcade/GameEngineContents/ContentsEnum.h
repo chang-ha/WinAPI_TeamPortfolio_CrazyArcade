@@ -18,7 +18,8 @@ enum class CollisionOrder
 
 enum class TileObjectOrder
 {
-	Structure = 1,
+	Empty,
+	Structure,
 	ImmovableBlock,
 	MovableBlock,
 	Item,

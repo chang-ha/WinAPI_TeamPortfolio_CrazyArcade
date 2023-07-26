@@ -22,12 +22,11 @@ protected:
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
-	const float4 Tile_StartPos = { 20, 41 };
-	const float4 StructureSizeConst = { 0, 20 };
-private:
+	void TileSetting();
+
 	class TileMap* Tile = nullptr;
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
 
-	
+private:
 };
 

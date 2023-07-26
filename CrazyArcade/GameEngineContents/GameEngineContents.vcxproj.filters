@@ -28,20 +28,14 @@
     <ClInclude Include="GameMapInfo.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="Structure.h">
-      <Filter>Global\TileObject</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalUtils.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
+    <ClInclude Include="DummyStage.h">
       <Filter>PlayLevel</Filter>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="ImmovableBlock.h">
-      <Filter>Global\TileObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -69,20 +63,14 @@
     <ClCompile Include="GameMapInfo.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="Structure.cpp">
-      <Filter>Global\TileObject</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
+    <ClCompile Include="DummyStage.cpp">
       <Filter>PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="ImmovableBlock.cpp">
-      <Filter>Global\TileObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,9 +88,6 @@
     </Filter>
     <Filter Include="MapEditor">
       <UniqueIdentifier>{cb76d764-55d3-4e7d-8893-eabf4da216bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global\TileObject">
-      <UniqueIdentifier>{67082fdf-aa98-4946-9c41-0d2c469be1fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

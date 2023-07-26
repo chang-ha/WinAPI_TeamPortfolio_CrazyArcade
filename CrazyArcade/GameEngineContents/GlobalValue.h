@@ -20,6 +20,7 @@ public:
 	static int MapTileIndex_Y;
 	static float4 MapTileSize;
 	static float4 StructureTileSize;
+	static float4 TileStartPos;
 
 	static void Init();
 protected:

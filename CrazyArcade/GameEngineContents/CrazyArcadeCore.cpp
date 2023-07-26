@@ -22,7 +22,7 @@ void CrazyArcadeCore::Start()
 	GlobalValue::Init();
 
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
-	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
+	GameEngineCore::CreateLevel<PlayLevel>("DummyStage");
 	GameEngineCore::CreateLevel<MapEditor>("MapEditor");
 
 	GameEngineCore::ChangeLevel("TitleLevel");
