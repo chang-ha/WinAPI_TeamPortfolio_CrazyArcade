@@ -2,6 +2,7 @@
 #include "ContentsEnum.h"
 
 #include <GameEngineBase/GameEnginePath.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineSprite.h>
@@ -36,11 +37,29 @@ void BaseCharacter::Start()
 void BaseCharacter::Update(float _Delta)
 {
 	StateUpdate(_Delta);
+
+	if (true == GameEngineInput::IsDown('J'))
+	{
+		SwitchDebugData();
+	}
 }
 
 void BaseCharacter::Render(float _Delta)
 {
-	
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+
+	if (true == IsDebugData)
+	{
+		std::string XText = "";
+		XText += "Player Pos X : ";
+		XText += std::to_string(GetPos().X);
+		TextOutA(dc, 2, 3, XText.c_str(), static_cast<int>(XText.size()));
+
+		std::string YText = "";
+		YText += "Player Pos Y : ";
+		YText += std::to_string(GetPos().Y);
+		TextOutA(dc, 2, 30, YText.c_str(), static_cast<int>(YText.size()));
+	}
 }
 
 // 스프라이트 제작 함수

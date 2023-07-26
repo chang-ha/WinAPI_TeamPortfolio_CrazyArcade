@@ -45,6 +45,11 @@ protected:
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
+	void SwitchDebugData()
+	{
+		IsDebugData = !IsDebugData;
+	}
+
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 300.0f;
@@ -52,6 +57,6 @@ protected:
 	void DirCheck();
 
 private:
-
+	bool IsDebugData = false;
 };
 
