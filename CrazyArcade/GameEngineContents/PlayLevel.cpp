@@ -44,11 +44,13 @@ void PlayLevel::Start()
 	Back->Init("PlayPanel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
+	// 맵 스프라이트 로드
 	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", 10, 1);
 	GlobalUtils::SpriteFileLoad("Structures.bmp", "Resources\\Textures\\Tile", 4, 1);
 	GlobalUtils::SpriteFileLoad("ImMovableBlocks.bmp", "Resources\\Textures\\Tile", 2, 1);
 	GlobalUtils::SpriteFileLoad("MovableBlocks.bmp", "Resources\\Textures\\Tile", 1, 1);
 
+	//TileInfo 초기화
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 }
 
@@ -64,7 +66,8 @@ void PlayLevel::Render(float _Delta)
 
 void PlayLevel::TileSetting()
 {
-	// TileInfo에 저장된 정보를 이용하여 타일맵 생성
+	// TileInfo에 저장된 정보를 이용하여 타일맵 생성합니다.
+
 	if (nullptr == GroundTile)
 	{
 		GroundTile = CreateActor<TileMap>();

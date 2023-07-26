@@ -26,6 +26,8 @@ void TestStage::Start()
 	PlayLevel::Start();
 
 	// 더미 타일 정보 : 임시 정보로 추후 파일로 로드하여 사용할 것임
+	// MapInfo는 타일 위 오브젝트의 종류룰 저장하고 있습니다.
+	// MapInfo를 아래와 같이 바꿔서 배치하고 조건 처리에 사용할 수 있습니다.
 	{
 		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; ++Y)
 		{
@@ -75,5 +77,5 @@ void TestStage::Update(float _Delta)
 
 void TestStage::Render(float _Delta)
 {
-
+	PlayLevel::Render(_Delta);
 }
