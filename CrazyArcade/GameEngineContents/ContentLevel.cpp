@@ -45,4 +45,9 @@ void ContentLevel::Update(float _Delta)
 	{
 		GameEngineCore::ChangeLevel("MapEditor");
 	}
+
+	if (true == GameEngineInput::IsDown(VK_F4))
+	{
+		GameEngineCore::ChangeLevel("RoomLevel");
+	}
 }

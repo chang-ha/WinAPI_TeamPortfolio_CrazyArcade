@@ -2,9 +2,6 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 
-#define DefaultButtonKey 1
-#define ClickedButtonKey 2
-#define HoveredButtonKey 4
 
 
 enum class ButtonState
@@ -26,7 +23,7 @@ enum class ButtonEventState
 
 
 
-// 설명 :
+// 설명 : 
 class Button : public GameEngineActor
 {
 public:
@@ -45,28 +42,30 @@ public:
 
 	void InitDefaultButton(
 		const std::string& _FileName, 
-		const std::string& _Path, 
-		size_t _XCount = 0, size_t _YCount = 0,
+		const std::string& _Path,
+		int _XCount, int _YCount,
 		float _Inter = 0.1f, 
 		bool _Loop = true, 
 		float _RenderScaleRatio = 1.0f);
 
-	void InitClickedButton(
+	void InitClickButton(
 		const std::string& _FileName,
 		const std::string& _Path,
-		size_t _XCount = 0, size_t _YCount = 0,
+		int _XCount, int _YCount,
 		float _Inter = 0.1f,
 		bool _Loop = true,
 		float _RenderScaleRatio = 1.0f);
-
 
 	void InitHoveredButton(
 		const std::string& _FileName,
 		const std::string& _Path,
-		size_t _XCount = 0, size_t _YCount = 0,
+		int _XCount, int _YCount,
 		float _Inter = 0.1f,
 		bool _Loop = true,
 		float _RenderScaleRatio = 1.0f);
+
+	ButtonState m_ButtonState = ButtonState::Max;
+
 
 	void setButtonText(std::string _Text)
 	{
@@ -84,17 +83,6 @@ private:
 
 
 	// this
-	ButtonState m_ButtonState = ButtonState::Max;
-
-	struct ButtonInfo
-	{
-	public:
-
-	};
-
-	ButtonInfo m_ButtonInfo[static_cast<int>(ButtonState::Max)];
-
-
 	struct ButtonEventInfo
 	{
 	public:
@@ -115,9 +103,6 @@ private:
 	// Render
 	GameEngineRenderer* Renderer = nullptr;
 
-
-	// Coliision
-	GameEngineCollision* ButtonCollision = nullptr;
 
 
 	// 버튼 텍스트

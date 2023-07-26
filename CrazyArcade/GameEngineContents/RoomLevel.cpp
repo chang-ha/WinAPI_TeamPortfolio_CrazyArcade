@@ -1,20 +1,24 @@
-#include "PlayLevel.h"
-#include "BackGround.h"
-#include "ContentsEnum.h"
+#include "RoomLevel.h"
 #include "GlobalValue.h"
+#include "ContentsEnum.h"
 
-PlayLevel::PlayLevel()
+
+
+#include "BackGround.h"
+#include "Button.h"
+
+RoomLevel::RoomLevel()
 {
 
 }
 
-PlayLevel::~PlayLevel()
+RoomLevel::~RoomLevel()
 {
 
 }
 
 
-void PlayLevel::Start()
+void RoomLevel::Start()
 {
 	Back = CreateActor<BackGround>(UpdateOrder::Map);
 	if (nullptr == Back)
@@ -23,20 +27,34 @@ void PlayLevel::Start()
 		return;
 	}
 
-	Back->Init("PlayPanel.bmp");
+	Back->Init("RoomLevelBackGround.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
-	
+	Button* ButtonPtr = CreateActor<Button>(UpdateOrder::UI);
+	if (nullptr == ButtonPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	ButtonPtr->InitDefaultButton("MapSelect_Button.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	ButtonPtr->InitClickButton("MapSelect_ClickedButton.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	ButtonPtr->InitHoveredButton("MapSelect_HoverButton.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	ButtonPtr->SetPos(float4{ 646.0f, 428.0f } + float4{123.0f, 48.0f}.Half());
+
+	vecButtons.push_back(ButtonPtr);
 }
 
-void PlayLevel::Update(float _Delta)
+void RoomLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+
 }
 
 
 
-void PlayLevel::Render(float _Delta)
+void RoomLevel::Render(float _Delta)
 {
 
 }
@@ -44,12 +62,12 @@ void PlayLevel::Render(float _Delta)
 
 
 
-void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
+void RoomLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
 
 }
 
-void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
+void RoomLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
 
 }

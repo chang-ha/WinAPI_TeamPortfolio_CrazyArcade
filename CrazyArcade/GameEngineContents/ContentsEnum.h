@@ -3,6 +3,8 @@
 enum class UpdateOrder
 {
 	Map,
+	UI,
+	Max,
 };
 
 enum class RenderOrder

@@ -3,11 +3,11 @@
 #include "GlobalUtils.h"
 
 
-#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineSound.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 
 #include <GameEngineCore/GameEngineRenderer.h>
-#include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineSprite.h>
 #include <GameEngineCore/ResourcesManager.h>
 
@@ -17,12 +17,6 @@
 
 Button::Button()
 {
-	for (size_t i = 0; i < static_cast<int>(ButtonState::Max); i++)
-	{
-		m_ButtonInfo[i] = {};
-	}
-
-
 	for (size_t i = 0; i < static_cast<int>(ButtonEventState::Max); i++)
 	{
 		m_ButtonEventInfo[i] = {};
@@ -45,13 +39,6 @@ void Button::Start()
 		return;
 	}
 
-	ButtonCollision = GameEngineActor::CreateCollision(CollisionOrder::Button);
-	if (nullptr == ButtonCollision)
-	{
-		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_ButtonState = ButtonState::Normal;
 }
 
@@ -59,7 +46,7 @@ void Button::Start()
 void Button::InitDefaultButton(
 	const std::string& _FileName,
 	const std::string& _Path,
-	size_t _XCount /*= 0*/, size_t _YCount /*= 0*/,
+	int _XCount /*= 0*/, int _YCount /*= 0*/,
 	float _Inter /*= 0.1f*/,
 	bool _Loop /*= true*/,
 	float _RenderScaleRatio/* = 1.0f*/)
@@ -78,23 +65,18 @@ void Button::InitDefaultButton(
 	m_ButtonScale = ButtonRenderScale;
 
 
+	Renderer->CreateAnimation(std::to_string(static_cast<int>(ButtonState::Normal)), _FileName, -1, -1, _Inter);
+	Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
 
-	Renderer->CreateAnimation(std::to_string(DefaultButtonKey), _FileName, -1, -1, _Inter);
-	Renderer->ChangeAnimation(std::to_string(DefaultButtonKey));
-
+	
 	Renderer->On();
-
-	ButtonCollision->SetCollisionType(CollisionType::Rect);
-	ButtonCollision->SetCollisionPos(float4::ZERO);
-	ButtonCollision->SetCollisionScale(ButtonRenderScale * _RenderScaleRatio);
-	ButtonCollision->On();
 }
 
 
-void Button::InitClickedButton(
+void Button::InitClickButton(
 	const std::string& _FileName,
 	const std::string& _Path,
-	size_t _XCount /*= 0*/, size_t _YCount /*= 0*/,
+	int _XCount , int _YCount ,
 	float _Inter /*= 0.1f*/,
 	bool _Loop /*= true*/,
 	float _RenderScaleRatio/* = 1.0f*/)
@@ -111,14 +93,14 @@ void Button::InitClickedButton(
 
 	float4 ButtonRenderScale = ButtonSprite->GetSprite(0).RenderScale;
 
-	Renderer->CreateAnimation(std::to_string(ClickedButtonKey), _FileName, -1, -1, _Inter);
+	Renderer->CreateAnimation(std::to_string(static_cast<int>(ButtonState::Click)), _FileName, -1, -1, _Inter);
 }
 
 
 void Button::InitHoveredButton(
 	const std::string& _FileName,
 	const std::string& _Path,
-	size_t _XCount /*= 0*/, size_t _YCount /*= 0*/,
+	int _XCount, int _YCount,
 	float _Inter /*= 0.1f*/,
 	bool _Loop /*= true*/,
 	float _RenderScaleRatio/* = 1.0f*/)
@@ -135,7 +117,7 @@ void Button::InitHoveredButton(
 
 	float4 ButtonRenderScale = ButtonSprite->GetSprite(0).RenderScale;
 
-	Renderer->CreateAnimation(std::to_string(HoveredButtonKey), _FileName, -1, -1, _Inter);
+	Renderer->CreateAnimation(std::to_string(static_cast<int>(ButtonState::Hover)), _FileName, -1, -1, _Inter);
 }
 
 
@@ -172,6 +154,17 @@ void Button::Update(float _Delta)
 
 				m_ButtonState = ButtonState::Hover;
 			}
+			else
+			{
+				if (ButtonState::Hover != m_ButtonState)
+				{
+					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Hover)));
+					// sound
+
+				}
+
+				m_ButtonState = ButtonState::Hover;
+			}
 		}
 		else
 		{
@@ -186,7 +179,12 @@ void Button::Update(float _Delta)
 			}
 			else
 			{
+				if (ButtonState::Normal != m_ButtonState)
+				{
+					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
+				}
 
+				m_ButtonState = ButtonState::Normal;
 			}
 		}
 	}
@@ -200,19 +198,19 @@ bool Button::checkHovered()
 	float4 ButtonPos = GetPos();
 
 
-	if (ButtonPos.X - m_ButtonScale.X > MousePos.X)
+	if (ButtonPos.X - m_ButtonScale.Half().X > MousePos.X)
 	{
 		MouseHoverd = false;
 	}
-	else if (ButtonPos.Y - m_ButtonScale.Y > MousePos.Y)
+	else if (ButtonPos.Y - m_ButtonScale.Half().Y > MousePos.Y)
 	{
 		MouseHoverd = false;
 	}
-	else if (ButtonPos.X + m_ButtonScale.X < MousePos.X)
+	else if (ButtonPos.X + m_ButtonScale.Half().X < MousePos.X)
 	{
 		MouseHoverd = false;
 	}
-	else if (ButtonPos.Y + m_ButtonScale.Y < MousePos.Y)
+	else if (ButtonPos.Y + m_ButtonScale.Half().Y < MousePos.Y)
 	{
 		MouseHoverd = false;
 	}

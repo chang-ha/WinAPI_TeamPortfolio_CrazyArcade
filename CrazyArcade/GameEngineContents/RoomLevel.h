@@ -5,18 +5,18 @@
 
 
 class Button;
-class PlayLevel : public ContentLevel
+class RoomLevel : public ContentLevel
 {
 public:
 	// constructer destructer
-	PlayLevel();
-	~PlayLevel();
+	RoomLevel();
+	~RoomLevel();
 
 	// delete function
-	PlayLevel(const PlayLevel& _Ohter) = delete;
-	PlayLevel(PlayLevel&& _Ohter) noexcept = delete;
-	PlayLevel& operator=(const PlayLevel& _Other) = delete;
-	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
+	RoomLevel(const RoomLevel& _Ohter) = delete;
+	RoomLevel(RoomLevel&& _Ohter) noexcept = delete;
+	RoomLevel& operator=(const RoomLevel& _Other) = delete;
+	RoomLevel& operator=(RoomLevel&& _Other) noexcept = delete;
 
 protected:
 
@@ -32,7 +32,7 @@ private:
 
 
 	// this
-	std::vector<Button> Buttons_vec;
+	std::vector<Button*> vecButtons;
 
 
 };
