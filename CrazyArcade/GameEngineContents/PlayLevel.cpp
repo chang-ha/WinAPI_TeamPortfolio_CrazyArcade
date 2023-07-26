@@ -44,6 +44,11 @@ void PlayLevel::Start()
 	Back->Init("PlayPanel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
+	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", 10, 1);
+	GlobalUtils::SpriteFileLoad("Structures.bmp", "Resources\\Textures\\Tile", 4, 1);
+	GlobalUtils::SpriteFileLoad("ImMovableBlocks.bmp", "Resources\\Textures\\Tile", 2, 1);
+	GlobalUtils::SpriteFileLoad("MovableBlocks.bmp", "Resources\\Textures\\Tile", 1, 1);
+
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 }
 
@@ -60,42 +65,55 @@ void PlayLevel::Render(float _Delta)
 void PlayLevel::TileSetting()
 {
 	// TileInfo에 저장된 정보를 이용하여 타일맵 생성
-	if (nullptr == Tile)
+	if (nullptr == GroundTile)
 	{
-		GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", 10, 1);
-
-		Tile = CreateActor<TileMap>();
-		if (nullptr == Tile)
+		GroundTile = CreateActor<TileMap>();
+		if (nullptr == GroundTile)
 		{
 			MsgBoxAssert("타일을 생성하지 못했습니다.");
 			return;
 		}
 
-		Tile->CreateTileMap("Grounds.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
+		GroundTile->CreateTileMap("Grounds.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
+	}
 
-		GameEngineRenderer* TileRenderer = nullptr;
+	if (nullptr == ObjectTile)
+	{
 
-		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+		ObjectTile = CreateActor<TileMap>();
+		if (nullptr == ObjectTile)
 		{
-			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+			MsgBoxAssert("타일을 생성하지 못했습니다.");
+			return;
+		}
+
+		ObjectTile->CreateTileMap("Structures.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
+	}
+
+	GameEngineRenderer* TileRenderer = nullptr;
+
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+	{
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+		{
+			GroundTile->SetTile(X, Y, TileInfo[Y][X].GroundTextureInfo, GlobalValue::TileStartPos);
+			switch (TileInfo[Y][X].MapInfo)
 			{
-				TileRenderer = Tile->SetTile(X, Y, TileInfo[Y][X].GroundTextureInfo, GlobalValue::TileStartPos);
-
-				switch (TileInfo[Y][X].MapInfo)
-				{
-				case TileObjectOrder::Structure:
-					break;
-				case TileObjectOrder::ImmovableBlock:
-					break;
-				case TileObjectOrder::MovableBlock:
-					break;
-				case TileObjectOrder::Item:
-					break;
-
-				default:
-					break;
-				}
+			case TileObjectOrder::Structure:
+				ObjectTile->SetTileToSprite(X, Y, TileInfo[Y][X].ObjectTextureInfo, "Structures.bmp", GlobalValue::TileStartPos + float4(0, -20));
+				break;
+			case TileObjectOrder::ImmovableBlock:
+				ObjectTile->SetTileToSprite(X, Y, TileInfo[Y][X].ObjectTextureInfo, "ImmovableBlocks.bmp", GlobalValue::TileStartPos + float4(0, -2));
+				break;
+			case TileObjectOrder::MovableBlock:
+				ObjectTile->SetTileToSprite(X, Y, TileInfo[Y][X].ObjectTextureInfo, "MovableBlocks.bmp", GlobalValue::TileStartPos + float4(0, -2));
+				break;
+			case TileObjectOrder::Item:
+				break;
+			default:
+				break;
 			}
 		}
 	}
 }
+

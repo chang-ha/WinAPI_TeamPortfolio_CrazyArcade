@@ -8,5 +8,5 @@ public:
 
 	TileObjectOrder MapInfo = TileObjectOrder::Empty;
 	int GroundTextureInfo = 0;
-	int TileObjectTextureInfo = 0;
+	int ObjectTextureInfo = 0;
 };

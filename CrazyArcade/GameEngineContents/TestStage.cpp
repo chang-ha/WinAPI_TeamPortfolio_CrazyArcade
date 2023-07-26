@@ -27,34 +27,42 @@ void TestStage::Start()
 
 	// 더미 타일 정보 : 임시 정보로 추후 파일로 로드하여 사용할 것임
 	{
+		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; ++Y)
+		{
+			for (int X = 0; X < GlobalValue::MapTileIndex_X; ++X)
+			{
+				TileInfo[Y][X].GroundTextureInfo = 4;
+			}
+		}
+
 		// 구조물
-		TileInfo[0][0].MapInfo = TileObjectOrder::Structure;;
-		TileInfo[0][0].TileObjectTextureInfo = 1;
+		TileInfo[0][0].MapInfo = TileObjectOrder::Structure;
+		TileInfo[0][0].ObjectTextureInfo = 1;
 
-		TileInfo[2][0].MapInfo = TileObjectOrder::Structure;;
-		TileInfo[2][0].TileObjectTextureInfo = 2;
+		TileInfo[2][0].MapInfo = TileObjectOrder::Structure;
+		TileInfo[2][0].ObjectTextureInfo = 2;
 
-		TileInfo[2][1].MapInfo = TileObjectOrder::Structure;;
-		TileInfo[2][1].TileObjectTextureInfo = 3;
+		TileInfo[2][1].MapInfo = TileObjectOrder::Structure;
+		TileInfo[2][1].ObjectTextureInfo = 3;
 
-		TileInfo[5][2].MapInfo = TileObjectOrder::Structure;;
-		TileInfo[5][2].TileObjectTextureInfo = 0;
+		TileInfo[5][2].MapInfo = TileObjectOrder::Structure;
+		TileInfo[5][2].ObjectTextureInfo = 0;
 
 
 		// 밀지 못하는 블록
 		TileInfo[5][5].MapInfo = TileObjectOrder::ImmovableBlock;
-		TileInfo[5][5].TileObjectTextureInfo = 0;
+		TileInfo[5][5].ObjectTextureInfo = 0;
 
 		TileInfo[5][8].MapInfo = TileObjectOrder::ImmovableBlock;
-		TileInfo[5][8].TileObjectTextureInfo = 1;
+		TileInfo[5][8].ObjectTextureInfo = 1;
 
 		TileInfo[5][11].MapInfo = TileObjectOrder::ImmovableBlock;
-		TileInfo[5][11].TileObjectTextureInfo = 0;
+		TileInfo[5][11].ObjectTextureInfo = 0;
 
 
 		// 밀 수 있는 블록
 		TileInfo[6][5].MapInfo = TileObjectOrder::MovableBlock;
-		TileInfo[6][5].TileObjectTextureInfo = 0;
+		TileInfo[6][5].ObjectTextureInfo = 0;
 	}
 
 	TileSetting();

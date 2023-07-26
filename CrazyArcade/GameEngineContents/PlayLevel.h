@@ -24,9 +24,9 @@ protected:
 
 	void TileSetting();
 
-	class TileMap* Tile = nullptr;
+	class TileMap* GroundTile = nullptr;
+	class TileMap* ObjectTile = nullptr;
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
-
 private:
 };
 
