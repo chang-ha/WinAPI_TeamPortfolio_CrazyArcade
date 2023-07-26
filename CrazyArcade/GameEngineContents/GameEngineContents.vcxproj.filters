@@ -19,9 +19,6 @@
     <ClInclude Include="GlobalValue.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>PlayLevel</Filter>
-    </ClInclude>
     <ClInclude Include="MapEditor.h">
       <Filter>MapEditor</Filter>
     </ClInclude>
@@ -36,6 +33,15 @@
     </ClInclude>
     <ClInclude Include="GlobalUtils.h">
       <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ImmovableBlock.h">
+      <Filter>Global\TileObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -54,9 +60,6 @@
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>PlayLevel</Filter>
-    </ClCompile>
     <ClCompile Include="MapEditor.cpp">
       <Filter>MapEditor</Filter>
     </ClCompile>
@@ -71,6 +74,15 @@
     </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ImmovableBlock.cpp">
+      <Filter>Global\TileObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

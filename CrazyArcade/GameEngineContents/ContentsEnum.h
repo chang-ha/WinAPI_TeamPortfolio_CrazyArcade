@@ -8,8 +8,7 @@ enum class UpdateOrder
 enum class RenderOrder
 {
 	BackGround,
-	GroundTile,
-	StructureTile,
+	Map,
 	SelectTile,
 };
 
@@ -20,8 +19,8 @@ enum class CollisionOrder
 enum class TileObjectOrder
 {
 	Structure = 1,
-	NonMoveBlock,
-	MoveBlock,
+	ImmovableBlock,
+	MovableBlock,
 	Item,
 	Monster,
 	Character,

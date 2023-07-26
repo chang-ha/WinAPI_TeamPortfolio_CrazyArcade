@@ -180,11 +180,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ImmovableBlock.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MapEditor.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -226,11 +234,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ImmovableBlock.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapEditor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
       <SubType>
       </SubType>
     </ClCompile>

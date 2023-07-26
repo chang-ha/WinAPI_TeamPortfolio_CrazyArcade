@@ -9,7 +9,9 @@
 #include "BackGround.h"
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
+#include "GlobalUtils.h"
 #include "GameMapInfo.h"
+#include "Structure.h"
 
 PlayLevel::PlayLevel()
 {
@@ -51,39 +53,31 @@ void PlayLevel::Start()
 		TileInfo[0][0].StructureTextureInfo = 1;
 
 		TileInfo[2][1].MapInfo = 1;
+		TileInfo[0][0].StructureTextureInfo = 2;
 		TileInfo[2][4].MapInfo = 2;
 		TileInfo[2][7].MapInfo = 3;
 	}
 
+	//GameEnginePath FilePath;
+	//FilePath.SetCurrentPath();
+	//FilePath.MoveParentToExistsChild("Resources");
+	//FilePath.MoveChild("Resources\\Textures\\Tile");
 
-	GameEnginePath FilePath;
-	FilePath.SetCurrentPath();
-	FilePath.MoveParentToExistsChild("Resources");
-	FilePath.MoveChild("Resources\\Textures\\Tile");
-
-	if (false == ResourcesManager::GetInst().IsLoadTexture("TownGround.bmp"))
-	{
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("TownGround.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("TownGround.bmp", 10, 1);
-	}
-
-	if (false == ResourcesManager::GetInst().IsLoadTexture("TownStructure.bmp"))
-	{
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("TownStructure.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("TownStructure.bmp", 4, 1);
-	}
-
-	if (false == ResourcesManager::GetInst().IsLoadTexture("TownBlock.bmp"))
-	{
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("TownBlock.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("TownBlock.bmp", 3, 1);
-	}
+	//if (false == ResourcesManager::GetInst().IsLoadTexture("Grounds.bmp"))
+	//{
+	//	ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Grounds.bmp"));
+	//	ResourcesManager::GetInst().CreateSpriteSheet("Grounds.bmp", 10, 1);
+	//}
+	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", 10, 1);
 
 	// 타일 생성
+	GameEngineRenderer* TileRenderer = nullptr;
+	Structure* StructureActor = nullptr;
+
 	if (nullptr == Tile)
 	{
 		Tile = CreateActor<TileMap>();
-		Tile->CreateTileMap("TownGround.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::GroundTile);
+		Tile->CreateTileMap("Grounds.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
 
 		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 		{
@@ -94,7 +88,9 @@ void PlayLevel::Start()
 				switch (TileInfo[Y][X].MapInfo)
 				{
 				case 1:
-					
+					StructureActor = CreateActor<Structure>(UpdateOrder::Map);
+					StructureActor->Init(TileInfo[Y][X].StructureTextureInfo);
+					StructureActor->SetPos(Tile->IndexToPos(X, Y) + Tile_StartPos + float4(20, 0));
 					break;
 				case 2:
 					break;
@@ -106,10 +102,6 @@ void PlayLevel::Start()
 			}
 		}
 	}
-	
-	
-
-
 
 	//// 구조물
 	//if (nullptr == Structure)
