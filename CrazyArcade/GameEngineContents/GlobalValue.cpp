@@ -4,6 +4,7 @@
 
 float4 GlobalValue::WinScale = {};
 
+
 GlobalValue::GlobalValue()
 {
 

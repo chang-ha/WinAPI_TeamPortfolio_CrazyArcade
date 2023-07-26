@@ -12,15 +12,11 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 
-#include <functional>
+#include "ContentLevel.h"
 
 
 Button::Button()
 {
-	for (size_t i = 0; i < static_cast<int>(ButtonEventState::Max); i++)
-	{
-		m_ButtonEventInfo[i] = {};
-	}
 }
 
 Button::~Button()
@@ -133,7 +129,9 @@ void Button::Update(float _Delta)
 
 	if (m_ButtonState != ButtonState::Disable)
 	{
-		if (true == checkHovered())
+		bool HoverValue = checkHovered();
+
+		if (true == HoverValue)
 		{
 			if (true == GameEngineInput::IsDown(VK_LBUTTON))
 			{
@@ -149,43 +147,42 @@ void Button::Update(float _Delta)
 				if (ButtonState::Hover != m_ButtonState)
 				{
 					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Hover)));
-					execute();
+					m_ButtonEventCallBack[static_cast<int>(ButtonEventState::Click)];
 				}
 
 				m_ButtonState = ButtonState::Hover;
 			}
+			else if (ButtonState::Click == m_ButtonState && true == GameEngineInput::IsPress(VK_LBUTTON))
+			{
+				m_ButtonState = ButtonState::Click;
+			}
 			else
 			{
+				if (m_ButtonHoverValue != HoverValue)
+				{
+					// Sound
+				}
+
 				if (ButtonState::Hover != m_ButtonState)
 				{
 					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Hover)));
-					// sound
-
 				}
 
 				m_ButtonState = ButtonState::Hover;
 			}
+
+			m_ButtonHoverValue = true;
 		}
 		else
 		{
-			if (ButtonState::Click == m_ButtonState)
-			{
-				if (true == GameEngineInput::IsUp(VK_LBUTTON))
-				{
-					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
-				}
+			m_ButtonHoverValue = false;
 
-				m_ButtonState = ButtonState::Normal;
-			}
-			else
+			if (ButtonState::Normal != m_ButtonState)
 			{
-				if (ButtonState::Normal != m_ButtonState)
-				{
-					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
-				}
-
-				m_ButtonState = ButtonState::Normal;
+				Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
 			}
+
+			m_ButtonState = ButtonState::Normal;
 		}
 	}
 }
@@ -224,5 +221,53 @@ bool Button::checkHovered()
 
 void Button::Render(float _Delta)
 {
+	if (false == ContentLevel::DebugValue)
+	{
+		return;
+	}
 
+	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("버퍼를 불러오지 못했습니다.");
+		return;
+	}
+
+	HDC dc = BackBufferPtr->GetImageDC();
+	if (nullptr == dc)
+	{
+		MsgBoxAssert("HDC를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 ButtonPos = GetPos();
+	ButtonPos.iX();
+
+
+	{
+		std::string Text = "";
+
+		switch (m_ButtonState)
+		{
+		case ButtonState::Normal:
+			Text += "Normal";
+			break;
+		case ButtonState::Hover:
+			Text += "Hover";
+			break;
+		case ButtonState::Click:
+			Text += "Click";
+			break;
+		case ButtonState::Disable:
+			Text += "Disable";
+			break;
+		case ButtonState::Max:
+			break;
+		default:
+			break;
+		}
+		
+		TextOutA(dc, ButtonPos.iX(), ButtonPos.iY(), Text.c_str(), static_cast<int>(Text.size()));
+
+	}
 }
