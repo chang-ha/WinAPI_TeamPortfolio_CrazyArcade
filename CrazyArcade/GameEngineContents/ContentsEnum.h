@@ -13,7 +13,9 @@ enum class RenderOrder
 	GroundTile,
 	StructureTile,
 	SelectTile,
-	UI,
+	FirstButtonUI,
+	SecondButtonUI,
+	MouseUI,
 };
 
 enum class CollisionOrder
