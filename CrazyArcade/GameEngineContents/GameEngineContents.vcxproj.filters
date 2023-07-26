@@ -37,6 +37,9 @@
     <ClInclude Include="Dao.h">
       <Filter>Character\Dao</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalUtils.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentLevel.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="Dao.cpp">
       <Filter>Character\Dao</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalUtils.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
