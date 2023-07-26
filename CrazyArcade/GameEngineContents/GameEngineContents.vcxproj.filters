@@ -31,7 +31,7 @@
     <ClInclude Include="GlobalUtils.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="DummyStage.h">
+    <ClInclude Include="TestStage.h">
       <Filter>PlayLevel</Filter>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
@@ -66,7 +66,7 @@
     <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="DummyStage.cpp">
+    <ClCompile Include="TestStage.cpp">
       <Filter>PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
