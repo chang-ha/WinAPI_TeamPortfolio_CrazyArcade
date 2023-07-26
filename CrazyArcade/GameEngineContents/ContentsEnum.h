@@ -13,6 +13,7 @@ enum class RenderOrder
 	GroundTile,
 	StructureTile,
 	SelectTile,
+	UI,
 };
 
 enum class CollisionOrder

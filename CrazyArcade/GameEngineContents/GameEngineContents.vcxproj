@@ -192,6 +192,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="RoomLevel.h" />
     <ClInclude Include="Structure.h">
       <SubType>
       </SubType>
@@ -242,6 +243,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="RoomLevel.cpp" />
     <ClCompile Include="Structure.cpp">
       <SubType>
       </SubType>

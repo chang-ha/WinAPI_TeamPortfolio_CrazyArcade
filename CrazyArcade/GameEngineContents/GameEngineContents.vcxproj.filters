@@ -40,6 +40,10 @@
     <ClInclude Include="Structure.h">
       <Filter>Global\TileObject</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="RoomLevel.h">
+      <Filter>RoomLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentLevel.cpp">
@@ -78,6 +82,10 @@
     <ClCompile Include="Structure.cpp">
       <Filter>Global\TileObject</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="RoomLevel.cpp">
+      <Filter>RoomLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -97,6 +105,9 @@
     </Filter>
     <Filter Include="Global\TileObject">
       <UniqueIdentifier>{67082fdf-aa98-4946-9c41-0d2c469be1fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RoomLevel">
+      <UniqueIdentifier>{1faecb3f-a80a-4ae1-9a70-4b070efd2234}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
