@@ -170,7 +170,7 @@ void PlayLevel::CheckTile()
 
 	if (nullptr != Check)
 	{
-		float4 PlayerPos = Check->GetCharacterPos();
+		float4 PlayerPos = Check->GetPos();
 		float4 PlayerIndex = Tile->PosToIndex(PlayerPos - GlobalValue::MapTileSize);
 	
 		if (nullptr != Check)

@@ -19,12 +19,6 @@ public:
 	BaseCharacter& operator=(const BaseCharacter& _Other) = delete;
 	BaseCharacter& operator=(BaseCharacter&& _Other) noexcept = delete;
 
-	float4 GetCharacterPos()
-	{
-		CharacterPos = { PosX, PosY };
-		return CharacterPos;
-	}
-
 protected:
 	virtual void CreateSprite(
 		const std::string& _TextureName,
@@ -65,11 +59,5 @@ protected:
 
 private:
 	bool IsDebugData = false;
-
-	float PosX = 0.0f;
-	float PosY = 0.0f;
-
-	float4 CharacterPos = { 0, 0 };
-
 };
 
