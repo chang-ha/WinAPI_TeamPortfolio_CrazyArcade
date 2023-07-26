@@ -120,7 +120,7 @@ void BaseCharacter::StateUpdate(float _Delta)
 		break;
 	case CharacterState::FlashShort:
 		break;
-	case CharacterState::Trap:
+	case CharacterState::Bubble:
 		break;
 	case CharacterState::Live:
 		break;
@@ -151,7 +151,7 @@ void BaseCharacter::ChangeState(CharacterState _State)
 			break;
 		case CharacterState::FlashShort:
 			break;
-		case CharacterState::Trap:
+		case CharacterState::Bubble:
 			break;
 		case CharacterState::Live:
 			break;

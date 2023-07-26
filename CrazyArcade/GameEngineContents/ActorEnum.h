@@ -7,7 +7,7 @@ enum class CharacterState
 	Ready,
 	FlashLong,
 	FlashShort,
-	Trap,
+	Bubble,
 	Live,
 	Die,
 	Jump,
