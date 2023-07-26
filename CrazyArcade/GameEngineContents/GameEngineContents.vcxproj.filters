@@ -34,6 +34,12 @@
     <ClInclude Include="Structure.h">
       <Filter>Global\TileObject</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalUtils.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Structure.h">
+      <Filter>Global\TileObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentLevel.cpp">
@@ -61,6 +67,12 @@
       <Filter>MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="GameMapInfo.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Structure.cpp">
+      <Filter>Global\TileObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="Structure.cpp">
