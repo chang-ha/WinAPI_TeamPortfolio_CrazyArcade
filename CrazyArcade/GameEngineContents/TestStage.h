@@ -1,18 +1,18 @@
 #pragma once
 #include "PlayLevel.h"
 
-class DummyStage : public PlayLevel
+class TestStage : public PlayLevel
 {
 public:
 	// Constructor Destructor
-	DummyStage();
-	~DummyStage();
+	TestStage();
+	~TestStage();
 
 	// Delete Function
-	DummyStage(const DummyStage& _Other) = delete;
-	DummyStage(DummyStage&& _Other) noexcept = delete;
-	DummyStage& operator=(const DummyStage& _Other) = delete;
-	DummyStage& operator=(DummyStage&& _Other) noexcept = delete;
+	TestStage(const TestStage& _Other) = delete;
+	TestStage(TestStage&& _Other) noexcept = delete;
+	TestStage& operator=(const TestStage& _Other) = delete;
+	TestStage& operator=(TestStage&& _Other) noexcept = delete;
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
