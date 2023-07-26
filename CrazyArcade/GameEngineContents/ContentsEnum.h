@@ -9,9 +9,24 @@ enum class UpdateOrder
 enum class RenderOrder
 {
 	BackGround,
+	GroundTile,
+	StructureTile,
+	SelectTile,
 	Character
 };
 
 enum class CollisionOrder
 {
+};
+
+enum class TileObjectOrder
+{
+	Structure = 1,
+	NonMoveBlock,
+	MoveBlock,
+	Item,
+	Monster,
+	Character,
+	Bubble,
+	PopRange,
 };

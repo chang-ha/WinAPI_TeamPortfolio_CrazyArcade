@@ -16,6 +16,11 @@ public:
 
 	static float4 WinScale;
 
+	static int MapTileIndex_X;
+	static int MapTileIndex_Y;
+	static float4 MapTileSize;
+	static float4 StructureTileSize;
+
 	static void Init();
 protected:
 

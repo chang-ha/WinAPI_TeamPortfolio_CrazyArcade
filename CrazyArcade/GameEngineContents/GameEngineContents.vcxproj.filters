@@ -25,6 +25,15 @@
     <ClInclude Include="MapEditor.h">
       <Filter>Level\MapEditor</Filter>
     </ClInclude>
+    <ClInclude Include="TileSelect.h">
+      <Filter>MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMapInfo.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Structure.h">
+      <Filter>Global\TileObject</Filter>
+    </ClInclude>
     <ClInclude Include="BaseCharacter.h">
       <Filter>Character</Filter>
     </ClInclude>
@@ -75,6 +84,15 @@
     <ClCompile Include="Dao.cpp">
       <Filter>Character\Dao</Filter>
     </ClCompile>
+    <ClCompile Include="TileSelect.cpp">
+      <Filter>MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMapInfo.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Structure.cpp">
+      <Filter>Global\TileObject</Filter>
+    </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
     </ClCompile>
@@ -97,6 +115,9 @@
     </Filter>
     <Filter Include="Level\MapEditor">
       <UniqueIdentifier>{cb76d764-55d3-4e7d-8893-eabf4da216bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\TileObject">
+      <UniqueIdentifier>{67082fdf-aa98-4946-9c41-0d2c469be1fe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Character">
       <UniqueIdentifier>{d193bdf2-4440-4d7c-986d-fb7440e11f8b}</UniqueIdentifier>

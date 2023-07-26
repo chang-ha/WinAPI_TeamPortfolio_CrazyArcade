@@ -1,6 +1,6 @@
 #pragma once
 #include "ContentLevel.h"
-
+#include <vector>
 class TileMap;
 class MapEditor : public ContentLevel
 {
@@ -23,6 +23,26 @@ protected:
 	void Render(float _Delta) override;
 
 private:
+
+	bool MouseInTileMap();
+
+	// Const Value
+
+	const float4 Tile_StartPos = { 20, 20 };
+
+	float4 CurMousePos = float4::ZERO;
+	int CurTileIndex_X = 0;
+	int CurTileIndex_Y = 0;
+	int CurSelectedTileType = 1;
+
+	// State Value
+	bool LoadTileTexture = false;
+
+	class BackGround* Back = nullptr;
+	class TileSelect* SelectedTile = nullptr;
+	class GameEngineRenderer* TileRenderer = nullptr;
+
 	TileMap* Tile = nullptr;
+	std::vector<std::vector<int>>TilesInfo;
 };
 
