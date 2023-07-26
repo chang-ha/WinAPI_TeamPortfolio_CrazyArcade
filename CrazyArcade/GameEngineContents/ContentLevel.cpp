@@ -4,6 +4,8 @@
 
 #include "ContentLevel.h"
 
+bool ContentLevel::DebugValue;
+
 ContentLevel::ContentLevel()
 {
 
