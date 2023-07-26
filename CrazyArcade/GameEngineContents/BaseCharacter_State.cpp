@@ -2,12 +2,12 @@
 
 #include <GameEnginePlatform/GameEngineInput.h>
 
-void BaseCharacter::WaitStart()
+void BaseCharacter::IdleStart()
 {
-	ChangeAnimationState("Wait");
+	ChangeAnimationState("Idle");
 }
 
-void BaseCharacter::WaitUpdate(float _Delta)
+void BaseCharacter::IdleUpdate(float _Delta)
 {
 	if (true == GameEngineInput::IsDown('W') || true == GameEngineInput::IsPress('W')
 		|| true == GameEngineInput::IsDown('S') || true == GameEngineInput::IsPress('S')
@@ -56,7 +56,7 @@ void BaseCharacter::MoveUpdate(float _Delta)
 
 	if (float4::ZERO == MovePos)
 	{
-		ChangeState(CharacterState::Wait);
+		ChangeState(CharacterState::Idle);
 		return;
 	}
 }

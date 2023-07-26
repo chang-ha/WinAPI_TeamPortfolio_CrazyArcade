@@ -2,7 +2,7 @@
 
 enum class CharacterState
 {
-	Wait,
+	Idle,
 	Move,
 	Ready,
 	FlashLong,

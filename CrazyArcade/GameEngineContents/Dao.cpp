@@ -17,20 +17,26 @@ Dao::~Dao()
 
 void Dao::Start()
 {
-	CreateSprite("Dao_Wait.Bmp", 3);
+	CreateSprite("Dao_Idle_Up.Bmp", 1);
+	CreateSprite("Dao_Idle_Down.Bmp", 1);
+	CreateSprite("Dao_Idle_Left.Bmp", 1);
+	CreateSprite("Dao_Idle_Right.Bmp", 1);
 	CreateSprite("Dao_Left.Bmp", 6);
 	CreateSprite("Dao_Right.Bmp", 6);
 	CreateSprite("Dao_Up.Bmp", 10);
 	CreateSprite("Dao_Down.Bmp", 8);
 
 	MainRenderer = CreateRenderer(RenderOrder::Character);
-	MainRenderer->CreateAnimation("Dao_Wait", "Dao_Wait.Bmp");
+	MainRenderer->CreateAnimation("Dao_Idle_Up", "Dao_Idle_Up.Bmp");
+	MainRenderer->CreateAnimation("Dao_Idle_Down", "Dao_Idle_Down.Bmp");
+	MainRenderer->CreateAnimation("Dao_Idle_Left", "Dao_Idle_Left.Bmp");
+	MainRenderer->CreateAnimation("Dao_Idle_Right", "Dao_Idle_Right.Bmp");
 	MainRenderer->CreateAnimation("Dao_Move_Left", "Dao_Left.Bmp");
 	MainRenderer->CreateAnimation("Dao_Move_Right", "Dao_Right.Bmp");
 	MainRenderer->CreateAnimation("Dao_Move_Up", "Dao_Up.Bmp");
 	MainRenderer->CreateAnimation("Dao_Move_Down", "Dao_Down.Bmp");
 
-	ChangeState(CharacterState::Wait);
+	ChangeState(CharacterState::Idle);
 }
 
 void Dao::Update(float _Delta)
@@ -58,7 +64,7 @@ void Dao::ChangeAnimationState(const std::string& _StateName)
 
 	AnimationName += _StateName;
 
-	if (_StateName == "Move")
+	if (_StateName == "Move" || _StateName == "Idle")
 	{
 		switch (Dir)
 		{

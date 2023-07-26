@@ -31,8 +31,8 @@ protected:
 	void ChangeState(CharacterState _State);
 	virtual void ChangeAnimationState(const std::string& _StateName);
 
-	void WaitStart();
-	void WaitUpdate(float _Delta);
+	void IdleStart();
+	void IdleUpdate(float _Delta);
 
 	void MoveStart();
 	void MoveUpdate(float _Delta);

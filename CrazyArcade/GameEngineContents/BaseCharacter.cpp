@@ -91,8 +91,8 @@ void BaseCharacter::StateUpdate(float _Delta)
 {
 	switch (State)
 	{
-	case CharacterState::Wait:
-		return WaitUpdate(_Delta);
+	case CharacterState::Idle:
+		return IdleUpdate(_Delta);
 	case CharacterState::Move:
 		return MoveUpdate(_Delta);
 	/*case CharacterState::Ready:
@@ -120,8 +120,8 @@ void BaseCharacter::ChangeState(CharacterState _State)
 	{
 		switch (_State)
 		{
-		case CharacterState::Wait:
-			WaitStart();
+		case CharacterState::Idle:
+			IdleStart();
 			break;
 		case CharacterState::Move:
 			MoveStart();

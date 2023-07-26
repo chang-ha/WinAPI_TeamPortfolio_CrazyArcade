@@ -17,20 +17,26 @@ Bazzi::~Bazzi()
 
 void Bazzi::Start()
 {
-	CreateSprite("Bazzi_Wait.Bmp", 3);
+	CreateSprite("Bazzi_Idle_Up.Bmp", 1);
+	CreateSprite("Bazzi_Idle_Down.Bmp", 1);
+	CreateSprite("Bazzi_Idle_Left.Bmp", 1);
+	CreateSprite("Bazzi_Idle_Right.Bmp", 1);
 	CreateSprite("Bazzi_Left.Bmp", 6);
 	CreateSprite("Bazzi_Right.Bmp", 6);
 	CreateSprite("Bazzi_Up.Bmp", 8);
 	CreateSprite("Bazzi_Down.Bmp", 8);
 
 	MainRenderer = CreateRenderer(RenderOrder::Character);
-	MainRenderer->CreateAnimation("Bazzi_Wait", "Bazzi_Wait.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_Idle_Up", "Bazzi_Idle_Up.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_Idle_Down", "Bazzi_Idle_Down.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_Idle_Left", "Bazzi_Idle_Left.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_Idle_Right", "Bazzi_Idle_Right.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Move_Left", "Bazzi_Left.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Move_Right", "Bazzi_Right.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Move_Up", "Bazzi_Up.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Move_Down", "Bazzi_Down.Bmp");
 
-	ChangeState(CharacterState::Wait);
+	ChangeState(CharacterState::Idle);
 }
 
 void Bazzi::Update(float _Delta)
@@ -58,7 +64,7 @@ void Bazzi::ChangeAnimationState(const std::string& _StateName)
 
 	AnimationName += _StateName;
 
-	if (_StateName == "Move")
+	if (_StateName == "Move" || _StateName == "Idle")
 	{
 		switch (Dir)
 		{
