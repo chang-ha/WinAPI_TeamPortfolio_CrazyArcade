@@ -42,6 +42,9 @@ void BaseCharacter::Update(float _Delta)
 	{
 		SwitchDebugData();
 	}
+
+	PosX = GetPos().X;
+	PosY = GetPos().Y;
 }
 
 void BaseCharacter::Render(float _Delta)
@@ -52,12 +55,12 @@ void BaseCharacter::Render(float _Delta)
 	{
 		std::string XText = "";
 		XText += "Player Pos X : ";
-		XText += std::to_string(GetPos().X);
+		XText += std::to_string(PosX);
 		TextOutA(dc, 2, 3, XText.c_str(), static_cast<int>(XText.size()));
 
 		std::string YText = "";
 		YText += "Player Pos Y : ";
-		YText += std::to_string(GetPos().Y);
+		YText += std::to_string(PosY);
 		TextOutA(dc, 2, 30, YText.c_str(), static_cast<int>(YText.size()));
 	}
 }
@@ -165,6 +168,12 @@ void BaseCharacter::ChangeState(CharacterState _State)
 	}
 
 	State = _State;
+}
+
+// Pos를 타일맵의 Index로 변환해서 위치시키는 함수
+void BaseCharacter::CharacterPosToIndex()
+{
+
 }
 
 void BaseCharacter::ChangeAnimationState(const std::string& _StateName) {}

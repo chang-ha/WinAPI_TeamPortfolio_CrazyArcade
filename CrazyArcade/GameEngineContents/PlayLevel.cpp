@@ -107,6 +107,21 @@ void PlayLevel::Start()
 				}
 			}
 		}
+
+		// 테스트용 막혀야하는 타일 생성
+
+		TileRenderer = Tile->SetTile(5, 5, 5, Tile_StartPos);
+		TestTiles.push_back(TileRenderer);
+
+		TileRenderer = Tile->SetTile(5, 8, 5, Tile_StartPos);
+		TestTiles.push_back(TileRenderer);
+
+		TileRenderer = Tile->SetTile(8, 5, 5, Tile_StartPos);
+		TestTiles.push_back(TileRenderer);
+
+		TileRenderer = Tile->SetTile(8, 8, 5, Tile_StartPos);
+		TestTiles.push_back(TileRenderer);
+
 	}
 	
 	
@@ -131,17 +146,46 @@ void PlayLevel::Start()
 	//}
 
 
-
-	BaseCharacter* Check = CreateActor<Bazzi>(UpdateOrder::Character);
+	Check = CreateActor<Bazzi>(UpdateOrder::Character);
 	Check->SetPos(GlobalValue::WinScale.Half());
 }
 
 void PlayLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	CheckTile();
 }
 
 void PlayLevel::Render(float _Delta)
 {
 
+}
+
+// 플레이어랑 타일맵 인덱스 비교용 테스트 함수
+void PlayLevel::CheckTile()
+{
+	// 플레이어 위치 400, 300
+	// 플레이어 인덱스 9, 6
+
+	if (nullptr != Check)
+	{
+		float4 PlayerPos = Check->GetCharacterPos();
+		float4 PlayerIndex = Tile->PosToIndex(PlayerPos - GlobalValue::MapTileSize);
+	
+		if (nullptr != Check)
+		{
+			for (size_t i = 0; i < TestTiles.size(); i++)
+			{
+				GameEngineRenderer* TestTile = TestTiles[i];
+				float4 CheckTestTilePos = TestTile->GetRenderPos();
+				float4 CheckTestTIleIndex = Tile->PosToIndex(CheckTestTilePos - GlobalValue::MapTileSize);
+
+				if (PlayerIndex.iX() == CheckTestTIleIndex.iX() && PlayerIndex.iY() == CheckTestTIleIndex.iY())
+				{
+					int a = 0;
+				}
+			}
+		}
+	}
 }

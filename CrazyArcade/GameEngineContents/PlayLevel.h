@@ -24,11 +24,16 @@ protected:
 
 	const float4 Tile_StartPos = { 20, 41 };
 
+	void CheckTile();
+
 private:
 	class TileMap* Tile = nullptr;
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
 	//class TileMap* Structure = nullptr;
 	//class TileMap* Block = nullptr;
 	class GameEngineRenderer* TileRenderer = nullptr;
+	class BaseCharacter* Check = nullptr;
+
+	std::vector<GameEngineRenderer*> TestTiles;
 };
 
