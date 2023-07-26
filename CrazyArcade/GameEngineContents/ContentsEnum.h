@@ -10,7 +10,9 @@ enum class UpdateOrder
 enum class RenderOrder
 {
 	BackGround,
-	UI,
+	FirstButtonUI,
+	SecondButtonUI,
+	MouseUI,
 };
 
 enum class CollisionOrder

@@ -42,7 +42,8 @@ public:
 
 
 
-	void InitDefaultButton(
+	void setButtonTexture(
+		ButtonState _ButtonType,
 		const std::string& _FileName, 
 		const std::string& _Path,
 		int _XCount, int _YCount,
@@ -50,21 +51,12 @@ public:
 		bool _Loop = true, 
 		float _RenderScaleRatio = 1.0f);
 
-	void InitClickButton(
-		const std::string& _FileName,
-		const std::string& _Path,
-		int _XCount, int _YCount,
-		float _Inter = 0.1f,
-		bool _Loop = true,
-		float _RenderScaleRatio = 1.0f);
 
-	void InitHoveredButton(
+
+	void setButtonSound(
+		ButtonEventState _ButtonType,
 		const std::string& _FileName,
-		const std::string& _Path,
-		int _XCount, int _YCount,
-		float _Inter = 0.1f,
-		bool _Loop = true,
-		float _RenderScaleRatio = 1.0f);
+		const std::string& _Path);
 
 
 
@@ -76,7 +68,7 @@ public:
 	template<typename ActorType>
 	void setCallback(ButtonState _ButtonState, ActorType* _Actor, void(*_Func))
 	{
-		m_ButtonEventCallBack[static_cast<int>(_ButtonState)] = std::bind(_Actor, _Func);
+		m_ButtonEventCallBack[static_cast<int>(_ButtonState)] = std::bind(_Func, _Actor);
 	}
 
 
@@ -104,6 +96,7 @@ private:
 
 	ButtonState m_ButtonState = ButtonState::Max;
 	std::function<void()> m_ButtonEventCallBack[static_cast<int>(ButtonEventState::Max)];
+	std::string m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Max)];
 
 	bool checkHovered();
 	bool m_ButtonHoverValue = false;

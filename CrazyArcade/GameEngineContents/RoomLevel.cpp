@@ -37,12 +37,14 @@ void RoomLevel::Start()
 		return;
 	}
 
-	ButtonPtr->InitDefaultButton("MapSelect_Button.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
-	ButtonPtr->InitClickButton("MapSelect_ClickedButton.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
-	ButtonPtr->InitHoveredButton("MapSelect_HoverButton.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	ButtonPtr->setButtonTexture(ButtonState::Normal, "MapSelect_Button.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	ButtonPtr->setButtonTexture(ButtonState::Click, "MapSelect_ClickedButton.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	ButtonPtr->setButtonTexture(ButtonState::Hover, "MapSelect_HoverButton.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
+	/*ButtonPtr->setCallback(ButtonEventState::Click, )*/
+	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
+
 	ButtonPtr->SetPos(float4{ 646.0f, 428.0f } + float4{123.0f, 48.0f}.Half());
 
-	vecButtons.push_back(ButtonPtr);
 }
 
 void RoomLevel::Update(float _Delta)

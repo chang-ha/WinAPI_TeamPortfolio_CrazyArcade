@@ -31,9 +31,5 @@ private:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
 
-	// this
-	std::vector<Button*> vecButtons;
-
-
 };
 
