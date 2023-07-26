@@ -107,6 +107,8 @@ private:
 	float4 m_ButtonScale = float4::ZERO;
 
 
+	bool checkHovered();
+
 	virtual void execute() {}
 
 

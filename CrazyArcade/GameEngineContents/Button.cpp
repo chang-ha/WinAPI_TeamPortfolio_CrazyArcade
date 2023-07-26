@@ -12,10 +12,21 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 
+#include <functional>
+
 
 Button::Button()
 {
+	for (size_t i = 0; i < static_cast<int>(ButtonState::Max); i++)
+	{
+		m_ButtonInfo[i] = {};
+	}
 
+
+	for (size_t i = 0; i < static_cast<int>(ButtonEventState::Max); i++)
+	{
+		m_ButtonEventInfo[i] = {};
+	}
 }
 
 Button::~Button()
@@ -140,53 +151,74 @@ void Button::Update(float _Delta)
 
 	if (m_ButtonState != ButtonState::Disable)
 	{
-		bool MouseHoverd = true;
-		float4 MousePos = GameEngineWindow::MainWindow.GetMousePos();
-		float4 ButtonPos = GetPos();
-		
-
-		if (ButtonPos.X - m_ButtonScale.X > MousePos.X)
-		{
-			MouseHoverd = false;
-		}
-		else if (ButtonPos.Y - m_ButtonScale.Y > MousePos.Y)
-		{
-			MouseHoverd = false;
-		}
-		else if (ButtonPos.X + m_ButtonScale.X < MousePos.X)
-		{
-			MouseHoverd = false;
-		}
-		else if (ButtonPos.Y + m_ButtonScale.Y < MousePos.Y)
-		{
-			MouseHoverd = false;
-		}
-
-
-		if (true == MouseHoverd)
+		if (true == checkHovered())
 		{
 			if (true == GameEngineInput::IsDown(VK_LBUTTON))
 			{
-				if (m_ButtonState != ButtonState::Click)
+				if (ButtonState::Click != m_ButtonState)
 				{
-					Renderer->ChangeAnimation(std::to_string(static_cast<int>(m_ButtonState)));
+					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Click)));
 				}
 
 				m_ButtonState = ButtonState::Click;
 			}
 			else if (ButtonState::Click == m_ButtonState && true == GameEngineInput::IsUp(VK_LBUTTON))
 			{
+				if (ButtonState::Hover != m_ButtonState)
+				{
+					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Hover)));
+					execute();
+				}
 
+				m_ButtonState = ButtonState::Hover;
 			}
 		}
 		else
 		{
+			if (ButtonState::Click == m_ButtonState)
+			{
+				if (true == GameEngineInput::IsUp(VK_LBUTTON))
+				{
+					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
+				}
 
+				m_ButtonState = ButtonState::Normal;
+			}
+			else
+			{
+
+			}
 		}
 	}
 }
 
 
+bool Button::checkHovered()
+{
+	bool MouseHoverd = true;
+	float4 MousePos = GameEngineWindow::MainWindow.GetMousePos();
+	float4 ButtonPos = GetPos();
+
+
+	if (ButtonPos.X - m_ButtonScale.X > MousePos.X)
+	{
+		MouseHoverd = false;
+	}
+	else if (ButtonPos.Y - m_ButtonScale.Y > MousePos.Y)
+	{
+		MouseHoverd = false;
+	}
+	else if (ButtonPos.X + m_ButtonScale.X < MousePos.X)
+	{
+		MouseHoverd = false;
+	}
+	else if (ButtonPos.Y + m_ButtonScale.Y < MousePos.Y)
+	{
+		MouseHoverd = false;
+	}
+
+	return MouseHoverd;
+}
 
 
 
