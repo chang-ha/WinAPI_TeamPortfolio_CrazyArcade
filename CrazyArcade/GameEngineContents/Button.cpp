@@ -12,15 +12,11 @@
 #include <GameEngineCore/ResourcesManager.h>
 
 
-#include <functional>
+#include "ContentLevel.h"
 
 
 Button::Button()
 {
-	for (size_t i = 0; i < static_cast<int>(ButtonEventState::Max); i++)
-	{
-		m_ButtonEventInfo[i] = {};
-	}
 }
 
 Button::~Button()
@@ -32,18 +28,19 @@ Button::~Button()
 
 void Button::Start()
 {
-	Renderer = CreateRenderer(RenderOrder::UI);
+	Renderer = CreateRenderer(RenderOrder::FirstButtonUI);
 	if (nullptr == Renderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
 		return;
 	}
 
-	m_ButtonState = ButtonState::Normal;
+	m_ButtonState = ButtonState::Max;
 }
 
 
-void Button::InitDefaultButton(
+void Button::setButtonTexture(
+	ButtonState _ButtonType,
 	const std::string& _FileName,
 	const std::string& _Path,
 	int _XCount /*= 0*/, int _YCount /*= 0*/,
@@ -51,8 +48,6 @@ void Button::InitDefaultButton(
 	bool _Loop /*= true*/,
 	float _RenderScaleRatio/* = 1.0f*/)
 {
-
-
 	GameEngineSprite* ButtonSprite = nullptr;
 	ButtonSprite = GlobalUtils::SpriteFileLoad(_FileName, _Path, _XCount, _YCount);
 	if (nullptr == ButtonSprite)
@@ -62,64 +57,26 @@ void Button::InitDefaultButton(
 	}
 
 	float4 ButtonRenderScale = ButtonSprite->GetSprite(0).RenderScale;
-	m_ButtonScale = ButtonRenderScale;
+	if (float4::ZERO != ButtonRenderScale)
+	{
+		m_ButtonScale = ButtonRenderScale;
+	}
 
-
-	Renderer->CreateAnimation(std::to_string(static_cast<int>(ButtonState::Normal)), _FileName, -1, -1, _Inter);
-	Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
-
-	
-	Renderer->On();
+	Renderer->CreateAnimation(std::to_string(static_cast<int>(_ButtonType)), _FileName, -1, -1, _Inter);
 }
 
 
-void Button::InitClickButton(
+
+void Button::setButtonSound(
+	ButtonEventState _ButtonType,
 	const std::string& _FileName,
-	const std::string& _Path,
-	int _XCount , int _YCount ,
-	float _Inter /*= 0.1f*/,
-	bool _Loop /*= true*/,
-	float _RenderScaleRatio/* = 1.0f*/)
+	const std::string& _Path)
 {
+	GlobalUtils::SoundFileLoad(_FileName, _Path);
+	GameEngineSound::SoundPlay(_FileName);
 
-
-	GameEngineSprite* ButtonSprite = nullptr;
-	ButtonSprite = GlobalUtils::SpriteFileLoad(_FileName, _Path, _XCount, _YCount);
-	if (nullptr == ButtonSprite)
-	{
-		MsgBoxAssert("기본 버튼 텍스처를 불러오지 못했습니다.");
-		return;
-	}
-
-	float4 ButtonRenderScale = ButtonSprite->GetSprite(0).RenderScale;
-
-	Renderer->CreateAnimation(std::to_string(static_cast<int>(ButtonState::Click)), _FileName, -1, -1, _Inter);
+	m_ButtonSoundEvent[static_cast<int>(_ButtonType)] = _FileName;
 }
-
-
-void Button::InitHoveredButton(
-	const std::string& _FileName,
-	const std::string& _Path,
-	int _XCount, int _YCount,
-	float _Inter /*= 0.1f*/,
-	bool _Loop /*= true*/,
-	float _RenderScaleRatio/* = 1.0f*/)
-{
-
-
-	GameEngineSprite* ButtonSprite = nullptr;
-	ButtonSprite = GlobalUtils::SpriteFileLoad(_FileName, _Path, _XCount, _YCount);
-	if (nullptr == ButtonSprite)
-	{
-		MsgBoxAssert("기본 버튼 텍스처를 불러오지 못했습니다.");
-		return;
-	}
-
-	float4 ButtonRenderScale = ButtonSprite->GetSprite(0).RenderScale;
-
-	Renderer->CreateAnimation(std::to_string(static_cast<int>(ButtonState::Hover)), _FileName, -1, -1, _Inter);
-}
-
 
 
 
@@ -133,7 +90,9 @@ void Button::Update(float _Delta)
 
 	if (m_ButtonState != ButtonState::Disable)
 	{
-		if (true == checkHovered())
+		bool HoverValue = checkHovered();
+
+		if (true == HoverValue)
 		{
 			if (true == GameEngineInput::IsDown(VK_LBUTTON))
 			{
@@ -149,43 +108,56 @@ void Button::Update(float _Delta)
 				if (ButtonState::Hover != m_ButtonState)
 				{
 					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Hover)));
-					execute();
+				}
+
+				if (nullptr != m_ButtonEventCallBack[static_cast<int>(ButtonEventState::Click)])
+				{
+					m_ButtonEventCallBack[static_cast<int>(ButtonEventState::Click)]();
+				}
+
+				if ("" != m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)])
+				{
+					GameEngineSound::SoundPlay(m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)]);
 				}
 
 				m_ButtonState = ButtonState::Hover;
+			}
+			else if (ButtonState::Click == m_ButtonState && true == GameEngineInput::IsPress(VK_LBUTTON))
+			{
+				m_ButtonState = ButtonState::Click;
 			}
 			else
 			{
-				if (ButtonState::Hover != m_ButtonState)
+				if (m_ButtonHoverValue != HoverValue)
 				{
 					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Hover)));
-					// sound
+				}
 
+				if (nullptr != m_ButtonEventCallBack[static_cast<int>(ButtonEventState::Hover)])
+				{
+					m_ButtonEventCallBack[static_cast<int>(ButtonEventState::Hover)]();
+				}
+
+				if ("" != m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)])
+				{
+					GameEngineSound::SoundPlay(m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)]);
 				}
 
 				m_ButtonState = ButtonState::Hover;
 			}
+
+			m_ButtonHoverValue = true;
 		}
 		else
 		{
-			if (ButtonState::Click == m_ButtonState)
-			{
-				if (true == GameEngineInput::IsUp(VK_LBUTTON))
-				{
-					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
-				}
+			m_ButtonHoverValue = false;
 
-				m_ButtonState = ButtonState::Normal;
-			}
-			else
+			if (ButtonState::Normal != m_ButtonState)
 			{
-				if (ButtonState::Normal != m_ButtonState)
-				{
-					Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
-				}
-
-				m_ButtonState = ButtonState::Normal;
+				Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
 			}
+
+			m_ButtonState = ButtonState::Normal;
 		}
 	}
 }
@@ -224,5 +196,53 @@ bool Button::checkHovered()
 
 void Button::Render(float _Delta)
 {
+	if (false == ContentLevel::DebugValue)
+	{
+		return;
+	}
 
+	GameEngineWindowTexture* BackBufferPtr = GameEngineWindow::MainWindow.GetBackBuffer();
+	if (nullptr == BackBufferPtr)
+	{
+		MsgBoxAssert("버퍼를 불러오지 못했습니다.");
+		return;
+	}
+
+	HDC dc = BackBufferPtr->GetImageDC();
+	if (nullptr == dc)
+	{
+		MsgBoxAssert("HDC를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 ButtonPos = GetPos();
+	ButtonPos.iX();
+
+
+	{
+		std::string Text = "";
+
+		switch (m_ButtonState)
+		{
+		case ButtonState::Normal:
+			Text += "Normal";
+			break;
+		case ButtonState::Hover:
+			Text += "Hover";
+			break;
+		case ButtonState::Click:
+			Text += "Click";
+			break;
+		case ButtonState::Disable:
+			Text += "Disable";
+			break;
+		case ButtonState::Max:
+			break;
+		default:
+			break;
+		}
+		
+		TextOutA(dc, ButtonPos.iX(), ButtonPos.iY(), Text.c_str(), static_cast<int>(Text.size()));
+
+	}
 }
