@@ -81,6 +81,7 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
+    <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="Structure.cpp">
