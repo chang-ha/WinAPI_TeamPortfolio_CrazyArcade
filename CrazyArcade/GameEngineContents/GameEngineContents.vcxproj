@@ -193,10 +193,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="RoomLevel.h" />
-    <ClInclude Include="Structure.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="TileSelect.h">
       <SubType>
       </SubType>
@@ -244,10 +240,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="RoomLevel.cpp" />
-    <ClCompile Include="Structure.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="TileSelect.cpp">
       <SubType>
       </SubType>
