@@ -3,6 +3,8 @@
 enum class UpdateOrder
 {
 	Map,
+	UI,
+	Max,
 };
 
 enum class RenderOrder
@@ -11,6 +13,9 @@ enum class RenderOrder
 	GroundTile,
 	StructureTile,
 	SelectTile,
+	FirstButtonUI,
+	SecondButtonUI,
+	MouseUI,
 };
 
 enum class CollisionOrder
