@@ -201,7 +201,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Structure.h">
+    <ClInclude Include="TestStage.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -260,7 +260,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Structure.cpp">
+    <ClCompile Include="TestStage.cpp">
       <SubType>
       </SubType>
     </ClCompile>

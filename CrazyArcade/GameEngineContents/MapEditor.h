@@ -38,7 +38,6 @@ private:
 	// State Value
 	bool LoadTileTexture = false;
 
-	class BackGround* Back = nullptr;
 	class TileSelect* SelectedTile = nullptr;
 	class GameEngineRenderer* TileRenderer = nullptr;
 

@@ -19,9 +19,6 @@
     <ClInclude Include="GlobalValue.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Level\PlayLevel</Filter>
-    </ClInclude>
     <ClInclude Include="MapEditor.h">
       <Filter>Level\MapEditor</Filter>
     </ClInclude>
@@ -31,22 +28,13 @@
     <ClInclude Include="GameMapInfo.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="Structure.h">
-      <Filter>Global\TileObject</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCharacter.h">
-      <Filter>Character</Filter>
-    </ClInclude>
-    <ClInclude Include="ActorEnum.h">
-      <Filter>Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Bazzi.h">
-      <Filter>Character\Bazzi</Filter>
-    </ClInclude>
-    <ClInclude Include="Dao.h">
-      <Filter>Character\Dao</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalUtils.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="TestStage.h">
+      <Filter>PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
       <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,9 +53,6 @@
     </ClCompile>
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>Level\PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="MapEditor.cpp">
       <Filter>Level\MapEditor</Filter>
@@ -90,10 +75,13 @@
     <ClCompile Include="GameMapInfo.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="Structure.cpp">
-      <Filter>Global\TileObject</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="TestStage.cpp">
+      <Filter>PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
       <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
@@ -115,18 +103,6 @@
     </Filter>
     <Filter Include="Level\MapEditor">
       <UniqueIdentifier>{cb76d764-55d3-4e7d-8893-eabf4da216bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global\TileObject">
-      <UniqueIdentifier>{67082fdf-aa98-4946-9c41-0d2c469be1fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Character">
-      <UniqueIdentifier>{d193bdf2-4440-4d7c-986d-fb7440e11f8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Character\Bazzi">
-      <UniqueIdentifier>{82d394fc-0ed0-4c36-b377-69d7acf8a9be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Character\Dao">
-      <UniqueIdentifier>{a408cf2c-55dc-4ec2-8c75-dac0a8c9e968}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

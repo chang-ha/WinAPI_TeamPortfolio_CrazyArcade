@@ -1,12 +1,12 @@
 #pragma once
 #include <vector>
-
+#include "ContentsEnum.h"
 class GameMapInfo
 {
 public:
 	static const GameMapInfo DefaultInfo;
 
-	int MapInfo = 0;
+	TileObjectOrder MapInfo = TileObjectOrder::Empty;
 	int GroundTextureInfo = 0;
-	int StructureTextureInfo = 0;
+	int ObjectTextureInfo = 0;
 };

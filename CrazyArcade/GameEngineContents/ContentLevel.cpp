@@ -4,6 +4,8 @@
 
 #include "ContentLevel.h"
 
+bool ContentLevel::DebugValue;
+
 ContentLevel::ContentLevel()
 {
 
@@ -38,7 +40,7 @@ void ContentLevel::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown(VK_F2))
 	{
-		GameEngineCore::ChangeLevel("PlayLevel");
+		GameEngineCore::ChangeLevel("TestStage");
 	}
 
 	if (true == GameEngineInput::IsDown(VK_F3))

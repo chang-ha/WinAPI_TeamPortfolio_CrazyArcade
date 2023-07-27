@@ -11,6 +11,7 @@
 #include "Bazzi.h"
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
+#include "GlobalUtils.h"
 #include "GameMapInfo.h"
 
 PlayLevel::PlayLevel()
@@ -45,116 +46,80 @@ void PlayLevel::Start()
 	Back->Init("PlayPanel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
-	// 타일 정보
-	{
-		TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, { 0, 1, 0 })));
+	// 맵 스프라이트 로드
+	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", 10, 1);
+	GlobalUtils::SpriteFileLoad("Structures.bmp", "Resources\\Textures\\Tile", 4, 1);
+	GlobalUtils::SpriteFileLoad("ImMovableBlocks.bmp", "Resources\\Textures\\Tile", 2, 1);
+	GlobalUtils::SpriteFileLoad("MovableBlocks.bmp", "Resources\\Textures\\Tile", 1, 1);
 
-		TileInfo[0][0].MapInfo = 1;
-		TileInfo[0][0].StructureTextureInfo = 1;
-
-		TileInfo[2][1].MapInfo = 1;
-		TileInfo[2][4].MapInfo = 2;
-		TileInfo[2][7].MapInfo = 3;
-	}
-
-
-	GameEnginePath FilePath;
-	FilePath.SetCurrentPath();
-	FilePath.MoveParentToExistsChild("Resources");
-	FilePath.MoveChild("Resources\\Textures\\Tile");
-
-	if (false == ResourcesManager::GetInst().IsLoadTexture("TownGround.bmp"))
-	{
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("TownGround.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("TownGround.bmp", 10, 1);
-	}
-
-	if (false == ResourcesManager::GetInst().IsLoadTexture("TownStructure.bmp"))
-	{
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("TownStructure.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("TownStructure.bmp", 4, 1);
-	}
-
-	if (false == ResourcesManager::GetInst().IsLoadTexture("TownBlock.bmp"))
-	{
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("TownBlock.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("TownBlock.bmp", 3, 1);
-	}
-
-	// 타일 생성
-	if (nullptr == Tile)
-	{
-		Tile = CreateActor<TileMap>();
-		Tile->CreateTileMap("TownGround.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::GroundTile);
-
-		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
-		{
-			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
-			{
-				TileRenderer = Tile->SetTile(X, Y, TileInfo[Y][X].GroundTextureInfo, Tile_StartPos);
-
-				switch (TileInfo[Y][X].MapInfo)
-				{
-				case 1:
-					
-					break;
-				case 2:
-					break;
-				case 3:
-					break;
-				default:
-					break;
-				}
-			}
-		}
-
-		// 테스트용 막혀야하는 타일 생성
-
-		TileRenderer = Tile->SetTile(5, 5, 5, Tile_StartPos);
-		TestTiles.push_back(TileRenderer);
-
-		TileRenderer = Tile->SetTile(5, 8, 5, Tile_StartPos);
-		TestTiles.push_back(TileRenderer);
-
-		TileRenderer = Tile->SetTile(8, 5, 5, Tile_StartPos);
-		TestTiles.push_back(TileRenderer);
-
-		TileRenderer = Tile->SetTile(8, 8, 5, Tile_StartPos);
-		TestTiles.push_back(TileRenderer);
-
-	}
-	
-	
-
-
-
-	//// 구조물
-	//if (nullptr == Structure)
-	//{
-	//	Structure = CreateActor<TileMap>();
-	//	Structure->CreateTileMap("TownTile.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::StructureTile);
-
-	//	Block = CreateActor<TileMap>();
-	//	Block->CreateTileMap("TownTile.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::StructureTile);
-
-	//	for (int X = 1; X < GlobalValue::MapTileIndex_X; X += 4)
-	//	{
-	//		TileRenderer = Structure->SetTile(X, 2, 1, Tile_StartPos);
-	//		TileRenderer->SetRenderScale({ 40, 80 });
-	//		TileRenderer->AddRenderPos({ 0, -20 });
-	//	}
-	//}
-
-
-	Check = CreateActor<Bazzi>(UpdateOrder::Character);
-	Check->SetPos(GlobalValue::WinScale.Half());
+	//TileInfo 초기화
+	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 }
 
 void PlayLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+}
 
-	CheckTile();
+void PlayLevel::Render(float _Delta)
+{
+
+}
+
+void PlayLevel::TileSetting()
+{
+	// TileInfo에 저장된 정보를 이용하여 타일맵 생성합니다.
+
+	if (nullptr == GroundTile)
+	{
+		GroundTile = CreateActor<TileMap>();
+		if (nullptr == GroundTile)
+		{
+			MsgBoxAssert("타일을 생성하지 못했습니다.");
+			return;
+		}
+
+		GroundTile->CreateTileMap("Grounds.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
+	}
+
+	if (nullptr == ObjectTile)
+	{
+
+		ObjectTile = CreateActor<TileMap>();
+		if (nullptr == ObjectTile)
+		{
+			MsgBoxAssert("타일을 생성하지 못했습니다.");
+			return;
+		}
+
+		ObjectTile->CreateTileMap("Structures.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
+	}
+
+	GameEngineRenderer* TileRenderer = nullptr;
+
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+	{
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+		{
+			GroundTile->SetTile(X, Y, TileInfo[Y][X].GroundTextureInfo, GlobalValue::TileStartPos);
+			switch (TileInfo[Y][X].MapInfo)
+			{
+			case TileObjectOrder::Structure:
+				ObjectTile->SetTileToSprite(X, Y, TileInfo[Y][X].ObjectTextureInfo, "Structures.bmp", GlobalValue::TileStartPos + float4(0, -20));
+				break;
+			case TileObjectOrder::ImmovableBlock:
+				ObjectTile->SetTileToSprite(X, Y, TileInfo[Y][X].ObjectTextureInfo, "ImmovableBlocks.bmp", GlobalValue::TileStartPos + float4(0, -2));
+				break;
+			case TileObjectOrder::MovableBlock:
+				ObjectTile->SetTileToSprite(X, Y, TileInfo[Y][X].ObjectTextureInfo, "MovableBlocks.bmp", GlobalValue::TileStartPos + float4(0, -2));
+				break;
+			case TileObjectOrder::Item:
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }
 
 void PlayLevel::Render(float _Delta)

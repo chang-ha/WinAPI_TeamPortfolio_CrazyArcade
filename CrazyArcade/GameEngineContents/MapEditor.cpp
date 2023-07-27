@@ -7,6 +7,7 @@
 
 #include "MapEditor.h"
 #include "ContentsEnum.h"
+#include "GlobalUtils.h"
 #include "GlobalValue.h"
 #include "BackGround.h"
 #include "TileSelect.h"
@@ -46,21 +47,12 @@ void MapEditor::Start()
 	SelectedTile = CreateActor<TileSelect>(UpdateOrder::Map);
 	SelectedTile->Off();
 
-	GameEnginePath FilePath;
-	FilePath.SetCurrentPath();
-	FilePath.MoveParentToExistsChild("Resources");
-	FilePath.MoveChild("Resources\\Textures\\Tile");
-
-	if (false == ResourcesManager::GetInst().IsLoadTexture("TownGround.bmp"))
-	{
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("TownGround.bmp"));
-		ResourcesManager::GetInst().CreateSpriteSheet("TownGround.bmp", 10, 1);
-	}
+	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", 10, 1);
 
 	if (nullptr == Tile)
 	{
 		Tile = CreateActor<TileMap>();
-		Tile->CreateTileMap("TownGround.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::GroundTile);
+		Tile->CreateTileMap("Grounds.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
 
 		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 		{
