@@ -3,6 +3,7 @@
 enum class UpdateOrder
 {
 	Map,
+	Character
 };
 
 enum class RenderOrder
@@ -10,6 +11,7 @@ enum class RenderOrder
 	BackGround,
 	Map,
 	SelectTile,
+	Character
 };
 
 enum class CollisionOrder

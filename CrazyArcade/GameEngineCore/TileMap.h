@@ -55,6 +55,8 @@ public:
 
 	GameEngineRenderer* SetTileToTexture(float4 _Pos, const std::string& _TextureName, float4 _TilePos = float4::ZERO, bool _IsImageSize = false);
 
+	GameEngineRenderer* SetTileToSprite(int X, int Y, int _Index, const std::string& _SpriteName, float4 _TilePos = float4::ZERO, bool _IsImageSize = false);
+
 	bool IsOver(int X, int Y);
 
 	float4 IndexToPos(int X, int Y);

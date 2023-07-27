@@ -2,6 +2,7 @@
 #include "ContentLevel.h"
 #include <vector>
 
+class BaseCharacter;
 class PlayLevel : public ContentLevel
 {
 public:
@@ -24,9 +25,14 @@ protected:
 
 	void TileSetting();
 
-	class TileMap* Tile = nullptr;
+
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
+	class TileMap* GroundTile = nullptr;
+	class TileMap* ObjectTile = nullptr;
+
+	void CheckTile();
 
 private:
+	BaseCharacter* Check = nullptr;
 };
 

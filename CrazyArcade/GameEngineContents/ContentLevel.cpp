@@ -40,7 +40,7 @@ void ContentLevel::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown(VK_F2))
 	{
-		GameEngineCore::ChangeLevel("DummyStage");
+		GameEngineCore::ChangeLevel("TestStage");
 	}
 
 	if (true == GameEngineInput::IsDown(VK_F3))

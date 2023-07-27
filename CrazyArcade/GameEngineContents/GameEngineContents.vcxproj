@@ -155,7 +155,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ActorEnum.h" />
     <ClInclude Include="BackGround.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BaseCharacter.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Bazzi.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -173,6 +182,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GlobalUtils.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Dao.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -206,6 +219,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BaseCharacter.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter_State.cpp" />
+    <ClCompile Include="Bazzi.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentLevel.cpp">
       <SubType>
       </SubType>
@@ -219,6 +241,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Dao.cpp">
       <SubType>
       </SubType>
     </ClCompile>
