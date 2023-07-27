@@ -206,7 +206,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="RoomLevel.h" />
-    <ClInclude Include="Structure.h">
+    <ClInclude Include="Structure.h" />
     <ClInclude Include="TestStage.h">
       <SubType>
       </SubType>
@@ -271,7 +271,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="RoomLevel.cpp" />
-    <ClCompile Include="Structure.cpp">
+    <ClCompile Include="Structure.cpp" />
     <ClCompile Include="TestStage.cpp">
       <SubType>
       </SubType>
