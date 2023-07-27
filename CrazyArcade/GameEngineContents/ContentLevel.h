@@ -15,6 +15,8 @@ public:
 	ContentLevel& operator=(const ContentLevel& _Other) = delete;
 	ContentLevel& operator=(ContentLevel&& _Other) noexcept = delete;
 
+	static bool DebugValue;
+
 protected:
 	BackGround* Back = nullptr;
 

@@ -1,3 +1,3 @@
 #include "GameMapInfo.h"
 
-const GameMapInfo GameMapInfo::DefaultInfo = { 0, 0, 0 };
+const GameMapInfo GameMapInfo::DefaultInfo = { TileObjectOrder::Empty, 0, 0 };

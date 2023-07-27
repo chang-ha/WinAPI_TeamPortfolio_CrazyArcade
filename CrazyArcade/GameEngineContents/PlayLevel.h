@@ -2,6 +2,7 @@
 #include "ContentLevel.h"
 #include <vector>
 
+class BaseCharacter;
 class PlayLevel : public ContentLevel
 {
 public:
@@ -22,13 +23,16 @@ protected:
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
-	const float4 Tile_StartPos = { 20, 41 };
+	void TileSetting();
+
+
+	std::vector<std::vector<class GameMapInfo>> TileInfo;
+	class TileMap* GroundTile = nullptr;
+	class TileMap* ObjectTile = nullptr;
+
+	void CheckTile();
 
 private:
-	class TileMap* Tile = nullptr;
-	std::vector<std::vector<class GameMapInfo>> TileInfo;
-	//class TileMap* Structure = nullptr;
-	//class TileMap* Block = nullptr;
-	class GameEngineRenderer* TileRenderer = nullptr;
+	BaseCharacter* Check = nullptr;
 };
 

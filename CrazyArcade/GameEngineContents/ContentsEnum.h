@@ -3,14 +3,20 @@
 enum class UpdateOrder
 {
 	Map,
+	UI,
+	Max,
+	Character
 };
 
 enum class RenderOrder
 {
 	BackGround,
-	GroundTile,
-	StructureTile,
+	Map,
 	SelectTile,
+	FirstButtonUI,
+	SecondButtonUI,
+	MouseUI,
+	Character
 };
 
 enum class CollisionOrder
@@ -19,9 +25,10 @@ enum class CollisionOrder
 
 enum class TileObjectOrder
 {
-	Structure = 1,
-	NonMoveBlock,
-	MoveBlock,
+	Empty,
+	Structure,
+	ImmovableBlock,
+	MovableBlock,
 	Item,
 	Monster,
 	Character,

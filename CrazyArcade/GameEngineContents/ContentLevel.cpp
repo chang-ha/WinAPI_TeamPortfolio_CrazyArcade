@@ -4,6 +4,8 @@
 
 #include "ContentLevel.h"
 
+bool ContentLevel::DebugValue = false;
+
 ContentLevel::ContentLevel()
 {
 
@@ -38,11 +40,22 @@ void ContentLevel::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown(VK_F2))
 	{
-		GameEngineCore::ChangeLevel("PlayLevel");
+		GameEngineCore::ChangeLevel("TestStage");
 	}
 
 	if (true == GameEngineInput::IsDown(VK_F3))
 	{
 		GameEngineCore::ChangeLevel("MapEditor");
+	}
+
+	if (true == GameEngineInput::IsDown(VK_F4))
+	{
+		GameEngineCore::ChangeLevel("RoomLevel");
+	}
+
+
+	if (true == GameEngineInput::IsDown('P'))
+	{
+		DebugValue = !DebugValue;
 	}
 }

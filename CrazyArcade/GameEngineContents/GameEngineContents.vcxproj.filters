@@ -1,96 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="ContentLevel.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="CrazyArcadeCore.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsEnum.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleLevel.h">
-      <Filter>TitleLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="GlobalValue.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="MapEditor.h">
-      <Filter>MapEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="TileSelect.h">
-      <Filter>MapEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMapInfo.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Structure.h">
-      <Filter>Global\TileObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GlobalUtils.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>PlayLevel</Filter>
-    </ClInclude>
+    <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="BaseCharacter.cpp" />
+    <ClCompile Include="BaseCharacter_State.cpp" />
+    <ClCompile Include="Bazzi.cpp" />
+    <ClCompile Include="ContentLevel.cpp" />
+    <ClCompile Include="CrazyArcadeCore.cpp" />
+    <ClCompile Include="GameMapInfo.cpp" />
+    <ClCompile Include="GlobalUtils.cpp" />
+    <ClCompile Include="Dao.cpp" />
+    <ClCompile Include="GlobalValue.cpp" />
+    <ClCompile Include="MapEditor.cpp" />
+    <ClCompile Include="PlayLevel.cpp" />
+    <ClCompile Include="RoomLevel.cpp" />
+    <ClCompile Include="TileSelect.cpp" />
+    <ClCompile Include="TitleLevel.cpp" />
+    <ClCompile Include="TestStage.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ContentLevel.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="CrazyArcadeCore.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleLevel.cpp">
-      <Filter>TitleLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="GlobalValue.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="MapEditor.cpp">
-      <Filter>MapEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="TileSelect.cpp">
-      <Filter>MapEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="GameMapInfo.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="Structure.cpp">
-      <Filter>Global\TileObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GlobalUtils.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>PlayLevel</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Core">
-      <UniqueIdentifier>{149932c1-079f-4cc3-97ea-804c1125bbb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global">
-      <UniqueIdentifier>{7e4f451d-1bf4-4808-88e1-7459cfa6f52e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TitleLevel">
-      <UniqueIdentifier>{d8ed522f-ee55-4c87-be18-92d1973b9cb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PlayLevel">
-      <UniqueIdentifier>{932d9db1-26f7-4bf3-9496-c5d8515b9db5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapEditor">
-      <UniqueIdentifier>{cb76d764-55d3-4e7d-8893-eabf4da216bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global\TileObject">
-      <UniqueIdentifier>{67082fdf-aa98-4946-9c41-0d2c469be1fe}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="ActorEnum.h" />
+    <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BaseCharacter.h" />
+    <ClInclude Include="Bazzi.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="ContentLevel.h" />
+    <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="CrazyArcadeCore.h" />
+    <ClInclude Include="GameMapInfo.h" />
+    <ClInclude Include="GlobalUtils.h" />
+    <ClInclude Include="Dao.h" />
+    <ClInclude Include="GlobalValue.h" />
+    <ClInclude Include="MapEditor.h" />
+    <ClInclude Include="PlayLevel.h" />
+    <ClInclude Include="RoomLevel.h" />
+    <ClInclude Include="TileSelect.h" />
+    <ClInclude Include="TitleLevel.h" />
+    <ClInclude Include="TestStage.h" />
   </ItemGroup>
 </Project>

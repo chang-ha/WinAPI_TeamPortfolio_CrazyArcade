@@ -3,8 +3,10 @@
 #include "CrazyArcadeCore.h"
 #include "GlobalValue.h"
 #include "TitleLevel.h"
-#include "PlayLevel.h"
+#include "TestStage.h"
 #include "MapEditor.h"
+#include "RoomLevel.h"
+
 
 CrazyArcadeCore::CrazyArcadeCore()
 {
@@ -22,8 +24,10 @@ void CrazyArcadeCore::Start()
 	GlobalValue::Init();
 
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
-	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
+	GameEngineCore::CreateLevel<TestStage>("TestStage");
 	GameEngineCore::CreateLevel<MapEditor>("MapEditor");
+	GameEngineCore::CreateLevel<RoomLevel>("RoomLevel");
+	
 
 	GameEngineCore::ChangeLevel("TitleLevel");
 }
