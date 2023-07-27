@@ -22,20 +22,30 @@
     <ClInclude Include="MapEditor.h">
       <Filter>Level\MapEditor</Filter>
     </ClInclude>
-    <ClInclude Include="TileSelect.h">
-      <Filter>MapEditor</Filter>
-    </ClInclude>
     <ClInclude Include="GameMapInfo.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="GlobalUtils.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="TestStage.h">
-      <Filter>PlayLevel</Filter>
-    </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="TileSelect.h" />
+    <ClInclude Include="ActorEnum.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCharacter.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Bazzi.h">
+      <Filter>Character\Bazzi</Filter>
+    </ClInclude>
+    <ClInclude Include="Dao.h">
+      <Filter>Character\Dao</Filter>
+    </ClInclude>
+    <ClInclude Include="TestStage.h">
+      <Filter>Level\PlayLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -57,32 +67,30 @@
     <ClCompile Include="MapEditor.cpp">
       <Filter>Level\MapEditor</Filter>
     </ClCompile>
-    <ClCompile Include="BaseCharacter.cpp">
-      <Filter>Character</Filter>
-    </ClCompile>
-    <ClCompile Include="Bazzi.cpp">
-      <Filter>Character\Bazzi</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseCharacter_State.cpp">
-      <Filter>Character</Filter>
-    </ClCompile>
-    <ClCompile Include="Dao.cpp">
-      <Filter>Character\Dao</Filter>
-    </ClCompile>
-    <ClCompile Include="TileSelect.cpp">
-      <Filter>MapEditor</Filter>
-    </ClCompile>
     <ClCompile Include="GameMapInfo.cpp">
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="TestStage.cpp">
-      <Filter>PlayLevel</Filter>
-    </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="TileSelect.cpp" />
+    <ClCompile Include="BaseCharacter_State.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Bazzi.cpp">
+      <Filter>Character\Bazzi</Filter>
+    </ClCompile>
+    <ClCompile Include="Dao.cpp">
+      <Filter>Character\Dao</Filter>
+    </ClCompile>
+    <ClCompile Include="TestStage.cpp">
+      <Filter>Level\PlayLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +111,15 @@
     </Filter>
     <Filter Include="Level\MapEditor">
       <UniqueIdentifier>{cb76d764-55d3-4e7d-8893-eabf4da216bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character">
+      <UniqueIdentifier>{7a469c0c-f192-416f-87eb-3fa211710ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Dao">
+      <UniqueIdentifier>{b01d0c10-7c0c-4956-90ca-7f58253af283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Bazzi">
+      <UniqueIdentifier>{d9e174c7-5ec2-46fc-9c97-02c45b379815}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
