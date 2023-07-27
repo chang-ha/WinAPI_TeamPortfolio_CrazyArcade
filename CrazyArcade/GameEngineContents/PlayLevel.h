@@ -2,6 +2,7 @@
 #include "ContentLevel.h"
 #include <vector>
 
+class BaseCharacter;
 class PlayLevel : public ContentLevel
 {
 public:
@@ -32,5 +33,6 @@ protected:
 	void CheckTile();
 
 private:
+	BaseCharacter* Check = nullptr;
 };
 

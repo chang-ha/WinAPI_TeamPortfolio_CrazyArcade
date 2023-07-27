@@ -54,6 +54,10 @@ void PlayLevel::Start()
 
 	//TileInfo 초기화
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
+
+	// 캐릭터 생성
+	Check = CreateActor<Bazzi>(UpdateOrder::Character);
+	Check->SetPos(GlobalValue::WinScale.Half());
 }
 
 void PlayLevel::Update(float _Delta)
@@ -122,11 +126,6 @@ void PlayLevel::TileSetting()
 	}
 }
 
-void PlayLevel::Render(float _Delta)
-{
-
-}
-
 // 플레이어랑 타일맵 인덱스 비교용 테스트 함수
 void PlayLevel::CheckTile()
 {
@@ -136,7 +135,7 @@ void PlayLevel::CheckTile()
 	if (nullptr != Check)
 	{
 		float4 PlayerPos = Check->GetPos();
-		float4 PlayerIndex = Tile->PosToIndex(PlayerPos - GlobalValue::MapTileSize);
+		/*float4 PlayerIndex = Tile->PosToIndex(PlayerPos - GlobalValue::MapTileSize);
 	
 		if (nullptr != Check)
 		{
@@ -151,6 +150,6 @@ void PlayLevel::CheckTile()
 					int a = 0;
 				}
 			}
-		}
+		}*/
 	}
 }
