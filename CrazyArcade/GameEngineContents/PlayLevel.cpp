@@ -56,7 +56,7 @@ void PlayLevel::Start()
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
 	// 캐릭터 생성
-	Check = CreateActor<Bazzi>(UpdateOrder::Character);
+	Check = CreateActor<Dao>(UpdateOrder::Character);
 	Check->SetPos(GlobalValue::WinScale.Half());
 }
 
