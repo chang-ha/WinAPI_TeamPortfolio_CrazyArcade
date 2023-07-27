@@ -2,6 +2,7 @@
 #include "GameEngineRenderer.h"
 #include "ResourcesManager.h"
 #include "GameEngineSprite.h"
+
 TileMap::TileMap()
 {
 }
@@ -165,8 +166,9 @@ GameEngineRenderer* TileMap::SetTileToTexture(int X, int Y, const std::string& _
 
 	if(nullptr == ResourcesManager::GetInst().FindTexture(_TextureName))
 	{
-
+		MsgBoxAssert("존재하지 않는 텍스쳐입니다.");
 	}
+
 	Tiles[Y][X]->SetTexture(_TextureName);
 	Tiles[Y][X]->SetRenderPos(IndexToPos(X, Y) + TileSize.Half() + _TilePos);
 
@@ -181,7 +183,14 @@ GameEngineRenderer* TileMap::SetTileToTexture(int X, int Y, const std::string& _
 	return Tiles[Y][X];
 }
 
-GameEngineRenderer* TileMap::SetTileToSprite(int X, int Y, int _Index, const std::string& _SpriteName, float4 _TilePos, bool _IsImageSize)
+GameEngineRenderer* TileMap::SetTileToSprite(float4 _Pos, const std::string& _SpriteName, int _SpriteIndex, float4 _TilePos, bool _IsImageSize)
+{
+	float4 Index = PosToIndex(_Pos);
+
+	return SetTileToSprite(Index.iX(), Index.iY(), _SpriteName, _SpriteIndex, _TilePos, _IsImageSize/* = false*/);
+}
+
+GameEngineRenderer* TileMap::SetTileToSprite(int X, int Y, const std::string& _SpriteName, int _SpriteIndex, float4 _TilePos, bool _IsImageSize)
 {
 	if (true == IsOver(X, Y))
 	{
@@ -193,24 +202,22 @@ GameEngineRenderer* TileMap::SetTileToSprite(int X, int Y, int _Index, const std
 		Tiles[Y][X] = CreateRenderer(Order);
 	}
 
-	GameEngineSprite* Sprite = ResourcesManager::GetInst().FindSprite(_SpriteName);
-
-	if (nullptr == Sprite)
+	GameEngineSprite* _CurSprite = ResourcesManager::GetInst().FindSprite(_SpriteName);
+	if (nullptr == _CurSprite)
 	{
-		return nullptr;
+		MsgBoxAssert("존재하지 않는 스프라이트입니다.");
 	}
-
-	Tiles[Y][X]->SetSprite(_SpriteName, _Index);
+	Tiles[Y][X]->SetSprite(_SpriteName, _SpriteIndex);
 	Tiles[Y][X]->SetRenderPos(IndexToPos(X, Y) + TileSize.Half() + _TilePos);
 
 	if (false == _IsImageSize)
 	{
-		float4 Scale = Sprite->GetSprite(0).RenderScale;
-		Tiles[Y][X]->SetRenderScale(Scale);
+		Tiles[Y][X]->SetRenderScale(TileSize);
 	}
 	else 
 	{
-		Tiles[Y][X]->SetRenderScaleToTexture();
+		float4 RenderScale = _CurSprite->GetSprite(_SpriteIndex).RenderScale;
+		Tiles[Y][X]->SetRenderScale(RenderScale);
 	}
 
 	return Tiles[Y][X];

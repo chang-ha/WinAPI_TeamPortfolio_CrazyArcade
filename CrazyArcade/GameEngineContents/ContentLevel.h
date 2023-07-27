@@ -16,6 +16,7 @@ public:
 	ContentLevel& operator=(ContentLevel&& _Other) noexcept = delete;
 
 	static bool DebugValue;
+
 protected:
 	BackGround* Back = nullptr;
 

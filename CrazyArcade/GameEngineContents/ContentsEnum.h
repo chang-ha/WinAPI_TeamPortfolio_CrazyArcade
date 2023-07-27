@@ -3,6 +3,8 @@
 enum class UpdateOrder
 {
 	Map,
+	UI,
+	Max,
 	Character
 };
 
@@ -11,6 +13,9 @@ enum class RenderOrder
 	BackGround,
 	Map,
 	SelectTile,
+	FirstButtonUI,
+	SecondButtonUI,
+	MouseUI,
 	Character
 };
 

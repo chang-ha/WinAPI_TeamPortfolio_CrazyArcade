@@ -5,6 +5,8 @@
 #include "TitleLevel.h"
 #include "TestStage.h"
 #include "MapEditor.h"
+#include "RoomLevel.h"
+
 
 CrazyArcadeCore::CrazyArcadeCore()
 {
@@ -24,6 +26,8 @@ void CrazyArcadeCore::Start()
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
 	GameEngineCore::CreateLevel<TestStage>("TestStage");
 	GameEngineCore::CreateLevel<MapEditor>("MapEditor");
+	GameEngineCore::CreateLevel<RoomLevel>("RoomLevel");
+	
 
 	GameEngineCore::ChangeLevel("TitleLevel");
 }
