@@ -109,13 +109,13 @@ void PlayLevel::TileSetting()
 			switch (TileInfo[Y][X].MapInfo)
 			{
 			case TileObjectOrder::Structure:
-				ObjectTile->SetTileToSprite(X, Y, TileInfo[Y][X].ObjectTextureInfo, "Structures.bmp", GlobalValue::TileStartPos + float4(0, -20));
+				ObjectTile->SetTileToSprite(X, Y, "Structures.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos + float4(0, -20), true);
 				break;
 			case TileObjectOrder::ImmovableBlock:
-				ObjectTile->SetTileToSprite(X, Y, TileInfo[Y][X].ObjectTextureInfo, "ImmovableBlocks.bmp", GlobalValue::TileStartPos + float4(0, -2));
+				ObjectTile->SetTileToSprite(X, Y, "ImmovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos + float4(0, -2), true);
 				break;
 			case TileObjectOrder::MovableBlock:
-				ObjectTile->SetTileToSprite(X, Y, TileInfo[Y][X].ObjectTextureInfo, "MovableBlocks.bmp", GlobalValue::TileStartPos + float4(0, -2));
+				ObjectTile->SetTileToSprite(X, Y, "MovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos + float4(0, -2), true);
 				break;
 			case TileObjectOrder::Item:
 				break;

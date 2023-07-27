@@ -206,6 +206,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="RoomLevel.h" />
+    <ClInclude Include="TestStage.h" />
     <ClInclude Include="TileSelect.h">
       <SubType>
       </SubType>
@@ -266,6 +267,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="RoomLevel.cpp" />
+    <ClCompile Include="TestStage.cpp" />
     <ClCompile Include="TileSelect.cpp">
       <SubType>
       </SubType>
