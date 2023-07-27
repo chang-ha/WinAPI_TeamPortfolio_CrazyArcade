@@ -1,42 +1,129 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="BackGround.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="BaseCharacter.cpp" />
-    <ClCompile Include="BaseCharacter_State.cpp" />
-    <ClCompile Include="Bazzi.cpp" />
-    <ClCompile Include="ContentLevel.cpp" />
-    <ClCompile Include="CrazyArcadeCore.cpp" />
-    <ClCompile Include="GameMapInfo.cpp" />
-    <ClCompile Include="GlobalUtils.cpp" />
-    <ClCompile Include="Dao.cpp" />
-    <ClCompile Include="GlobalValue.cpp" />
-    <ClCompile Include="MapEditor.cpp" />
-    <ClCompile Include="PlayLevel.cpp" />
-    <ClCompile Include="RoomLevel.cpp" />
-    <ClCompile Include="TileSelect.cpp" />
-    <ClCompile Include="TitleLevel.cpp" />
-    <ClCompile Include="TestStage.cpp" />
+    <ClCompile Include="BackGround.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter.cpp">
+      <Filter>Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter_State.cpp">
+      <Filter>Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Bazzi.cpp">
+      <Filter>Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentLevel.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CrazyArcadeCore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalUtils.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Dao.cpp">
+      <Filter>Actor\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TileSelect.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditor.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TestStage.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMapInfo.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActorEnum.h" />
-    <ClInclude Include="BackGround.h" />
-    <ClInclude Include="BaseCharacter.h" />
-    <ClInclude Include="Bazzi.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="ContentLevel.h" />
-    <ClInclude Include="ContentsEnum.h" />
-    <ClInclude Include="CrazyArcadeCore.h" />
-    <ClInclude Include="GameMapInfo.h" />
-    <ClInclude Include="GlobalUtils.h" />
-    <ClInclude Include="Dao.h" />
-    <ClInclude Include="GlobalValue.h" />
-    <ClInclude Include="MapEditor.h" />
-    <ClInclude Include="PlayLevel.h" />
-    <ClInclude Include="RoomLevel.h" />
-    <ClInclude Include="TileSelect.h" />
-    <ClInclude Include="TitleLevel.h" />
-    <ClInclude Include="TestStage.h" />
+    <ClInclude Include="ActorEnum.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Bazzi.h">
+      <Filter>Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCharacter.h">
+      <Filter>Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentLevel.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CrazyArcadeCore.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalUtils.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Dao.h">
+      <Filter>Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TileSelect.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditor.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TestStage.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMapInfo.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{5c4aa8f1-0e69-4782-92cb-2eeda3daca24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{cce17619-ae59-4a6c-bbf9-4cfb513e42fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{f4bcfacf-a7ff-41a5-9e42-b68af51f33e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{c58ae5ca-af52-4c69-b5da-90454fc9eef5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Unit">
+      <UniqueIdentifier>{5aee864e-dbbd-4489-98ec-0b77bc0f6a52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
