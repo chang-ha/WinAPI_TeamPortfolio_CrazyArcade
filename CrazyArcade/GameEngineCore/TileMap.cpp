@@ -1,6 +1,7 @@
 #include "TileMap.h"
 #include "GameEngineRenderer.h"
 #include "ResourcesManager.h"
+#include "GameEngineSprite.h"
 
 TileMap::TileMap()
 {
@@ -199,19 +200,23 @@ GameEngineRenderer* TileMap::SetTileToSprite(int X, int Y, const std::string& _S
 		Tiles[Y][X] = CreateRenderer(Order);
 	}
 
-	if (nullptr == ResourcesManager::GetInst().FindTexture(_SpriteName))
+	GameEngineSprite* _CurSprite = ResourcesManager::GetInst().FindSprite(_SpriteName);
+	if (nullptr == _CurSprite)
 	{
 		MsgBoxAssert("존재하지 않는 스프라이트입니다.");
 	}
 	Tiles[Y][X]->SetSprite(_SpriteName, _SpriteIndex);
-	Tiles[Y][X]->SetRenderPos(IndexToPos(X, Y) + TileSize.Half() + _TilePos);
 
 	if (false == _IsImageSize)
 	{
+		Tiles[Y][X]->SetRenderPos(IndexToPos(X, Y) + TileSize.Half() + _TilePos);
 		Tiles[Y][X]->SetRenderScale(TileSize);
 	}
-	else {
-		Tiles[Y][X]->SetRenderScaleToTexture();
+	else 
+	{
+		float4 RenderScale = _CurSprite->GetSprite(_SpriteIndex).RenderScale;
+		Tiles[Y][X]->SetRenderPos(IndexToPos(X, Y) + float4{TileSize.hX(), 0} + _TilePos);
+		Tiles[Y][X]->SetRenderScale(RenderScale);
 	}
 
 	return Tiles[Y][X];
