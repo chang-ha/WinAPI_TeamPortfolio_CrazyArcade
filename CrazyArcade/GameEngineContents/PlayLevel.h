@@ -19,7 +19,7 @@ public:
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
 	bool CheckTile(const float4& _Pos);
-	void MoveTile(GameEngineRenderer* _Renderer);
+	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y);
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;

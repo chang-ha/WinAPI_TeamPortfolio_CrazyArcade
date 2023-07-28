@@ -166,7 +166,7 @@ bool PlayLevel::CheckTile(const float4& _Pos)
 
 			if (TileObjectOrder::MovableBlock == TileInfo[CheckY][CheckX].MapInfo)
 			{
-				MoveTile(NextTile);
+				MoveTile(NextTile, CheckX, CheckY);
 				return true;
 			}
 
@@ -178,24 +178,31 @@ bool PlayLevel::CheckTile(const float4& _Pos)
 	return false;
 }
 
-void PlayLevel::MoveTile(GameEngineRenderer* _Renderer)
+void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 {
 	ActorDir PlayerDir = Player->GetDir();
 	MOVEDIR LerpDir = MOVEDIR::NONE;
+
+	int NewX = _X;
+	int NewY = _Y;
 
 	switch (PlayerDir)
 	{
 	case ActorDir::Left:
 		LerpDir = MOVEDIR::LEFT;
+		--NewX;
 		break;
 	case ActorDir::Right:
 		LerpDir = MOVEDIR::RIGHT;
+		++NewX;
 		break;
 	case ActorDir::Up:
 		LerpDir = MOVEDIR::UP;
+		--NewY;
 		break;
 	case ActorDir::Down:
 		LerpDir = MOVEDIR::DOWN;
+		++NewY;
 		break;
 	default:
 		break;
@@ -203,6 +210,8 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer)
 
 	if (nullptr != _Renderer)
 	{
+		TileInfo[_Y][_X].MapInfo = TileObjectOrder::Empty;
+		TileInfo[NewY][NewX].MapInfo = TileObjectOrder::MovableBlock;
 		ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
 	}
 }
