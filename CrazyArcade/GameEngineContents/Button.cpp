@@ -39,6 +39,13 @@ void Button::Start()
 }
 
 
+
+void Button::setButtonPos(const float4& _Pos)
+{
+	SetPos(_Pos + m_ButtonScale.Half());
+}
+
+
 void Button::setButtonTexture(
 	ButtonState _ButtonType,
 	const std::string& _FileName,
