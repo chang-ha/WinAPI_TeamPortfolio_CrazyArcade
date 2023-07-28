@@ -71,7 +71,7 @@ void RoomLevel::loadButtonElement()
 		return;
 	}
 
-	ButtonPtr->setRenderer(RenderOrder::FirstButtonUI);
+	ButtonPtr->setRenderer(RenderOrder::FirstElementUI);
 	ButtonPtr->setButtonTexture(ButtonState::Normal, "Button_MapSelect_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	ButtonPtr->setButtonTexture(ButtonState::Click, "Button_MapSelect_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	ButtonPtr->setButtonTexture(ButtonState::Hover, "Button_MapSelect_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
@@ -94,7 +94,7 @@ void RoomLevel::loadButtonElement()
 		return;
 	}
 
-	GameStartButtonPtr->setRenderer(RenderOrder::FirstButtonUI);
+	GameStartButtonPtr->setRenderer(RenderOrder::FirstElementUI);
 	GameStartButtonPtr->setButtonTexture(ButtonState::Normal, "Button_GameStart_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameStartButtonPtr->setButtonTexture(ButtonState::Click, "Button_GameStart_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameStartButtonPtr->setButtonTexture(ButtonState::Hover, "Button_GameStart_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 3);

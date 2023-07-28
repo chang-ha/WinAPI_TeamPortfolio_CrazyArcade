@@ -47,7 +47,7 @@ void MapSelectWindow::initButton()
 		return;
 	}
 
-	CancleButtonPtr->setRenderer(RenderOrder::SecondButtonUI);
+	CancleButtonPtr->setRenderer(RenderOrder::SecondElementUI);
 	CancleButtonPtr->setButtonTexture(ButtonState::Normal, "Button_MapSelect_Cancel_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	CancleButtonPtr->setButtonTexture(ButtonState::Click, "Button_MapSelect_Cancel_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	CancleButtonPtr->setButtonTexture(ButtonState::Hover, "Button_MapSelect_Cancel_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
@@ -69,7 +69,7 @@ void MapSelectWindow::initButton()
 		return;
 	}
 
-	AcceptButtonPtr->setRenderer(RenderOrder::SecondButtonUI);
+	AcceptButtonPtr->setRenderer(RenderOrder::SecondElementUI);
 	AcceptButtonPtr->setButtonTexture(ButtonState::Normal, "Button_MapSelect_Accept_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	AcceptButtonPtr->setButtonTexture(ButtonState::Click, "Button_MapSelect_Accept_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	AcceptButtonPtr->setButtonTexture(ButtonState::Hover, "Button_MapSelect_Accept_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
