@@ -15,6 +15,7 @@ enum class RenderOrder
 	MapObject,
 	SelectTile,
 	FirstButtonUI,
+	WindowPanelUI,
 	SecondButtonUI,
 	MouseUI,
 	Character
