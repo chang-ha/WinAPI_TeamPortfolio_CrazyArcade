@@ -58,6 +58,9 @@
     <ClCompile Include="WindowPanelUI.cpp">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClCompile>
+    <ClCompile Include="UIMouseObject.cpp">
+      <Filter>Actor\UI\WindowUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -118,6 +121,9 @@
       <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
     <ClInclude Include="MapSelectWindow.h">
+      <Filter>Actor\UI\WindowUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMouseObject.h">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
   </ItemGroup>
