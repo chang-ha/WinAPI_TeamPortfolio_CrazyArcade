@@ -40,6 +40,7 @@ public:
 	Button& operator=(Button&& _Other) noexcept = delete;
 
 
+	void setButtonPos(const float4& _Pos);
 
 
 	void setButtonTexture(
@@ -66,7 +67,7 @@ public:
 	}
 
 	template<typename ActorType>
-	void setCallback(ButtonState _ButtonState, ActorType* _Actor, void(*_Func))
+	void setCallback(ButtonEventState _ButtonState, ActorType* _Actor, void(ActorType::* _Func)())
 	{
 		m_ButtonEventCallBack[static_cast<int>(_ButtonState)] = std::bind(_Func, _Actor);
 	}
@@ -91,6 +92,8 @@ private:
 	// this
 	// Renderer
 	GameEngineRenderer* Renderer = nullptr;
+
+	float4 m_ButtonStartPos = float4::ZERO;
 	float4 m_ButtonScale = float4::ZERO;
 
 
