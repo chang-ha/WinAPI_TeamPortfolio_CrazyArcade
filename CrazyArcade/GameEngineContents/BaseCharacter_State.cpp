@@ -1,4 +1,5 @@
 #include "BaseCharacter.h"
+#include "PlayLevel.h"
 
 #include <GameEnginePlatform/GameEngineInput.h>
 
@@ -30,6 +31,7 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	DirCheck();
 
 	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
 
 	if (ActorDir::Up == Dir && GameEngineInput::IsDown('W')
 		|| ActorDir::Up == Dir && GameEngineInput::IsPress('W'))
@@ -40,19 +42,27 @@ void BaseCharacter::MoveUpdate(float _Delta)
 		|| ActorDir::Down == Dir && GameEngineInput::IsPress('S'))
 	{
 		MovePos = float4::DOWN * Speed * _Delta;
+		CheckPos = BOTCHECKPOS;
 	}
 	else if (ActorDir::Left == Dir && GameEngineInput::IsDown('A')
 		|| ActorDir::Left == Dir && GameEngineInput::IsPress('A'))
 	{
 		MovePos = float4::LEFT * Speed * _Delta;
+		CheckPos = LEFTCHECKPOS;
 	}
 	else if (ActorDir::Right == Dir && GameEngineInput::IsDown('D')
 		|| ActorDir::Right == Dir && GameEngineInput::IsPress('D'))
 	{
 		MovePos = float4::RIGHT * Speed * _Delta;
+		CheckPos = RIGHTCHECKPOS;
 	}
 
-	AddPos(MovePos);
+	CheckPos += GetPos();
+
+	if (false == PlayLevel::CurPlayLevel->CheckTile(CheckPos))
+	{
+		AddPos(MovePos);
+	}
 
 	if (float4::ZERO == MovePos)
 	{

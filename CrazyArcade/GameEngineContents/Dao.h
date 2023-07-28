@@ -16,7 +16,6 @@ public:
 	Dao& operator=(Dao&& _Other) noexcept = delete;
 
 protected:
-	void CreateSprite(const std::string& _TextureName, int _XCount, int _YCount = 1) override;
 	void ChangeAnimationState(const std::string& _StateName) override;
 
 private:

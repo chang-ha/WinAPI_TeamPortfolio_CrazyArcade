@@ -14,9 +14,11 @@
 #include "GlobalUtils.h"
 #include "GameMapInfo.h"
 
+PlayLevel* PlayLevel::CurPlayLevel = nullptr;
+
 PlayLevel::PlayLevel()
 {
-
+	CurPlayLevel = this;
 }
 
 PlayLevel::~PlayLevel()
@@ -56,8 +58,8 @@ void PlayLevel::Start()
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
 	// 캐릭터 생성
-	Check = CreateActor<Dao>(UpdateOrder::Character);
-	Check->SetPos(GlobalValue::WinScale.Half());
+	Player = CreateActor<Bazzi>(UpdateOrder::Character);
+	Player->SetPos(GlobalValue::WinScale.Half());
 }
 
 void PlayLevel::Update(float _Delta)
@@ -127,15 +129,15 @@ void PlayLevel::TileSetting()
 }
 
 // 플레이어랑 타일맵 인덱스 비교용 테스트 함수
-void PlayLevel::CheckTile()
+bool PlayLevel::CheckTile(const float4& _Pos)
 {
 	// 플레이어 위치 400, 300
 	// 플레이어 인덱스 9, 6
 
-	if (nullptr != Check)
+	/*if (nullptr != Check)
 	{
 		float4 PlayerPos = Check->GetPos();
-		/*float4 PlayerIndex = Tile->PosToIndex(PlayerPos - GlobalValue::MapTileSize);
+		float4 PlayerIndex = Tile->PosToIndex(PlayerPos - GlobalValue::MapTileSize);
 	
 		if (nullptr != Check)
 		{
@@ -150,6 +152,33 @@ void PlayLevel::CheckTile()
 					int a = 0;
 				}
 			}
-		}*/
+		}
+	}*/
+
+	if (nullptr != Player)
+	{
+		float4 CheckPos = { _Pos.X + 20.0f, _Pos.Y };
+		float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
+
+		int CheckX = CheckIndex.iX() - 1;
+		int CheckY = CheckIndex.iY() - 1;
+		if (true == ObjectTile->IsOver(CheckX, CheckY))
+		{
+			return true;
+		}
+		else
+		{
+			TileObjectOrder Check = TileInfo[CheckY][CheckX].MapInfo;
+
+			if (TileObjectOrder::Empty != TileInfo[CheckY][CheckX].MapInfo)
+			{
+				return true;
+			}
+
+			return false;
+		}
 	}
+
+	MsgBoxAssert("캐릭터가 nullptr입니다");
+	return false;
 }

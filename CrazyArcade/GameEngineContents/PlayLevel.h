@@ -6,6 +6,8 @@ class BaseCharacter;
 class PlayLevel : public ContentLevel
 {
 public:
+	static PlayLevel* CurPlayLevel;
+
 	// constructer destructer
 	PlayLevel();
 	~PlayLevel();
@@ -16,6 +18,8 @@ public:
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
+	bool CheckTile(const float4& _Pos);
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
@@ -25,14 +29,11 @@ protected:
 
 	void TileSetting();
 
-
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
 	class TileMap* GroundTile = nullptr;
 	class TileMap* ObjectTile = nullptr;
 
-	void CheckTile();
-
 private:
-	BaseCharacter* Check = nullptr;
+	BaseCharacter* Player = nullptr;
 };
 
