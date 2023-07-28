@@ -49,6 +49,7 @@ void WindowPanelUI::Init(const std::string& _FileName, const std::string& _Path)
 	}
 
 	Renderer->SetTexture(_FileName);
+	m_WindowScale = Texture->GetScale();
 }
 
 
@@ -56,3 +57,4 @@ void WindowPanelUI::Update(float _Delta)
 {
 
 }
+

@@ -56,7 +56,6 @@ private:
 
 	void loadButtonElement();
 	std::vector<Button*> vecButton;
-
 	
 	
 	

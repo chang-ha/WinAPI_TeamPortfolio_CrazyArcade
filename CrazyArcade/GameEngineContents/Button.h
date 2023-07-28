@@ -1,4 +1,6 @@
 #pragma once
+#include "ContentsEnum.h"
+
 #include <GameEngineCore/GameEngineActor.h>
 
 #include <functional>
@@ -38,6 +40,9 @@ public:
 	Button(Button&& _Other) noexcept = delete;
 	Button& operator=(const Button& _Other) = delete;
 	Button& operator=(Button&& _Other) noexcept = delete;
+
+	
+	void setRenderer(RenderOrder _Order);
 
 
 	void setButtonPos(const float4& _Pos);

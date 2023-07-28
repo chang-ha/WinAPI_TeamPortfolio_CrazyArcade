@@ -1,8 +1,10 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+#include <vector>
 
 // 설명 : 
+class Button;
 class WindowPanelUI : public GameEngineActor
 {
 public:
@@ -20,28 +22,30 @@ public:
 	void Init(const std::string& _FileName, const std::string& _Path);
 
 
-	void onPanel()
-	{
-		On();
-	}
+	virtual void onPanel() {}
 
-	void offPanel()
-	{
-		Off();
-	}
+	virtual void offPanel() {}
 
 protected:
 	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
 
+	// this
+	// Renderer
+	GameEngineRenderer* Renderer = nullptr;
+
+	float4 m_WindowScale = float4::ZERO;
+
+
+	std::vector<Button*> vecButton;
+
+	
+
 private:
 
 
 
-	// this
-	// Renderer
-	GameEngineRenderer* Renderer = nullptr;
 
 
 };

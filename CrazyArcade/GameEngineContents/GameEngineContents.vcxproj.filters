@@ -52,11 +52,11 @@
     <ClCompile Include="Button.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
-    <ClCompile Include="WindowPanelUI.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="MapSelectWindow.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\WindowUI</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowPanelUI.cpp">
+      <Filter>Actor\UI\WindowUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,10 +115,10 @@
       <Filter>Actor\UI</Filter>
     </ClInclude>
     <ClInclude Include="WindowPanelUI.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
     <ClInclude Include="MapSelectWindow.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +139,9 @@
     </Filter>
     <Filter Include="Actor\UI">
       <UniqueIdentifier>{c8e13808-e4f1-4bc3-b759-e5a44b1aa08b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\WindowUI">
+      <UniqueIdentifier>{478b87b6-80d2-445e-ae3c-9963ab3fce41}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
