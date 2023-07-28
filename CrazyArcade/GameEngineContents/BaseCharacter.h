@@ -1,5 +1,12 @@
 #pragma once
 
+#define TOPCHECKPOS { 0.0f, -15.0f }
+#define LEFTCHECKPOS { -20.0f, 10.0f }
+#define RIGHTCHECKPOS { 20.0f, 10.0f }
+#define LEFTBOTCHECKPOS { -20.0f, 25.0f }
+#define BOTCHECKPOS { 0.0f, 25.0f }
+#define RIGHTBOTCHECKPOS { -20.0f, 25.0f }
+
 #include "ActorEnum.h"
 
 #include <string>
@@ -19,13 +26,12 @@ public:
 	BaseCharacter& operator=(const BaseCharacter& _Other) = delete;
 	BaseCharacter& operator=(BaseCharacter&& _Other) noexcept = delete;
 
-protected:
-	virtual void CreateSprite(
-		const std::string& _TextureName,
-		int _XCount,
-		int _YCount = 1
-	);
+	ActorDir GetDir()
+	{
+		return Dir;
+	}
 
+protected:
 	void StateUpdate(float _Delta);
 	void ChangeState(CharacterState _State);
 	virtual void ChangeAnimationState(const std::string& _StateName);
@@ -40,7 +46,6 @@ protected:
 	std::string CurState = "";
 	GameEngineRenderer* MainRenderer = nullptr;
 
-	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
@@ -49,7 +54,6 @@ protected:
 		IsDebugData = !IsDebugData;
 	}
 
-	void CharacterPosToIndex();
 
 protected:
 	ActorDir Dir = ActorDir::Down;

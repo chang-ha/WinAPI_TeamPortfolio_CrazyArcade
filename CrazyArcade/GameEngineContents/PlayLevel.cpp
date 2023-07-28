@@ -14,9 +14,11 @@
 #include "GlobalUtils.h"
 #include "GameMapInfo.h"
 
+PlayLevel* PlayLevel::CurPlayLevel = nullptr;
+
 PlayLevel::PlayLevel()
 {
-
+	CurPlayLevel = this;
 }
 
 PlayLevel::~PlayLevel()
@@ -56,8 +58,8 @@ void PlayLevel::Start()
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
 	// 캐릭터 생성
-	Check = CreateActor<Dao>(UpdateOrder::Character);
-	Check->SetPos(GlobalValue::WinScale.Half());
+	Player = CreateActor<Bazzi>(UpdateOrder::Character);
+	Player->SetPos(GlobalValue::WinScale.Half());
 }
 
 void PlayLevel::Update(float _Delta)
@@ -96,7 +98,7 @@ void PlayLevel::TileSetting()
 			return;
 		}
 
-		ObjectTile->CreateTileMap("Structures.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
+		ObjectTile->CreateTileMap("Structures.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::MapObject);
 	}
 
 	GameEngineRenderer* TileRenderer = nullptr;
@@ -127,29 +129,89 @@ void PlayLevel::TileSetting()
 }
 
 // 플레이어랑 타일맵 인덱스 비교용 테스트 함수
-void PlayLevel::CheckTile()
+bool PlayLevel::CheckTile(const float4& _Pos)
 {
-	// 플레이어 위치 400, 300
-	// 플레이어 인덱스 9, 6
-
-	if (nullptr != Check)
+	if (nullptr != Player)
 	{
-		float4 PlayerPos = Check->GetPos();
-		/*float4 PlayerIndex = Tile->PosToIndex(PlayerPos - GlobalValue::MapTileSize);
-	
-		if (nullptr != Check)
-		{
-			for (size_t i = 0; i < TestTiles.size(); i++)
-			{
-				GameEngineRenderer* TestTile = TestTiles[i];
-				float4 CheckTestTilePos = TestTile->GetRenderPos();
-				float4 CheckTestTIleIndex = Tile->PosToIndex(CheckTestTilePos - GlobalValue::MapTileSize);
+		float4 CheckPos = { _Pos.X + 20.0f, _Pos.Y };
+		float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
 
-				if (PlayerIndex.iX() == CheckTestTIleIndex.iX() && PlayerIndex.iY() == CheckTestTIleIndex.iY())
-				{
-					int a = 0;
-				}
+		int CheckX = CheckIndex.iX() - 1;
+		int CheckY = CheckIndex.iY() - 1;
+
+		GameEngineRenderer* NextTile = ObjectTile->GetTile(CheckX, CheckY);
+
+		if (true == ObjectTile->IsOver(CheckX, CheckY))
+		{
+			return true;
+		}
+		else
+		{
+			//TileObjectOrder Check = TileInfo[CheckY][CheckX].MapInfo;
+
+			if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
+			{
+				return false;
 			}
-		}*/
+
+			if (TileObjectOrder::Structure == TileInfo[CheckY][CheckX].MapInfo)
+			{
+				return true;
+			}
+
+			if (TileObjectOrder::ImmovableBlock == TileInfo[CheckY][CheckX].MapInfo)
+			{
+				return true;
+			}
+
+			if (TileObjectOrder::MovableBlock == TileInfo[CheckY][CheckX].MapInfo)
+			{
+				MoveTile(NextTile, CheckX, CheckY);
+				return true;
+			}
+
+			return false;
+		}
+	}
+
+	MsgBoxAssert("캐릭터가 nullptr입니다");
+	return false;
+}
+
+void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
+{
+	ActorDir PlayerDir = Player->GetDir();
+	MOVEDIR LerpDir = MOVEDIR::NONE;
+
+	int NewX = _X;
+	int NewY = _Y;
+
+	switch (PlayerDir)
+	{
+	case ActorDir::Left:
+		LerpDir = MOVEDIR::LEFT;
+		--NewX;
+		break;
+	case ActorDir::Right:
+		LerpDir = MOVEDIR::RIGHT;
+		++NewX;
+		break;
+	case ActorDir::Up:
+		LerpDir = MOVEDIR::UP;
+		--NewY;
+		break;
+	case ActorDir::Down:
+		LerpDir = MOVEDIR::DOWN;
+		++NewY;
+		break;
+	default:
+		break;
+	}
+
+	if (nullptr != _Renderer)
+	{
+		TileInfo[_Y][_X].MapInfo = TileObjectOrder::Empty;
+		TileInfo[NewY][NewX].MapInfo = TileObjectOrder::MovableBlock;
+		ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
 	}
 }

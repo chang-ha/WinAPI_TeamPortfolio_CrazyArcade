@@ -12,6 +12,7 @@ enum class RenderOrder
 {
 	BackGround,
 	Map,
+	MapObject,
 	SelectTile,
 	FirstElementUI,
 	FadeScreenUI,
