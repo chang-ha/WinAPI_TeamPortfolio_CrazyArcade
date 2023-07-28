@@ -8,6 +8,7 @@
 #include <GameEngineCore/GameEngineSprite.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/TileMap.h>
 
 BaseCharacter::BaseCharacter()
 {
@@ -152,8 +153,5 @@ void BaseCharacter::ChangeState(CharacterState _State)
 
 	State = _State;
 }
-
-// Pos를 타일맵의 Index로 변환해서 위치시키는 함수
-void BaseCharacter::CharacterPosToIndex() {}
 
 void BaseCharacter::ChangeAnimationState(const std::string& _StateName) {}

@@ -98,7 +98,7 @@ void PlayLevel::TileSetting()
 			return;
 		}
 
-		ObjectTile->CreateTileMap("Structures.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
+		ObjectTile->CreateTileMap("Structures.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::MapObject);
 	}
 
 	GameEngineRenderer* TileRenderer = nullptr;
@@ -131,30 +131,6 @@ void PlayLevel::TileSetting()
 // 플레이어랑 타일맵 인덱스 비교용 테스트 함수
 bool PlayLevel::CheckTile(const float4& _Pos)
 {
-	// 플레이어 위치 400, 300
-	// 플레이어 인덱스 9, 6
-
-	/*if (nullptr != Check)
-	{
-		float4 PlayerPos = Check->GetPos();
-		float4 PlayerIndex = Tile->PosToIndex(PlayerPos - GlobalValue::MapTileSize);
-	
-		if (nullptr != Check)
-		{
-			for (size_t i = 0; i < TestTiles.size(); i++)
-			{
-				GameEngineRenderer* TestTile = TestTiles[i];
-				float4 CheckTestTilePos = TestTile->GetRenderPos();
-				float4 CheckTestTIleIndex = Tile->PosToIndex(CheckTestTilePos - GlobalValue::MapTileSize);
-
-				if (PlayerIndex.iX() == CheckTestTIleIndex.iX() && PlayerIndex.iY() == CheckTestTIleIndex.iY())
-				{
-					int a = 0;
-				}
-			}
-		}
-	}*/
-
 	if (nullptr != Player)
 	{
 		float4 CheckPos = { _Pos.X + 20.0f, _Pos.Y };
@@ -162,16 +138,35 @@ bool PlayLevel::CheckTile(const float4& _Pos)
 
 		int CheckX = CheckIndex.iX() - 1;
 		int CheckY = CheckIndex.iY() - 1;
+
+		GameEngineRenderer* NextTile = ObjectTile->GetTile(CheckX, CheckY);
+
 		if (true == ObjectTile->IsOver(CheckX, CheckY))
 		{
 			return true;
 		}
 		else
 		{
-			TileObjectOrder Check = TileInfo[CheckY][CheckX].MapInfo;
+			//TileObjectOrder Check = TileInfo[CheckY][CheckX].MapInfo;
 
-			if (TileObjectOrder::Empty != TileInfo[CheckY][CheckX].MapInfo)
+			if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
 			{
+				return false;
+			}
+
+			if (TileObjectOrder::Structure == TileInfo[CheckY][CheckX].MapInfo)
+			{
+				return true;
+			}
+
+			if (TileObjectOrder::ImmovableBlock == TileInfo[CheckY][CheckX].MapInfo)
+			{
+				return true;
+			}
+
+			if (TileObjectOrder::MovableBlock == TileInfo[CheckY][CheckX].MapInfo)
+			{
+				MoveTile(NextTile);
 				return true;
 			}
 
@@ -181,4 +176,33 @@ bool PlayLevel::CheckTile(const float4& _Pos)
 
 	MsgBoxAssert("캐릭터가 nullptr입니다");
 	return false;
+}
+
+void PlayLevel::MoveTile(GameEngineRenderer* _Renderer)
+{
+	ActorDir PlayerDir = Player->GetDir();
+	MOVEDIR LerpDir = MOVEDIR::NONE;
+
+	switch (PlayerDir)
+	{
+	case ActorDir::Left:
+		LerpDir = MOVEDIR::LEFT;
+		break;
+	case ActorDir::Right:
+		LerpDir = MOVEDIR::RIGHT;
+		break;
+	case ActorDir::Up:
+		LerpDir = MOVEDIR::UP;
+		break;
+	case ActorDir::Down:
+		LerpDir = MOVEDIR::DOWN;
+		break;
+	default:
+		break;
+	}
+
+	if (nullptr != _Renderer)
+	{
+		ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
+	}
 }

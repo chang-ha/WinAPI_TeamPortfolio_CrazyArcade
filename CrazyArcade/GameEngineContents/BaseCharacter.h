@@ -26,6 +26,11 @@ public:
 	BaseCharacter& operator=(const BaseCharacter& _Other) = delete;
 	BaseCharacter& operator=(BaseCharacter&& _Other) noexcept = delete;
 
+	ActorDir GetDir()
+	{
+		return Dir;
+	}
+
 protected:
 	void StateUpdate(float _Delta);
 	void ChangeState(CharacterState _State);
@@ -49,7 +54,6 @@ protected:
 		IsDebugData = !IsDebugData;
 	}
 
-	void CharacterPosToIndex();
 
 protected:
 	ActorDir Dir = ActorDir::Down;
