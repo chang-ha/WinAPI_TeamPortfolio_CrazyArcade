@@ -37,6 +37,7 @@ void BaseCharacter::MoveUpdate(float _Delta)
 		|| ActorDir::Up == Dir && GameEngineInput::IsPress('W'))
 	{
 		MovePos = float4::UP * Speed * _Delta;
+		CheckPos = TOPCHECKPOS;
 	}
 	else if (ActorDir::Down == Dir && GameEngineInput::IsDown('S')
 		|| ActorDir::Down == Dir && GameEngineInput::IsPress('S'))

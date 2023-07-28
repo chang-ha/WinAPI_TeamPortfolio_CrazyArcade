@@ -1,5 +1,6 @@
 #pragma once
 
+#define TOPCHECKPOS { 0.0f, -15.0f }
 #define LEFTCHECKPOS { -20.0f, 10.0f }
 #define RIGHTCHECKPOS { 20.0f, 10.0f }
 #define LEFTBOTCHECKPOS { -20.0f, 25.0f }
