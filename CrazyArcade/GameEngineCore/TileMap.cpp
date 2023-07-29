@@ -260,17 +260,6 @@ bool TileMap::LerpTile(int X1, int Y1, int X2, int Y2, float4 _TilePos)
 		return false;
 	}
 
-	// Lerp
-	// 100, 100
-
-	// 200, 200
-
-	// 200, 200 - 100, 100
-	// 100, 100
-
-	// 여기서는 이동하는게 아니라
-	// 서서히 움직일 준비를 하는 함수.
-	// LerpTileRenderer = Tiles[Y1][X1];
 	LerpTileInfo NewInfo;
 	NewInfo.LerpTileRenderer = Tiles[Y1][X1];
 	NewInfo.LerpTilePos = _TilePos;
@@ -280,17 +269,61 @@ bool TileMap::LerpTile(int X1, int Y1, int X2, int Y2, float4 _TilePos)
 	Tiles[Y1][X1] = nullptr;
 	Tiles[Y2][X2] = nullptr;
 
-
-	//LerpTilePos = _TilePos;
-	//StartPos = IndexToPos(X1, Y1) + TileSize.Half() + _TilePos;
-	//EndPos = IndexToPos(X2, Y2) + TileSize.Half() + _TilePos;
-	//LerpTime = 0.0f;
-
-
 	LerpTime = 0.0f;
-
 	LerpInfos.push_back(NewInfo);
+	return true;
+}
 
+bool TileMap::LerpTile(GameEngineRenderer* _Renderer, MOVEDIR _Dir, float4 _TilePos)
+{
+	if (nullptr == _Renderer)
+	{
+		return false;
+	}
+
+	float4 Pos = _Renderer->GetRenderPos();
+
+	PosToIndex(Pos);
+
+	int X = static_cast<int>((Pos.X - TileSize.Half().X - _TilePos.X) / TileSize.X);
+	int Y = static_cast<int>((Pos.Y - TileSize.Half().Y - _TilePos.Y) / TileSize.Y);
+
+	if (Tiles[Y][X] != _Renderer)
+	{
+		return false;
+	}
+
+	float4 MovePos = float4::ZERO;
+
+	switch (_Dir)
+	{
+	case MOVEDIR::LEFT:
+		MovePos.X = -TileSize.X;
+		break;
+	case MOVEDIR::RIGHT:
+		MovePos.X = TileSize.X;
+		break;
+	case MOVEDIR::UP:
+		MovePos.Y = -TileSize.Y;
+		break;
+	case MOVEDIR::DOWN:
+		MovePos.Y = TileSize.Y;
+		break;
+	case MOVEDIR::NONE:
+		return false;
+	default:
+		break;
+	}
+
+	LerpTileInfo NewInfo;
+	NewInfo.LerpTileRenderer = Tiles[Y][X];
+	NewInfo.LerpTilePos = _TilePos;
+	NewInfo.StartPos = _Renderer->GetRenderPos();
+	NewInfo.EndPos = _Renderer->GetRenderPos() + MovePos;
+
+	Tiles[Y][X] = nullptr;
+	LerpTime = 0.0f;
+	LerpInfos.push_back(NewInfo);
 	return true;
 }
 
@@ -318,7 +351,6 @@ void TileMap::DeathTile(int X, int Y)
 	Tiles[Y][X] = nullptr;
 
 }
-
 
 bool TileMap::IsLerpRenderer(GameEngineRenderer* _Renderer)
 {

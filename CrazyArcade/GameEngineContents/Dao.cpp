@@ -1,4 +1,5 @@
 ﻿#include "Dao.h"
+#include "GlobalUtils.h"
 #include "ContentsEnum.h"
 
 #include <GameEngineBase/GameEnginePath.h>
@@ -17,14 +18,14 @@ Dao::~Dao()
 
 void Dao::Start()
 {
-	CreateSprite("Dao_Idle_Up.Bmp", 1);
-	CreateSprite("Dao_Idle_Down.Bmp", 1);
-	CreateSprite("Dao_Idle_Left.Bmp", 1);
-	CreateSprite("Dao_Idle_Right.Bmp", 1);
-	CreateSprite("Dao_Left.Bmp", 6);
-	CreateSprite("Dao_Right.Bmp", 6);
-	CreateSprite("Dao_Up.Bmp", 10);
-	CreateSprite("Dao_Down.Bmp", 8);
+	GlobalUtils::SpriteFileLoad("Dao_Idle_Up.Bmp", "Resources\\Textures\\Character\\Dao\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Dao_Idle_Down.Bmp", "Resources\\Textures\\Character\\Dao\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Dao_Idle_Left.Bmp", "Resources\\Textures\\Character\\Dao\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Dao_Idle_Right.Bmp", "Resources\\Textures\\Character\\Dao\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Dao_Left.Bmp", "Resources\\Textures\\Character\\Dao\\", 6, 1);
+	GlobalUtils::SpriteFileLoad("Dao_Right.Bmp", "Resources\\Textures\\Character\\Dao\\", 6, 1);
+	GlobalUtils::SpriteFileLoad("Dao_Up.Bmp", "Resources\\Textures\\Character\\Dao\\", 8, 1);
+	GlobalUtils::SpriteFileLoad("Dao_Down.Bmp", "Resources\\Textures\\Character\\Dao\\", 8, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::Character);
 	MainRenderer->CreateAnimation("Dao_Idle_Up", "Dao_Idle_Up.Bmp");
@@ -42,20 +43,6 @@ void Dao::Start()
 void Dao::Update(float _Delta)
 {
 	BaseCharacter::Update(_Delta);
-}
-
-void Dao::CreateSprite(const std::string& _TextureName, int _XCount, int _YCount /*= 1*/)
-{
-	if (ResourcesManager::GetInst().FindSprite(_TextureName) == nullptr)
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("Resources");
-
-		FilePath.MoveChild("Resources\\Textures\\Character\\Dao\\");
-
-		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_TextureName), _XCount, _YCount);
-	}
 }
 
 void Dao::ChangeAnimationState(const std::string& _StateName)

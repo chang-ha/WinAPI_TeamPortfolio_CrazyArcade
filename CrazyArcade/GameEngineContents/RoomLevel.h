@@ -4,7 +4,25 @@
 #include <vector>
 
 
+enum class ButtonActor
+{
+	MapSelect,
+	GameStart,
+	Max,
+};
+
+enum class WindowPanelActor
+{
+	MapSelect,
+
+	Max,
+};
+
+
+
+
 class Button;
+class WindowPanelUI;
 class RoomLevel : public ContentLevel
 {
 public:
@@ -29,6 +47,19 @@ private:
 	// GameEngineLevel »ó¼Ó
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
+
+
+	// this
+	void loadWindowElement();
+	std::vector<WindowPanelUI*> vecWindowPanel;
+
+
+	void loadButtonElement();
+	std::vector<Button*> vecButton;
+	
+	
+	
+	void clickSelectButton();
 
 
 };

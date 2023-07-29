@@ -18,6 +18,9 @@ GlobalUtils::~GlobalUtils()
 }
 
 
+
+
+
 // 텍스처 로드 프로시저
 GameEngineWindowTexture* GlobalUtils::TextureFileLoad(const std::string& _FileName, const std::string& _Path)
 {
