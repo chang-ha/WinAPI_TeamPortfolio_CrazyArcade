@@ -89,6 +89,8 @@ void MapEditor::Update(float _Delta)
 			if (CurSelectedObjectType == TileObjectOrder::Empty)
 			{
 				DrawingView_Ground->SetTile(CurTileIndex_X, CurTileIndex_Y, ObjectTextureIndex, GlobalValue::TileStartPos);
+
+				// 바닥 텍스처 정보 저장
 				TileInfo[CurTileIndex_Y][CurTileIndex_X].GroundTextureInfo = ObjectTextureIndex;
 			}
 			else
@@ -96,7 +98,7 @@ void MapEditor::Update(float _Delta)
 				DrawingView_Object->SetTileToSprite(CurTileIndex_X, CurTileIndex_Y, SelectedTextureName, ObjectTextureIndex,
 					GlobalValue::TileStartPos - CurObjectOverSize, true);
 
-				// 정보 저장
+				// 맵 정보 저장
 				if (0 == ObjectTextureIndex)
 				{
 					TileInfo[CurTileIndex_Y][CurTileIndex_X].MapInfo = TileObjectOrder::Empty;
@@ -106,14 +108,8 @@ void MapEditor::Update(float _Delta)
 					TileInfo[CurTileIndex_Y][CurTileIndex_X].MapInfo = CurSelectedObjectType;
 				}
 
-				if ( TileObjectOrder::Empty == CurSelectedObjectType)
-				{
-					TileInfo[CurTileIndex_Y][CurTileIndex_X].GroundTextureInfo = ObjectTextureIndex;
-				}
-				else
-				{
-					TileInfo[CurTileIndex_Y][CurTileIndex_X].ObjectTextureInfo = ObjectTextureIndex;
-				}
+				// 오브젝트 텍스처 정보 저장
+				TileInfo[CurTileIndex_Y][CurTileIndex_X].ObjectTextureInfo = ObjectTextureIndex;
 			}
 		}
 	}
