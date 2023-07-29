@@ -177,6 +177,15 @@ void Button::Update(float _Delta)
 			m_ButtonState = ButtonState::Normal;
 		}
 	}
+	else
+	{
+		if (true == EnableRenderValue)
+		{
+			Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
+		}
+
+		EnableRenderValue = false;
+	}
 }
 
 

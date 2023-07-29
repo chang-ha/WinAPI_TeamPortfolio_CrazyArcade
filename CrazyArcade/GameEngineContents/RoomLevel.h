@@ -19,8 +19,6 @@ enum class WindowPanelActor
 };
 
 
-
-
 class Button;
 class WindowPanelUI;
 class RoomLevel : public ContentLevel
@@ -35,6 +33,8 @@ public:
 	RoomLevel(RoomLevel&& _Ohter) noexcept = delete;
 	RoomLevel& operator=(const RoomLevel& _Other) = delete;
 	RoomLevel& operator=(RoomLevel&& _Other) noexcept = delete;
+
+
 
 protected:
 
@@ -53,11 +53,14 @@ private:
 	void loadWindowElement();
 	std::vector<WindowPanelUI*> vecWindowPanel;
 
-
 	void loadButtonElement();
 	std::vector<Button*> vecButton;
 	
 	
+	
+	void updateButtonVisibility();
+
+	bool ButtonUpdateValue = true;
 	
 	void clickSelectButton();
 

@@ -106,6 +106,8 @@ void RoomLevel::loadButtonElement()
 
 	GameStartButtonPtr->setButtonPos(float4{ 512.0f, 494.0f });
 	vecButton[static_cast<int>(ButtonActor::GameStart)] = GameStartButtonPtr;
+
+	ButtonUpdateValue = true;
 }
 
 
@@ -117,8 +119,47 @@ void RoomLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
 
-
+	updateButtonVisibility();
 }
+
+
+
+void RoomLevel::updateButtonVisibility()
+{
+	bool OpenWindowValue = false;
+
+	for (size_t WindowPanelCount = 0; WindowPanelCount < static_cast<int>(WindowPanelActor::Max); WindowPanelCount++)
+	{
+		OpenWindowValue = vecWindowPanel[WindowPanelCount]->isOpenWindow();
+	}
+
+	if (true == OpenWindowValue)
+	{
+		if (true == ButtonUpdateValue)
+		{
+			for (size_t ButtonCount = 0; ButtonCount < static_cast<int>(ButtonActor::Max); ButtonCount++)
+			{
+				vecButton[ButtonCount]->enableButton(false);
+			}
+
+			ButtonUpdateValue = false;
+		}
+	}
+	else
+	{
+		if (false == ButtonUpdateValue)
+		{
+			for (size_t ButtonCount = 0; ButtonCount < static_cast<int>(ButtonActor::Max); ButtonCount++)
+			{
+				vecButton[ButtonCount]->enableButton(true);
+			}
+
+			ButtonUpdateValue = true;
+		}
+	}
+}
+
+
 
 
 void RoomLevel::clickSelectButton()
@@ -130,7 +171,7 @@ void RoomLevel::clickSelectButton()
 		return;
 	}
 
-	WindowPanelMapSelectPtr->onPanel();
+	WindowPanelMapSelectPtr->enableWindow(true); 
 }
 
 
