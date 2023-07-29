@@ -12,10 +12,14 @@ enum class RenderOrder
 {
 	BackGround,
 	Map,
+	MapObject,
 	SelectTile,
-	FirstButtonUI,
-	SecondButtonUI,
+	FirstElementUI,
+	FadeScreenUI,
+	WindowPanelUI,
+	SecondElementUI,
 	MouseUI,
+	FadeOutUI,
 	Character
 };
 

@@ -7,6 +7,8 @@
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineSprite.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/TileMap.h>
 
 BaseCharacter::BaseCharacter()
 {
@@ -14,24 +16,6 @@ BaseCharacter::BaseCharacter()
 
 BaseCharacter::~BaseCharacter()
 {
-}
-
-void BaseCharacter::Start()
-{
-	/*CreateSprite("Bazzi_Wait.Bmp", 3);
-	CreateSprite("Bazzi_Left.Bmp", 6);
-	CreateSprite("Bazzi_Right.Bmp", 6);
-	CreateSprite("Bazzi_Up.Bmp", 8);
-	CreateSprite("Bazzi_Down.Bmp", 8);
-
-	MainRenderer = CreateRenderer(RenderOrder::Character);
-	MainRenderer->CreateAnimation("Bazzi_Wait", "Bazzi_Wait.Bmp");
-	MainRenderer->CreateAnimation("Bazzi_Move_Left", "Bazzi_Left.Bmp");
-	MainRenderer->CreateAnimation("Bazzi_Move_Right", "Bazzi_Right.Bmp");
-	MainRenderer->CreateAnimation("Bazzi_Move_Up", "Bazzi_Up.Bmp");
-	MainRenderer->CreateAnimation("Bazzi_Move_Down", "Bazzi_Down.Bmp");
-
-	ChangeState(CharacterState::Wait);*/
 }
 
 void BaseCharacter::Update(float _Delta)
@@ -59,22 +43,25 @@ void BaseCharacter::Render(float _Delta)
 		YText += "Player Pos Y : ";
 		YText += std::to_string(GetPos().Y);
 		TextOutA(dc, 2, 30, YText.c_str(), static_cast<int>(YText.size()));
+
+		CollisionData Data;
+
+		Data.Pos = GetPos();
+		Data.Scale = { 5, 5 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 BOTCHECKPOS;
+		Data.Scale = { 5, 5 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 LEFTCHECKPOS;
+		Data.Scale = { 5, 5 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 RIGHTCHECKPOS;
+		Data.Scale = { 5, 5 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 	}
-}
-
-// 스프라이트 제작 함수
-void BaseCharacter::CreateSprite(const std::string& _TextureName, int _XCount, int _YCount /*= 1*/)
-{
-	/*if (ResourcesManager::GetInst().FindSprite(_TextureName) == nullptr)
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("Resources");
-
-		FilePath.MoveChild("Resources\\Textures\\Character\\Bazzi\\");
-
-		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath(_TextureName), _XCount, _YCount);
-	}*/
 }
 
 // 캐릭터 방향 변경 함수
@@ -165,12 +152,6 @@ void BaseCharacter::ChangeState(CharacterState _State)
 	}
 
 	State = _State;
-}
-
-// Pos를 타일맵의 Index로 변환해서 위치시키는 함수
-void BaseCharacter::CharacterPosToIndex()
-{
-
 }
 
 void BaseCharacter::ChangeAnimationState(const std::string& _StateName) {}

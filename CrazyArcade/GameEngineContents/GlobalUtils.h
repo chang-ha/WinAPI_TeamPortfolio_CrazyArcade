@@ -5,11 +5,12 @@
 class GlobalUtils
 {
 public:
-	static class GameEngineWindowTexture* TextureFileLoad(const std::string& _FileName, const std::string& _Path);
 
+	static class GameEngineWindowTexture* TextureFileLoad(const std::string& _FileName, const std::string& _Path);
 	static class GameEngineSprite* SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
 
 	static void SoundFileLoad(const std::string& _FileName, const std::string& _Path);
+
 
 
 protected:

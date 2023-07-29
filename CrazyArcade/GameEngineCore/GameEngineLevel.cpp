@@ -260,6 +260,11 @@ void GameEngineLevel::OverCheck(GameEngineLevel* _PrevLevel)
 		return;
 	}
 
+	if (_PrevLevel == this)
+	{
+		return;
+	}
+
 	// 이런레벨에 존재하는 이 액터와 관련된 랜더러와
 	_PrevLevel->MainCamera->OverRelease();
 	// 이런레벨에 존재하는 이 액터와 관련된 충돌체도

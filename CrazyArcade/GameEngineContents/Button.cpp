@@ -28,14 +28,25 @@ Button::~Button()
 
 void Button::Start()
 {
-	Renderer = CreateRenderer(RenderOrder::FirstButtonUI);
+	m_ButtonState = ButtonState::Max;
+}
+
+
+void Button::setRenderer(RenderOrder _Order)
+{
+	Renderer = CreateRenderer(_Order);
 	if (nullptr == Renderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
 		return;
 	}
+}
 
-	m_ButtonState = ButtonState::Max;
+
+
+void Button::setButtonPos(const float4& _Pos)
+{
+	SetPos(_Pos + m_ButtonScale.Half());
 }
 
 
@@ -57,12 +68,18 @@ void Button::setButtonTexture(
 	}
 
 	float4 ButtonRenderScale = ButtonSprite->GetSprite(0).RenderScale;
-	if (float4::ZERO != ButtonRenderScale)
+	if (float4::ZERO == m_ButtonScale)
 	{
 		m_ButtonScale = ButtonRenderScale;
 	}
 
 	Renderer->CreateAnimation(std::to_string(static_cast<int>(_ButtonType)), _FileName, -1, -1, _Inter);
+
+	if (ButtonState::Normal == _ButtonType)
+	{
+		Renderer->ChangeAnimation(std::to_string(static_cast<int>(ButtonState::Normal)));
+	}
+	
 }
 
 

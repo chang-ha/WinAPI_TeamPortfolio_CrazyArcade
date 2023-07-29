@@ -65,6 +65,9 @@ void TestStage::Start()
 		// 밀 수 있는 블록
 		TileInfo[6][5].MapInfo = TileObjectOrder::MovableBlock;
 		TileInfo[6][5].ObjectTextureInfo = 0;
+
+		TileInfo[3][8].MapInfo = TileObjectOrder::MovableBlock;
+		TileInfo[3][8].ObjectTextureInfo = 0;
 	}
 
 	TileSetting();
