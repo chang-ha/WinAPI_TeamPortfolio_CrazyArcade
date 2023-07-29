@@ -119,6 +119,13 @@ void RoomLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
 
+	updateButtonVisibility();
+}
+
+
+
+void RoomLevel::updateButtonVisibility()
+{
 	bool OpenWindowValue = false;
 
 	for (size_t WindowPanelCount = 0; WindowPanelCount < static_cast<int>(WindowPanelActor::Max); WindowPanelCount++)
@@ -151,7 +158,6 @@ void RoomLevel::Update(float _Delta)
 		}
 	}
 }
-
 
 
 

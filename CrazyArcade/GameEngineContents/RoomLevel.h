@@ -53,12 +53,14 @@ private:
 	void loadWindowElement();
 	std::vector<WindowPanelUI*> vecWindowPanel;
 
-
 	void loadButtonElement();
 	std::vector<Button*> vecButton;
 	
-	bool ButtonUpdateValue = true;
 	
+	
+	void updateButtonVisibility();
+
+	bool ButtonUpdateValue = true;
 	
 	void clickSelectButton();
 
