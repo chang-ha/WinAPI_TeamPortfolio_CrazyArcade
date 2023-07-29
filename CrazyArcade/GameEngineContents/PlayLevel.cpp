@@ -210,6 +210,16 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 
 	if (nullptr != _Renderer)
 	{
+		if (true == ObjectTile->IsOver(NewX, NewY))
+		{
+			return;
+		}
+
+		if (TileObjectOrder::Empty != TileInfo[NewY][NewX].MapInfo)
+		{
+			return;
+		}
+
 		TileInfo[_Y][_X].MapInfo = TileObjectOrder::Empty;
 		TileInfo[NewY][NewX].MapInfo = TileObjectOrder::MovableBlock;
 		ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
