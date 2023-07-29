@@ -133,7 +133,8 @@ bool PlayLevel::CheckTile(const float4& _Pos)
 {
 	if (nullptr != Player)
 	{
-		float4 CheckPos = { _Pos.X + 20.0f, _Pos.Y };
+		float4 CheckPos = { _Pos.X, _Pos.Y };
+		CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
 		float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
 
 		int CheckX = CheckIndex.iX() - 1;
