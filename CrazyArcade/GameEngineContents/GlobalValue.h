@@ -18,6 +18,8 @@ public:
 
 	static int MapTileIndex_X;
 	static int MapTileIndex_Y;
+
+	static float4 MapTileIndex;
 	static float4 MapTileSize;
 
 	static float4 BlockOverSize;

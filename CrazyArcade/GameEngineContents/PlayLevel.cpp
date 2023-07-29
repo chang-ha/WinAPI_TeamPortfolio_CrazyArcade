@@ -49,13 +49,13 @@ void PlayLevel::Start()
 	Back->Init("PlayPanel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
-	// 맵 스프라이트 로드
+	// Object Texture Load
 	GlobalLoad::TileTextureLoad();
 
-	//TileInfo 초기화
+	// TileInfo Initialize
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
-	// 캐릭터 생성
+	// Create Character 
 	Player = CreateActor<Bazzi>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 }
@@ -98,8 +98,6 @@ void PlayLevel::TileSetting()
 
 		ObjectTile->CreateTileMap("Structures.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::MapObject);
 	}
-
-	GameEngineRenderer* TileRenderer = nullptr;
 
 	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 	{

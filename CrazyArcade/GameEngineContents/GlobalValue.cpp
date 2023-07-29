@@ -9,6 +9,8 @@ float4 GlobalValue::TileStartPos = { 20, 41 };
 float4 GlobalValue::StructureOverSize = { 0, 20 };
 float4 GlobalValue::BlockOverSize = { 0, 2 };
 
+float4 GlobalValue::MapTileIndex = {15, 13};
+
 int GlobalValue::MapTileIndex_X = 15;
 int GlobalValue::MapTileIndex_Y = 13;
 

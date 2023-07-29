@@ -16,17 +16,18 @@ TileSelect::~TileSelect()
 
 void TileSelect::Start()
 {
-	if (nullptr == Renderer)
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("Resources");
-		FilePath.MoveChild("Resources\\Textures\\Tile");
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("TileSelect.bmp"));
+	GameEnginePath FilePath;
+	FilePath.SetCurrentPath();
+	FilePath.MoveParentToExistsChild("Resources");
+	FilePath.MoveChild("Resources\\Textures\\Tile");
 
-		Renderer = CreateRenderer(RenderOrder::SelectTile);
-		Renderer->SetTexture("TileSelect.bmp");
+	if (nullptr == ResourcesManager::GetInst().FindTexture("TileSelect.bmp"))
+	{
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("TileSelect.bmp"));
 	}
+
+	Renderer = CreateRenderer(RenderOrder::SelectTile);
+	Renderer->SetTexture("TileSelect.bmp");
 }
 
 void TileSelect::Update(float _Delta)

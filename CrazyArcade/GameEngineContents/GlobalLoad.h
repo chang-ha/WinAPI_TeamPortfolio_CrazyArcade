@@ -15,6 +15,11 @@ public:
 
 	static void TileTextureLoad();
 
+	static const int GroundMaxIndex = 9; 
+	static const int StructureMaxIndex = 5;
+	static const int ImmovableBlockMaxIndex = 3;
+	static const int MovableBlockMaxIndex = 2;
+
 protected:
 
 private:
