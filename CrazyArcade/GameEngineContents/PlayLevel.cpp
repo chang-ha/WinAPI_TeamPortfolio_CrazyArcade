@@ -13,6 +13,7 @@
 #include "GlobalValue.h"
 #include "GlobalUtils.h"
 #include "GameMapInfo.h"
+#include "GlobalLoad.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
@@ -49,10 +50,7 @@ void PlayLevel::Start()
 	Back->SetPos(GlobalValue::WinScale.Half());
 
 	// 맵 스프라이트 로드
-	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::GroundTextureIndex_Y);
-	GlobalUtils::SpriteFileLoad("Structures.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::StructureTextureIndex_Y);
-	GlobalUtils::SpriteFileLoad("ImMovableBlocks.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::ImmovableBlockTextureIndex_Y);
-	GlobalUtils::SpriteFileLoad("MovableBlocks.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::MovableBlockTextureIndex_Y);
+	GlobalLoad::TileTextureLoad();
 
 	//TileInfo 초기화
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
@@ -111,13 +109,13 @@ void PlayLevel::TileSetting()
 			switch (TileInfo[Y][X].MapInfo)
 			{
 			case TileObjectOrder::Structure:
-				ObjectTile->SetTileToSprite(X, Y, "Structures.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos + float4(0, -20), true);
+				ObjectTile->SetTileToSprite(X, Y, "Structures.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos - GlobalValue::StructureOverSize, true);
 				break;
 			case TileObjectOrder::ImmovableBlock:
-				ObjectTile->SetTileToSprite(X, Y, "ImmovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos + float4(0, -2), true);
+				ObjectTile->SetTileToSprite(X, Y, "ImmovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos - GlobalValue::BlockOverSize, true);
 				break;
 			case TileObjectOrder::MovableBlock:
-				ObjectTile->SetTileToSprite(X, Y, "MovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos + float4(0, -2), true);
+				ObjectTile->SetTileToSprite(X, Y, "MovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos - GlobalValue::BlockOverSize, true);
 				break;
 			case TileObjectOrder::Item:
 				break;

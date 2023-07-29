@@ -61,6 +61,9 @@
     <ClCompile Include="UIMouseObject.cpp">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalLoad.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="UIMouseObject.h">
       <Filter>Actor\UI\WindowUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalLoad.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

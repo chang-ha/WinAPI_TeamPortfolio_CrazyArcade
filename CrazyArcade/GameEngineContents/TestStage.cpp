@@ -33,41 +33,50 @@ void TestStage::Start()
 		{
 			for (int X = 0; X < GlobalValue::MapTileIndex_X; ++X)
 			{
-				TileInfo[Y][X].GroundTextureInfo = 0;
+				TileInfo[Y][X].GroundTextureInfo = 4;
 			}
 		}
 
 		// 구조물
-		TileInfo[0][0].MapInfo = TileObjectOrder::Structure;
-		TileInfo[0][0].ObjectTextureInfo = 1;
-
 		TileInfo[2][0].MapInfo = TileObjectOrder::Structure;
-		TileInfo[2][0].ObjectTextureInfo = 2;
+		TileInfo[2][0].ObjectTextureInfo = 0;
 
-		TileInfo[2][1].MapInfo = TileObjectOrder::Structure;
-		TileInfo[2][1].ObjectTextureInfo = 3;
+		TileInfo[4][0].MapInfo = TileObjectOrder::Structure;
+		TileInfo[4][0].ObjectTextureInfo = 0;
 
-		TileInfo[5][2].MapInfo = TileObjectOrder::Structure;
-		TileInfo[5][2].ObjectTextureInfo = 0;
+		TileInfo[5][1].MapInfo = TileObjectOrder::Structure;
+		TileInfo[5][1].ObjectTextureInfo = 1;
+
+		TileInfo[6][2].MapInfo = TileObjectOrder::Structure;
+		TileInfo[6][2].ObjectTextureInfo = 2;
 
 
 		// 밀지 못하는 블록
-		TileInfo[5][5].MapInfo = TileObjectOrder::ImmovableBlock;
-		TileInfo[5][5].ObjectTextureInfo = 0;
+		TileInfo[2][3].MapInfo = TileObjectOrder::ImmovableBlock;
+		TileInfo[2][3].ObjectTextureInfo = 0;
 
-		TileInfo[5][8].MapInfo = TileObjectOrder::ImmovableBlock;
-		TileInfo[5][8].ObjectTextureInfo = 1;
+		TileInfo[2][9].MapInfo = TileObjectOrder::ImmovableBlock;
+		TileInfo[2][9].ObjectTextureInfo = 1;
 
-		TileInfo[5][11].MapInfo = TileObjectOrder::ImmovableBlock;
-		TileInfo[5][11].ObjectTextureInfo = 0;
+		TileInfo[1][9].MapInfo = TileObjectOrder::ImmovableBlock;
+		TileInfo[1][9].ObjectTextureInfo = 1;
+
+		TileInfo[2][12].MapInfo = TileObjectOrder::ImmovableBlock;
+		TileInfo[2][12].ObjectTextureInfo = 2;
 
 
 		// 밀 수 있는 블록
-		TileInfo[6][5].MapInfo = TileObjectOrder::MovableBlock;
-		TileInfo[6][5].ObjectTextureInfo = 0;
+		TileInfo[2][6].MapInfo = TileObjectOrder::MovableBlock;
+		TileInfo[2][6].ObjectTextureInfo = 0;
 
-		TileInfo[3][8].MapInfo = TileObjectOrder::MovableBlock;
-		TileInfo[3][8].ObjectTextureInfo = 0;
+		TileInfo[8][8].MapInfo = TileObjectOrder::MovableBlock;
+		TileInfo[8][8].ObjectTextureInfo = 1;
+
+		TileInfo[8][9].MapInfo = TileObjectOrder::MovableBlock;
+		TileInfo[8][9].ObjectTextureInfo = 1;
+
+		TileInfo[8][10].MapInfo = TileObjectOrder::MovableBlock;
+		TileInfo[8][10].ObjectTextureInfo = 1;
 	}
 
 	TileSetting();

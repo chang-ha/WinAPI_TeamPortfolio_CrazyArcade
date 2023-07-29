@@ -44,6 +44,7 @@ private:
 
 	TileMap* DrawingVlew = nullptr;
 	TileMap* SelectView = nullptr;
+
 	std::vector<std::vector<int>>TilesInfo;
 };
 
