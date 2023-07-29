@@ -96,7 +96,7 @@ void MapEditor::Update(float _Delta)
 				DrawingView_Object->SetTileToSprite(CurTileIndex_X, CurTileIndex_Y, SelectedTextureName, ObjectTextureIndex,
 					GlobalValue::TileStartPos - CurObjectOverSize, true);
 
-				// 정보 업데이트 해야함
+				// 정보 저장
 				if (0 == ObjectTextureIndex)
 				{
 					TileInfo[CurTileIndex_Y][CurTileIndex_X].MapInfo = TileObjectOrder::Empty;
@@ -127,7 +127,7 @@ void MapEditor::Update(float _Delta)
 	{
 		if (true == GameEngineInput::IsDown(VK_LBUTTON))
 		{
-			// 저장할 정보 지정 해야함
+			// 저장할 정보 지정
 			CurTileIndex_X = int(CurMousePos.X - SelectView_StartPos.X) / 40;
 			CurTileIndex_Y = int(CurMousePos.Y - SelectView_StartPos.Y) / 40;
 
