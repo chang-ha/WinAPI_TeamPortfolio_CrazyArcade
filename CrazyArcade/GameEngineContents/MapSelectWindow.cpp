@@ -76,7 +76,7 @@ void MapSelectWindow::initButton()
 	AcceptButtonPtr->setButtonPos(GetPos() - m_WindowScale.Half() + float4{ 160.0f, 447.0f });
 	//AcceptButtonPtr->setButtonSound(ButtonEventState::Click, )
 
-	AcceptButtonPtr->setCallback<MapSelectWindow>(ButtonEventState::Click, this, &MapSelectWindow::clickCancleButton);
+	AcceptButtonPtr->setCallback<MapSelectWindow>(ButtonEventState::Click, this, &MapSelectWindow::clickAcceptButton);
 
 	AcceptButtonPtr->Off();
 
@@ -87,15 +87,13 @@ void MapSelectWindow::initButton()
 
 void MapSelectWindow::Update(float _Delta)
 {
-	
+	WindowPanelUI::Update(_Delta);
 }
 
 
 
 void MapSelectWindow::onPanel()
 {
-	On();
-
 	for (size_t ButtonCount = 0; ButtonCount < static_cast<int>(MapSelectButton::Max); ButtonCount++)
 	{
 		Button* ButtonPtr = vecButton[ButtonCount];
@@ -108,6 +106,7 @@ void MapSelectWindow::onPanel()
 		ButtonPtr->On();
 	}
 }
+
 
 void MapSelectWindow::offPanel()
 {
@@ -130,10 +129,10 @@ void MapSelectWindow::offPanel()
 
 void MapSelectWindow::clickCancleButton()
 {
-	offPanel();
+	m_WindowState = WindowState::Close;
 }
 
 void MapSelectWindow::clickAcceptButton()
 {
-	offPanel();
+	m_WindowState = WindowState::Close;
 }

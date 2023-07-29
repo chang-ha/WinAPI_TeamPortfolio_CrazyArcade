@@ -1,7 +1,16 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineLevel.h>
 
 #include <vector>
+
+
+enum class WindowState
+{
+	Open,
+	Close,
+};
+
 
 // 설명 : 
 class Button;
@@ -22,9 +31,19 @@ public:
 	void Init(const std::string& _FileName, const std::string& _Path);
 
 
-	virtual void onPanel() {}
+	void enableWindow(bool _Value)
+	{
+		On();
 
-	virtual void offPanel() {}
+		_Value ? m_WindowState = WindowState::Open : m_WindowState = WindowState::Close;
+	}
+
+
+	bool isOpenWindow()
+	{
+		return m_OpenWindowValue;
+	}
+
 
 protected:
 	// GameEngineObject 상속
@@ -37,15 +56,16 @@ protected:
 
 	float4 m_WindowScale = float4::ZERO;
 
-
 	std::vector<Button*> vecButton;
 
-	
+
+	WindowState m_WindowState = WindowState::Close;
+
+	virtual void onPanel() {}
+	virtual void offPanel() {}
+
 
 private:
-
-
-
-
+	bool m_OpenWindowValue = false;
 
 };

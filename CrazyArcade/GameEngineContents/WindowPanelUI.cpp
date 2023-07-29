@@ -55,6 +55,22 @@ void WindowPanelUI::Init(const std::string& _FileName, const std::string& _Path)
 
 void WindowPanelUI::Update(float _Delta)
 {
+	if (WindowState::Open == m_WindowState)
+	{
+		if (false == m_OpenWindowValue)
+		{
+			onPanel();
+		}
 
+		m_OpenWindowValue = true;
+	}
+	else
+	{
+		if (true == m_OpenWindowValue)
+		{
+			offPanel();
+		}
+
+		m_OpenWindowValue = false;
+	}
 }
-
