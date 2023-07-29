@@ -27,13 +27,14 @@ private:
 	bool MouseInTileMap();
 
 	// Const Value
-
-	const float4 Tile_StartPos = { 20, 20 };
-
+	const float4 SelectView_StartPos = { 655.0f, 100.0f };
 	float4 CurMousePos = float4::ZERO;
 	int CurTileIndex_X = 0;
 	int CurTileIndex_Y = 0;
 	int CurSelectedTileType = 1;
+
+	int SelectViewSize_X = 3;
+	int SelectViewSize_Y = 10;
 
 	// State Value
 	bool LoadTileTexture = false;
@@ -41,7 +42,8 @@ private:
 	class TileSelect* SelectedTile = nullptr;
 	class GameEngineRenderer* TileRenderer = nullptr;
 
-	TileMap* Tile = nullptr;
+	TileMap* DrawingVlew = nullptr;
+	TileMap* SelectView = nullptr;
 	std::vector<std::vector<int>>TilesInfo;
 };
 

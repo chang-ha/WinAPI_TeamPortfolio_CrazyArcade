@@ -47,18 +47,36 @@ void MapEditor::Start()
 	SelectedTile = CreateActor<TileSelect>(UpdateOrder::Map);
 	SelectedTile->Off();
 
-	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", 10, 1);
+	// 맵 스프라이트 로드
+	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::GroundTextureIndex_Y);
+	GlobalUtils::SpriteFileLoad("Structures.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::StructureTextureIndex_Y);
+	GlobalUtils::SpriteFileLoad("ImMovableBlocks.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::ImmovableBlockTextureIndex_Y);
+	GlobalUtils::SpriteFileLoad("MovableBlocks.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::MovableBlockTextureIndex_Y);
 
-	if (nullptr == Tile)
+	if (nullptr == DrawingVlew)
 	{
-		Tile = CreateActor<TileMap>();
-		Tile->CreateTileMap("Grounds.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
+		DrawingVlew = CreateActor<TileMap>();
+		DrawingVlew->CreateTileMap("Grounds.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::Map);
 
 		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 		{
 			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 			{
-				TileRenderer = Tile->SetTile(X, Y, 0, Tile_StartPos);
+				TileRenderer = DrawingVlew->SetTile(X, Y, 0, GlobalValue::TileStartPos);
+			}
+		}
+	}
+
+	if (nullptr == SelectView)
+	{
+		SelectView = CreateActor<TileMap>();
+		SelectView->CreateTileMap("Grounds.bmp", SelectViewSize_X, SelectViewSize_Y, GlobalValue::MapTileSize, RenderOrder::Map);
+
+		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+		{
+			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+			{
+				TileRenderer = SelectView->SetTile(X, Y, 0, SelectView_StartPos);
 			}
 		}
 	}
@@ -75,16 +93,16 @@ void MapEditor::Update(float _Delta)
 	if(true == MouseInTileMap())
 	{
 		SelectedTile->On();
-		CurTileIndex_X = int(CurMousePos.X - Tile_StartPos.X) / 40;
-		CurTileIndex_Y = int(CurMousePos.Y - Tile_StartPos.Y) / 40;
+		CurTileIndex_X = int(CurMousePos.X - GlobalValue::TileStartPos.X) / 40;
+		CurTileIndex_Y = int(CurMousePos.Y - GlobalValue::TileStartPos.Y) / 40;
 
 		SelectedTile->SetPos({ 
-			Tile_StartPos.X + (GlobalValue::MapTileSize.X * CurTileIndex_X) + GlobalValue::MapTileSize.hX(),
-			Tile_StartPos.Y + (GlobalValue::MapTileSize.Y * CurTileIndex_Y) + GlobalValue::MapTileSize.hY() });
+			GlobalValue::TileStartPos.X + (GlobalValue::MapTileSize.X * CurTileIndex_X) + GlobalValue::MapTileSize.hX(),
+			GlobalValue::TileStartPos.Y + (GlobalValue::MapTileSize.Y * CurTileIndex_Y) + GlobalValue::MapTileSize.hY() });
 
 		if (true == GameEngineInput::IsPress(VK_LBUTTON))
 		{
-			Tile->SetTile(CurTileIndex_X, CurTileIndex_Y, CurSelectedTileType, Tile_StartPos);
+			DrawingVlew->SetTile(CurTileIndex_X, CurTileIndex_Y, CurSelectedTileType, GlobalValue::TileStartPos);
 			TilesInfo[CurTileIndex_Y][CurTileIndex_X] = CurSelectedTileType;
 		}
 	}
@@ -143,10 +161,10 @@ void MapEditor::Render(float _Delta)
 
 bool MapEditor::MouseInTileMap()
 {
-	if (CurMousePos.X > Tile_StartPos.X &&
-		CurMousePos.Y > Tile_StartPos.Y &&
-		CurMousePos.X < Tile_StartPos.X + (GlobalValue::MapTileSize.X * GlobalValue::MapTileIndex_X) &&
-		CurMousePos.Y < Tile_StartPos.Y + (GlobalValue::MapTileSize.Y * GlobalValue::MapTileIndex_Y))
+	if (CurMousePos.X > GlobalValue::TileStartPos.X &&
+		CurMousePos.Y > GlobalValue::TileStartPos.Y &&
+		CurMousePos.X < GlobalValue::TileStartPos.X + (GlobalValue::MapTileSize.X * GlobalValue::MapTileIndex_X) &&
+		CurMousePos.Y < GlobalValue::TileStartPos.Y + (GlobalValue::MapTileSize.Y * GlobalValue::MapTileIndex_Y))
 	{
 		return true;
 	}

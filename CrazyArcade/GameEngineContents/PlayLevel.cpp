@@ -47,10 +47,10 @@ void PlayLevel::Start()
 	Back->SetPos(GlobalValue::WinScale.Half());
 
 	// 맵 스프라이트 로드
-	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", 10, 1);
-	GlobalUtils::SpriteFileLoad("Structures.bmp", "Resources\\Textures\\Tile", 4, 1);
-	GlobalUtils::SpriteFileLoad("ImMovableBlocks.bmp", "Resources\\Textures\\Tile", 2, 1);
-	GlobalUtils::SpriteFileLoad("MovableBlocks.bmp", "Resources\\Textures\\Tile", 1, 1);
+	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::GroundTextureIndex_Y);
+	GlobalUtils::SpriteFileLoad("Structures.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::StructureTextureIndex_Y);
+	GlobalUtils::SpriteFileLoad("ImMovableBlocks.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::ImmovableBlockTextureIndex_Y);
+	GlobalUtils::SpriteFileLoad("MovableBlocks.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::MovableBlockTextureIndex_Y);
 
 	//TileInfo 초기화
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));

@@ -33,7 +33,7 @@ void TestStage::Start()
 		{
 			for (int X = 0; X < GlobalValue::MapTileIndex_X; ++X)
 			{
-				TileInfo[Y][X].GroundTextureInfo = 4;
+				TileInfo[Y][X].GroundTextureInfo = 0;
 			}
 		}
 
