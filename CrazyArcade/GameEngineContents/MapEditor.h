@@ -52,7 +52,7 @@ private:
 
 	// View Position
 	float4 DrawingView_StartPos = { 20.0f, 50.0f };
-	float4 SelectView_StartPos = { 655.0f, 130.0f };
+	float4 SelectView_StartPos = { 655.0f, 120.0f };
 
 
 	// Currunt Index Value
