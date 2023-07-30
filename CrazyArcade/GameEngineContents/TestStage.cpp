@@ -33,7 +33,7 @@ void TestStage::Start()
 		{
 			for (int X = 0; X < GlobalValue::MapTileIndex_X; ++X)
 			{
-				TileInfo[Y][X].GroundTextureInfo = 0;
+				TileInfo[Y][X].GroundTextureInfo = 1;
 			}
 		}
 
@@ -52,6 +52,7 @@ void TestStage::Start()
 
 		TileInfo[6][2].MapInfo = TileObjectOrder::Structure;
 		TileInfo[6][2].ObjectTextureInfo = 3;
+
 
 		// 밀지 못하는 블록
 		TileInfo[2][3].MapInfo = TileObjectOrder::ImmovableBlock;

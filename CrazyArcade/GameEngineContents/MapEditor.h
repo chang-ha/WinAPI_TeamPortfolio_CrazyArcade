@@ -62,8 +62,9 @@ private:
 	TileMap* GetCurSelectViewTile();
 
 
-	// Const Value
-	float4 SelectView_StartPos = { 655.0f, 100.0f };
+	// View Position
+	float4 DrawingView_StartPos = { 20.0f, 50.0f };
+	float4 SelectView_StartPos = { 655.0f, 130.0f };
 
 
 	// Currunt Index Value

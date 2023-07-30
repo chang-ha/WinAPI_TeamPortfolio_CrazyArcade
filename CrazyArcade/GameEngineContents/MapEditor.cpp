@@ -77,18 +77,18 @@ void MapEditor::Update(float _Delta)
 	if (true == MouseInTileMap(GlobalValue::TileStartPos, GlobalValue::MapTileIndex))
 	{
 		DrawingVlew_SelectedPlace->On();
-		CurTileIndex_X = int(CurMousePos.X - GlobalValue::TileStartPos.X) / 40;
-		CurTileIndex_Y = int(CurMousePos.Y - GlobalValue::TileStartPos.Y) / 40;
+		CurTileIndex_X = int(CurMousePos.X - DrawingView_StartPos.X) / 40;
+		CurTileIndex_Y = int(CurMousePos.Y - DrawingView_StartPos.Y) / 40;
 
 		DrawingVlew_SelectedPlace->SetPos({
-			GlobalValue::TileStartPos.X + (GlobalValue::MapTileSize.X * CurTileIndex_X) + GlobalValue::MapTileSize.hX(),
-			GlobalValue::TileStartPos.Y + (GlobalValue::MapTileSize.Y * CurTileIndex_Y) + GlobalValue::MapTileSize.hY() });
+			DrawingView_StartPos.X + (GlobalValue::MapTileSize.X * CurTileIndex_X) + GlobalValue::MapTileSize.hX(),
+			DrawingView_StartPos.Y + (GlobalValue::MapTileSize.Y * CurTileIndex_Y) + GlobalValue::MapTileSize.hY() });
 
 		if (true == GameEngineInput::IsPress(VK_LBUTTON))
 		{
 			if (CurSelectedObjectType == TileObjectOrder::Empty)
 			{
-				DrawingView_Ground->SetTile(CurTileIndex_X, CurTileIndex_Y, ObjectTextureIndex, GlobalValue::TileStartPos);
+				DrawingView_Ground->SetTile(CurTileIndex_X, CurTileIndex_Y, ObjectTextureIndex, DrawingView_StartPos);
 
 				// 바닥 텍스처 정보 저장
 				TileInfo[CurTileIndex_Y][CurTileIndex_X].GroundTextureInfo = ObjectTextureIndex;
@@ -96,7 +96,7 @@ void MapEditor::Update(float _Delta)
 			else
 			{
 				DrawingView_Object->SetTileToSprite(CurTileIndex_X, CurTileIndex_Y, SelectedTextureName, ObjectTextureIndex,
-					GlobalValue::TileStartPos - CurObjectOverSize, true);
+					DrawingView_StartPos - CurObjectOverSize, true);
 
 				// 맵 정보 저장
 				if (0 == ObjectTextureIndex)
@@ -193,7 +193,7 @@ void MapEditor::TileInit()
 		{
 			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 			{
-				DrawingView_Ground->SetTile(X, Y, 0, GlobalValue::TileStartPos);
+				DrawingView_Ground->SetTile(X, Y, 0, DrawingView_StartPos);
 			}
 		}
 	}
@@ -226,7 +226,9 @@ TileMap* MapEditor::SelectViewInit(TileObjectOrder _SelectedObjectType)
 	}
 
 	int IndexCount = 0;
-	for (int Y = 0; Y <= SelectViewSize_Y; ++Y)
+	int YCount = (ObjectSpriteMaxIndex / SelectViewSize_X) + 1;
+
+	for (int Y = 0; Y <= YCount; ++Y)
 	{
 		for (int X = 0; X < SelectViewSize_X; ++X)
 		{
