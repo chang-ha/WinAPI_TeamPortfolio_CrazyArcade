@@ -13,18 +13,6 @@ enum class MapEditorButtonState
 	Max,
 };
 
-enum class SelectTileType
-{
-	Ground,
-	ImmovableBlock,
-	MovableBlock,
-	//Structure,
-	//Item,
-	//Unit,
-	Max,
-};
-
-
 
 class TileMap;
 class Button;
@@ -110,25 +98,14 @@ private:
 	std::vector<std::string> VecTileSpriteFileName;
 
 
-	int CurSelectTilesCount = 0;
+	int SelectTilesMapNum = 0;
 
-	//void UpdateDrawingTileUI();
-	
-	//void InitTiles();
-	//void LoadButton();
-
+	void LoadButton();
+	float4 LocalNextButtonStartPos = float4{ 10.0f , 20.0f };
 	std::vector<Button*> VecButton;
 
-	float4 LocalNextButtonStartPos = float4{ 10.0f , 30.0f };
 
-	SelectTileType CurrentSelectTileType = SelectTileType::Max;
-
-	//void ClickPrevButton();
-	//void ClickNextButton();
-
-	//void ClearSelectViewTiles();
-	//void ChangeSelectViewTile();
-
-
+	void ClickPrevButton();
+	void ClickNextButton();
 };
 

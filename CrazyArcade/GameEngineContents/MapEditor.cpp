@@ -13,6 +13,7 @@
 #include "TileSelect.h"
 #include "GlobalLoad.h"
 #include "GameMapInfo.h"
+#include "Button.h"
 
 MapEditor::MapEditor()
 {
@@ -63,9 +64,146 @@ void MapEditor::Start()
 	
 	// Default Setting
 	ChangeSelectViewInfo(TileObjectOrder::Empty);
+	SelectTilesMapNum = 0;
 	AllOffSelectVlew();
 	SelectView_Grounds->On();
+
+
+	{
+		LoadButton();
+	}
 }
+
+void MapEditor::LoadButton()
+{
+	VecButton.resize(static_cast<int>(MapEditorButtonState::Max));
+
+	Button* NextButton = CreateActor<Button>(UpdateOrder::UI);
+	if (nullptr == NextButton)
+	{
+		MsgBoxAssert("Prev 버튼을 생성하지 못했습니다.");
+		return;
+	}
+
+	NextButton->setRenderer(RenderOrder::FirstElementUI);
+	NextButton->setButtonTexture(ButtonState::Normal, "Button_Next_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	NextButton->setButtonTexture(ButtonState::Click, "Button_Next_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	NextButton->setButtonTexture(ButtonState::Hover, "Button_Next_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+
+	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
+
+	NextButton->setCallback<MapEditor>(ButtonEventState::Click, this, &MapEditor::ClickNextButton);
+
+	float4 SelectView_EndXPos = SelectView_StartPos +
+		float4{ 0.0f , static_cast<float>(SelectViewSize_Y) * GlobalValue::MapTileSize.Y };
+
+	float4 NextButtonPos = SelectView_EndXPos + LocalNextButtonStartPos;
+
+	NextButton->setButtonPos(NextButtonPos);
+	VecButton[static_cast<int>(MapEditorButtonState::Next)] = NextButton;
+
+
+
+	Button* PrevButton = CreateActor<Button>(UpdateOrder::UI);
+	if (nullptr == PrevButton)
+	{
+		MsgBoxAssert("Prev 버튼을 생성하지 못했습니다.");
+		return;
+	}
+
+	PrevButton->setRenderer(RenderOrder::FirstElementUI);
+	PrevButton->setButtonTexture(ButtonState::Normal, "Button_Prev_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	PrevButton->setButtonTexture(ButtonState::Click, "Button_Prev_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	PrevButton->setButtonTexture(ButtonState::Hover, "Button_Prev_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+
+	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
+
+	PrevButton->setCallback<MapEditor>(ButtonEventState::Click, this, &MapEditor::ClickPrevButton);
+
+	GameEngineSprite* PrevButtonSprite = ResourcesManager::GetInst().FindSprite("Button_Prev_Normal.bmp");
+	if (nullptr == PrevButtonSprite)
+	{
+		MsgBoxAssert("스프라이트를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 ButtonRenderScale = PrevButtonSprite->GetSprite(0).RenderScale;
+
+
+	float4 PrevButtonPos = SelectView_EndXPos +
+		float4{ static_cast<float>(SelectViewSize_X) * GlobalValue::MapTileSize.X - LocalNextButtonStartPos.X - ButtonRenderScale.X, LocalNextButtonStartPos.Y };
+
+	PrevButton->setButtonPos(PrevButtonPos);
+	VecButton[static_cast<int>(MapEditorButtonState::Prev)] = PrevButton;
+
+}
+
+void MapEditor::ClickPrevButton()
+{
+	SelectTilesMapNum -= 1;
+	if (SelectTilesMapNum < 0)
+	{
+		SelectTilesMapNum = static_cast<int>(TileObjectOrder::Bubble);
+	}
+
+	ChangeSelectViewInfo(static_cast<TileObjectOrder>(SelectTilesMapNum));
+	AllOffSelectVlew();
+
+	switch (SelectTilesMapNum)
+	{
+	case 0:
+		SelectView_Grounds->On();
+		break;
+	case 1:
+		SelectView_Structures->On();
+		break;
+	case 2:
+		SelectView_ImmovableBlocks->On();
+		break;
+	case 3:
+		SelectView_MovableBlocks->On();
+		break;
+	default:
+		break;
+	}
+
+	SelectView_SelectedPlace->Off();
+	ObjectTextureIndex = 0;
+}
+
+void MapEditor::ClickNextButton()
+{
+	SelectTilesMapNum += 1;
+	if (SelectTilesMapNum > static_cast<int>(TileObjectOrder::Bubble))
+	{
+		SelectTilesMapNum = 0;
+	}
+
+	ChangeSelectViewInfo(static_cast<TileObjectOrder>(SelectTilesMapNum));
+	AllOffSelectVlew();
+
+	switch (SelectTilesMapNum)
+	{
+	case 0:
+		SelectView_Grounds->On();
+		break;
+	case 1:
+		SelectView_Structures->On();
+		break;
+	case 2:
+		SelectView_ImmovableBlocks->On();
+		break;
+	case 3:
+		SelectView_MovableBlocks->On();
+		break;
+	default:
+		break;
+	}
+
+	SelectView_SelectedPlace->Off();
+	ObjectTextureIndex = 0;
+}
+
 
 void MapEditor::Update(float _Delta)
 {

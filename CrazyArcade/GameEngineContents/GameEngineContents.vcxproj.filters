@@ -61,7 +61,7 @@
     <ClCompile Include="UIMouseObject.cpp">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\WinAPI_TeamPortfolio_CrazyArcade\CrazyArcade\GameEngineContents\GlobalLoad.cpp">
+    <ClCompile Include="GlobalLoad.cpp">
       <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
@@ -129,7 +129,7 @@
     <ClInclude Include="UIMouseObject.h">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\WinAPI_TeamPortfolio_CrazyArcade\CrazyArcade\GameEngineContents\GlobalLoad.h">
+    <ClInclude Include="GlobalLoad.h">
       <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>

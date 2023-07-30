@@ -155,7 +155,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\WinAPI_TeamPortfolio_CrazyArcade\CrazyArcade\GameEngineContents\GlobalLoad.h" />
     <ClInclude Include="ActorEnum.h" />
     <ClInclude Include="BackGround.h">
       <SubType>
@@ -186,6 +185,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GlobalLoad.h" />
     <ClInclude Include="GlobalUtils.h">
       <SubType>
       </SubType>
@@ -230,7 +230,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\WinAPI_TeamPortfolio_CrazyArcade\CrazyArcade\GameEngineContents\GlobalLoad.cpp" />
     <ClCompile Include="BackGround.cpp">
       <SubType>
       </SubType>
@@ -260,6 +259,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GlobalLoad.cpp" />
     <ClCompile Include="GlobalUtils.cpp">
       <SubType>
       </SubType>
