@@ -13,8 +13,6 @@
 #include "GlobalValue.h"
 #include "BackGround.h"
 #include "TileSelect.h"
-#include "GlobalLoad.h"
-#include "Button.h"
 
 
 MapEditor::MapEditor()
@@ -53,7 +51,10 @@ void MapEditor::Start()
 	SelectedTile->Off();
 
 	// 맵 스프라이트 로드
-	GlobalLoad::TileTextureLoad();
+	GlobalUtils::SpriteFileLoad("Grounds.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::GroundTextureIndex_Y);
+	GlobalUtils::SpriteFileLoad("Structures.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::StructureTextureIndex_Y);
+	GlobalUtils::SpriteFileLoad("ImMovableBlocks.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::ImmovableBlockTextureIndex_Y);
+	GlobalUtils::SpriteFileLoad("MovableBlocks.bmp", "Resources\\Textures\\Tile", GlobalValue::AllTextureIndex_X, GlobalValue::MovableBlockTextureIndex_Y);
 
 	if (nullptr == DrawingVlew)
 	{
@@ -311,6 +312,26 @@ void MapEditor::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('4'))
 	{
 		CurSelectedTileType = 4;
+	}
+	if (true == GameEngineInput::IsDown('5'))
+	{
+		CurSelectedTileType = 5;
+	}
+	if (true == GameEngineInput::IsDown('6'))
+	{
+		CurSelectedTileType = 6;
+	}
+	if (true == GameEngineInput::IsDown('7'))
+	{
+		CurSelectedTileType = 7;
+	}
+	if (true == GameEngineInput::IsDown('8'))
+	{
+		CurSelectedTileType = 8;
+	}
+	if (true == GameEngineInput::IsDown('9'))
+	{
+		CurSelectedTileType = 9;
 	}
 }
 
