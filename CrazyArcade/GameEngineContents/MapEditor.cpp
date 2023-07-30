@@ -78,31 +78,6 @@ void MapEditor::LoadButton()
 {
 	VecButton.resize(static_cast<int>(MapEditorButtonState::Max));
 
-	Button* NextButton = CreateActor<Button>(UpdateOrder::UI);
-	if (nullptr == NextButton)
-	{
-		MsgBoxAssert("Prev 버튼을 생성하지 못했습니다.");
-		return;
-	}
-
-	NextButton->setRenderer(RenderOrder::FirstElementUI);
-	NextButton->setButtonTexture(ButtonState::Normal, "Button_Next_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
-	NextButton->setButtonTexture(ButtonState::Click, "Button_Next_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
-	NextButton->setButtonTexture(ButtonState::Hover, "Button_Next_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
-
-	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
-
-	NextButton->setCallback<MapEditor>(ButtonEventState::Click, this, &MapEditor::ClickNextButton);
-
-	float4 SelectView_EndXPos = SelectView_StartPos +
-		float4{ 0.0f , static_cast<float>(SelectViewSize_Y) * GlobalValue::MapTileSize.Y };
-
-	float4 NextButtonPos = SelectView_EndXPos + LocalNextButtonStartPos;
-
-	NextButton->setButtonPos(NextButtonPos);
-	VecButton[static_cast<int>(MapEditorButtonState::Next)] = NextButton;
-
-
 
 	Button* PrevButton = CreateActor<Button>(UpdateOrder::UI);
 	if (nullptr == PrevButton)
@@ -130,11 +105,39 @@ void MapEditor::LoadButton()
 	float4 ButtonRenderScale = PrevButtonSprite->GetSprite(0).RenderScale;
 
 
-	float4 PrevButtonPos = SelectView_EndXPos +
-		float4{ static_cast<float>(SelectViewSize_X) * GlobalValue::MapTileSize.X - LocalNextButtonStartPos.X - ButtonRenderScale.X, LocalNextButtonStartPos.Y };
+	float4 SelectView_EndXPos = SelectView_StartPos +
+		float4{ 0.0f , static_cast<float>(SelectViewSize_Y) * GlobalValue::MapTileSize.Y };
+
+	float4 PrevButtonPos = SelectView_EndXPos + LocalPrevButtonStartPos;
+
 
 	PrevButton->setButtonPos(PrevButtonPos);
 	VecButton[static_cast<int>(MapEditorButtonState::Prev)] = PrevButton;
+
+
+	Button* NextButton = CreateActor<Button>(UpdateOrder::UI);
+	if (nullptr == NextButton)
+	{
+		MsgBoxAssert("Prev 버튼을 생성하지 못했습니다.");
+		return;
+	}
+
+	NextButton->setRenderer(RenderOrder::FirstElementUI);
+	NextButton->setButtonTexture(ButtonState::Normal, "Button_Next_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	NextButton->setButtonTexture(ButtonState::Click, "Button_Next_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	NextButton->setButtonTexture(ButtonState::Hover, "Button_Next_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+
+	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
+
+	NextButton->setCallback<MapEditor>(ButtonEventState::Click, this, &MapEditor::ClickNextButton);
+
+	float4 NextButtonPos = SelectView_EndXPos +
+		float4{ static_cast<float>(SelectViewSize_X) * GlobalValue::MapTileSize.X - LocalPrevButtonStartPos.X - ButtonRenderScale.X, LocalPrevButtonStartPos.Y };
+
+	NextButton->setButtonPos(NextButtonPos);
+	VecButton[static_cast<int>(MapEditorButtonState::Next)] = NextButton;
+
+
 
 }
 

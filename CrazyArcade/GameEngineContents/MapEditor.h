@@ -101,7 +101,7 @@ private:
 	int SelectTilesMapNum = 0;
 
 	void LoadButton();
-	float4 LocalNextButtonStartPos = float4{ 10.0f , 20.0f };
+	float4 LocalPrevButtonStartPos = float4{ 10.0f , 20.0f };
 	std::vector<Button*> VecButton;
 
 
