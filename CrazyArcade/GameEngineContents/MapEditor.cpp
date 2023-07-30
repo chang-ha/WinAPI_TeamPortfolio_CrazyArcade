@@ -68,7 +68,6 @@ void MapEditor::Start()
 	AllOffSelectVlew();
 	SelectView_Grounds->On();
 
-
 	{
 		LoadButton();
 	}
@@ -77,7 +76,6 @@ void MapEditor::Start()
 void MapEditor::LoadButton()
 {
 	VecButton.resize(static_cast<int>(MapEditorButtonState::Max));
-
 
 	Button* PrevButton = CreateActor<Button>(UpdateOrder::UI);
 	if (nullptr == PrevButton)
@@ -104,16 +102,13 @@ void MapEditor::LoadButton()
 
 	float4 ButtonRenderScale = PrevButtonSprite->GetSprite(0).RenderScale;
 
-
 	float4 SelectView_EndXPos = SelectView_StartPos +
 		float4{ 0.0f , static_cast<float>(SelectViewSize_Y) * GlobalValue::MapTileSize.Y };
 
 	float4 PrevButtonPos = SelectView_EndXPos + LocalPrevButtonStartPos;
 
-
 	PrevButton->setButtonPos(PrevButtonPos);
 	VecButton[static_cast<int>(MapEditorButtonState::Prev)] = PrevButton;
-
 
 	Button* NextButton = CreateActor<Button>(UpdateOrder::UI);
 	if (nullptr == NextButton)
@@ -136,9 +131,6 @@ void MapEditor::LoadButton()
 
 	NextButton->setButtonPos(NextButtonPos);
 	VecButton[static_cast<int>(MapEditorButtonState::Next)] = NextButton;
-
-
-
 }
 
 void MapEditor::ClickPrevButton()

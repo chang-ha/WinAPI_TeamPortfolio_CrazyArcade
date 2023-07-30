@@ -38,15 +38,15 @@ protected:
 
 private:
 
-	bool MouseInTileMap();
-	bool MouseInDrawingTileMap();
+	bool MouseInTileMap(float4& _ViewStartPos, float4& TileMaxIndex);
+
 	// Setting Function
 	void TileInit();
 	class TileMap* SelectViewInit(TileObjectOrder _SelectedObjectType);
 
 	void ChangeSelectViewInfo(TileObjectOrder _SelectedObjectType);
 	void AllOffSelectVlew();
-	bool MouseInTileMap(float4& _ViewStartPos, float4& TileMaxIndex);
+	
 	TileMap* GetCurSelectViewTile();
 
 
@@ -68,7 +68,7 @@ private:
 
 
 	// Selected Object Type
-	// Empty 값은 Ground로 대체하여 사용
+	// "TileObjectOrder::Empty" 값은 "Ground"로 대체하여 사용
 	TileObjectOrder CurSelectedObjectType = TileObjectOrder::Empty;
 	std::string SelectedTextureName = "Grounds.bmp";
 	float4 CurObjectOverSize = float4::ZERO;
@@ -103,7 +103,6 @@ private:
 	void LoadButton();
 	float4 LocalPrevButtonStartPos = float4{ 10.0f , 20.0f };
 	std::vector<Button*> VecButton;
-
 
 	void ClickPrevButton();
 	void ClickNextButton();
