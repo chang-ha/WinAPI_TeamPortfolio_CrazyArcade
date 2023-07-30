@@ -120,13 +120,13 @@
     <ClInclude Include="Button.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
-    <ClInclude Include="WindowPanelUI.h">
-      <Filter>Actor\UI\WindowUI</Filter>
-    </ClInclude>
     <ClInclude Include="MapSelectWindow.h">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
     <ClInclude Include="UIMouseObject.h">
+      <Filter>Actor\UI\WindowUI</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowPanelUI.h">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
     <ClInclude Include="GlobalLoad.h">

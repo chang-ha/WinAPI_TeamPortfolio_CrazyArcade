@@ -69,6 +69,11 @@ public:
 	void enableButton(bool Enable)
 	{
 		m_ButtonState = Enable ? ButtonState::Normal : ButtonState::Disable;
+
+		if (ButtonState::Disable == m_ButtonState)
+		{
+			EnableRenderValue = true;
+		}
 	}
 
 	template<typename ActorType>
@@ -109,6 +114,7 @@ private:
 	bool checkHovered();
 	bool m_ButtonHoverValue = false;
 
+	bool EnableRenderValue = false;
 
 	// 버튼 텍스트
 	std::string ButtonText = "";
