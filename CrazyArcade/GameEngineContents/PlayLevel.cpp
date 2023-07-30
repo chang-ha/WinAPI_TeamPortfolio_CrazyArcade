@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/TileMap.h>
+#include <GameEngineCore/GameEngineCamera.h>
 
 
 #include "BackGround.h"
@@ -58,6 +59,8 @@ void PlayLevel::Start()
 	// Create Character 
 	Player = CreateActor<Bazzi>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
+
+	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
 }
 
 void PlayLevel::Update(float _Delta)
