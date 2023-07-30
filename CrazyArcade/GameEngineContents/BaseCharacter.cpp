@@ -1,4 +1,5 @@
 ﻿#include "BaseCharacter.h"
+#include "PlayLevel.h"
 #include "ContentsEnum.h"
 
 #include <GameEngineBase/GameEnginePath.h>
@@ -21,6 +22,12 @@ BaseCharacter::~BaseCharacter()
 void BaseCharacter::Update(float _Delta)
 {
 	StateUpdate(_Delta);
+
+	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle"
+		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move")
+	{
+		PlayLevel::CurPlayLevel->SetBubble(GetPos());
+	}
 
 	if (true == GameEngineInput::IsDown('J'))
 	{

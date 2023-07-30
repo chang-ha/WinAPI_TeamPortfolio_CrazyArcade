@@ -20,6 +20,7 @@ public:
 
 	bool CheckTile(const float4& _Pos);
 	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y);
+	void SetBubble(const float4& _Pos);
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;

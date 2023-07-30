@@ -10,6 +10,7 @@
 #include "BackGround.h"
 #include "Dao.h"
 #include "Bazzi.h"
+#include "Cappi.h"
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
 #include "GlobalUtils.h"
@@ -57,7 +58,7 @@ void PlayLevel::Start()
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
 	// Create Character 
-	Player = CreateActor<Bazzi>(UpdateOrder::Character);
+	Player = CreateActor<Cappi>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
@@ -225,4 +226,22 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 		TileInfo[NewY][NewX] = Temp;
 		ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
 	}
+}
+
+void PlayLevel::SetBubble(const float4& _Pos)
+{
+	if (nullptr != Player)
+	{
+		float4 CharacterPos = _Pos;
+		CharacterPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
+		float4 ChangeIndex = ObjectTile->PosToIndex(CharacterPos);
+
+		int BubbleIndexX = ChangeIndex.iX() - 1;
+		int BubbleIndexY = ChangeIndex.iY() - 1;
+
+		return;
+	}
+
+	MsgBoxAssert("Player가 nullptr입니다");
+	return;
 }

@@ -172,6 +172,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Cappi.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentLevel.h">
       <SubType>
       </SubType>
@@ -244,6 +248,10 @@
     </ClCompile>
     <ClCompile Include="BaseCharacter_State.cpp" />
     <ClCompile Include="Bazzi.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Cappi.cpp">
       <SubType>
       </SubType>
     </ClCompile>

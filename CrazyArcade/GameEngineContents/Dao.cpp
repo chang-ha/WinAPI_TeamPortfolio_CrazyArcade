@@ -40,11 +40,6 @@ void Dao::Start()
 	ChangeState(CharacterState::Idle);
 }
 
-void Dao::Update(float _Delta)
-{
-	BaseCharacter::Update(_Delta);
-}
-
 void Dao::ChangeAnimationState(const std::string& _StateName)
 {
 	std::string AnimationName = "Dao_";

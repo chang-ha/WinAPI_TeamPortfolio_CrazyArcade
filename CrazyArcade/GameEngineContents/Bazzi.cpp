@@ -40,11 +40,6 @@ void Bazzi::Start()
 	ChangeState(CharacterState::Idle);
 }
 
-void Bazzi::Update(float _Delta)
-{
-	BaseCharacter::Update(_Delta);
-}
-
 void Bazzi::ChangeAnimationState(const std::string& _StateName)
 {
 	std::string AnimationName = "Bazzi_";
