@@ -335,7 +335,7 @@ void MapEditor::TileInit()
 	{
 		DrawingView_Object = CreateActor<TileMap>();
 		DrawingView_Object->CreateTileMap("Structures.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y,
-			GlobalValue::MapTileSize, RenderOrder::Map);
+			GlobalValue::MapTileSize, RenderOrder::MapObject);
 	}
 
 	SelectView_Grounds = SelectViewInit(TileObjectOrder::Empty);
@@ -355,7 +355,7 @@ TileMap* MapEditor::SelectViewInit(TileObjectOrder _SelectedObjectType)
 	{
 		_Tile = CreateActor<TileMap>();
 		_Tile->CreateTileMap(SelectedTextureName, SelectViewSize_X,
-			(ObjectSpriteMaxIndex / SelectViewSize_X) + 1, GlobalValue::MapTileSize, RenderOrder::Map);
+			(ObjectSpriteMaxIndex / SelectViewSize_X) + 1, GlobalValue::MapTileSize, RenderOrder::MapObject);
 	}
 
 	int IndexCount = 0;
