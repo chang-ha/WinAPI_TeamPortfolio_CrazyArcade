@@ -12,6 +12,7 @@
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
 #include "GlobalUtils.h"
+#include "GlobalLoad.h"
 #include "GameMapInfo.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;

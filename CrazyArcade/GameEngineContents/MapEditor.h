@@ -89,7 +89,6 @@ private:
 	int GroundTextureIndex = 0;
 	int ObjectTextureIndex = 0;
 
-
 	// Tiles
 	TileMap* DrawingView_Ground = nullptr;
 	TileMap* DrawingView_Object= nullptr;
@@ -100,10 +99,11 @@ private:
 	TileMap* SelectView_ImmovableBlocks = nullptr;
 	TileMap* SelectView_MovableBlocks = nullptr;
 
-	TileMap* DrawingVlew = nullptr;
-	TileMap* SelectView = nullptr;
-	std::vector<std::vector<int>>TilesInfo;
+	// TileSelect Object
+	class TileSelect* DrawingVlew_SelectedPlace = nullptr;
+	class TileSelect* SelectView_SelectedPlace = nullptr;
 
+	std::vector<std::vector<class GameMapInfo>> TileInfo;
 
 private:
 	std::vector<std::string> VecTileSpriteFileName;
@@ -111,25 +111,23 @@ private:
 
 	int CurSelectTilesCount = 0;
 
-	void UpdateDrawingTileUI();
+	//void UpdateDrawingTileUI();
 	
-	void InitTiles();
-	void LoadButton();
+	//void InitTiles();
+	//void LoadButton();
+
 	std::vector<Button*> VecButton;
 
 	float4 LocalNextButtonStartPos = float4{ 10.0f , 30.0f };
 
 	SelectTileType CurrentSelectTileType = SelectTileType::Max;
 
-	void ClickPrevButton();
-	void ClickNextButton();
+	//void ClickPrevButton();
+	//void ClickNextButton();
 
-	void ClearSelectViewTiles();
-	void ChangeSelectViewTile();
-	// TileSelect Object
-	class TileSelect* DrawingVlew_SelectedPlace = nullptr;
-	class TileSelect* SelectView_SelectedPlace = nullptr;
+	//void ClearSelectViewTiles();
+	//void ChangeSelectViewTile();
 
-	std::vector<std::vector<class GameMapInfo>> TileInfo;
+
 };
 
