@@ -25,6 +25,13 @@ public:
 	static float4 BlockOverSize;
 	static float4 StructureOverSize;
 
+	static int AllTextureIndex_X;
+
+	static int GroundTextureIndex_Y;
+	static int MovableBlockTextureIndex_Y;
+	static int ImmovableBlockTextureIndex_Y;
+	static int StructureTextureIndex_Y;
+
 	static float4 TileStartPos;
 
 	static void Init();
