@@ -181,6 +181,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FadeObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FadeScreen.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameMapInfo.h">
       <SubType>
       </SubType>
@@ -207,6 +215,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayTimer.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -255,6 +267,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FadeObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FadeScreen.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameMapInfo.cpp">
       <SubType>
       </SubType>
@@ -281,6 +301,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayTimer.cpp">
       <SubType>
       </SubType>
     </ClCompile>

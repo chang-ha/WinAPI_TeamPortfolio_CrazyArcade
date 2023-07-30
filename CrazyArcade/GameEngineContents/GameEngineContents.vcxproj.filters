@@ -58,11 +58,20 @@
     <ClCompile Include="WindowPanelUI.cpp">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClCompile>
-    <ClCompile Include="UIMouseObject.cpp">
-      <Filter>Actor\UI\WindowUI</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalLoad.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMouseObject.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeScreen.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeObject.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayTimer.cpp">
+      <Filter>Actor\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,14 +132,23 @@
     <ClInclude Include="MapSelectWindow.h">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
-    <ClInclude Include="UIMouseObject.h">
-      <Filter>Actor\UI\WindowUI</Filter>
-    </ClInclude>
     <ClInclude Include="WindowPanelUI.h">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
     <ClInclude Include="GlobalLoad.h">
       <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMouseObject.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeScreen.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeObject.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayTimer.h">
+      <Filter>Actor\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
