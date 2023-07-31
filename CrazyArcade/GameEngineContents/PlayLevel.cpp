@@ -16,6 +16,7 @@
 #include "GlobalUtils.h"
 #include "GlobalLoad.h"
 #include "GameMapInfo.h"
+#include "PlayTimer.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
@@ -64,6 +65,18 @@ void PlayLevel::Start()
 	AllBubbleIndex.reserve(10);
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
+
+
+	PlayTimerPtr = CreateActor<PlayTimer>(UpdateOrder::UI);
+	if (nullptr == PlayTimerPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	PlayTimerPtr->SetPos(float4{ 711.0f , 78.0f });
+	PlayTimerPtr->setTimer(5.0f);
+	PlayTimerPtr->flowTimer();
 }
 
 void PlayLevel::Update(float _Delta)

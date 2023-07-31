@@ -40,5 +40,7 @@ protected:
 
 private:
 	BaseCharacter* Player = nullptr;
+
+	class PlayTimer* PlayTimerPtr = nullptr;
 };
 
