@@ -61,12 +61,27 @@ void PlayLevel::Start()
 	Player = CreateActor<Bazzi>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 
+	AllBubbleIndex.reserve(10);
+
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
 }
 
 void PlayLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	for (int i = 0; i < AllBubbleIndex.size(); i++)
+	{
+		GameMapIndex CheckIndex = AllBubbleIndex[i];
+
+		TileInfo[CheckIndex.Y][CheckIndex.X].Timer += _Delta;
+
+		if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 3.0f)
+		{
+			BubbleReset(CheckIndex.X, CheckIndex.Y);
+			AllBubbleIndex.erase(AllBubbleIndex.begin() + i);
+		}
+	}
 }
 
 void PlayLevel::Render(float _Delta)
@@ -168,6 +183,11 @@ bool PlayLevel::CheckTile(const float4& _Pos)
 				return true;
 			}
 
+			if (TileObjectOrder::Bubble == TileInfo[CheckY][CheckX].MapInfo)
+			{
+				return true;
+			}
+
 			return false;
 		}
 	}
@@ -243,8 +263,13 @@ void PlayLevel::SetBubble(const float4& _Pos)
 			return;
 		}
 
+		AllBubbleIndex.push_back({ BubbleIndexX, BubbleIndexY });
+
+		TileInfo[BubbleIndexY][BubbleIndexX].MapInfo = TileObjectOrder::Bubble;
+
 		BubbleRenderer = ObjectTile->SetTileToSprite(BubbleIndexX, BubbleIndexY, "Bubble.bmp", 
 			TileInfo[BubbleIndexY][BubbleIndexX].ObjectTextureInfo, GlobalValue::TileStartPos, true);
+
 		BubbleRenderer->CreateAnimation("Bubble_Idle", "Bubble.bmp", 0, 2, 0.2f, true);
 		BubbleRenderer->ChangeAnimation("Bubble_Idle");
 
@@ -253,4 +278,22 @@ void PlayLevel::SetBubble(const float4& _Pos)
 
 	MsgBoxAssert("Player가 nullptr입니다");
 	return;
+}
+
+void PlayLevel::BubbleReset(const int _X, const int _Y)
+{
+	TileInfo[_Y][_X].Timer = 0.0f;
+	TileInfo[_Y][_X].MapInfo = TileObjectOrder::Empty;
+
+	GameEngineRenderer* BubbleRenderer = ObjectTile->GetTile(_X, _Y);
+
+	if (nullptr == BubbleRenderer)
+	{
+		return;
+	}
+
+	BubbleRenderer = ObjectTile->SetTileToSprite(_X, _Y, "EraseTile.Bmp", 0, GlobalValue::TileStartPos, true);
+
+	BubbleRenderer->CreateAnimation("EmptyTile", "EraseTile.Bmp");
+	BubbleRenderer->ChangeAnimation("EmptyTile");
 }
