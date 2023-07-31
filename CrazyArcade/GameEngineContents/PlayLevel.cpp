@@ -245,7 +245,7 @@ void PlayLevel::SetBubble(const float4& _Pos)
 
 		BubbleRenderer = ObjectTile->SetTileToSprite(BubbleIndexX, BubbleIndexY, "Bubble.bmp", 
 			TileInfo[BubbleIndexY][BubbleIndexX].ObjectTextureInfo, GlobalValue::TileStartPos, true);
-		BubbleRenderer->CreateAnimation("Bubble_Idle", "Bubble.bmp", 0, 3, 0.15f, true);
+		BubbleRenderer->CreateAnimation("Bubble_Idle", "Bubble.bmp", 0, 2, 0.2f, true);
 		BubbleRenderer->ChangeAnimation("Bubble_Idle");
 
 		return;
