@@ -10,9 +10,6 @@
     <ClCompile Include="BaseCharacter_State.cpp">
       <Filter>Actor\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Bazzi.cpp">
-      <Filter>Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="ContentLevel.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -21,9 +18,6 @@
     </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="Dao.cpp">
-      <Filter>Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="TileSelect.cpp">
       <Filter>Global</Filter>
@@ -61,6 +55,16 @@
     <ClCompile Include="GlobalLoad.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="Dao.cpp">
+      <Filter>Actor\Unit\Dao</Filter>
+    </ClCompile>
+    <ClCompile Include="Bazzi.cpp">
+      <Filter>Actor\Unit\Bazzi</Filter>
+    </ClCompile>
+    <ClCompile Include="Cappi.cpp">
+      <Filter>Actor\Unit\Cappi</Filter>
+=======
     <ClCompile Include="UIMouseObject.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
@@ -72,6 +76,7 @@
     </ClCompile>
     <ClCompile Include="PlayTimer.cpp">
       <Filter>Actor\UI</Filter>
+>>>>>>> Develop
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,9 +85,6 @@
     </ClInclude>
     <ClInclude Include="BackGround.h">
       <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Bazzi.h">
-      <Filter>Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="BaseCharacter.h">
       <Filter>Actor\Unit</Filter>
@@ -98,9 +100,6 @@
     </ClInclude>
     <ClInclude Include="GlobalUtils.h">
       <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Dao.h">
-      <Filter>Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="TileSelect.h">
       <Filter>Global</Filter>
@@ -138,6 +137,16 @@
     <ClInclude Include="GlobalLoad.h">
       <Filter>Global</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Dao.h">
+      <Filter>Actor\Unit\Dao</Filter>
+    </ClInclude>
+    <ClInclude Include="Bazzi.h">
+      <Filter>Actor\Unit\Bazzi</Filter>
+    </ClInclude>
+    <ClInclude Include="Cappi.h">
+      <Filter>Actor\Unit\Cappi</Filter>
+=======
     <ClInclude Include="UIMouseObject.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
@@ -149,6 +158,7 @@
     </ClInclude>
     <ClInclude Include="PlayTimer.h">
       <Filter>Actor\UI</Filter>
+>>>>>>> Develop
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +182,15 @@
     </Filter>
     <Filter Include="Actor\UI\WindowUI">
       <UniqueIdentifier>{478b87b6-80d2-445e-ae3c-9963ab3fce41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Unit\Dao">
+      <UniqueIdentifier>{82754d8b-09e6-4935-a875-aa5c87c4f494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Unit\Bazzi">
+      <UniqueIdentifier>{15a70e5f-a072-4be9-aa82-bc1e90398349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Unit\Cappi">
+      <UniqueIdentifier>{0a5be3e6-fe7c-4fcd-8c90-0471ead3ef3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

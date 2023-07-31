@@ -22,5 +22,4 @@ private:
 	float Speed = 300.0f;
 
 	void Start() override;
-	void Update(float _Delta) override;
 };
