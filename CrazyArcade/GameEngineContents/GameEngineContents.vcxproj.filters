@@ -52,12 +52,10 @@
     <ClCompile Include="WindowPanelUI.cpp">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClCompile>
-    <ClCompile Include="UIMouseObject.cpp">
-      <Filter>Actor\UI\WindowUI</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalLoad.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Dao.cpp">
       <Filter>Actor\Unit\Dao</Filter>
     </ClCompile>
@@ -66,6 +64,19 @@
     </ClCompile>
     <ClCompile Include="Cappi.cpp">
       <Filter>Actor\Unit\Cappi</Filter>
+=======
+    <ClCompile Include="UIMouseObject.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeScreen.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeObject.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayTimer.cpp">
+      <Filter>Actor\UI</Filter>
+>>>>>>> Develop
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,15 +131,13 @@
     <ClInclude Include="MapSelectWindow.h">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
-    <ClInclude Include="UIMouseObject.h">
-      <Filter>Actor\UI\WindowUI</Filter>
-    </ClInclude>
     <ClInclude Include="WindowPanelUI.h">
       <Filter>Actor\UI\WindowUI</Filter>
     </ClInclude>
     <ClInclude Include="GlobalLoad.h">
       <Filter>Global</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Dao.h">
       <Filter>Actor\Unit\Dao</Filter>
     </ClInclude>
@@ -137,6 +146,19 @@
     </ClInclude>
     <ClInclude Include="Cappi.h">
       <Filter>Actor\Unit\Cappi</Filter>
+=======
+    <ClInclude Include="UIMouseObject.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeScreen.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeObject.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayTimer.h">
+      <Filter>Actor\UI</Filter>
+>>>>>>> Develop
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
