@@ -60,6 +60,7 @@ protected:
 	float Speed = 300.0f;
 
 	void DirCheck();
+	void SetBubble();
 
 private:
 	bool IsDebugData = false;

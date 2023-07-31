@@ -58,7 +58,7 @@ void PlayLevel::Start()
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
 	// Create Character 
-	Player = CreateActor<Cappi>(UpdateOrder::Character);
+	Player = CreateActor<Bazzi>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
@@ -128,7 +128,6 @@ void PlayLevel::TileSetting()
 	}
 }
 
-// 플레이어랑 타일맵 인덱스 비교용 테스트 함수
 bool PlayLevel::CheckTile(const float4& _Pos)
 {
 	if (nullptr != Player)
@@ -148,8 +147,6 @@ bool PlayLevel::CheckTile(const float4& _Pos)
 		}
 		else
 		{
-			//TileObjectOrder Check = TileInfo[CheckY][CheckX].MapInfo;
-
 			if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
 			{
 				return false;
@@ -238,6 +235,15 @@ void PlayLevel::SetBubble(const float4& _Pos)
 
 		int BubbleIndexX = ChangeIndex.iX() - 1;
 		int BubbleIndexY = ChangeIndex.iY() - 1;
+
+		GameEngineRenderer* BubbleRenderer = nullptr;
+
+		BubbleRenderer = ObjectTile->SetTileToSprite(BubbleIndexX, BubbleIndexY, "Bubble.bmp", 
+			TileInfo[BubbleIndexY][BubbleIndexX].ObjectTextureInfo, GlobalValue::TileStartPos, true);
+		BubbleRenderer->CreateAnimation("Bubble_Idle", "Bubble.bmp", 0, 3, 0.15f, true);
+		BubbleRenderer->ChangeAnimation("Bubble_Idle");
+
+		
 
 		return;
 	}

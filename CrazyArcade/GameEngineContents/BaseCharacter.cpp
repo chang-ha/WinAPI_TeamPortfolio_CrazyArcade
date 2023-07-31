@@ -23,6 +23,7 @@ void BaseCharacter::Update(float _Delta)
 {
 	StateUpdate(_Delta);
 
+	// 물풍선 설치
 	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle"
 		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move")
 	{
@@ -162,3 +163,8 @@ void BaseCharacter::ChangeState(CharacterState _State)
 }
 
 void BaseCharacter::ChangeAnimationState(const std::string& _StateName) {}
+
+void BaseCharacter::SetBubble()
+{
+	
+}
