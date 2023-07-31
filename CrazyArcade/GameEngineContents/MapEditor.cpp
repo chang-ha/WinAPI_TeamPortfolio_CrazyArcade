@@ -4,7 +4,7 @@
 #include <GameEngineCore/TileMap.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEnginePlatform/GameEngineInput.h>
-
+#include <GameEngineCore/GameEngineCamera.h>
 #include "MapEditor.h"
 #include "ContentsEnum.h"
 #include "GlobalUtils.h"
@@ -71,6 +71,8 @@ void MapEditor::Start()
 	{
 		LoadButton();
 	}
+
+	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
 }
 
 void MapEditor::LoadButton()
@@ -335,7 +337,7 @@ void MapEditor::TileInit()
 	{
 		DrawingView_Object = CreateActor<TileMap>();
 		DrawingView_Object->CreateTileMap("Structures.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y,
-			GlobalValue::MapTileSize, RenderOrder::Map);
+			GlobalValue::MapTileSize, RenderOrder::MapObject);
 	}
 
 	SelectView_Grounds = SelectViewInit(TileObjectOrder::Empty);
