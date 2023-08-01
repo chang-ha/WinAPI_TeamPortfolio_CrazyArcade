@@ -308,10 +308,15 @@ void PlayLevel::BubbleReset(const int _X, const int _Y)
 		return;
 	}
 
-	BubbleRenderer = ObjectTile->SetTileToSprite(_X, _Y, "EraseTile.Bmp", 0, GlobalValue::TileStartPos, true);
-	if (nullptr == BubbleRenderer->FindAnimation("EmptyTile"))
-	{
-		BubbleRenderer->CreateAnimation("EmptyTile", "EraseTile.Bmp");
-	}
-	BubbleRenderer->ChangeAnimation("EmptyTile");
+	ObjectTile->DeathTile(_X, _Y);
+
+	BubbleRenderer->Death();
+	BubbleRenderer = nullptr;
+
+	//BubbleRenderer = ObjectTile->SetTileToSprite(_X, _Y, "EraseTile.Bmp", 0, GlobalValue::TileStartPos, true);
+	//if (nullptr == BubbleRenderer->FindAnimation("EmptyTile"))
+	//{
+	//	BubbleRenderer->CreateAnimation("EmptyTile", "EraseTile.Bmp");
+	//}
+	//BubbleRenderer->ChangeAnimation("EmptyTile");
 }
