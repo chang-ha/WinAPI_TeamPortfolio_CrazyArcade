@@ -4,8 +4,9 @@
 
 
 #include "BackGround.h"
-#include "Button.h"
+#include "FadeScreen.h"
 #include "MapSelectWindow.h"
+#include "Button.h"
 
 
 RoomLevel::RoomLevel()
@@ -33,10 +34,24 @@ void RoomLevel::Start()
 
 	loadWindowElement();
 	loadButtonElement();
-
+	loadFadeScreen();
 }
 
+void RoomLevel::loadFadeScreen()
+{
+	m_FadeScreen = CreateActor<FadeScreen>(UpdateOrder::UI);
+	if (nullptr == m_FadeScreen)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
 
+	m_FadeScreen->setAlpha(FadeAlpha);
+	float4 WindowScale = GlobalValue::WinScale;
+	m_FadeScreen->setRenderScale(WindowScale);
+	m_FadeScreen->SetPos(WindowScale.Half());
+	m_FadeScreen->Off();
+}
 
 void RoomLevel::loadWindowElement()
 {
@@ -107,7 +122,7 @@ void RoomLevel::loadButtonElement()
 	GameStartButtonPtr->setButtonPos(float4{ 512.0f, 494.0f });
 	vecButton[static_cast<int>(ButtonActor::GameStart)] = GameStartButtonPtr;
 
-	ButtonUpdateValue = true;
+	m_ButtonUpdateValue = true;
 }
 
 
@@ -135,26 +150,26 @@ void RoomLevel::updateButtonVisibility()
 
 	if (true == OpenWindowValue)
 	{
-		if (true == ButtonUpdateValue)
+		if (true == m_ButtonUpdateValue)
 		{
 			for (size_t ButtonCount = 0; ButtonCount < static_cast<int>(ButtonActor::Max); ButtonCount++)
 			{
 				vecButton[ButtonCount]->enableButton(false);
 			}
 
-			ButtonUpdateValue = false;
+			m_ButtonUpdateValue = false;
 		}
 	}
 	else
 	{
-		if (false == ButtonUpdateValue)
+		if (false == m_ButtonUpdateValue)
 		{
 			for (size_t ButtonCount = 0; ButtonCount < static_cast<int>(ButtonActor::Max); ButtonCount++)
 			{
 				vecButton[ButtonCount]->enableButton(true);
 			}
 
-			ButtonUpdateValue = true;
+			m_ButtonUpdateValue = true;
 		}
 	}
 }
