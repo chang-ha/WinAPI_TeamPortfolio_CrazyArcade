@@ -63,6 +63,7 @@ void PlayLevel::Start()
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	AllBubbleIndex.reserve(10);
+	AllBubbleDeathIndex.reserve(10);
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
 
@@ -89,10 +90,35 @@ void PlayLevel::Update(float _Delta)
 
 		TileInfo[CheckIndex.Y][CheckIndex.X].Timer += _Delta;
 
-		if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 3.0f)
+		if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 2.0f)
 		{
 			BubbleReset(CheckIndex.X, CheckIndex.Y);
 			AllBubbleIndex.erase(AllBubbleIndex.begin() + i);
+
+			// 터진 후 사라져야하는 물폭탄 인덱스 저장
+			AllBubbleDeathIndex.push_back({ CheckIndex.X, CheckIndex.Y });
+		}
+	}
+
+	for (int i = 0; i < AllBubbleDeathIndex.size(); i++)
+	{
+		GameMapIndex CheckIndex = AllBubbleDeathIndex[i];
+		GameEngineRenderer* PopRenderer = ObjectTile->GetTile(CheckIndex.X, CheckIndex.Y);
+
+		if (nullptr == PopRenderer)
+		{
+			continue;
+		}
+
+		// Pop 애니메이션이 끝난 후 해당 물폭탄 삭제
+		if (true == PopRenderer->IsAnimation("Bubble_Pop")
+			&& true == PopRenderer->IsAnimationEnd())
+		{
+			AllBubbleDeathIndex.erase(AllBubbleDeathIndex.begin() + i);
+
+			ObjectTile->DeathTile(CheckIndex.X, CheckIndex.Y);
+			PopRenderer->Death();
+			PopRenderer = nullptr;
 		}
 	}
 }
@@ -308,15 +334,20 @@ void PlayLevel::BubbleReset(const int _X, const int _Y)
 		return;
 	}
 
-	ObjectTile->DeathTile(_X, _Y);
+	BubbleRenderer = ObjectTile->SetTileToSprite(_X, _Y, "Pop.bmp",
+		TileInfo[_Y][_X].ObjectTextureInfo, GlobalValue::TileStartPos, true);
 
-	BubbleRenderer->Death();
-	BubbleRenderer = nullptr;
+	if (nullptr == BubbleRenderer->FindAnimation("Bubble_Pop"))
+	{
+		BubbleRenderer->CreateAnimation("Bubble_Pop", "Pop.bmp", 0, 5, 0.1f, false);
+	}
+	BubbleRenderer->ChangeAnimation("Bubble_Pop");
 
-	//BubbleRenderer = ObjectTile->SetTileToSprite(_X, _Y, "EraseTile.Bmp", 0, GlobalValue::TileStartPos, true);
-	//if (nullptr == BubbleRenderer->FindAnimation("EmptyTile"))
+	//if (true == BubbleRenderer->IsAnimation("Bubble_Pop")
+	//	&& true == BubbleRenderer->IsAnimationEnd())
 	//{
-	//	BubbleRenderer->CreateAnimation("EmptyTile", "EraseTile.Bmp");
+	//	ObjectTile->DeathTile(_X, _Y);
+	//	BubbleRenderer->Death();
+	//	BubbleRenderer = nullptr;
 	//}
-	//BubbleRenderer->ChangeAnimation("EmptyTile");
 }

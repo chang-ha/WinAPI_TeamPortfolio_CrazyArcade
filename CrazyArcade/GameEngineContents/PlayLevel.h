@@ -37,6 +37,7 @@ protected:
 	class TileMap* ObjectTile = nullptr;
 
 	std::vector<class GameMapIndex> AllBubbleIndex;
+	std::vector<class GameMapIndex> AllBubbleDeathIndex;
 
 private:
 	BaseCharacter* Player = nullptr;
