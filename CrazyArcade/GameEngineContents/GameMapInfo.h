@@ -9,4 +9,13 @@ public:
 	TileObjectOrder MapInfo = TileObjectOrder::Empty;
 	int GroundTextureInfo = 0;
 	int ObjectTextureInfo = 0;
+
+	float Timer = 0.0f;
+};
+
+class GameMapIndex
+{
+public:
+	int X = -1;
+	int Y = -1;
 };
