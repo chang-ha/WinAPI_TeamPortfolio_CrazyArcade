@@ -75,7 +75,7 @@ void PlayLevel::Start()
 	}
 
 	PlayTimerPtr->SetPos(float4{ 711.0f , 78.0f });
-	PlayTimerPtr->setTimer(65.0f);
+	PlayTimerPtr->setTimer(5.0f);
 	PlayTimerPtr->flowTimer();
 }
 
