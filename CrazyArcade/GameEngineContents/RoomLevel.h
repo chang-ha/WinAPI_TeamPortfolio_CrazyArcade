@@ -50,18 +50,23 @@ private:
 
 
 	// this
+	void loadFadeScreen();
+	class FadeScreen* m_FadeScreen = nullptr;
+	const int FadeAlpha = 50;
+
+
 	void loadWindowElement();
 	std::vector<WindowPanelUI*> vecWindowPanel;
 
 	void loadButtonElement();
 	std::vector<Button*> vecButton;
-	
-	
-	
+
+
+
 	void updateButtonVisibility();
 
-	bool ButtonUpdateValue = true;
-	
+	bool m_ButtonUpdateValue = true;
+
 	void clickSelectButton();
 
 
