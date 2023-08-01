@@ -271,7 +271,7 @@ void PlayLevel::SetBubble(const float4& _Pos)
 
 		GameEngineRenderer* BubbleRenderer = ObjectTile->GetTile(BubbleIndexX, BubbleIndexY);
 
-		if (nullptr != BubbleRenderer)
+		if (TileObjectOrder::Empty != TileInfo[BubbleIndexY][BubbleIndexX].MapInfo)
 		{
 			return;
 		}
@@ -283,7 +283,10 @@ void PlayLevel::SetBubble(const float4& _Pos)
 		BubbleRenderer = ObjectTile->SetTileToSprite(BubbleIndexX, BubbleIndexY, "Bubble.bmp", 
 			TileInfo[BubbleIndexY][BubbleIndexX].ObjectTextureInfo, GlobalValue::TileStartPos, true);
 
-		BubbleRenderer->CreateAnimation("Bubble_Idle", "Bubble.bmp", 0, 2, 0.2f, true);
+		if (nullptr == BubbleRenderer->FindAnimation("Bubble_Idle"))
+		{
+			BubbleRenderer->CreateAnimation("Bubble_Idle", "Bubble.bmp", 0, 2, 0.2f, true);
+		}
 		BubbleRenderer->ChangeAnimation("Bubble_Idle");
 
 		return;
@@ -306,7 +309,9 @@ void PlayLevel::BubbleReset(const int _X, const int _Y)
 	}
 
 	BubbleRenderer = ObjectTile->SetTileToSprite(_X, _Y, "EraseTile.Bmp", 0, GlobalValue::TileStartPos, true);
-
-	BubbleRenderer->CreateAnimation("EmptyTile", "EraseTile.Bmp");
+	if (nullptr == BubbleRenderer->FindAnimation("EmptyTile"))
+	{
+		BubbleRenderer->CreateAnimation("EmptyTile", "EraseTile.Bmp");
+	}
 	BubbleRenderer->ChangeAnimation("EmptyTile");
 }
