@@ -77,7 +77,7 @@ void PlayLevel::Start()
 	}
 
 	PlayTimerPtr->SetPos(float4{ 711.0f , 78.0f });
-	PlayTimerPtr->setTimer(5.0f);
+	PlayTimerPtr->setTimer(65.0f);
 	PlayTimerPtr->flowTimer();
 }
 
@@ -307,7 +307,7 @@ void PlayLevel::SetBubble(const float4& _Pos)
 
 		TileInfo[BubbleIndexY][BubbleIndexX].MapInfo = TileObjectOrder::Bubble;
 
-		BubbleRenderer = ObjectTile->SetTileToSprite(BubbleIndexX, BubbleIndexY, "Bubble.bmp", 
+		BubbleRenderer = ObjectTile->SetTileToSprite(BubbleIndexX, BubbleIndexY, "Bubble.bmp",
 			TileInfo[BubbleIndexY][BubbleIndexX].ObjectTextureInfo, GlobalValue::TileStartPos, true);
 
 		if (nullptr == BubbleRenderer->FindAnimation("Bubble_Idle"))

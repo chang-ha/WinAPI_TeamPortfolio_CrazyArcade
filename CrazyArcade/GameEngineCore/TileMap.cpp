@@ -20,6 +20,14 @@ void TileMap::Update(float _DeltaTime)
 		return;
 	}
 
+	static float LerpDelayTime = LerpDelay;
+
+	LerpDelayTime -= _DeltaTime;
+	if (0 < LerpDelayTime)
+	{
+		return;
+	}
+
 	// Lerp는 Start에서 end까지 정확하게 1초만에 도달하게 해줘.
 	LerpTime += _DeltaTime * LerpSpeed;
 
@@ -39,6 +47,7 @@ void TileMap::Update(float _DeltaTime)
 			Tiles[Pos.iY()][Pos.iX()] = LerpTileRenderer;
 		}
 		LerpInfos.clear();
+		LerpDelayTime = LerpDelay;
 		// LerpTileRenderer = nullptr;
 	}
 }
@@ -243,7 +252,7 @@ bool TileMap::MoveTile(int X1, int Y1, int X2, int Y2, float4 _TilePos)
 	return true;
 }
 
-bool TileMap::LerpTile(int X1, int Y1, int X2, int Y2, float4 _TilePos)
+bool TileMap::LerpTile(int X1, int Y1, int X2, int Y2, float4 _TilePos, float _LerpDelay)
 {
 	if (nullptr == Tiles[Y1][X1])
 	{
@@ -270,11 +279,12 @@ bool TileMap::LerpTile(int X1, int Y1, int X2, int Y2, float4 _TilePos)
 	Tiles[Y2][X2] = nullptr;
 
 	LerpTime = 0.0f;
+	LerpDelay = _LerpDelay;
 	LerpInfos.push_back(NewInfo);
 	return true;
 }
 
-bool TileMap::LerpTile(GameEngineRenderer* _Renderer, MOVEDIR _Dir, float4 _TilePos)
+bool TileMap::LerpTile(GameEngineRenderer* _Renderer, MOVEDIR _Dir, float4 _TilePos, float _LerpDelay)
 {
 	if (nullptr == _Renderer)
 	{
@@ -323,6 +333,7 @@ bool TileMap::LerpTile(GameEngineRenderer* _Renderer, MOVEDIR _Dir, float4 _Tile
 
 	Tiles[Y][X] = nullptr;
 	LerpTime = 0.0f;
+	LerpDelay = _LerpDelay;
 	LerpInfos.push_back(NewInfo);
 	return true;
 }

@@ -54,9 +54,9 @@ public:
 
 	// A위치에 B위치로 가려고 하는것.
 	// 서서히 움직여서 목적지에 도달시키는 기능.
-	bool LerpTile(int X1, int Y1, int X2, int Y2, float4 _TilePos);
+	bool LerpTile(int X1, int Y1, int X2, int Y2, float4 _TilePos, float _LerpDelay = 0.0f);
 
-	bool LerpTile(GameEngineRenderer* _Renderer, MOVEDIR _Dir, float4 _TilePos);
+	bool LerpTile(GameEngineRenderer* _Renderer, MOVEDIR _Dir, float4 _TilePos, float _LerpDelay = 0.0f);
 
 	GameEngineRenderer* SetTile(int X, int Y, int _Index, float4 _TilePos = float4::ZERO, bool _IsImageSize = false);
 
@@ -101,6 +101,7 @@ protected:
 	float LerpSpeed = 5.0f;
 
 	float LerpTime = 0.0f;
+	float LerpDelay = 0.0f;
 
 	std::vector<LerpTileInfo> LerpInfos;
 
