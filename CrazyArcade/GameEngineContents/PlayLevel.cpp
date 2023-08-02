@@ -364,48 +364,28 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 	int LeftIndexX = _X - 1;
 	int LeftIndexY = _Y;
 
-	TileInfo[LeftIndexY][LeftIndexX].MapInfo = TileObjectOrder::PopRange;
-
 	TileChange(LeftIndexX, LeftIndexY, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f);
-
-	// 터진 후 사라져야하는 물폭탄 인덱스 저장
-	AllBubbleDeathIndex.push_back({ LeftIndexX, LeftIndexY });
 
 
 	//오른쪽 타일--------------------------------------------------------------
 	int RightIndexX = _X + 1;
 	int RightIndexY = _Y;
 
-	TileInfo[RightIndexY][RightIndexX].MapInfo = TileObjectOrder::PopRange;
-
 	TileChange(RightIndexX, RightIndexY, "Right_1.Bmp", "Bubble_Pop_Right", 0.05f);
-
-	// 터진 후 사라져야하는 물폭탄 인덱스 저장
-	AllBubbleDeathIndex.push_back({ RightIndexX, RightIndexY });
 
 
 	//위쪽 타일--------------------------------------------------------------
 	int UpIndexX = _X;
 	int UpIndexY = _Y - 1;
 
-	TileInfo[UpIndexY][UpIndexX].MapInfo = TileObjectOrder::PopRange;
-
 	TileChange(UpIndexX, UpIndexY, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f);
-	
-	// 터진 후 사라져야하는 물폭탄 인덱스 저장
-	AllBubbleDeathIndex.push_back({ UpIndexX, UpIndexY });
 
 
 	//아래쪽 타일--------------------------------------------------------------
 	int DownIndexX = _X;
 	int DownIndexY = _Y + 1;
 
-	TileInfo[DownIndexY][DownIndexX].MapInfo = TileObjectOrder::PopRange;
-
 	TileChange(DownIndexX, DownIndexY, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f);
-
-	// 터진 후 사라져야하는 물폭탄 인덱스 저장
-	AllBubbleDeathIndex.push_back({ DownIndexX, DownIndexY });
 
 
 	//if (true == BubbleRenderer->IsAnimation("Bubble_Pop")
@@ -419,12 +399,19 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 
 void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
 {
-	GameEngineRenderer* TileRenderer = ObjectTile->GetTile(_X, _Y);
-
-	if (nullptr != TileRenderer)
+	if (ObjectTile->IsOver(_X, _Y))
 	{
 		return;
 	}
+
+	GameEngineRenderer* TileRenderer = ObjectTile->GetTile(_X, _Y);
+
+	if (TileObjectOrder::Empty != TileInfo[_Y][_X].MapInfo)
+	{
+		return;
+	}
+
+	TileInfo[_Y][_X].MapInfo = TileObjectOrder::PopRange;
 
 	TileRenderer = ObjectTile->SetTileToSprite(_X, _Y, _SpriteName,
 		TileInfo[_Y][_X].ObjectTextureInfo, GlobalValue::TileStartPos, true);
@@ -434,4 +421,7 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 		TileRenderer->CreateAnimation(_AnimationName, _SpriteName, -1, -1, _Inter, false);
 	}
 	TileRenderer->ChangeAnimation(_AnimationName);
+
+	// 터진 후 사라져야하는 물폭탄 인덱스 저장
+	AllBubbleDeathIndex.push_back({ _X, _Y });
 }
