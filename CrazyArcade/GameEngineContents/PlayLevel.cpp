@@ -93,17 +93,17 @@ void PlayLevel::Update(float _Delta)
 
 		if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 2.0f)
 		{
-			BubbleReset(CheckIndex.X, CheckIndex.Y);
+			BubblePop(CheckIndex.X, CheckIndex.Y);
 			AllBubbleIndex.erase(AllBubbleIndex.begin() + i);
-
-			// 터진 후 사라져야하는 물폭탄 인덱스 저장
-			AllBubbleDeathIndex.push_back({ CheckIndex.X, CheckIndex.Y });
 		}
 	}
 
 	for (int i = 0; i < AllBubbleDeathIndex.size(); i++)
 	{
 		GameMapIndex CheckIndex = AllBubbleDeathIndex[i];
+
+		TileInfo[CheckIndex.Y][CheckIndex.X].MapInfo = TileObjectOrder::Empty;
+
 		GameEngineRenderer* PopRenderer = ObjectTile->GetTile(CheckIndex.X, CheckIndex.Y);
 
 		if (nullptr == PopRenderer)
@@ -112,14 +112,17 @@ void PlayLevel::Update(float _Delta)
 		}
 
 		// Pop 애니메이션이 끝난 후 해당 물폭탄 삭제
-		if (true == PopRenderer->IsAnimation("Bubble_Pop")
-			&& true == PopRenderer->IsAnimationEnd())
+		if (true == PopRenderer->IsAnimation("Bubble_Pop") && true == PopRenderer->IsAnimationEnd()
+			|| true == PopRenderer->IsAnimation("Bubble_Pop_Left") && true == PopRenderer->IsAnimationEnd()
+			|| true == PopRenderer->IsAnimation("Bubble_Pop_Right") && true == PopRenderer->IsAnimationEnd()
+			|| true == PopRenderer->IsAnimation("Bubble_Pop_Up") && true == PopRenderer->IsAnimationEnd()
+			|| true == PopRenderer->IsAnimation("Bubble_Pop_Down") && true == PopRenderer->IsAnimationEnd())
 		{
 			AllBubbleDeathIndex.erase(AllBubbleDeathIndex.begin() + i);
 
 			ObjectTile->DeathTile(CheckIndex.X, CheckIndex.Y);
-			PopRenderer->Death();
-			PopRenderer = nullptr;
+			// PopRenderer->Death();
+			// PopRenderer = nullptr;
 		}
 	}
 }
@@ -183,6 +186,10 @@ void PlayLevel::TileSetting()
 	}
 }
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 캐릭터 이동
 bool PlayLevel::CheckTile(const float4& _Pos)
 {
 	if (nullptr != Player)
@@ -238,6 +245,8 @@ bool PlayLevel::CheckTile(const float4& _Pos)
 
 void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 {
+	static bool MoveCheck = false;
+
 	ActorDir PlayerDir = Player->GetDir();
 	MOVEDIR LerpDir = MOVEDIR::NONE;
 
@@ -281,10 +290,13 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 		GameMapInfo Temp = TileInfo[_Y][_X];
 		TileInfo[_Y][_X] = TileInfo[NewY][NewX];
 		TileInfo[NewY][NewX] = Temp;
-		ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
+		MoveCheck = ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
 	}
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 물폭탄
 void PlayLevel::SetBubble(const float4& _Pos)
 {
 	if (nullptr != Player)
@@ -323,10 +335,10 @@ void PlayLevel::SetBubble(const float4& _Pos)
 	return;
 }
 
-void PlayLevel::BubbleReset(const int _X, const int _Y)
+void PlayLevel::BubblePop(const int _X, const int _Y)
 {
 	TileInfo[_Y][_X].Timer = 0.0f;
-	TileInfo[_Y][_X].MapInfo = TileObjectOrder::Empty;
+	TileInfo[_Y][_X].MapInfo = TileObjectOrder::PopRange;
 
 	GameEngineRenderer* BubbleRenderer = ObjectTile->GetTile(_X, _Y);
 
@@ -344,6 +356,58 @@ void PlayLevel::BubbleReset(const int _X, const int _Y)
 	}
 	BubbleRenderer->ChangeAnimation("Bubble_Pop");
 
+	// 터진 후 사라져야하는 물폭탄 인덱스 저장
+	AllBubbleDeathIndex.push_back({ _X, _Y });
+
+
+	// 왼쪽 타일--------------------------------------------------------------
+	int LeftIndexX = _X - 1;
+	int LeftIndexY = _Y;
+
+	TileInfo[LeftIndexY][LeftIndexX].MapInfo = TileObjectOrder::PopRange;
+
+	TileChange(LeftIndexX, LeftIndexY, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f);
+
+	// 터진 후 사라져야하는 물폭탄 인덱스 저장
+	AllBubbleDeathIndex.push_back({ LeftIndexX, LeftIndexY });
+
+
+	//오른쪽 타일--------------------------------------------------------------
+	int RightIndexX = _X + 1;
+	int RightIndexY = _Y;
+
+	TileInfo[RightIndexY][RightIndexX].MapInfo = TileObjectOrder::PopRange;
+
+	TileChange(RightIndexX, RightIndexY, "Right_1.Bmp", "Bubble_Pop_Right", 0.05f);
+
+	// 터진 후 사라져야하는 물폭탄 인덱스 저장
+	AllBubbleDeathIndex.push_back({ RightIndexX, RightIndexY });
+
+
+	//위쪽 타일--------------------------------------------------------------
+	int UpIndexX = _X;
+	int UpIndexY = _Y - 1;
+
+	TileInfo[UpIndexY][UpIndexX].MapInfo = TileObjectOrder::PopRange;
+
+	TileChange(UpIndexX, UpIndexY, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f);
+	
+	// 터진 후 사라져야하는 물폭탄 인덱스 저장
+	AllBubbleDeathIndex.push_back({ UpIndexX, UpIndexY });
+
+
+	//아래쪽 타일--------------------------------------------------------------
+	int DownIndexX = _X;
+	int DownIndexY = _Y + 1;
+
+	TileInfo[DownIndexY][DownIndexX].MapInfo = TileObjectOrder::PopRange;
+
+	TileChange(DownIndexX, DownIndexY, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f);
+
+	// 터진 후 사라져야하는 물폭탄 인덱스 저장
+	AllBubbleDeathIndex.push_back({ DownIndexX, DownIndexY });
+
+
 	//if (true == BubbleRenderer->IsAnimation("Bubble_Pop")
 	//	&& true == BubbleRenderer->IsAnimationEnd())
 	//{
@@ -351,4 +415,23 @@ void PlayLevel::BubbleReset(const int _X, const int _Y)
 	//	BubbleRenderer->Death();
 	//	BubbleRenderer = nullptr;
 	//}
+}
+
+void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
+{
+	GameEngineRenderer* TileRenderer = ObjectTile->GetTile(_X, _Y);
+
+	if (nullptr != TileRenderer)
+	{
+		return;
+	}
+
+	TileRenderer = ObjectTile->SetTileToSprite(_X, _Y, _SpriteName,
+		TileInfo[_Y][_X].ObjectTextureInfo, GlobalValue::TileStartPos, true);
+
+	if (nullptr == TileRenderer->FindAnimation(_AnimationName))
+	{
+		TileRenderer->CreateAnimation(_AnimationName, _SpriteName, -1, -1, _Inter, false);
+	}
+	TileRenderer->ChangeAnimation(_AnimationName);
 }
