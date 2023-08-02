@@ -31,6 +31,7 @@ protected:
 private:
 	// GameEngineObject »ó¼Ó
 	void Start() override;
+	void Update(float _Delta) override;
 
 
 	// this
@@ -50,6 +51,23 @@ private:
 	const float4 m_TraitBarStartPos = float4{ 95.0f , 11.0f };
 	const float4 m_TraitBarInterScale = float4{ 1.0f , 7.0f };
 	const int m_TraitMaxCount = 10;
+
+	
+	void updateCharacterTraits();
+
+	bool isHoverOn();
+	bool TraitPanelOnValue = false;
+
+	int m_PrevTraitPopCharacter = -1;
+
+	const float4 m_TraitPopHoverRangeStartPos = float4{ 486.0f , 81.0f };
+	const float4 m_TraitPopHoverRangeRangeScale = float4{ 287.0f , 141.0f };
+	const float4 m_TraitPopHoverUnitScale = float4{ 71.0f , 47.0f };
+
+	void updateUpperTrait(int& _TraitCount);
+	void updateWaterBombTraitBar(int& _TraitCount);
+	void updateBombPowerTraitBar(int& _TraitCount);
+	void updateSpeedTraitBar(int& _TraitCount);
 
 };
 

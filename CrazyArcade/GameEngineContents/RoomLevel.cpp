@@ -7,6 +7,7 @@
 #include "BackGround.h"
 #include "MapSelectWindow.h"
 #include "Button.h"
+#include "CharacterTraits.h"
 
 
 RoomLevel::RoomLevel()
@@ -179,9 +180,17 @@ void RoomLevel::loadCharacterButton()
 	CharacterSelectButtonLoadValue = true;
 }
 
+
 void RoomLevel::loadCharacterTraits()
 {
-
+	m_CharacterTraits = CreateActor<CharacterTraits>(UpdateOrder::UI);
+	if (nullptr == m_CharacterTraits)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+	
+	m_CharacterTraits->SetPos(m_CharacterTraitsStartPos);
 }
 
 
@@ -191,12 +200,11 @@ void RoomLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
 
-	updateButtonVisibility();
+	updateFirstElementUIVisibility();
 }
 
 
-
-void RoomLevel::updateButtonVisibility()
+void RoomLevel::updateFirstElementUIVisibility()
 {
 	bool OpenWindowValue = false;
 
@@ -214,6 +222,19 @@ void RoomLevel::updateButtonVisibility()
 				vecButton[ButtonCount]->enableButton(false);
 			}
 
+			for (size_t CharacterButtonCount = 0; CharacterButtonCount < static_cast<int>(CharacterList::Max); CharacterButtonCount++)
+			{
+				vecCharacterButton[CharacterButtonCount]->enableButton(false);
+			}
+
+			if (nullptr == m_CharacterTraits)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+
+			m_CharacterTraits->Off();
+
 			m_ButtonUpdateValue = false;
 		}
 	}
@@ -225,6 +246,19 @@ void RoomLevel::updateButtonVisibility()
 			{
 				vecButton[ButtonCount]->enableButton(true);
 			}
+
+			for (size_t CharacterButtonCount = 0; CharacterButtonCount < static_cast<int>(CharacterList::Max); CharacterButtonCount++)
+			{
+				vecCharacterButton[CharacterButtonCount]->enableButton(true);
+			}
+
+			if (nullptr == m_CharacterTraits)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+
+			m_CharacterTraits->On();
 
 			m_ButtonUpdateValue = true;
 		}
