@@ -97,6 +97,11 @@ public:
 		LerpSpeed = _Speed;
 	}
 
+	const float GetLerpDelay()
+	{
+		return LerpDelay;
+	}
+
 protected:
 	float LerpSpeed = 5.0f;
 
