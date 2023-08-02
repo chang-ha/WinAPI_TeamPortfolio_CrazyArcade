@@ -76,6 +76,9 @@
     <ClCompile Include="CharacterTraits.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
+    <ClCompile Include="CommonTexture.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -155,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="CharacterTraits.h">
       <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonTexture.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -165,13 +165,11 @@ void CharacterTraits::updateCharacterTraits()
 		{
 			XOrder = 0;
 		}
-		else if (MousePos.X > m_TraitPopHoverRangeStartPos.X + m_TraitPopHoverUnitScale.X + 1.0f &&
-			MousePos.X < m_TraitPopHoverRangeStartPos.X + m_TraitPopHoverUnitScale.X * 2.0f + 1.0f)
+		else if (MousePos.X < m_TraitPopHoverRangeStartPos.X + m_TraitPopHoverUnitScale.X * 2.0f + 1.0f)
 		{
 			XOrder = 1;
 		}
-		else if (MousePos.X > m_TraitPopHoverRangeStartPos.X + (m_TraitPopHoverUnitScale.X + 1.0f) * 2.0f &&
-			MousePos.X < m_TraitPopHoverRangeStartPos.X + m_TraitPopHoverUnitScale.X * 3.0f + 2.0f)
+		else if (MousePos.X < m_TraitPopHoverRangeStartPos.X + m_TraitPopHoverUnitScale.X * 3.0f + 2.0f)
 		{
 			XOrder = 2;
 		}
@@ -248,6 +246,7 @@ void CharacterTraits::updateCharacterTraits()
 		}
 
 		TraitPanelOnValue = false;
+		m_PrevTraitPopCharacter = -1;
 	}
 }
 

@@ -8,6 +8,7 @@
 #include "MapSelectWindow.h"
 #include "Button.h"
 #include "CharacterTraits.h"
+#include "CommonTexture.h"
 
 
 RoomLevel::RoomLevel()
@@ -61,6 +62,7 @@ void RoomLevel::loadWindowElement()
 void RoomLevel::loadButtonElement()
 {
 	loadCharacterButton();
+	loadAvailableCharacterButton();
 	loadCharacterTraits();
 
 
@@ -109,6 +111,28 @@ void RoomLevel::loadButtonElement()
 
 	GameStartButtonPtr->setButtonPos(float4{ 512.0f, 494.0f });
 	vecButton[static_cast<int>(ButtonActor::GameStart)] = GameStartButtonPtr;
+
+
+
+	Button* GameExitButtonPtr = CreateActor<Button>(UpdateOrder::UI);
+	if (nullptr == GameExitButtonPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	GameExitButtonPtr->setRenderer(RenderOrder::FirstElementUI);
+	GameExitButtonPtr->setButtonTexture(ButtonState::Normal, "Button_GameExit_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	GameExitButtonPtr->setButtonTexture(ButtonState::Click, "Button_GameExit_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	GameExitButtonPtr->setButtonTexture(ButtonState::Hover, "Button_GameExit_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
+
+	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
+
+	/*ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickSelectButton);*/
+
+
+	GameExitButtonPtr->setButtonPos(m_GameExitButtonStartPos);
+	vecButton[static_cast<int>(ButtonActor::GameStart)] = GameExitButtonPtr;
 
 	m_ButtonUpdateValue = true;
 }
@@ -180,6 +204,76 @@ void RoomLevel::loadCharacterButton()
 	CharacterSelectButtonLoadValue = true;
 }
 
+void RoomLevel::loadAvailableCharacterButton()
+{
+	vecAvailableCharacterButton.resize(static_cast<int>(CharacterList::Max));
+
+
+	std::vector<std::string> CharacterArr =
+	{
+		"Bazzi",
+		"Dao",
+		"Marid",
+		"Kephi",
+		"Ethi",
+		"Mos",
+		"Uni",
+		"Dizni",
+		"Su",
+		"HooU",
+		"Ray",
+		"Random",
+	};
+
+
+
+	for (int AvailbleCharacterCount = 0; AvailbleCharacterCount < static_cast<int>(CharacterList::Max); AvailbleCharacterCount++)
+	{
+		if (AvailbleCharacterCount >= static_cast<int>(CharacterList::Ethi) && AvailbleCharacterCount < static_cast<int>(CharacterList::Random))
+		{
+			continue;
+		}
+
+		std::string Text = "";
+		Text += "CharatorSelect_Button_";
+		Text += CharacterArr[AvailbleCharacterCount];
+		Text += "_Pick.bmp";
+
+		CommonTexture* CharacterPortraitPtr = CreateActor<CommonTexture>(UpdateOrder::UI);
+		if (nullptr == CharacterPortraitPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		CharacterPortraitPtr->loadTexture(Text, "Resources\\Textures\\UI\\MapSelect\\CharactorSelect");
+		CharacterPortraitPtr->setTexture(Text);
+		CharacterPortraitPtr->SetPos(float4::ZERO);
+		CharacterPortraitPtr->Off();
+
+		vecAvailableCharacterButton[AvailbleCharacterCount] = CharacterPortraitPtr;
+	}
+
+	CurrentSelectCharacter = CharacterList::Bazzi;
+	CommonTexture* SelectTexturePtr = vecAvailableCharacterButton[static_cast<int>(CurrentSelectCharacter)];
+	if (nullptr == SelectTexturePtr)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	SelectTexturePtr->On();
+
+	Button* CharacterButtonPtr = vecCharacterButton[static_cast<int>(CurrentSelectCharacter)];
+	if (nullptr == CharacterButtonPtr)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	CharacterButtonPtr->Off();
+}
+
 
 void RoomLevel::loadCharacterTraits()
 {
@@ -193,6 +287,87 @@ void RoomLevel::loadCharacterTraits()
 	m_CharacterTraits->SetPos(m_CharacterTraitsStartPos);
 }
 
+
+void RoomLevel::clickSelectButton()
+{
+	WindowPanelUI* WindowPanelMapSelectPtr = vecWindowPanel[static_cast<int>(WindowPanelActor::MapSelect)];
+	if (nullptr == WindowPanelMapSelectPtr)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	WindowPanelMapSelectPtr->enableWindow(true);
+}
+
+void RoomLevel::clickBazziCharacterButton()
+{
+	Button* BazziButtonPtr = vecCharacterButton[static_cast<int>(CharacterList::Bazzi)];
+	if (nullptr == BazziButtonPtr)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	BazziButtonPtr->Off();
+
+
+}
+
+void RoomLevel::clickDaoCharacterButton()
+{
+
+}
+
+void RoomLevel::clickMaridCharacterButton()
+{
+
+}
+
+void RoomLevel::clickKephiCharacterButton()
+{
+
+}
+
+void RoomLevel::clickEthiCharacterButton()
+{
+
+}
+
+void RoomLevel::clickMosCharacterButton()
+{
+
+}
+
+void RoomLevel::clickUniCharacterButton()
+{
+
+}
+
+void RoomLevel::clickDizniCharacterButton()
+{
+
+}
+
+void RoomLevel::clickSuCharacterButton()
+{
+
+}
+
+void RoomLevel::clickHooUCharacterButton()
+{
+
+}
+
+void RoomLevel::clickRayCharacterButton()
+{
+
+}
+
+void RoomLevel::clickRandomCharacterButton()
+{
+
+}
 
 
 
@@ -267,18 +442,6 @@ void RoomLevel::updateFirstElementUIVisibility()
 
 
 
-
-void RoomLevel::clickSelectButton()
-{
-	WindowPanelUI* WindowPanelMapSelectPtr = vecWindowPanel[static_cast<int>(WindowPanelActor::MapSelect)];
-	if (nullptr == WindowPanelMapSelectPtr)
-	{
-		MsgBoxAssert("액터를 불러오지 못했습니다.");
-		return;
-	}
-
-	WindowPanelMapSelectPtr->enableWindow(true);
-}
 
 
 
