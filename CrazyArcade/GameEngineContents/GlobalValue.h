@@ -1,6 +1,21 @@
 #pragma once
 
 #include <GameEngineBase/GameEngineMath.h>
+#include <vector>
+
+
+struct CharacterTrait
+{
+public:
+	int MinWaterBombs = 0;
+	int MaxWaterBombs = 0;
+	int MinBombPower = 0;
+	int MaxBombPower = 0;
+	int MinSpeed = 0;
+	int MaxSpeed = 0;
+};
+
+
 class GlobalValue
 {
 public:
@@ -33,6 +48,9 @@ public:
 	static int StructureTextureIndex_Y;
 
 	static float4 TileStartPos;
+
+
+	static std::vector<CharacterTrait> VecCharacterTraits;
 
 	static void Init();
 protected:
