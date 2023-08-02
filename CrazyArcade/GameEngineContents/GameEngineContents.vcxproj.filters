@@ -31,9 +31,6 @@
     <ClCompile Include="FadeObject.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
-    <ClCompile Include="FadeScreen.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="GameMapInfo.cpp">
       <Filter>Global</Filter>
     </ClCompile>
@@ -76,6 +73,9 @@
     <ClCompile Include="WindowPanelUI.cpp">
       <Filter>Actor\UI\ContentsWindow</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterTraits.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -109,9 +109,6 @@
       <Filter>Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="FadeObject.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="FadeScreen.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
     <ClInclude Include="GameMapInfo.h">
@@ -155,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="WindowPanelUI.h">
       <Filter>Actor\UI\ContentsWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterTraits.h">
+      <Filter>Actor\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

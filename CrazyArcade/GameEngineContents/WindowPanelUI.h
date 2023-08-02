@@ -35,7 +35,7 @@ public:
 	{
 		On();
 
-		_Value ? m_WindowState = WindowState::Open : m_WindowState = WindowState::Close;
+		m_WindowState = _Value ? WindowState::Open : WindowState::Close;
 	}
 
 

@@ -19,6 +19,7 @@ enum class WindowPanelActor
 };
 
 
+
 class Button;
 class WindowPanelUI;
 class RoomLevel : public ContentLevel
@@ -50,17 +51,20 @@ private:
 
 
 	// this
-	void loadFadeScreen();
-	class FadeScreen* m_FadeScreen = nullptr;
-	const int FadeAlpha = 50;
-
-
 	void loadWindowElement();
 	std::vector<WindowPanelUI*> vecWindowPanel;
 
 	void loadButtonElement();
 	std::vector<Button*> vecButton;
 
+	void loadCharacterButton();
+	void loadCharacterTraits();
+	std::vector<Button*> vecCharacterButton;
+
+	const float4 m_CharacterButtonStartPos = float4{ 489.0f , 83.0f };
+	const float4 m_SpacingBTWCharacterButton = float4{ 7.0f, 4.0f };
+
+	const float4 m_CharacterTraitsStartPos = float4{ 276.0f , 56.0f };
 
 
 	void updateButtonVisibility();

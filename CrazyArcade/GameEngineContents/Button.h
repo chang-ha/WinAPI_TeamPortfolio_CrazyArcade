@@ -47,6 +47,11 @@ public:
 
 	void setButtonPos(const float4& _Pos);
 
+	float4 getButtonScale()
+	{
+		return m_ButtonScale;
+	}
+
 
 	void setButtonTexture(
 		ButtonState _ButtonType,
