@@ -218,6 +218,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Marid.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <SubType>
       </SubType>
@@ -305,6 +309,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MapSelectWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Marid.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -11,6 +11,7 @@
 #include "Dao.h"
 #include "Bazzi.h"
 #include "Cappi.h"
+#include "Marid.h"
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
 #include "GlobalUtils.h"

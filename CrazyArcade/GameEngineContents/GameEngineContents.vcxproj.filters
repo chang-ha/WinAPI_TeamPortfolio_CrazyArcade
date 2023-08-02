@@ -76,6 +76,9 @@
     <ClCompile Include="WindowPanelUI.cpp">
       <Filter>Actor\UI\ContentsWindow</Filter>
     </ClCompile>
+    <ClCompile Include="Marid.cpp">
+      <Filter>Actor\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -155,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="WindowPanelUI.h">
       <Filter>Actor\UI\ContentsWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Marid.h">
+      <Filter>Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
