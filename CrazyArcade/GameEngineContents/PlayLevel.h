@@ -22,7 +22,7 @@ public:
 	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y);
 	void SetBubble(const float4& _Pos);
 	void BubblePop(const int _X, const int _Y);
-
+	void PopTile(const int _X, const int _Y);
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 
 protected:

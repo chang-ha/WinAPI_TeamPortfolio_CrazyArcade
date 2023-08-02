@@ -118,11 +118,20 @@ void PlayLevel::Update(float _Delta)
 			|| true == PopRenderer->IsAnimation("Bubble_Pop_Up") && true == PopRenderer->IsAnimationEnd()
 			|| true == PopRenderer->IsAnimation("Bubble_Pop_Down") && true == PopRenderer->IsAnimationEnd())
 		{
+			TileInfo[CheckIndex.Y][CheckIndex.X].MapInfo = TileObjectOrder::Empty;
+
 			AllBubbleDeathIndex.erase(AllBubbleDeathIndex.begin() + i);
 
 			ObjectTile->DeathTile(CheckIndex.X, CheckIndex.Y);
-			// PopRenderer->Death();
-			// PopRenderer = nullptr;
+		}
+
+		if (true == PopRenderer->IsAnimation("Pop_Tile") && true == PopRenderer->IsAnimationEnd())
+		{
+			// 
+
+			AllBubbleDeathIndex.erase(AllBubbleDeathIndex.begin() + i);
+
+			ObjectTile->DeathTile(CheckIndex.X, CheckIndex.Y);
 		}
 	}
 }
@@ -290,7 +299,7 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 		GameMapInfo Temp = TileInfo[_Y][_X];
 		TileInfo[_Y][_X] = TileInfo[NewY][NewX];
 		TileInfo[NewY][NewX] = Temp;
-		MoveCheck = ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20), 0.5f);
+		MoveCheck = ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
 	}
 }
 
@@ -397,6 +406,22 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 	//}
 }
 
+void PlayLevel::PopTile(const int _X, const int _Y)
+{
+	GameEngineRenderer* TileRenderer = ObjectTile->GetTile(_X, _Y);
+
+	TileRenderer = ObjectTile->SetTileToSprite(_X, _Y, "Pop_Tile.Bmp",
+		TileInfo[_Y][_X].ObjectTextureInfo, GlobalValue::TileStartPos, true);
+
+	if (nullptr == TileRenderer->FindAnimation("Pop_Tile"))
+	{
+		TileRenderer->CreateAnimation("Pop_Tile", "Pop_Tile.Bmp", -1, -1, 0.1f, false);
+	}
+	TileRenderer->ChangeAnimation("Pop_Tile");
+
+	AllBubbleDeathIndex.push_back({ _X, _Y });
+}
+
 void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
 {
 	if (ObjectTile->IsOver(_X, _Y))
@@ -404,12 +429,19 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 		return;
 	}
 
-	GameEngineRenderer* TileRenderer = ObjectTile->GetTile(_X, _Y);
+	if (TileObjectOrder::ImmovableBlock == TileInfo[_Y][_X].MapInfo
+		|| TileObjectOrder::MovableBlock == TileInfo[_Y][_X].MapInfo)
+	{
+		PopTile(_X, _Y);
+		return;
+	}
 
 	if (TileObjectOrder::Empty != TileInfo[_Y][_X].MapInfo)
 	{
 		return;
 	}
+
+	GameEngineRenderer* TileRenderer = ObjectTile->GetTile(_X, _Y);
 
 	TileInfo[_Y][_X].MapInfo = TileObjectOrder::PopRange;
 
