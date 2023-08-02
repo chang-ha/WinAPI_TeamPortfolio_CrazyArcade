@@ -1,10 +1,10 @@
 #include "RoomLevel.h"
 #include "GlobalValue.h"
 #include "ContentsEnum.h"
+#include "ActorEnum.h"
 
 
 #include "BackGround.h"
-#include "FadeScreen.h"
 #include "MapSelectWindow.h"
 #include "Button.h"
 
@@ -34,23 +34,6 @@ void RoomLevel::Start()
 
 	loadWindowElement();
 	loadButtonElement();
-	loadFadeScreen();
-}
-
-void RoomLevel::loadFadeScreen()
-{
-	m_FadeScreen = CreateActor<FadeScreen>(UpdateOrder::UI);
-	if (nullptr == m_FadeScreen)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_FadeScreen->setAlpha(FadeAlpha);
-	float4 WindowScale = GlobalValue::WinScale;
-	m_FadeScreen->setRenderScale(WindowScale);
-	m_FadeScreen->SetPos(WindowScale.Half());
-	m_FadeScreen->Off();
 }
 
 void RoomLevel::loadWindowElement()
@@ -76,6 +59,10 @@ void RoomLevel::loadWindowElement()
 
 void RoomLevel::loadButtonElement()
 {
+	loadCharacterButton();
+	loadCharacterTraits();
+
+
 	vecButton.resize(static_cast<int>(ButtonActor::Max));
 
 
@@ -115,7 +102,7 @@ void RoomLevel::loadButtonElement()
 	GameStartButtonPtr->setButtonTexture(ButtonState::Hover, "Button_GameStart_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 3);
 
 	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
-
+	
 	/*ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickSelectButton);*/
 
 
@@ -125,7 +112,77 @@ void RoomLevel::loadButtonElement()
 	m_ButtonUpdateValue = true;
 }
 
+void RoomLevel::loadCharacterButton()
+{
+	static bool CharacterSelectButtonLoadValue = false;
 
+	if (true == CharacterSelectButtonLoadValue)
+	{
+		return;
+	}
+
+	vecCharacterButton.resize(static_cast<int>(CharacterList::Max));
+
+
+	std::vector<std::string> CharacterArr =
+	{
+		"Bazzi",
+		"Dao",
+		"Marid",
+		"Kephi",
+		"Ethi",
+		"Mos",
+		"Uni",
+		"Dizni",
+		"Su",
+		"HooU",
+		"Ray",
+		"Random",
+	};
+
+	for (int CharacterCount = 0; CharacterCount < static_cast<int>(CharacterList::Max); CharacterCount++)
+	{
+		Button* CharacterButtonPtr = CreateActor<Button>(UpdateOrder::UI);
+		if (nullptr == CharacterButtonPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		CharacterButtonPtr->setRenderer(RenderOrder::FirstElementUI);
+
+
+		std::string FileName = "";
+		FileName += "CharatorSelect_Button_";
+		FileName += CharacterArr[CharacterCount];
+
+		CharacterButtonPtr->setButtonTexture(ButtonState::Normal, FileName + "_Normal.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
+		CharacterButtonPtr->setButtonTexture(ButtonState::Hover, FileName + "_Hover.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
+		CharacterButtonPtr->setButtonTexture(ButtonState::Click, FileName + "_Click.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
+		float4 ButtonScale = CharacterButtonPtr->getButtonScale();
+
+		CharacterButtonPtr->setButtonPos(m_CharacterButtonStartPos +
+			float4{ (m_SpacingBTWCharacterButton.X + ButtonScale.X) * static_cast<float>(CharacterCount % 4),
+			(m_SpacingBTWCharacterButton.Y + ButtonScale.Y)* static_cast<float>(CharacterCount / 4)});
+
+
+		vecCharacterButton[CharacterCount] = CharacterButtonPtr;
+	}
+
+
+	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
+
+	/*ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickSelectButton);*/
+
+
+
+	CharacterSelectButtonLoadValue = true;
+}
+
+void RoomLevel::loadCharacterTraits()
+{
+
+}
 
 
 
