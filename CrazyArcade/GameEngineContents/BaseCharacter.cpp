@@ -26,7 +26,7 @@ void BaseCharacter::Update(float _Delta)
 	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle"
 		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move")
 	{
-		PlayLevel::CurPlayLevel->SetBubble(GetPos());
+		PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f});
 	}
 
 	if (true == GameEngineInput::IsDown('J'))

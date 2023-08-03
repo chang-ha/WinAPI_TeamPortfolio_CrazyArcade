@@ -11,6 +11,7 @@ public:
 	int ObjectTextureInfo = 0;
 
 	float Timer = 0.0f;
+	float LerpTimer = 0.0f;
 };
 
 class GameMapIndex

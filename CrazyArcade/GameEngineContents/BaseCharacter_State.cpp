@@ -72,47 +72,47 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	CheckPos2 += GetPos();
 	CheckPos3 += GetPos();
 
-	bool FirstCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos1);
-	bool SecondCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos2);
-	bool ThirdCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos3);
+	bool FirstCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos1, _Delta);
+	bool SecondCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos2, _Delta);
+	bool ThirdCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos3, _Delta);
 
 	if (false == FirstCheck && false == SecondCheck && false == ThirdCheck)
 	{
 		AddPos(MovePos);
 	}
 
-	else if (ActorDir::Left == Dir && true == FirstCheck && false == ThirdCheck)
+	else if (ActorDir::Left == Dir && true == FirstCheck && false == SecondCheck && false == ThirdCheck)
 	{
 		AddPos(float4::DOWN);
 	}
-	else if (ActorDir::Left == Dir && false == FirstCheck && true == ThirdCheck)
+	else if (ActorDir::Left == Dir && false == FirstCheck && false == SecondCheck && true == ThirdCheck)
 	{
 		AddPos(float4::UP);
 	}
 
-	else if (ActorDir::Right == Dir && true == FirstCheck && false == ThirdCheck)
+	else if (ActorDir::Right == Dir && true == FirstCheck && false == SecondCheck && false == ThirdCheck)
 	{
 		AddPos(float4::DOWN);
 	}
-	else if (ActorDir::Right == Dir && false == FirstCheck && true == ThirdCheck)
+	else if (ActorDir::Right == Dir && false == FirstCheck && false == SecondCheck && true == ThirdCheck)
 	{
 		AddPos(float4::UP);
 	}
 
-	else if (ActorDir::Up == Dir && true == FirstCheck && false == ThirdCheck)
+	else if (ActorDir::Up == Dir && true == FirstCheck && false == SecondCheck && false == ThirdCheck)
 	{
 		AddPos(float4::RIGHT);
 	}
-	else if (ActorDir::Up == Dir && false == FirstCheck && true == ThirdCheck)
+	else if (ActorDir::Up == Dir && false == FirstCheck && false == SecondCheck && true == ThirdCheck)
 	{
 		AddPos(float4::LEFT);
 	}
 
-	else if (ActorDir::Down == Dir && true == FirstCheck && false == ThirdCheck)
+	else if (ActorDir::Down == Dir && true == FirstCheck && false == SecondCheck && false == ThirdCheck)
 	{
 		AddPos(float4::RIGHT);
 	}
-	else if (ActorDir::Down == Dir && false == FirstCheck && true == ThirdCheck)
+	else if (ActorDir::Down == Dir && false == FirstCheck && false == SecondCheck && true == ThirdCheck)
 	{
 		AddPos(float4::LEFT);
 	}

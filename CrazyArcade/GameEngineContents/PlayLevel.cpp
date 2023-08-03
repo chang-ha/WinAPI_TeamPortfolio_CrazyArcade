@@ -200,7 +200,7 @@ void PlayLevel::TileSetting()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 캐릭터 이동
-bool PlayLevel::CheckTile(const float4& _Pos)
+bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 {
 	float4 CheckPos = { _Pos.X, _Pos.Y };
 	CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
@@ -234,7 +234,13 @@ bool PlayLevel::CheckTile(const float4& _Pos)
 
 		if (TileObjectOrder::MovableBlock == TileInfo[CheckY][CheckX].MapInfo)
 		{
-			MoveTile(NextTile, CheckX, CheckY);
+			TileInfo[CheckY][CheckX].LerpTimer += _Delta;
+
+			if (2.0f < TileInfo[CheckY][CheckX].LerpTimer)
+			{
+				MoveTile(NextTile, CheckX, CheckY);
+				return false;
+			}
 			return true;
 		}
 
@@ -291,10 +297,12 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 			return;
 		}
 
+
 		GameMapInfo Temp = TileInfo[_Y][_X];
 		TileInfo[_Y][_X] = TileInfo[NewY][NewX];
 		TileInfo[NewY][NewX] = Temp;
 		MoveCheck = ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
+		TileInfo[NewY][NewX].LerpTimer = 0.0f;
 	}
 }
 
@@ -427,14 +435,6 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 	{
 		TileChange(DownIndexX, DownIndexY, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f);
 	}*/
-
-	//if (true == BubbleRenderer->IsAnimation("Bubble_Pop")
-	//	&& true == BubbleRenderer->IsAnimationEnd())
-	//{
-	//	ObjectTile->DeathTile(_X, _Y);
-	//	BubbleRenderer->Death();
-	//	BubbleRenderer = nullptr;
-	//}
 }
 
 void PlayLevel::PopTile(const int _X, const int _Y)
