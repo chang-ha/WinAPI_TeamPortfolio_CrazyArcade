@@ -55,8 +55,8 @@ private:
 	void Clear();
 
 	// File Save Function
-	void OpenFileDialog();
-	void SaveFileDialog();
+	bool OpenFileDialog();
+	bool SaveFileDialog();
 
 	std::string LoadFilePath = "";
 
