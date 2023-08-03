@@ -20,7 +20,7 @@ FadeScreen::~FadeScreen()
 
 void FadeScreen::Start()
 {
-	Renderer = CreateUIRenderer(RenderOrder::FadeScreenUI);
+	Renderer = CreateRenderer(RenderOrder::FadeScreenUI);
 	if (nullptr == Renderer)
 	{
 		MsgBoxAssert("생성한 렌더러가 NUll입니다.");

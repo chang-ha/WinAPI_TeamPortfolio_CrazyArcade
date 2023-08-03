@@ -37,7 +37,7 @@ void CommonTexture::loadTexture(const std::string& _FileName, const std::string&
 		return;
 	}
 
-	TextureScale = Texture->GetScale();
+	m_TextureScale = Texture->GetScale();
 }
 
 void CommonTexture::setTexture(const std::string& _FileName)

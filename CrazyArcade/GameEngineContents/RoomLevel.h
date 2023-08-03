@@ -21,6 +21,23 @@ enum class WindowPanelActor
 };
 
 
+enum class AvailableCharacterList
+{
+	Bazzi,
+	Dao,
+	Marid,
+	Kephi,
+	Random,
+	Max,
+};
+
+
+struct CharacterSelectUI
+{
+public:
+	class CommonTexture* OutlineTexture = nullptr;
+	class CommonTexture* SelectButton = nullptr;
+};
 
 class Button;
 class WindowPanelUI;
@@ -76,22 +93,20 @@ private:
 	void clickDaoCharacterButton();
 	void clickMaridCharacterButton();
 	void clickKephiCharacterButton();
-	void clickEthiCharacterButton();
-	void clickMosCharacterButton();
-	void clickUniCharacterButton();
-	void clickDizniCharacterButton();
-	void clickSuCharacterButton();
-	void clickHooUCharacterButton();
-	void clickRayCharacterButton();
+	void clickUnavailableCharacterButton();
 	void clickRandomCharacterButton();
 
 
+	AvailableCharacterList CurrentSelectCharacter = AvailableCharacterList::Max;
 
 	void loadAvailableCharacterButton();
-	std::vector<class CommonTexture*> vecAvailableCharacterButton;
-	CharacterList CurrentSelectCharacter = CharacterList::Max;
-	
+	int AvailableCharacterCount = static_cast<int>(AvailableCharacterList::Max);
+	const float4 m_SelectedCharacterButtonStartPos = float4{ 487.0f , 81.0f };
+	const float4 m_SpacingBTWSelectedCharacterButton = float4{ 3.0f , 0.0f };
+	std::vector<CharacterSelectUI> vecCharacterSelectUI;
+	const float4 m_CharacterOutlineStartPos = float4{ 490.f , 22.0f };
 
+	void changeSelectedCharacterUI(CharacterList _Order);
 
 
 	void loadCharacterTraits();
