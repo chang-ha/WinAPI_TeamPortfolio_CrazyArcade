@@ -159,7 +159,6 @@ void CharacterTraits::updateCharacterTraits()
 		float4 MousePos = GameEngineWindow::MainWindow.GetMousePos();
 
 		int XOrder = 0;
-		
 
 		if (MousePos.X < m_TraitPopHoverRangeStartPos.X + m_TraitPopHoverUnitScale.X)
 		{

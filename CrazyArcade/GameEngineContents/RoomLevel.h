@@ -56,8 +56,10 @@ private:
 	std::vector<WindowPanelUI*> vecWindowPanel;
 
 
+
 	void loadButtonElement();
 	std::vector<Button*> vecButton;
+
 
 
 	void loadCharacterButton();
@@ -67,19 +69,6 @@ private:
 	const float4 m_SpacingBTWCharacterButton = float4{ 7.0f, 4.0f };
 
 	const float4 m_GameExitButtonStartPos = float4{ 749.0f, 572.0f };
-
-
-	void loadAvailableCharacterButton();
-	std::vector<class CommonTexture*> vecAvailableCharacterButton;
-	CharacterList CurrentSelectCharacter = CharacterList::Max;
-	
-
-
-
-	void loadCharacterTraits();
-	class CharacterTraits* m_CharacterTraits = nullptr;
-
-	const float4 m_CharacterTraitsStartPos = float4{ 276.0f , 56.0f };
 
 	void clickSelectButton();
 	void clickBazziCharacterButton();
@@ -95,6 +84,24 @@ private:
 	void clickRayCharacterButton();
 	void clickRandomCharacterButton();
 
+
+
+	void loadAvailableCharacterButton();
+	std::vector<class CommonTexture*> vecAvailableCharacterButton;
+	CharacterList CurrentSelectCharacter = CharacterList::Max;
+	
+
+
+
+	void loadCharacterTraits();
+	class CharacterTraits* m_CharacterTraits = nullptr;
+
+	const float4 m_CharacterTraitsStartPos = float4{ 276.0f , 56.0f };
+
+
+	void loadFadeScreen();
+	class FadeScreen* m_FadeScreen = nullptr;
+	const int m_FadeScreenAlphaValue = 70;
 
 
 	void updateFirstElementUIVisibility();
