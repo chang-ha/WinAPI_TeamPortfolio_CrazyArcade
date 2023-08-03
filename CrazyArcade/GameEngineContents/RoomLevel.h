@@ -9,6 +9,7 @@ enum class ButtonActor
 {
 	MapSelect,
 	GameStart,
+	GameExit,
 	Max,
 };
 

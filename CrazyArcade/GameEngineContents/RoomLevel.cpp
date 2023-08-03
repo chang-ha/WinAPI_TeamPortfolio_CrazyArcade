@@ -134,7 +134,7 @@ void RoomLevel::loadButtonElement()
 
 
 	GameExitButtonPtr->setButtonPos(m_GameExitButtonStartPos);
-	vecButton[static_cast<int>(ButtonActor::GameStart)] = GameExitButtonPtr;
+	vecButton[static_cast<int>(ButtonActor::GameExit)] = GameExitButtonPtr;
 
 	m_ButtonUpdateValue = true;
 }
