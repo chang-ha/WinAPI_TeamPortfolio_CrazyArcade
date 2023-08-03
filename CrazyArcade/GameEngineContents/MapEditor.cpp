@@ -320,71 +320,6 @@ void MapEditor::Update(float _Delta)
 		}
 	}
 
-	// 임시 타일 변경 기능
-	if (true == GameEngineInput::IsDown('1'))
-	{
-		ChangeSelectViewInfo(TileObjectOrder::Empty);
-		AllOffSelectVlew();
-		SelectView_Grounds->On();
-		SelectView_SelectedPlace->Off();
-
-		ObjectTextureIndex = 0;
-	}
-	if (true == GameEngineInput::IsDown('2'))
-	{
-		ChangeSelectViewInfo(TileObjectOrder::Structure);
-		AllOffSelectVlew();
-		SelectView_Structures->On();
-		SelectView_SelectedPlace->Off();
-		ObjectTextureIndex = 0;
-	}
-	if (true == GameEngineInput::IsDown('3'))
-	{
-		ChangeSelectViewInfo(TileObjectOrder::ImmovableBlock);
-		AllOffSelectVlew();
-		SelectView_ImmovableBlocks->On();
-		SelectView_SelectedPlace->Off();
-		ObjectTextureIndex = 0;
-	}
-	if (true == GameEngineInput::IsDown('4'))
-	{
-		ChangeSelectViewInfo(TileObjectOrder::MovableBlock);
-		AllOffSelectVlew();
-		SelectView_MovableBlocks->On();
-		SelectView_SelectedPlace->Off();
-		ObjectTextureIndex = 0;
-	}
-
-	if (true == GameEngineInput::IsDown('S'))
-	{
-		
-		if (true == GameEngineInput::IsPress(VK_CONTROL))
-		{
-			if (false == SaveFileDialog())
-			{
-				return;
-			}
-			// File Create
-			FILE* File = nullptr;
-			fopen_s(&File, LoadFilePath.c_str(), "wb"); // wb : Write Binary
-
-			// Write Data
-			for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
-			{
-				for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
-				{
-					fwrite(&TileInfo[Y][X], sizeof(TileInfo[Y][X]), 1, File);
-				}
-			}
-
-			// File Close
-			fclose(File);
-
-			TileInfoReset();
-			TileSetting();
-		}
-	}
-
 	if (true == GameEngineInput::IsDown('O'))
 	{
 		if (true == GameEngineInput::IsPress(VK_CONTROL))
@@ -413,6 +348,36 @@ void MapEditor::Update(float _Delta)
 			TileSetting();
 		}
 	}
+
+	if (true == GameEngineInput::IsDown('S'))
+	{
+		if (true == GameEngineInput::IsPress(VK_CONTROL))
+		{
+			if (false == SaveFileDialog())
+			{
+				return;
+			}
+			// File Create
+			FILE* File = nullptr;
+			fopen_s(&File, LoadFilePath.c_str(), "wb"); // wb : Write Binary
+
+			// Write Data
+			for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+			{
+				for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+				{
+					fwrite(&TileInfo[Y][X], sizeof(TileInfo[Y][X]), 1, File);
+				}
+			}
+
+			// File Close
+			fclose(File);
+
+			TileInfoReset();
+			TileSetting();
+		}
+	}
+
 
 	if (true == GameEngineInput::IsDown(VK_DELETE))
 	{
