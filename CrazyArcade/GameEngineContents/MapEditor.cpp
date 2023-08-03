@@ -357,36 +357,13 @@ void MapEditor::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('P'))
 	{
-		std::string FilePath = "";
+		SaveFileDialog();
+		
+		// File Create
+	    FILE* File = nullptr;
+		fopen_s(&File, LoadFilePath.c_str(), "wb"); // wb : Write Binary
 
-		OPENFILENAME OFN;
-		TCHAR FilePathName[200] = L"";
-		TCHAR lpstrFile[200] = L"";
-		static TCHAR filter[] = L"모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
-
-		memset(&OFN, 0, sizeof(OPENFILENAME));
-		OFN.lStructSize = sizeof(OPENFILENAME);
-		OFN.hwndOwner = GameEngineWindow::MainWindow.GetHWND();
-		OFN.lpstrFilter = filter;
-		OFN.lpstrFile = lpstrFile;
-		OFN.nMaxFile = 100;
-		OFN.lpstrInitialDir = L".";
-
-		GameEngineWindow::MainWindow.CursorOn();
-		if (GetSaveFileName(&OFN) != 0) {
-			wsprintf(FilePathName, L"%s 파일을 저장하시겠습니까?", OFN.lpstrFile);
-			
-			FilePath = GameEngineString::UnicodeToAnsi(OFN.lpstrFile);
-		}
-
-		GameEngineWindow::MainWindow.CursorOff();
-
-		FILE* File = nullptr;
-		fopen_s(&File, FilePath.c_str(), "wb");
-
-
-		// 타일맵의 개수 15 X 13 = 195개 X 3개
-        // for문 돌면서 타일맵을 전부 저장..
+		// Write Data
 		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 		{
 			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
@@ -395,8 +372,8 @@ void MapEditor::Update(float _Delta)
 			}
 		}
 
+		// File Close
 		fclose(File);
-		
 
 		TileInfoReset();
 		TileSetting();
@@ -404,30 +381,22 @@ void MapEditor::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('L'))
 	{
-		TileInfoReset();
+		OpenFileDialog();
 
-		std::string Filename = "a.map";
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("Resources");
-		FilePath.MoveChild("Resources\\TileMap\\");
-
-		std::string Path = FilePath.GetStringPath() + Filename;
+		// File Open
 		FILE* File = nullptr;
-		fopen_s(&File, Path.c_str(), "rb");
-
-		// 타일맵의 개수 15 X 13 = 195개 X 3개
-		// for문 돌면서 타일맵을 전부 저장..
-
+		fopen_s(&File, LoadFilePath.c_str(), "rb"); // rb : Read Binary
+		
+		// Read Data
 		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 		{
 			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 			{
-				GameMapInfo Value;
-				fread(&Value, sizeof(Value), 1, File);
-				TileInfo[Y][X] = Value;
+				fread(&TileInfo[Y][X], sizeof(TileInfo[Y][X]), 1, File);
 			}
 		}
+
+		// File Close
 		fclose(File);
 
 		TileSetting();
@@ -435,8 +404,13 @@ void MapEditor::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('C'))
 	{
-		TileInfoReset();
-		TileSetting();
+		GameEngineWindow::MainWindow.CursorOn();
+		if (1 == MessageBox(GameEngineWindow::MainWindow.GetHWND(), L"전부 지우시겠습니까?", L"전체 지우기", MB_OKCANCEL))
+		{
+			TileInfoReset();
+			TileSetting();
+		}
+		GameEngineWindow::MainWindow.CursorOff();
 	}
 }
 
@@ -623,4 +597,69 @@ void MapEditor::TileInfoReset()
 			TileInfo[Y][X] = GameMapInfo::DefaultInfo;
 		}
 	}
+}
+
+void MapEditor::OpenFileDialog()
+{
+	std::string FilePath = "";
+
+	
+	OPENFILENAME OFN;
+	TCHAR FilePathName[200] = L"";
+	TCHAR lpstrFile[200] = L"";
+	static TCHAR filter[] = L"모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
+
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = GameEngineWindow::MainWindow.GetHWND();
+	OFN.lpstrFilter = filter;
+	OFN.lpstrFile = lpstrFile;
+	OFN.nMaxFile = 100;
+	OFN.lpstrInitialDir = L".";
+
+	GameEngineWindow::MainWindow.CursorOn();
+
+	if (GetOpenFileName(&OFN) != 0) 
+	{
+		wsprintf(FilePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
+		LoadFilePath = GameEngineString::UnicodeToAnsi(OFN.lpstrFile);
+	}
+
+	if (LoadFilePath.empty())
+	{
+		MsgBoxAssert("파일 로드에 실패하였습니다.");
+	}
+
+	GameEngineWindow::MainWindow.CursorOff();
+}
+
+void MapEditor::SaveFileDialog()
+{
+	OPENFILENAME OFN;
+	TCHAR FilePathName[200] = L"";
+	TCHAR lpstrFile[200] = L"";
+	static TCHAR filter[] = L"모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
+
+	memset(&OFN, 0, sizeof(OPENFILENAME));
+	OFN.lStructSize = sizeof(OPENFILENAME);
+	OFN.hwndOwner = GameEngineWindow::MainWindow.GetHWND();
+	OFN.lpstrFilter = filter;
+	OFN.lpstrFile = lpstrFile;
+	OFN.nMaxFile = 100;
+	OFN.lpstrInitialDir = L".";
+
+	GameEngineWindow::MainWindow.CursorOn();
+
+	if (GetSaveFileName(&OFN) != 0) 
+	{
+		wsprintf(FilePathName, L"%s 파일을 저장하시겠습니까?", OFN.lpstrFile);
+		LoadFilePath = GameEngineString::UnicodeToAnsi(OFN.lpstrFile);
+	}
+
+	if (LoadFilePath.empty())
+	{
+		MsgBoxAssert("파일 생성에 실패하였습니다.");
+	}
+
+	GameEngineWindow::MainWindow.CursorOff();
 }
