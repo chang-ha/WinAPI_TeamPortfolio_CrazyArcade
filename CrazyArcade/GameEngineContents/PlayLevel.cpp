@@ -128,6 +128,7 @@ void PlayLevel::Update(float _Delta)
 		if (true == PopRenderer->IsAnimation("Pop_Tile") && true == PopRenderer->IsAnimationEnd())
 		{
 			// 
+			TileInfo[CheckIndex.Y][CheckIndex.X].MapInfo = TileObjectOrder::Empty;
 
 			AllBubbleDeathIndex.erase(AllBubbleDeathIndex.begin() + i);
 
@@ -201,55 +202,49 @@ void PlayLevel::TileSetting()
 // 캐릭터 이동
 bool PlayLevel::CheckTile(const float4& _Pos)
 {
-	if (nullptr != Player)
+	float4 CheckPos = { _Pos.X, _Pos.Y };
+	CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
+	float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
+
+	int CheckX = CheckIndex.iX() - 1;
+	int CheckY = CheckIndex.iY() - 1;
+
+	GameEngineRenderer* NextTile = ObjectTile->GetTile(CheckX, CheckY);
+
+	if (true == ObjectTile->IsOver(CheckX, CheckY))
 	{
-		float4 CheckPos = { _Pos.X, _Pos.Y };
-		CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
-		float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
+		return true;
+	}
+	else
+	{
+		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
+		{
+			return false;
+		}
 
-		int CheckX = CheckIndex.iX() - 1;
-		int CheckY = CheckIndex.iY() - 1;
-
-		GameEngineRenderer* NextTile = ObjectTile->GetTile(CheckX, CheckY);
-
-		if (true == ObjectTile->IsOver(CheckX, CheckY))
+		if (TileObjectOrder::Structure == TileInfo[CheckY][CheckX].MapInfo)
 		{
 			return true;
 		}
-		else
+
+		if (TileObjectOrder::ImmovableBlock == TileInfo[CheckY][CheckX].MapInfo)
 		{
-			if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
-			{
-				return false;
-			}
-
-			if (TileObjectOrder::Structure == TileInfo[CheckY][CheckX].MapInfo)
-			{
-				return true;
-			}
-
-			if (TileObjectOrder::ImmovableBlock == TileInfo[CheckY][CheckX].MapInfo)
-			{
-				return true;
-			}
-
-			if (TileObjectOrder::MovableBlock == TileInfo[CheckY][CheckX].MapInfo)
-			{
-				MoveTile(NextTile, CheckX, CheckY);
-				return true;
-			}
-
-			if (TileObjectOrder::Bubble == TileInfo[CheckY][CheckX].MapInfo)
-			{
-				return true;
-			}
-
-			return false;
+			return true;
 		}
-	}
 
-	MsgBoxAssert("캐릭터가 nullptr입니다");
-	return false;
+		if (TileObjectOrder::MovableBlock == TileInfo[CheckY][CheckX].MapInfo)
+		{
+			MoveTile(NextTile, CheckX, CheckY);
+			return true;
+		}
+
+		if (TileObjectOrder::Bubble == TileInfo[CheckY][CheckX].MapInfo)
+		{
+			return true;
+		}
+
+		return false;
+	}	
 }
 
 void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
@@ -375,12 +370,30 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 
 	TileChange(LeftIndexX, LeftIndexY, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f);
 
+	/*if (TileInfo[LeftIndexY][LeftIndexX].MapInfo == TileObjectOrder::Bubble)
+	{
+		BubblePop(LeftIndexX, LeftIndexY);
+	}
+	else
+	{
+		TileChange(LeftIndexX, LeftIndexY, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f);
+	}*/
+
 
 	//오른쪽 타일--------------------------------------------------------------
 	int RightIndexX = _X + 1;
 	int RightIndexY = _Y;
 
 	TileChange(RightIndexX, RightIndexY, "Right_1.Bmp", "Bubble_Pop_Right", 0.05f);
+
+	/*if (TileInfo[RightIndexY][RightIndexX].MapInfo == TileObjectOrder::Bubble)
+	{
+		BubblePop(RightIndexX, RightIndexY);
+	}
+	else
+	{
+		TileChange(RightIndexX, RightIndexY, "Right_1.Bmp", "Bubble_Pop_Right", 0.05f);
+	}*/
 
 
 	//위쪽 타일--------------------------------------------------------------
@@ -389,6 +402,15 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 
 	TileChange(UpIndexX, UpIndexY, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f);
 
+	/*if (TileInfo[UpIndexY][UpIndexX].MapInfo == TileObjectOrder::Bubble)
+	{
+		BubblePop(UpIndexX, UpIndexY);
+	}
+	else
+	{
+		TileChange(UpIndexX, UpIndexY, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f);
+	}*/
+
 
 	//아래쪽 타일--------------------------------------------------------------
 	int DownIndexX = _X;
@@ -396,6 +418,15 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 
 	TileChange(DownIndexX, DownIndexY, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f);
 
+	/*if (TileInfo[DownIndexY][DownIndexX].MapInfo == TileObjectOrder::Bubble)
+	{
+
+		BubblePop(DownIndexX, DownIndexY);
+	}
+	else
+	{
+		TileChange(DownIndexX, DownIndexY, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f);
+	}*/
 
 	//if (true == BubbleRenderer->IsAnimation("Bubble_Pop")
 	//	&& true == BubbleRenderer->IsAnimationEnd())
