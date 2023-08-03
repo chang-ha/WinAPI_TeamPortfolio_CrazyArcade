@@ -78,15 +78,18 @@ private:
 	void loadButtonElement();
 	std::vector<Button*> vecButton;
 
+	const float4 m_GameExitButtonStartPos = float4{ 749.0f, 572.0f };
+
+
 
 
 	void loadCharacterButton();
 	std::vector<Button*> vecCharacterButton;
+	float4 m_CharacterButtonScale = float4::ZERO;
 
 	const float4 m_CharacterButtonStartPos = float4{ 489.0f , 83.0f };
 	const float4 m_SpacingBTWCharacterButton = float4{ 7.0f, 4.0f };
 
-	const float4 m_GameExitButtonStartPos = float4{ 749.0f, 572.0f };
 
 	void clickSelectButton();
 	void clickBazziCharacterButton();
@@ -107,6 +110,10 @@ private:
 	const float4 m_CharacterOutlineStartPos = float4{ 490.f , 22.0f };
 
 	void changeSelectedCharacterUI(CharacterList _Order);
+
+	void loadSelectChecker();
+	class CommonTexture* m_SelectChecker = nullptr;
+	float4 m_SelectCheckerPosToButton = float4::ZERO;
 
 
 	void loadCharacterTraits();

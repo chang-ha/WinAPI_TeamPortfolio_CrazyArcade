@@ -50,3 +50,12 @@ void CommonTexture::setTexture(const std::string& _FileName)
 
 	Renderer->SetTexture(_FileName);
 }
+
+
+void CommonTexture::setRendererOrder(int _Order)
+{
+	if (Renderer)
+	{
+		Renderer->SetOrder(_Order);
+	}
+}

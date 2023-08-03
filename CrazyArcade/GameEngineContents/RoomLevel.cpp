@@ -67,6 +67,7 @@ void RoomLevel::loadWindowElement()
 void RoomLevel::loadButtonElement()
 {
 	loadCharacterButton();
+	loadSelectChecker();
 	loadAvailableCharacterButton();
 	loadCharacterTraits();
 
@@ -189,11 +190,11 @@ void RoomLevel::loadCharacterButton()
 		CharacterButtonPtr->setButtonTexture(ButtonState::Normal, FileName + "_Normal.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
 		CharacterButtonPtr->setButtonTexture(ButtonState::Hover, FileName + "_Hover.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
 		CharacterButtonPtr->setButtonTexture(ButtonState::Click, FileName + "_Click.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
-		float4 ButtonScale = CharacterButtonPtr->getButtonScale();
+		m_CharacterButtonScale = CharacterButtonPtr->getButtonScale();
 
 		CharacterButtonPtr->setButtonPos(m_CharacterButtonStartPos +
-			float4{ (m_SpacingBTWCharacterButton.X + ButtonScale.X) * static_cast<float>(CharacterCount % 4),
-			(m_SpacingBTWCharacterButton.Y + ButtonScale.Y)* static_cast<float>(CharacterCount / 4)});
+			float4{ (m_SpacingBTWCharacterButton.X + m_CharacterButtonScale.X) * static_cast<float>(CharacterCount % 4),
+			(m_SpacingBTWCharacterButton.Y + m_CharacterButtonScale.Y)* static_cast<float>(CharacterCount / 4)});
 
 
 		switch (CharacterCount)
@@ -242,10 +243,7 @@ void RoomLevel::loadCharacterButton()
 	}
 
 	
-
 	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
-
-
 
 
 	CharacterSelectButtonLoadValue = true;
@@ -366,6 +364,17 @@ void RoomLevel::loadAvailableCharacterButton()
 	}
 
 	CharacterButtonPtr->Off();
+
+	if (nullptr == m_SelectChecker)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	m_SelectCheckerPosToButton = float4{ m_CharacterButtonScale.Half().hX() , -m_CharacterButtonScale.hY()};
+
+	m_SelectChecker->SetPos(m_SelectedCharacterButtonStartPos + m_CharacterButtonScale.Half() + m_SelectCheckerPosToButton);
+	m_SelectChecker->setRendererOrder(5);
 }
 
 void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
@@ -451,6 +460,25 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 	}
 
 	CharacterButtonPtr->Off();
+
+
+	m_SelectChecker->SetPos(m_SelectedCharacterButtonStartPos + m_CharacterButtonScale.Half() + m_SelectCheckerPosToButton +
+	float4{ (m_SpacingBTWCharacterButton.X + m_CharacterButtonScale.X) * static_cast<float>(CharacterOrder % 4),
+			(m_SpacingBTWCharacterButton.Y + m_CharacterButtonScale.Y) * static_cast<float>(CharacterOrder / 4) });
+}
+
+void RoomLevel::loadSelectChecker()
+{
+	GlobalUtils::TextureFileLoad("Select_Image.bmp", "Resources\\Textures\\UI\\MapSelect");
+
+	m_SelectChecker = CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (nullptr == m_SelectChecker)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_SelectChecker->setTexture("Select_Image.bmp");
 }
 
 
