@@ -26,7 +26,7 @@ public:
 	void BubblePop(const int _X, const int _Y);
 	void PopTile(const int _X, const int _Y);
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
-	void InsertAllBubbleIndex(const int _X, const int _Y);
+	void InsertAllBubbleDeathIndex(const int _X, const int _Y);
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
