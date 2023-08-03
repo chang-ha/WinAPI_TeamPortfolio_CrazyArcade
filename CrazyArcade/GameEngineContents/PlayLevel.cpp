@@ -211,6 +211,17 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 
 	GameEngineRenderer* NextTile = ObjectTile->GetTile(CheckX, CheckY);
 
+	// LerpTimer 기능 수정 필요
+	static GameMapInfo* Ptr = nullptr;
+	GameMapInfo& CurTile = TileInfo[CheckY][CheckX];
+	Ptr = &CurTile;
+
+	if (Ptr != &CurTile)
+	{
+		Ptr->LerpTimer = 0.0f;
+		Ptr = &CurTile;
+	}
+
 	if (true == ObjectTile->IsOver(CheckX, CheckY))
 	{
 		return true;
@@ -234,9 +245,11 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 
 		if (TileObjectOrder::MovableBlock == TileInfo[CheckY][CheckX].MapInfo)
 		{
+
+
 			TileInfo[CheckY][CheckX].LerpTimer += _Delta;
 
-			if (2.0f < TileInfo[CheckY][CheckX].LerpTimer)
+			if (3.0f < TileInfo[CheckY][CheckX].LerpTimer)
 			{
 				MoveTile(NextTile, CheckX, CheckY);
 				return false;
