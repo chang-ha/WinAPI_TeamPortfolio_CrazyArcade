@@ -1,6 +1,7 @@
 #pragma once
 #include "ContentLevel.h"
 #include <vector>
+#include <list>
 
 class BaseCharacter;
 class PlayLevel : public ContentLevel
@@ -25,6 +26,7 @@ public:
 	void BubblePop(const int _X, const int _Y);
 	void PopTile(const int _X, const int _Y);
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
+	void InsertAllBubbleIndex(const int _X, const int _Y);
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
@@ -39,8 +41,8 @@ protected:
 	class TileMap* GroundTile = nullptr;
 	class TileMap* ObjectTile = nullptr;
 
-	std::vector<class GameMapIndex> AllBubbleIndex;
-	std::vector<class GameMapIndex> AllBubbleDeathIndex;
+	std::list<class GameMapIndex> AllBubbleIndex;
+	std::list<class GameMapIndex> AllBubbleDeathIndex;
 
 private:
 	BaseCharacter* Player = nullptr;
