@@ -5,6 +5,8 @@
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineBase/GameEngineString.h>
+
 #include "MapEditor.h"
 #include "ContentsEnum.h"
 #include "GlobalUtils.h"
@@ -56,10 +58,10 @@ void MapEditor::Start()
 	// Object Texture Load
 	GlobalLoad::TileTextureLoad();
 
-	// TileInfo Initialize
+	// TileInfo Initialization
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
-	// Tile Initialize
+	// Tile Initialization
 	TileInit();
 	
 	// Default Setting
@@ -201,9 +203,9 @@ void MapEditor::ClickNextButton()
 	ObjectTextureIndex = 0;
 }
 
-
 void MapEditor::Update(float _Delta)
 {
+
 	ContentLevel::Update(_Delta);
 	CurMousePos = GameEngineWindow::MainWindow.GetMousePos();
 
@@ -221,30 +223,74 @@ void MapEditor::Update(float _Delta)
 
 		if (true == GameEngineInput::IsPress(VK_LBUTTON))
 		{
+			// Ground와 Object 구분
 			if (CurSelectedObjectType == TileObjectOrder::Empty)
 			{
-				DrawingView_Ground->SetTile(CurTileIndex_X, CurTileIndex_Y, ObjectTextureIndex, DrawingView_StartPos);
+				if (true == GameEngineInput::IsDown('A'))
+				{
+					for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+					{
+						for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+						{
+							DrawingView_Ground->SetTile(X, Y, ObjectTextureIndex, DrawingView_StartPos);
 
-				// 바닥 텍스처 정보 저장
-				TileInfo[CurTileIndex_Y][CurTileIndex_X].GroundTextureInfo = ObjectTextureIndex;
+							// 바닥 텍스처 정보 저장
+							TileInfo[Y][X].GroundTextureInfo = ObjectTextureIndex;
+						}
+					}
+				}
+				else
+				{
+					DrawingView_Ground->SetTile(CurTileIndex_X, CurTileIndex_Y, ObjectTextureIndex, DrawingView_StartPos);
+
+					// 바닥 텍스처 정보 저장
+					TileInfo[CurTileIndex_Y][CurTileIndex_X].GroundTextureInfo = ObjectTextureIndex;
+				}
 			}
 			else
 			{
-				DrawingView_Object->SetTileToSprite(CurTileIndex_X, CurTileIndex_Y, SelectedTextureName, ObjectTextureIndex,
-					DrawingView_StartPos - CurObjectOverSize, true);
-
-				// 맵 정보 저장
-				if (0 == ObjectTextureIndex)
+				if (true == GameEngineInput::IsDown('A'))
 				{
-					TileInfo[CurTileIndex_Y][CurTileIndex_X].MapInfo = TileObjectOrder::Empty;
-				}
-				else 
-				{
-					TileInfo[CurTileIndex_Y][CurTileIndex_X].MapInfo = CurSelectedObjectType;
-				}
+					for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+					{
+						for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+						{
+							DrawingView_Object->SetTileToSprite(X, Y, SelectedTextureName, ObjectTextureIndex,
+								DrawingView_StartPos - CurObjectOverSize, true);
 
-				// 오브젝트 텍스처 정보 저장
-				TileInfo[CurTileIndex_Y][CurTileIndex_X].ObjectTextureInfo = ObjectTextureIndex;
+							// 맵 정보 저장
+							if (0 == ObjectTextureIndex)
+							{
+								TileInfo[Y][X].MapInfo = TileObjectOrder::Empty;
+							}
+							else
+							{
+								TileInfo[Y][X].MapInfo = CurSelectedObjectType;
+							}
+
+							// 오브젝트 텍스처 정보 저장
+							TileInfo[Y][X].ObjectTextureInfo = ObjectTextureIndex;
+						}
+					}
+				}
+				else
+				{
+					DrawingView_Object->SetTileToSprite(CurTileIndex_X, CurTileIndex_Y, SelectedTextureName, ObjectTextureIndex,
+						DrawingView_StartPos - CurObjectOverSize, true);
+
+					// 맵 정보 저장
+					if (0 == ObjectTextureIndex)
+					{
+						TileInfo[CurTileIndex_Y][CurTileIndex_X].MapInfo = TileObjectOrder::Empty;
+					}
+					else
+					{
+						TileInfo[CurTileIndex_Y][CurTileIndex_X].MapInfo = CurSelectedObjectType;
+					}
+
+					// 오브젝트 텍스처 정보 저장
+					TileInfo[CurTileIndex_Y][CurTileIndex_X].ObjectTextureInfo = ObjectTextureIndex;
+				}
 			}
 		}
 	}
@@ -309,6 +355,89 @@ void MapEditor::Update(float _Delta)
 		ObjectTextureIndex = 0;
 	}
 
+	if (true == GameEngineInput::IsDown('P'))
+	{
+		std::string FilePath = "";
+
+		OPENFILENAME OFN;
+		TCHAR FilePathName[200] = L"";
+		TCHAR lpstrFile[200] = L"";
+		static TCHAR filter[] = L"모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
+
+		memset(&OFN, 0, sizeof(OPENFILENAME));
+		OFN.lStructSize = sizeof(OPENFILENAME);
+		OFN.hwndOwner = GameEngineWindow::MainWindow.GetHWND();
+		OFN.lpstrFilter = filter;
+		OFN.lpstrFile = lpstrFile;
+		OFN.nMaxFile = 100;
+		OFN.lpstrInitialDir = L".";
+
+		GameEngineWindow::MainWindow.CursorOn();
+		if (GetSaveFileName(&OFN) != 0) {
+			wsprintf(FilePathName, L"%s 파일을 저장하시겠습니까?", OFN.lpstrFile);
+			
+			FilePath = GameEngineString::UnicodeToAnsi(OFN.lpstrFile);
+		}
+
+		GameEngineWindow::MainWindow.CursorOff();
+
+		FILE* File = nullptr;
+		fopen_s(&File, FilePath.c_str(), "wb");
+
+
+		// 타일맵의 개수 15 X 13 = 195개 X 3개
+        // for문 돌면서 타일맵을 전부 저장..
+		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+		{
+			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+			{
+				fwrite(&TileInfo[Y][X], sizeof(TileInfo[Y][X]), 1, File);
+			}
+		}
+
+		fclose(File);
+		
+
+		TileInfoReset();
+		TileSetting();
+	}
+
+	if (true == GameEngineInput::IsDown('L'))
+	{
+		TileInfoReset();
+
+		std::string Filename = "a.map";
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("Resources");
+		FilePath.MoveChild("Resources\\TileMap\\");
+
+		std::string Path = FilePath.GetStringPath() + Filename;
+		FILE* File = nullptr;
+		fopen_s(&File, Path.c_str(), "rb");
+
+		// 타일맵의 개수 15 X 13 = 195개 X 3개
+		// for문 돌면서 타일맵을 전부 저장..
+
+		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+		{
+			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+			{
+				GameMapInfo Value;
+				fread(&Value, sizeof(Value), 1, File);
+				TileInfo[Y][X] = Value;
+			}
+		}
+		fclose(File);
+
+		TileSetting();
+	}
+
+	if (true == GameEngineInput::IsDown('C'))
+	{
+		TileInfoReset();
+		TileSetting();
+	}
 }
 
 void MapEditor::Render(float _Delta)
@@ -348,15 +477,16 @@ void MapEditor::TileInit()
 
 
 
+
 TileMap* MapEditor::SelectViewInit(TileObjectOrder _SelectedObjectType)
 {
-	TileMap* _Tile = nullptr;
+	TileMap* Tile = nullptr;
 	ChangeSelectViewInfo(_SelectedObjectType);
 	
-	if (nullptr == _Tile)
+	if (nullptr == Tile)
 	{
-		_Tile = CreateActor<TileMap>();
-		_Tile->CreateTileMap(SelectedTextureName, SelectViewSize_X,
+		Tile = CreateActor<TileMap>();
+		Tile->CreateTileMap(SelectedTextureName, SelectViewSize_X,
 			(ObjectSpriteMaxIndex / SelectViewSize_X) + 1, GlobalValue::MapTileSize, RenderOrder::MapObject);
 	}
 
@@ -369,11 +499,11 @@ TileMap* MapEditor::SelectViewInit(TileObjectOrder _SelectedObjectType)
 		{
 			if (ObjectSpriteMaxIndex < IndexCount)
 			{
-				return _Tile;
+				return Tile;
 			}
 			else
 			{
-				_Tile->SetTileToSprite(X, Y, SelectedTextureName, IndexCount, SelectView_StartPos - CurObjectOverSize, true);
+				Tile->SetTileToSprite(X, Y, SelectedTextureName, IndexCount, SelectView_StartPos - CurObjectOverSize, true);
 				++IndexCount;
 			}
 		}
@@ -453,5 +583,44 @@ TileMap* MapEditor::GetCurSelectViewTile()
 		return SelectView_MovableBlocks;
 	default:
 		return nullptr;
+	}
+}
+
+void MapEditor::TileSetting()
+{
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+	{
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+		{
+			DrawingView_Ground->SetTile(X, Y, TileInfo[Y][X].GroundTextureInfo, DrawingView_StartPos);
+			switch (TileInfo[Y][X].MapInfo)
+			{
+			case TileObjectOrder::Empty:
+			case TileObjectOrder::Structure:
+				DrawingView_Object->SetTileToSprite(X, Y, "Structures.bmp", TileInfo[Y][X].ObjectTextureInfo, DrawingView_StartPos + float4(0, -20), true);
+				break;
+			case TileObjectOrder::ImmovableBlock:
+				DrawingView_Object->SetTileToSprite(X, Y, "ImmovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, DrawingView_StartPos + float4(0, -2), true);
+				break;
+			case TileObjectOrder::MovableBlock:
+				DrawingView_Object->SetTileToSprite(X, Y, "MovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, DrawingView_StartPos + float4(0, -2), true);
+				break;
+			case TileObjectOrder::Item:
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void MapEditor::TileInfoReset()
+{
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+	{
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+		{
+			TileInfo[Y][X] = GameMapInfo::DefaultInfo;
+		}
 	}
 }
