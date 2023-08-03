@@ -15,6 +15,7 @@ enum class RenderOrder
 	MapObject,
 	SelectTile,
 	FirstElementUI,
+	FadeScreenUI,
 	WindowPanelUI,
 	SecondElementUI,
 	MouseUI,

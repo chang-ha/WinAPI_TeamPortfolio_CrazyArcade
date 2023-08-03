@@ -9,6 +9,7 @@
 #include "Button.h"
 #include "CharacterTraits.h"
 #include "CommonTexture.h"
+#include "FadeScreen.h"
 
 
 RoomLevel::RoomLevel()
@@ -36,6 +37,7 @@ void RoomLevel::Start()
 
 	loadWindowElement();
 	loadButtonElement();
+	loadFadeScreen();
 }
 
 void RoomLevel::loadWindowElement()
@@ -132,7 +134,7 @@ void RoomLevel::loadButtonElement()
 
 
 	GameExitButtonPtr->setButtonPos(m_GameExitButtonStartPos);
-	vecButton[static_cast<int>(ButtonActor::GameStart)] = GameExitButtonPtr;
+	vecButton[static_cast<int>(ButtonActor::GameExit)] = GameExitButtonPtr;
 
 	m_ButtonUpdateValue = true;
 }
@@ -370,6 +372,24 @@ void RoomLevel::clickRandomCharacterButton()
 }
 
 
+void RoomLevel::loadFadeScreen()
+{
+	m_FadeScreen = CreateActor<FadeScreen>(UpdateOrder::UI);
+	if (nullptr == m_FadeScreen)
+	{
+		MsgBoxAssert("액터를 생성하지 못헀습니다.");
+		return;
+	}
+
+	float4 WindowScale = GlobalValue::WinScale;
+	float4 WinHalfScale = WindowScale.Half();
+
+	m_FadeScreen->setRenderScale(WindowScale);
+	m_FadeScreen->setAlpha(m_FadeScreenAlphaValue);
+	m_FadeScreen->SetPos(WinHalfScale);
+	m_FadeScreen->Off();
+}
+
 
 void RoomLevel::Update(float _Delta)
 {
@@ -397,10 +417,20 @@ void RoomLevel::updateFirstElementUIVisibility()
 				vecButton[ButtonCount]->enableButton(false);
 			}
 
+
 			for (size_t CharacterButtonCount = 0; CharacterButtonCount < static_cast<int>(CharacterList::Max); CharacterButtonCount++)
 			{
 				vecCharacterButton[CharacterButtonCount]->enableButton(false);
 			}
+
+
+			if (nullptr == m_FadeScreen)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+
+			m_FadeScreen->On();
 
 			if (nullptr == m_CharacterTraits)
 			{
@@ -409,6 +439,7 @@ void RoomLevel::updateFirstElementUIVisibility()
 			}
 
 			m_CharacterTraits->Off();
+
 
 			m_ButtonUpdateValue = false;
 		}
@@ -422,10 +453,21 @@ void RoomLevel::updateFirstElementUIVisibility()
 				vecButton[ButtonCount]->enableButton(true);
 			}
 
+
 			for (size_t CharacterButtonCount = 0; CharacterButtonCount < static_cast<int>(CharacterList::Max); CharacterButtonCount++)
 			{
 				vecCharacterButton[CharacterButtonCount]->enableButton(true);
 			}
+
+
+			if (nullptr == m_FadeScreen)
+			{
+				MsgBoxAssert("액터를 불러오지 못했습니다.");
+				return;
+			}
+
+			m_FadeScreen->Off();
+
 
 			if (nullptr == m_CharacterTraits)
 			{
