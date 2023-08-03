@@ -19,7 +19,7 @@ public:
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
 	bool CheckTile(const float4& _Pos, float _Delta);
-	bool CheckSideTile(const float4& _Pos);
+	bool CheckSidePos(const float4& _Pos);
 	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y);
 	void SetBubble(const float4& _Pos);
 	void BubblePop(const int _X, const int _Y);

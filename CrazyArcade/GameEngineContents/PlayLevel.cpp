@@ -214,27 +214,28 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 	// LerpTimer 기능 수정 필요
 	static GameMapInfo* PrevTile = nullptr;
 
+	GameMapInfo& CurTile = TileInfo[CheckY][CheckX];
+
+	if (nullptr == PrevTile)
+	{
+		PrevTile = &CurTile;
+	}
+	else
+	{
+		if (PrevTile != &CurTile)
+		{
+			PrevTile->LerpTimer = 0.0f;
+			PrevTile = &CurTile;
+		}
+	}
+
+
 	if (true == ObjectTile->IsOver(CheckX, CheckY))
 	{
 		return true;
 	}
 	else
 	{
-		GameMapInfo& CurTile = TileInfo[CheckY][CheckX];
-
-		if (nullptr == PrevTile)
-		{
-			PrevTile = &CurTile;
-		}
-		else
-		{
-			if (PrevTile != &CurTile)
-			{
-				PrevTile->LerpTimer = 0.0f;
-				PrevTile = &CurTile;
-			}
-		}
-
 		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
 		{
 			return false;
@@ -273,7 +274,7 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 	}	
 }
 
-bool PlayLevel::CheckSideTile(const float4& _Pos)
+bool PlayLevel::CheckSidePos(const float4& _Pos)
 {
 	float4 CheckPos = { _Pos.X, _Pos.Y };
 	CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
