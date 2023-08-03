@@ -212,15 +212,7 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 	GameEngineRenderer* NextTile = ObjectTile->GetTile(CheckX, CheckY);
 
 	// LerpTimer 기능 수정 필요
-	static GameMapInfo* Ptr = nullptr;
-	GameMapInfo& CurTile = TileInfo[CheckY][CheckX];
-	Ptr = &CurTile;
-
-	if (Ptr != &CurTile)
-	{
-		Ptr->LerpTimer = 0.0f;
-		Ptr = &CurTile;
-	}
+	static GameMapInfo* PrevTile = nullptr;
 
 	if (true == ObjectTile->IsOver(CheckX, CheckY))
 	{
@@ -228,6 +220,21 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 	}
 	else
 	{
+		GameMapInfo& CurTile = TileInfo[CheckY][CheckX];
+
+		if (nullptr == PrevTile)
+		{
+			PrevTile = &CurTile;
+		}
+		else
+		{
+			if (PrevTile != &CurTile)
+			{
+				PrevTile->LerpTimer = 0.0f;
+				PrevTile = &CurTile;
+			}
+		}
+
 		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
 		{
 			return false;
@@ -264,6 +271,32 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 
 		return false;
 	}	
+}
+
+bool PlayLevel::CheckSideTile(const float4& _Pos)
+{
+	float4 CheckPos = { _Pos.X, _Pos.Y };
+	CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
+	float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
+
+	int CheckX = CheckIndex.iX() - 1;
+	int CheckY = CheckIndex.iY() - 1;
+
+	GameEngineRenderer* NextTile = ObjectTile->GetTile(CheckX, CheckY);
+
+	if (true == ObjectTile->IsOver(CheckX, CheckY))
+	{
+		return true;
+	}
+	else
+	{
+		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
+		{
+			return false;
+		}
+
+		return true;
+	}
 }
 
 void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
