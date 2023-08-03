@@ -20,6 +20,11 @@ public:
 	void loadTexture(const std::string& _FileName, const std::string& _Path);
 	void setTexture(const std::string& _FileName);
 
+	float4 getTextureScale() const
+	{
+		return m_TextureScale;
+	}
+
 protected:
 
 private:
@@ -29,6 +34,6 @@ private:
 	// this
 	GameEngineRenderer* Renderer = nullptr;
 
-	float4 TextureScale = float4::ZERO;
+	float4 m_TextureScale = float4::ZERO;
 };
 
