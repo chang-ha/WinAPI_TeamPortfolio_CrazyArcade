@@ -52,11 +52,12 @@ private:
 	
 	TileMap* GetCurSelectViewTile();
 
-	void Clear();
+	void DrawingTile();
+	void SelectObject();
 
 	// File Save Function
-	std::string OpenFileDialog();
-	std::string SaveFileDialog();
+	void OpenFileDialog();
+	void SaveFileDialog();
 
 	// View Position
 	float4 DrawingView_StartPos = { 20.0f, 50.0f };
