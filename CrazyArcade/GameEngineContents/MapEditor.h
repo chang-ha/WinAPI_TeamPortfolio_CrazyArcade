@@ -55,10 +55,8 @@ private:
 	void Clear();
 
 	// File Save Function
-	bool OpenFileDialog();
-	bool SaveFileDialog();
-
-	std::string LoadFilePath = "";
+	std::string OpenFileDialog();
+	std::string SaveFileDialog();
 
 	// View Position
 	float4 DrawingView_StartPos = { 20.0f, 50.0f };

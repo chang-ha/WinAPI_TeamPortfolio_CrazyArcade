@@ -63,7 +63,7 @@ void MapEditor::Start()
 
 	// Tile Initialization
 	TileInit();
-	
+
 	// Default Setting
 	ChangeSelectViewInfo(TileObjectOrder::Empty);
 	SelectTilesMapNum = 0;
@@ -107,7 +107,7 @@ void MapEditor::LoadButton()
 	float4 ButtonRenderScale = PrevButtonSprite->GetSprite(0).RenderScale;
 
 	float4 SelectView_EndXPos = SelectView_StartPos +
-		float4{ 0.0f , static_cast<float>(SelectViewSize_Y) * GlobalValue::MapTileSize.Y };
+		float4{ 0.0f, static_cast<float>(SelectViewSize_Y)* GlobalValue::MapTileSize.Y };
 
 	float4 PrevButtonPos = SelectView_EndXPos + LocalPrevButtonStartPos;
 
@@ -131,7 +131,7 @@ void MapEditor::LoadButton()
 	NextButton->setCallback<MapEditor>(ButtonEventState::Click, this, &MapEditor::ClickNextButton);
 
 	float4 NextButtonPos = SelectView_EndXPos +
-		float4{ static_cast<float>(SelectViewSize_X) * GlobalValue::MapTileSize.X - LocalPrevButtonStartPos.X - ButtonRenderScale.X, LocalPrevButtonStartPos.Y };
+		float4{ static_cast<float>(SelectViewSize_X)* GlobalValue::MapTileSize.X - LocalPrevButtonStartPos.X - ButtonRenderScale.X, LocalPrevButtonStartPos.Y };
 
 	NextButton->setButtonPos(NextButtonPos);
 	VecButton[static_cast<int>(MapEditorButtonState::Next)] = NextButton;
@@ -320,18 +320,32 @@ void MapEditor::Update(float _Delta)
 		}
 	}
 
+	// All Clear
+	if (true == GameEngineInput::IsDown(VK_DELETE))
+	{
+		GameEngineWindow::MainWindow.CursorOn();
+		if (1 == MessageBox(GameEngineWindow::MainWindow.GetHWND(), L"타일을 전부 지우시겠습니까?", L"", MB_OKCANCEL))
+		{
+			TileInfoReset();
+			TileSetting();
+		}
+		GameEngineWindow::MainWindow.CursorOff();
+	}
+
+	// Open File
 	if (true == GameEngineInput::IsDown('O'))
 	{
 		if (true == GameEngineInput::IsPress(VK_CONTROL))
 		{
-			if (false == OpenFileDialog())
+			std::string FilePath = OpenFileDialog();
+			if (FilePath.empty())
 			{
 				return;
 			}
 
 			// File Open
 			FILE* File = nullptr;
-			fopen_s(&File, LoadFilePath.c_str(), "rb"); // rb : Read Binary
+			fopen_s(&File, FilePath.c_str(), "rb"); // rb : Read Binary
 
 			// Read Data
 			for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
@@ -349,17 +363,20 @@ void MapEditor::Update(float _Delta)
 		}
 	}
 
+	// Save File
 	if (true == GameEngineInput::IsDown('S'))
 	{
 		if (true == GameEngineInput::IsPress(VK_CONTROL))
 		{
-			if (false == SaveFileDialog())
+			std::string FilePath = SaveFileDialog();
+			if (FilePath.empty())
 			{
 				return;
 			}
+
 			// File Create
 			FILE* File = nullptr;
-			fopen_s(&File, LoadFilePath.c_str(), "wb"); // wb : Write Binary
+			fopen_s(&File, FilePath.c_str(), "wb"); // wb : Write Binary
 
 			// Write Data
 			for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
@@ -376,18 +393,6 @@ void MapEditor::Update(float _Delta)
 			TileInfoReset();
 			TileSetting();
 		}
-	}
-
-
-	if (true == GameEngineInput::IsDown(VK_DELETE))
-	{
-		GameEngineWindow::MainWindow.CursorOn();
-		if (1 == MessageBox(GameEngineWindow::MainWindow.GetHWND(), L"타일을 전부 지우시겠습니까?", L"", MB_OKCANCEL))
-		{
-			TileInfoReset();
-			TileSetting();
-		}
-		GameEngineWindow::MainWindow.CursorOff();
 	}
 }
 
@@ -433,7 +438,7 @@ TileMap* MapEditor::SelectViewInit(TileObjectOrder _SelectedObjectType)
 {
 	TileMap* Tile = nullptr;
 	ChangeSelectViewInfo(_SelectedObjectType);
-	
+
 	if (nullptr == Tile)
 	{
 		Tile = CreateActor<TileMap>();
@@ -576,11 +581,10 @@ void MapEditor::TileInfoReset()
 	}
 }
 
-bool MapEditor::OpenFileDialog()
+std::string MapEditor::OpenFileDialog()
 {
 	std::string FilePath = "";
 
-	
 	OPENFILENAME OFN;
 	TCHAR FilePathName[200] = L"";
 	TCHAR lpstrFile[200] = L"";
@@ -595,25 +599,20 @@ bool MapEditor::OpenFileDialog()
 	OFN.lpstrInitialDir = L".";
 
 	GameEngineWindow::MainWindow.CursorOn();
-	if (GetOpenFileName(&OFN) != 0) 
+	if (GetOpenFileName(&OFN) != 0)
 	{
 		wsprintf(FilePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
-		LoadFilePath = GameEngineString::UnicodeToAnsi(OFN.lpstrFile);
+		FilePath = GameEngineString::UnicodeToAnsi(OFN.lpstrFile);
 	}
 	GameEngineWindow::MainWindow.CursorOff();
 
-	if (LoadFilePath.empty())
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
+	return FilePath;
 }
 
-bool MapEditor::SaveFileDialog()
+std::string MapEditor::SaveFileDialog()
 {
+	std::string FilePath = "";
+
 	OPENFILENAME OFN;
 	TCHAR FilePathName[200] = L"";
 	TCHAR lpstrFile[200] = L"";
@@ -628,19 +627,13 @@ bool MapEditor::SaveFileDialog()
 	OFN.lpstrInitialDir = L".";
 
 	GameEngineWindow::MainWindow.CursorOn();
-	if (GetSaveFileName(&OFN) != 0) 
+	if (GetSaveFileName(&OFN) != 0)
 	{
 		wsprintf(FilePathName, L"%s 파일을 저장하시겠습니까?", OFN.lpstrFile);
-		LoadFilePath = GameEngineString::UnicodeToAnsi(OFN.lpstrFile);
+		FilePath = GameEngineString::UnicodeToAnsi(OFN.lpstrFile);
 	}
+
 	GameEngineWindow::MainWindow.CursorOff();
 
-	if (LoadFilePath.empty())
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
+	return FilePath;
 }
