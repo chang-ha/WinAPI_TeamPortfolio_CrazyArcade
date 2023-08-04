@@ -100,7 +100,8 @@ private:
 	void clickRandomCharacterButton();
 
 
-	AvailableCharacterList CurrentSelectCharacter = AvailableCharacterList::Max;
+	AvailableCharacterList SelectAvailableCharacter = AvailableCharacterList::Max;
+	CharacterList SelectCharacter = CharacterList::Max;
 
 	void loadAvailableCharacterButton();
 	int AvailableCharacterCount = static_cast<int>(AvailableCharacterList::Max);
