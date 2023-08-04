@@ -103,9 +103,18 @@ void PlayLevel::Update(float _Delta)
 		{
 			GameMapIndex CheckIndex = *StartIter;
 
-			TileInfo[CheckIndex.Y][CheckIndex.X].Timer += _Delta;
+			if (TileInfo[CheckIndex.Y][CheckIndex.X].PrevPop == false)
+			{
+				TileInfo[CheckIndex.Y][CheckIndex.X].Timer += _Delta;
+			}
 
-			if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 2.0f)
+			if (TileInfo[CheckIndex.Y][CheckIndex.X].PrevPop == true)
+			{
+				AllBubbleIndex.erase(StartIter);
+				TileInfo[CheckIndex.Y][CheckIndex.X].PrevPop = false;
+				break;
+			}
+			else if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 2.0f)
 			{
 				BubblePop(CheckIndex.X, CheckIndex.Y);
 				AllBubbleIndex.erase(StartIter);
@@ -485,6 +494,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		if (TileInfo[LeftIndexY][LeftIndexX].MapInfo == TileObjectOrder::Bubble)
 		{
 			BubblePop(LeftIndexX, LeftIndexY);
+			TileInfo[LeftIndexY][LeftIndexX].PrevPop = true;
 		}
 		else
 		{
@@ -501,6 +511,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		if (TileInfo[RightIndexY][RightIndexX].MapInfo == TileObjectOrder::Bubble)
 		{
 			BubblePop(RightIndexX, RightIndexY);
+			TileInfo[RightIndexY][RightIndexX].PrevPop = true;
 		}
 		else
 		{
@@ -517,6 +528,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		if (TileInfo[UpIndexY][UpIndexX].MapInfo == TileObjectOrder::Bubble)
 		{
 			BubblePop(UpIndexX, UpIndexY);
+			TileInfo[UpIndexY][UpIndexX].PrevPop = true;
 		}
 		else
 		{
@@ -533,6 +545,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		if (TileInfo[DownIndexY][DownIndexX].MapInfo == TileObjectOrder::Bubble)
 		{
 			BubblePop(DownIndexX, DownIndexY);
+			TileInfo[DownIndexY][DownIndexX].PrevPop = true;
 		}
 		else
 		{

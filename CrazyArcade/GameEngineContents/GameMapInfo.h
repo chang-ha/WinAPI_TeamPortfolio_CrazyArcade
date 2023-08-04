@@ -12,6 +12,7 @@ public:
 
 	float Timer = 0.0f;
 	float LerpTimer = 0.0f;
+	bool PrevPop = false;
 };
 
 class GameMapIndex
