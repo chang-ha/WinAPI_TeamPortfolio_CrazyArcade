@@ -241,10 +241,13 @@ void MapEditor::Update(float _Delta)
 
 	if (true == GameEngineInput::IsPress(VK_CONTROL))
 	{
+		// Draw All Tile
 		if (true == GameEngineInput::IsDown('A'))
 		{
+			
 			if (CurSelectedObjectType == TileObjectOrder::Empty)
 			{
+				// Ground
 				for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 				{
 					for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
@@ -256,8 +259,9 @@ void MapEditor::Update(float _Delta)
 					}
 				}
 			}
-			else
+			else 
 			{
+				// Object
 				for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 				{
 					for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
@@ -280,12 +284,10 @@ void MapEditor::Update(float _Delta)
 					}
 				}
 			}
-			
 		}
-
-		// All Clear
-		else if (true == GameEngineInput::IsDown('C'))
+		else if (true == GameEngineInput::IsDown('C')) 
 		{
+			// All Clear
 			GameEngineWindow::MainWindow.CursorOn();
 			if (1 == MessageBox(GameEngineWindow::MainWindow.GetHWND(), L"타일을 전부 지우시겠습니까?", L"", MB_OKCANCEL))
 			{
@@ -294,16 +296,14 @@ void MapEditor::Update(float _Delta)
 			}
 			GameEngineWindow::MainWindow.CursorOff();
 		}
-
-		// Open File
 		else if (true == GameEngineInput::IsDown('O'))
 		{
+			// Open File
 			OpenFileDialog();
 		}
-
-		// Save File
 		else if (true == GameEngineInput::IsDown('S'))
 		{
+			// Save File
 			SaveFileDialog();
 		}
 	}
