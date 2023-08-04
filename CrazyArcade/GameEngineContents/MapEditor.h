@@ -53,6 +53,7 @@ private:
 	TileMap* GetCurSelectViewTile();
 
 	void DrawingTile();
+	void DeleteTile();
 	void SelectObject();
 
 	// File Save Function

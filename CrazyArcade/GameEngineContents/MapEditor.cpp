@@ -224,6 +224,10 @@ void MapEditor::Update(float _Delta)
 		{
 			DrawingTile();
 		}
+		else if (true == GameEngineInput::IsPress(VK_RBUTTON))
+		{
+			DeleteTile();
+		}
 	}
 	else
 	{
@@ -238,6 +242,8 @@ void MapEditor::Update(float _Delta)
 			SelectObject();
 		}
 	}
+
+
 
 	if (true == GameEngineInput::IsPress(VK_CONTROL))
 	{
@@ -468,6 +474,28 @@ void MapEditor::DrawingTile()
 	}
 }
 
+void MapEditor::DeleteTile()
+{
+	// Ground와 Object 구분
+	if (CurSelectedObjectType == TileObjectOrder::Empty)
+	{
+		DrawingView_Ground->SetTile(CurTileIndex_X, CurTileIndex_Y, 0, DrawingView_StartPos);
+
+		// 바닥 텍스처 정보 저장
+		TileInfo[CurTileIndex_Y][CurTileIndex_X].GroundTextureInfo = 0;
+	}
+	else
+	{
+		DrawingView_Object->SetTileToSprite(CurTileIndex_X, CurTileIndex_Y, SelectedTextureName, 0,
+			DrawingView_StartPos - CurObjectOverSize, true);
+
+		// 맵 정보 저장
+		TileInfo[CurTileIndex_Y][CurTileIndex_X].MapInfo = TileObjectOrder::Empty;
+
+		// 오브젝트 텍스처 정보 저장
+		TileInfo[CurTileIndex_Y][CurTileIndex_X].ObjectTextureInfo = 0;
+	}
+}
 
 void MapEditor::SelectObject()
 {
