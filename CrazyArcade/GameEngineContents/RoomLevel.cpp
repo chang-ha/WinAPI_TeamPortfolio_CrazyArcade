@@ -338,8 +338,9 @@ void RoomLevel::loadAvailableCharacterButton()
 		++AvailableCharacterCount;
 	}
 
-	CurrentSelectCharacter = AvailableCharacterList::Bazzi;
-	CommonTexture* SelectTexturePtr = vecCharacterSelectUI[static_cast<int>(CurrentSelectCharacter)].SelectButton;
+	SelectAvailableCharacter = AvailableCharacterList::Bazzi;
+	SelectCharacter = CharacterList::Bazzi;
+	CommonTexture* SelectTexturePtr = vecCharacterSelectUI[static_cast<int>(SelectAvailableCharacter)].SelectButton;
 	if (nullptr == SelectTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -348,7 +349,7 @@ void RoomLevel::loadAvailableCharacterButton()
 
 	SelectTexturePtr->On();
 
-	CommonTexture* OutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(CurrentSelectCharacter)].OutlineTexture;
+	CommonTexture* OutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(SelectAvailableCharacter)].OutlineTexture;
 	if (nullptr == OutlineTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -358,7 +359,7 @@ void RoomLevel::loadAvailableCharacterButton()
 	OutlineTexturePtr->On();
 
 
-	Button* CharacterButtonPtr = vecCharacterButton[static_cast<int>(CurrentSelectCharacter)];
+	Button* CharacterButtonPtr = vecCharacterButton[static_cast<int>(SelectAvailableCharacter)];
 	if (nullptr == CharacterButtonPtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -377,7 +378,8 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 		return;
 	}
 
-	CommonTexture* PrevSelectTexturePtr = vecCharacterSelectUI[static_cast<int>(CurrentSelectCharacter)].SelectButton;
+
+	CommonTexture* PrevSelectTexturePtr = vecCharacterSelectUI[static_cast<int>(SelectAvailableCharacter)].SelectButton;
 	if (nullptr == PrevSelectTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -386,7 +388,7 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 
 	PrevSelectTexturePtr->Off();
 
-	CommonTexture* PrevOutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(CurrentSelectCharacter)].OutlineTexture;
+	CommonTexture* PrevOutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(SelectAvailableCharacter)].OutlineTexture;
 	if (nullptr == PrevOutlineTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -395,18 +397,8 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 
 	PrevOutlineTexturePtr->Off();
 
-	int PrevSelectedButtonValue = -1;
 
-	if (AvailableCharacterList::Random == CurrentSelectCharacter)
-	{
-		PrevSelectedButtonValue = static_cast<int>(CharacterList::Random);
-	}
-	else
-	{
-		PrevSelectedButtonValue = static_cast<int>(CurrentSelectCharacter);
-	}
-
-	Button* PrevCharacterButtonPtr = vecCharacterButton[static_cast<int>(PrevSelectedButtonValue)];
+	Button* PrevCharacterButtonPtr = vecCharacterButton[static_cast<int>(SelectCharacter)];
 	if (nullptr == PrevCharacterButtonPtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -415,16 +407,20 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 
 	PrevCharacterButtonPtr->On();
 
+
+
+	SelectCharacter = _Order;
+
 	if (CharacterOrder == static_cast<int>(CharacterList::Random))
 	{
-		CurrentSelectCharacter = AvailableCharacterList::Random;
+		SelectAvailableCharacter = AvailableCharacterList::Random;
 	}
 	else
 	{
-		CurrentSelectCharacter = static_cast<AvailableCharacterList>(CharacterOrder);
+		SelectAvailableCharacter = static_cast<AvailableCharacterList>(CharacterOrder);
 	}
 
-	CommonTexture* SelectTexturePtr = vecCharacterSelectUI[static_cast<int>(CurrentSelectCharacter)].SelectButton;
+	CommonTexture* SelectTexturePtr = vecCharacterSelectUI[static_cast<int>(SelectAvailableCharacter)].SelectButton;
 	if (nullptr == SelectTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -433,7 +429,7 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 
 	SelectTexturePtr->On();
 
-	CommonTexture* OutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(CurrentSelectCharacter)].OutlineTexture;
+	CommonTexture* OutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(SelectAvailableCharacter)].OutlineTexture;
 	if (nullptr == OutlineTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
