@@ -25,6 +25,10 @@ int GlobalValue::MapTileIndex_Y = 13;
 
 std::vector<CharacterTrait> GlobalValue::VecCharacterTraits;
 
+
+CharacterList GlobalValue::g_SelectCharacter = CharacterList::Max;
+AvailableCharacterList GlobalValue::g_SelectAvailableCharacter = AvailableCharacterList::Max;
+
 GlobalValue::GlobalValue()
 {
 

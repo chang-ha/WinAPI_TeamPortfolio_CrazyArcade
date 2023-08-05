@@ -95,12 +95,12 @@ public:
 
 
 protected:
-
-private:
 	// GameEngineObject »ó¼Ó
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
+
+private:
 
 
 

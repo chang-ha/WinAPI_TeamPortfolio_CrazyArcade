@@ -1,6 +1,6 @@
 #pragma once
 #include "ContentLevel.h"
-#include "ActorEnum.h"
+#include "GlobalValue.h"
 
 #include <vector>
 
@@ -17,17 +17,6 @@ enum class WindowPanelActor
 {
 	MapSelect,
 
-	Max,
-};
-
-
-enum class AvailableCharacterList
-{
-	Bazzi,
-	Dao,
-	Marid,
-	Kephi,
-	Random,
 	Max,
 };
 
@@ -54,6 +43,10 @@ public:
 	RoomLevel& operator=(const RoomLevel& _Other) = delete;
 	RoomLevel& operator=(RoomLevel&& _Other) noexcept = delete;
 
+	const std::vector<std::string>& getCharacterString()
+	{
+		return vecCharacterString;
+	}
 
 
 protected:
@@ -70,6 +63,23 @@ private:
 
 
 	// this
+	const std::vector<std::string> vecCharacterString =
+	{
+		"Bazzi",
+		"Dao",
+		"Marid",
+		"Kephi",
+		"Ethi",
+		"Mos",
+		"Uni",
+		"Dizni",
+		"Su",
+		"HooU",
+		"Ray",
+		"Random",
+	};
+
+
 	void loadWindowElement();
 	std::vector<WindowPanelUI*> vecWindowPanel;
 
@@ -100,8 +110,8 @@ private:
 	void clickRandomCharacterButton();
 
 
-	AvailableCharacterList SelectAvailableCharacter = AvailableCharacterList::Max;
-	CharacterList SelectCharacter = CharacterList::Max;
+	
+
 
 	void loadAvailableCharacterButton();
 	int AvailableCharacterCount = static_cast<int>(AvailableCharacterList::Max);
@@ -121,6 +131,15 @@ private:
 	class CharacterTraits* m_CharacterTraits = nullptr;
 
 	const float4 m_CharacterTraitsStartPos = float4{ 276.0f , 56.0f };
+
+
+	void loadRoomCharacterButton();
+	const int m_AvailableRoomCount = 2;
+	std::vector<class CharacterRoomButton*> vecCharacterRoomButton;
+
+	const float4 m_CharacterRoomButtonStartPos = float4{ 26.0f , 112.0f };
+	const float4 m_DistanceBTWCharacterRoomButton = float4{ 6.0f , 0.0f };
+
 
 
 	void loadFadeScreen();
