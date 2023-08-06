@@ -15,11 +15,17 @@ public:
 	Bazzi& operator=(const Bazzi& _Other) = delete;
 	Bazzi& operator=(Bazzi&& _Other) noexcept = delete;
 
+	int GetBubblePower() override
+	{
+		return BubblePower;
+	}
+
 protected:
 	void ChangeAnimationState(const std::string& _StateName) override;
 
 private:
 	float Speed = 300.0f;
+	int BubblePower = 2;
 
 	void Start() override;
 };

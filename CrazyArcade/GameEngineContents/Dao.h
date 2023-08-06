@@ -18,8 +18,14 @@ public:
 protected:
 	void ChangeAnimationState(const std::string& _StateName) override;
 
+	int GetBubblePower() override
+	{
+		return BubblePower;
+	}
+
 private:
 	float Speed = 300.0f;
+	int BubblePower = 1;
 
 	void Start() override;
 };

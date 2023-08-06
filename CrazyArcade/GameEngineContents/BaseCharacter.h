@@ -42,6 +42,11 @@ public:
 		return Dir;
 	}
 
+	virtual int GetBubblePower()
+	{
+		return BubblePower;
+	}
+
 protected:
 	void StateUpdate(float _Delta);
 	void ChangeState(CharacterState _State);
@@ -65,10 +70,10 @@ protected:
 		IsDebugData = !IsDebugData;
 	}
 
-
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 200.0f;
+	int BubblePower = 1;
 
 	void DirCheck();
 	void SetBubble();

@@ -405,6 +405,7 @@ void PlayLevel::SetBubble(const float4& _Pos)
 
 void PlayLevel::BubblePop(const int _X, const int _Y)
 {
+	int BubblePower = Player->GetBubblePower();
 	TileInfo[_Y][_X].Timer = 0.0f;
 	TileInfo[_Y][_X].MapInfo = TileObjectOrder::PopRange;
 
@@ -428,123 +429,62 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 	AllBubbleDeathIndex.push_back({ _X, _Y });
 
 	// 왼쪽 타일--------------------------------------------------------------
-	int LeftIndexX1 = _X - 1;
-	int LeftIndexY1 = _Y;
-
-	if (false == ObjectTile->IsOver(LeftIndexX1, LeftIndexY1))
+	for (int i = 1; i <= BubblePower; i++)
 	{
-		if (TileInfo[LeftIndexY1][LeftIndexX1].MapInfo == TileObjectOrder::Bubble)
+		if (i == BubblePower)
 		{
-			BubblePop(LeftIndexX1, LeftIndexY1);
-			TileInfo[LeftIndexY1][LeftIndexX1].PrevPop = true;
+			SideBubblePop(_X - i, _Y, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f);
 		}
 		else
 		{
-			TileChange(LeftIndexX1, LeftIndexY1, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f);
-		}
-	}
-
-	int LeftIndexX = _X - 2;
-	int LeftIndexY = _Y;
-
-	if (false == ObjectTile->IsOver(LeftIndexX, LeftIndexY))
-	{
-		if (TileInfo[LeftIndexY][LeftIndexX].MapInfo == TileObjectOrder::Bubble)
-		{
-			BubblePop(LeftIndexX, LeftIndexY);
-			TileInfo[LeftIndexY][LeftIndexX].PrevPop = true;
-		}
-		else
-		{
-			TileChange(LeftIndexX, LeftIndexY, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f);
+			SideBubblePop(_X - i, _Y, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f);
 		}
 	}
 
 	//오른쪽 타일--------------------------------------------------------------
-	int RightIndexX1 = _X + 1;
-	int RightIndexY1 = _Y;
-
-	if (false == ObjectTile->IsOver(RightIndexX1, RightIndexY1))
+	for (int i = 1; i <= BubblePower; i++)
 	{
-		if (TileInfo[RightIndexY1][RightIndexX1].MapInfo == TileObjectOrder::Bubble)
+		if (i == BubblePower)
 		{
-			BubblePop(RightIndexX1, RightIndexY1);
-			TileInfo[RightIndexY1][RightIndexX1].PrevPop = true;
+			SideBubblePop(_X + i, _Y, "Right_1.Bmp", "Bubble_Pop_Right", 0.05f);
 		}
 		else
 		{
-			TileChange(RightIndexX1, RightIndexY1, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f);
-		}
-	}
-
-	int RightIndexX = _X + 2;
-	int RightIndexY = _Y;
-
-	if (false == ObjectTile->IsOver(RightIndexX, RightIndexY))
-	{
-		if (TileInfo[RightIndexY][RightIndexX].MapInfo == TileObjectOrder::Bubble)
-		{
-			BubblePop(RightIndexX, RightIndexY);
-			TileInfo[RightIndexY][RightIndexX].PrevPop = true;
-		}
-		else
-		{
-			TileChange(RightIndexX, RightIndexY, "Right_1.Bmp", "Bubble_Pop_Right", 0.05f);
+			SideBubblePop(_X + i, _Y, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f);
 		}
 	}
 
 	//위쪽 타일--------------------------------------------------------------
-	int UpIndexX1 = _X;
-	int UpIndexY1 = _Y - 1;
-
-	if (false == ObjectTile->IsOver(UpIndexX1, UpIndexY1))
+	for (int i = 1; i <= BubblePower; i++)
 	{
-		if (TileInfo[UpIndexY1][UpIndexX1].MapInfo == TileObjectOrder::Bubble)
+		if (i == BubblePower)
 		{
-			BubblePop(UpIndexX1, UpIndexY1);
-			TileInfo[UpIndexY1][UpIndexX1].PrevPop = true;
+			SideBubblePop(_X, _Y - i, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f);
 		}
 		else
 		{
-			TileChange(UpIndexX1, UpIndexY1, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f);
-		}
-	}
-
-	int UpIndexX = _X;
-	int UpIndexY = _Y - 2;
-
-	if (false == ObjectTile->IsOver(UpIndexX, UpIndexY))
-	{
-		if (TileInfo[UpIndexY][UpIndexX].MapInfo == TileObjectOrder::Bubble)
-		{
-			BubblePop(UpIndexX, UpIndexY);
-			TileInfo[UpIndexY][UpIndexX].PrevPop = true;
-		}
-		else
-		{
-			TileChange(UpIndexX, UpIndexY, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f);
+			SideBubblePop(_X, _Y - i, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f);
 		}
 	}
 
 	//아래쪽 타일--------------------------------------------------------------
-	int DownIndexX1 = _X;
-	int DownIndexY1 = _Y + 1;
-
-	if (false == ObjectTile->IsOver(DownIndexX1, DownIndexY1))
+	for (int i = 1; i <= BubblePower; i++)
 	{
-		if (TileInfo[DownIndexY1][DownIndexX1].MapInfo == TileObjectOrder::Bubble)
+		if (i == BubblePower)
 		{
-			BubblePop(DownIndexX1, DownIndexY1);
-			TileInfo[DownIndexY1][DownIndexX1].PrevPop = true;
+			SideBubblePop(_X, _Y + i, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f);
 		}
 		else
 		{
-			TileChange(DownIndexX1, DownIndexY1, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f);
+			SideBubblePop(_X, _Y + i, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f);
 		}
 	}
+}
 
+void PlayLevel::SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
+{
 	int DownIndexX = _X;
-	int DownIndexY = _Y + 2;
+	int DownIndexY = _Y;
 
 	if (false == ObjectTile->IsOver(DownIndexX, DownIndexY))
 	{
@@ -555,7 +495,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		}
 		else
 		{
-			TileChange(DownIndexX, DownIndexY, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f);
+			TileChange(DownIndexX, DownIndexY, _SpriteName, _AnimationName, _Inter);
 		}
 	}
 }
