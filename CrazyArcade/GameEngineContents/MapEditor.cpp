@@ -294,13 +294,15 @@ void MapEditor::Update(float _Delta)
 		else if (true == GameEngineInput::IsDown('C')) 
 		{
 			// All Clear
-			GameEngineWindow::MainWindow.CursorOn();
-			if (1 == MessageBox(GameEngineWindow::MainWindow.GetHWND(), L"타일을 전부 지우시겠습니까?", L"", MB_OKCANCEL))
-			{
-				TileInfoReset();
-				TileSetting();
-			}
-			GameEngineWindow::MainWindow.CursorOff();
+			TileInfoReset();
+			TileSetting();
+			//GameEngineWindow::MainWindow.CursorOn();
+			//if (1 == MessageBox(GameEngineWindow::MainWindow.GetHWND(), L"타일을 전부 지우시겠습니까?", L"", MB_OKCANCEL))
+			//{
+			//	TileInfoReset();
+			//	TileSetting();
+			//}
+			//GameEngineWindow::MainWindow.CursorOff();
 		}
 		else if (true == GameEngineInput::IsDown('O'))
 		{
@@ -561,11 +563,24 @@ void MapEditor::TileSetting()
 
 void MapEditor::TileInfoReset()
 {
-	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+	if (CurSelectedObjectType == TileObjectOrder::Empty)
 	{
-		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 		{
-			TileInfo[Y][X] = GameMapInfo::DefaultInfo;
+			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+			{
+				TileInfo[Y][X].GroundTextureInfo = 0;
+			}
+		}
+	}
+	else
+	{
+		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+		{
+			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+			{
+				TileInfo[Y][X].ObjectTextureInfo = 0;
+			}
 		}
 	}
 }
