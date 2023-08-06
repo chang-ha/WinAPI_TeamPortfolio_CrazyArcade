@@ -169,6 +169,7 @@ void CharacterRoomButton::loadSpaceCharacterComposition()
 		CharacterTexture->loadTexture(Text, "Resources\\Textures\\UI\\Button\\CharacterRoom");
 		CharacterTexture->setTexture(Text);
 
+
 		float4 CharacterTextureScale = CharacterTexture->getTextureScale();
 		float4 CharacterTexturePos = ShadowPos + float4{ 0.0f , -CharacterTextureScale.hY() } + float4{ 0.0f , 2.0f };
 
@@ -179,6 +180,53 @@ void CharacterRoomButton::loadSpaceCharacterComposition()
 
 		++PushCount;
 	}
+
+
+	if (false == m_HostValue)
+	{
+		m_ReadyBillboard = CurLevel->CreateActor<CommonTexture>(UpdateOrder::UI);
+		if (nullptr == m_ReadyBillboard)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		GameEngineWindowTexture* Texture = GlobalUtils::TextureFileLoad("PlayerReady.bmp", "Resources\\Textures\\UI\\MapSelect\\Room");
+		if (Texture)
+		{
+			m_ReadyBillboard->setTexture("PlayerReady.bmp");
+
+			float4 BillboardScale = Texture->GetScale();
+
+			float4 ReadyBillboardPos = GetPos() + m_BillBoardStartPosToEachRoom + BillboardScale.Half();
+
+			m_ReadyBillboard->SetPos(ReadyBillboardPos);
+		}
+
+
+		m_Flag = CurLevel->CreateActor<CommonTexture>(UpdateOrder::UI);
+		if (nullptr == m_Flag)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+
+		Texture = GlobalUtils::TextureFileLoad("CharacterRoom_Flag.bmp", "Resources\\Textures\\UI\\MapSelect\\Room");
+		if (Texture)
+		{
+			m_Flag->setTexture("CharacterRoom_Flag.bmp");
+
+			float4 BillboardScale = Texture->GetScale();
+
+			float4 ReadyBillboardPos = GetPos() + m_FlagStartPosToEachRoom + BillboardScale.Half();
+
+			m_Flag->SetPos(ReadyBillboardPos);
+		}
+	}
+
+	 
+
 
 	// test
 	m_CurrentSelectedCharaterTexture = AvailableCharacterList::Bazzi;
@@ -202,14 +250,14 @@ void CharacterRoomButton::Update(float _Delta)
 {
 	if (SpaceButtonState::SpaceButton == m_SpaceButtonState)
 	{
-		if (GlobalValue::g_SelectAvailableCharacter != m_CurrentSelectedCharaterTexture)
+		if (GlobalValue::g_SelectAvailableCharacter1 != m_CurrentSelectedCharaterTexture)
 		{
 			vecCharacterTexture[static_cast<int>(m_CurrentSelectedCharaterTexture)]->Off();
 
-			int SelectCharacterValue = static_cast<int>(GlobalValue::g_SelectAvailableCharacter);
+			int SelectCharacterValue = static_cast<int>(GlobalValue::g_SelectAvailableCharacter1);
 			vecCharacterTexture[SelectCharacterValue]->On();
 
-			m_CurrentSelectedCharaterTexture = GlobalValue::g_SelectAvailableCharacter;
+			m_CurrentSelectedCharaterTexture = GlobalValue::g_SelectAvailableCharacter1;
 		}
 
 		// 방장이 아니라면 업데이트 버튼 클릭이 가능합니다.
@@ -225,6 +273,9 @@ void CharacterRoomButton::Update(float _Delta)
 
 				vecCharacterTexture[SelectCharacterValue]->On();
 				m_CharacterShadow->On();
+
+				m_ReadyBillboard->On();
+				m_Flag->On();
 
 				m_ActiveSpaceButtonValue = true;
 			}
@@ -245,6 +296,9 @@ void CharacterRoomButton::Update(float _Delta)
 
 				vecCharacterTexture[SelectCharacterValue]->Off();
 				m_CharacterShadow->Off();
+
+				m_ReadyBillboard->Off();
+				m_Flag->Off();
 
 
 				m_ActiveSpaceButtonValue = false;

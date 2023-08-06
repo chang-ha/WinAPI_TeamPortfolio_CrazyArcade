@@ -82,7 +82,8 @@ public:
 	static std::vector<CharacterTrait> VecCharacterTraits;
 
 	static CharacterList g_SelectCharacter;
-	static AvailableCharacterList g_SelectAvailableCharacter;
+	static AvailableCharacterList g_SelectAvailableCharacter1;
+	static AvailableCharacterList g_SelectAvailableCharacter2;
 
 	static void Init();
 protected:

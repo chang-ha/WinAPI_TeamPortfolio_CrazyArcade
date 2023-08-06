@@ -122,6 +122,9 @@ private:
 
 	void changeSelectedCharacterUI(CharacterList _Order);
 
+
+
+
 	void loadSelectChecker();
 	class CommonTexture* m_SelectChecker = nullptr;
 	float4 m_SelectCheckerPosToButton = float4::ZERO;
@@ -140,6 +143,8 @@ private:
 	const float4 m_CharacterRoomButtonStartPos = float4{ 26.0f , 112.0f };
 	const float4 m_DistanceBTWCharacterRoomButton = float4{ 6.0f , 0.0f };
 
+	void loadSelectRoomBorder();
+	std::vector<class CommonTexture*> vecSelectRoomBorder;
 
 
 	void loadFadeScreen();

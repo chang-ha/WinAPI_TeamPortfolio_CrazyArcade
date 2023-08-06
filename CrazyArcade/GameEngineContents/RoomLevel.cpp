@@ -73,6 +73,7 @@ void RoomLevel::loadButtonElement()
 	loadSelectChecker();
 	loadAvailableCharacterButton();
 	loadRoomCharacterButton();
+	loadSelectRoomBorder();
 	loadCharacterTraits();
 
 
@@ -308,9 +309,9 @@ void RoomLevel::loadAvailableCharacterButton()
 		++AvailableCharacterCount;
 	}
 
-	GlobalValue::g_SelectAvailableCharacter = AvailableCharacterList::Bazzi;
+	GlobalValue::g_SelectAvailableCharacter1 = AvailableCharacterList::Bazzi;
 	GlobalValue::g_SelectCharacter = CharacterList::Bazzi;
-	CommonTexture* SelectTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter)].SelectButton;
+	CommonTexture* SelectTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter1)].SelectButton;
 	if (nullptr == SelectTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -319,7 +320,7 @@ void RoomLevel::loadAvailableCharacterButton()
 
 	SelectTexturePtr->On();
 
-	CommonTexture* OutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter)].OutlineTexture;
+	CommonTexture* OutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter1)].OutlineTexture;
 	if (nullptr == OutlineTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -329,7 +330,7 @@ void RoomLevel::loadAvailableCharacterButton()
 	OutlineTexturePtr->On();
 
 
-	Button* CharacterButtonPtr = vecCharacterButton[static_cast<int>(GlobalValue::g_SelectAvailableCharacter)];
+	Button* CharacterButtonPtr = vecCharacterButton[static_cast<int>(GlobalValue::g_SelectAvailableCharacter1)];
 	if (nullptr == CharacterButtonPtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -360,7 +361,8 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 	}
 
 
-	CommonTexture* PrevSelectTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter)].SelectButton;
+
+	CommonTexture* PrevSelectTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter1)].SelectButton;
 	if (nullptr == PrevSelectTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -369,7 +371,7 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 
 	PrevSelectTexturePtr->Off();
 
-	CommonTexture* PrevOutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter)].OutlineTexture;
+	CommonTexture* PrevOutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter1)].OutlineTexture;
 	if (nullptr == PrevOutlineTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -394,14 +396,14 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 
 	if (CharacterOrder == static_cast<int>(CharacterList::Random))
 	{
-		GlobalValue::g_SelectAvailableCharacter = AvailableCharacterList::Random;
+		GlobalValue::g_SelectAvailableCharacter1 = AvailableCharacterList::Random;
 	}
 	else
 	{
-		GlobalValue::g_SelectAvailableCharacter = static_cast<AvailableCharacterList>(CharacterOrder);
+		GlobalValue::g_SelectAvailableCharacter1 = static_cast<AvailableCharacterList>(CharacterOrder);
 	}
 
-	CommonTexture* SelectTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter)].SelectButton;
+	CommonTexture* SelectTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter1)].SelectButton;
 	if (nullptr == SelectTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -410,7 +412,7 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 
 	SelectTexturePtr->On();
 
-	CommonTexture* OutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter)].OutlineTexture;
+	CommonTexture* OutlineTexturePtr = vecCharacterSelectUI[static_cast<int>(GlobalValue::g_SelectAvailableCharacter1)].OutlineTexture;
 	if (nullptr == OutlineTexturePtr)
 	{
 		MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -434,6 +436,7 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 	float4{ (m_SpacingBTWCharacterButton.X + m_CharacterButtonScale.X) * static_cast<float>(CharacterOrder % 4),
 			(m_SpacingBTWCharacterButton.Y + m_CharacterButtonScale.Y) * static_cast<float>(CharacterOrder / 4) });
 }
+
 
 void RoomLevel::loadSelectChecker()
 {
@@ -496,8 +499,35 @@ void RoomLevel::loadRoomCharacterButton()
 		vecCharacterRoomButton[ButtonCount] = CharacterButton;
 	}
 
+}
 
 
+void RoomLevel::loadSelectRoomBorder()
+{
+	GameEngineWindowTexture* Texture = GlobalUtils::TextureFileLoad("Select_Space_Button.bmp", "Resources\\Textures\\UI\\Button\\CharacterRoom");
+	if (Texture)
+	{
+		vecSelectRoomBorder.resize(m_AvailableRoomCount);
+
+		for (int SelectRoomCount = 0; SelectRoomCount < m_AvailableRoomCount; SelectRoomCount++)
+		{
+			CommonTexture* SelectRoomBorder = CreateActor<CommonTexture>(UpdateOrder::UI);
+			if (SelectRoomBorder)
+			{
+				SelectRoomBorder->setTexture("Select_Space_Button.bmp");
+
+				float4 SelectRoomScale = Texture->GetScale();
+				float4 SelectRoomPos = m_CharacterRoomButtonStartPos + SelectRoomScale.Half() +
+					float4{ (SelectRoomScale.X + m_DistanceBTWCharacterRoomButton.X) * static_cast<float>(SelectRoomCount) , 0.0f };
+
+				SelectRoomBorder->SetPos(SelectRoomPos);
+				SelectRoomBorder->SetOrder(5);
+				SelectRoomBorder->Off();
+
+				vecSelectRoomBorder[SelectRoomCount] = SelectRoomBorder;
+			}
+		}
+	}
 }
 
 

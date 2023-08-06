@@ -63,6 +63,13 @@ private:
 	const float4 m_ShadowStartPosToRoomButton = float4{ 17.0f , 80.0f };
 
 
+	class CommonTexture* m_ReadyBillboard = nullptr;
+	const float4 m_BillBoardStartPosToEachRoom = float4{ 3.0f , 123.0f };
+
+
+	class CommonTexture* m_Flag = nullptr;
+	const float4 m_FlagStartPosToEachRoom = float4{ 58.0f , 46.0f };
+
 	bool m_ActiveSpaceButtonValue = true;
 
 };
