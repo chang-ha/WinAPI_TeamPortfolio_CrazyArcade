@@ -271,6 +271,11 @@ void CharacterRoomButton::Update(float _Delta)
 
 				int SelectCharacterValue = static_cast<int>(GlobalValue::g_SelectCharacter);
 
+				if (CharacterList::Random == GlobalValue::g_SelectCharacter)
+				{
+					SelectCharacterValue = static_cast<int>(AvailableCharacterList::Random);
+				}
+
 				vecCharacterTexture[SelectCharacterValue]->On();
 				m_CharacterShadow->On();
 
