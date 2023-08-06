@@ -27,5 +27,9 @@ void GlobalLoad::TileTextureLoad()
 		GlobalUtils::SpriteFileLoad("Right_1.bmp", "Resources\\Textures\\Tile\\Bubble", 11, 1);
 		GlobalUtils::SpriteFileLoad("Up_1.bmp", "Resources\\Textures\\Tile\\Bubble", 11, 1);
 		GlobalUtils::SpriteFileLoad("Down_1.bmp", "Resources\\Textures\\Tile\\Bubble", 11, 1);
+		GlobalUtils::SpriteFileLoad("Left_2.bmp", "Resources\\Textures\\Tile\\Bubble", 11, 1);
+		GlobalUtils::SpriteFileLoad("Right_2.bmp", "Resources\\Textures\\Tile\\Bubble", 11, 1);
+		GlobalUtils::SpriteFileLoad("Up_2.bmp", "Resources\\Textures\\Tile\\Bubble", 11, 1);
+		GlobalUtils::SpriteFileLoad("Down_2.bmp", "Resources\\Textures\\Tile\\Bubble", 11, 1);
 	}
 }
