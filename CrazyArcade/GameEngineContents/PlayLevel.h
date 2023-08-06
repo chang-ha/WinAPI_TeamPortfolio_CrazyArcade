@@ -45,8 +45,9 @@ protected:
 	std::list<class GameMapIndex> AllBubbleDeathIndex;
 
 private:
-	BaseCharacter* Player = nullptr;
+	float LerpTime = 1.0f;
 
+	BaseCharacter* Player = nullptr;
 	class PlayTimer* PlayTimerPtr = nullptr;
 };
 

@@ -320,11 +320,9 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 
 		if (TileObjectOrder::MovableBlock == TileInfo[CheckY][CheckX].MapInfo)
 		{
-
-
 			TileInfo[CheckY][CheckX].LerpTimer += _Delta;
 
-			if (3.0f < TileInfo[CheckY][CheckX].LerpTimer)
+			if (LerpTime < TileInfo[CheckY][CheckX].LerpTimer)
 			{
 				MoveTile(NextTile, CheckX, CheckY);
 				return false;
