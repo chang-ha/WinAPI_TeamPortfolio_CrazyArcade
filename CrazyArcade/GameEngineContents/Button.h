@@ -42,8 +42,12 @@ public:
 	Button& operator=(Button&& _Other) noexcept = delete;
 
 	
-	void setRenderer(RenderOrder _Order);
+	void setRenderer(RenderOrder _Order)
+	{
+		return setRenderer(static_cast<int>(_Order));
+	}
 
+	void setRenderer(int _Order);
 
 	void setButtonPos(const float4& _Pos);
 

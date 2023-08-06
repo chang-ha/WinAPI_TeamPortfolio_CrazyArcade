@@ -30,6 +30,17 @@ public:
 
 	void initCharacterRoomButton();
 
+	bool isSpaceButtonState()
+	{
+		if (SpaceButtonState::SpaceButton == m_SpaceButtonState)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+
 protected:
 
 private:

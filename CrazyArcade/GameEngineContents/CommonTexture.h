@@ -34,6 +34,12 @@ public:
 		return m_TextureScale;
 	}
 
+	GameEngineRenderer* getRenderer()
+	{
+		return Renderer;
+	}
+
+
 protected:
 
 private:

@@ -3,6 +3,14 @@
 #include <vector>
 
 
+enum class MapType
+{
+	Seal1,
+	Seal2,
+	Peng1,
+	Peng2,
+	Max,
+};
 
 enum class CharacterList
 {
@@ -81,9 +89,12 @@ public:
 
 	static std::vector<CharacterTrait> VecCharacterTraits;
 
+	static MapType g_SelectMap;
+
 	static CharacterList g_SelectCharacter;
 	static AvailableCharacterList g_SelectAvailableCharacter1;
 	static AvailableCharacterList g_SelectAvailableCharacter2;
+
 
 	static void Init();
 protected:

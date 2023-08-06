@@ -18,7 +18,7 @@ enum class RenderOrder
 	FadeScreenUI = 10,
 	WindowPanelUI,
 	SecondElementUI,
-	MouseUI,
+	MouseUI = 20,
 	FadeOutUI,
 	Character
 };

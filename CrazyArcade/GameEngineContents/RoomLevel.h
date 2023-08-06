@@ -49,6 +49,12 @@ public:
 	}
 
 
+	CommonTexture* getChekcer2Pointer()
+	{
+		return m_SelectChecker2;
+	}
+
+
 protected:
 
 private:
@@ -79,12 +85,12 @@ private:
 		"Random",
 	};
 
-
+	// 게임 창
 	void loadWindowElement();
 	std::vector<WindowPanelUI*> vecWindowPanel;
 
 
-
+	// 버튼
 	void loadButtonElement();
 	std::vector<Button*> vecButton;
 
@@ -92,7 +98,7 @@ private:
 
 
 
-
+	// 캐릭터 선택 버튼
 	void loadCharacterButton();
 	std::vector<Button*> vecCharacterButton;
 	float4 m_CharacterButtonScale = float4::ZERO;
@@ -112,7 +118,7 @@ private:
 
 	
 
-
+	// 선택 가능한 버튼 요소
 	void loadAvailableCharacterButton();
 	int AvailableCharacterCount = static_cast<int>(AvailableCharacterList::Max);
 	const float4 m_SelectedCharacterButtonStartPos = float4{ 487.0f , 81.0f };
@@ -124,33 +130,55 @@ private:
 
 
 
-
+	// 채크 텍스처
 	void loadSelectChecker();
-	class CommonTexture* m_SelectChecker = nullptr;
-	float4 m_SelectCheckerPosToButton = float4::ZERO;
+	class CommonTexture* m_SelectChecker1 = nullptr;
+	class CommonTexture* m_SelectChecker2 = nullptr;
+	float4 m_SelectChecker1PosToButton = float4::ZERO;
+	float4 m_SelectChecker2PosToButton = float4::ZERO;
 
-
+	// 캐릭터 트레잇(독립)
 	void loadCharacterTraits();
 	class CharacterTraits* m_CharacterTraits = nullptr;
 
 	const float4 m_CharacterTraitsStartPos = float4{ 276.0f , 56.0f };
 
 
+
+	// 각 방 버튼
+	int m_SelectRoomNumber = 0;
+
 	void loadRoomCharacterButton();
 	const int m_AvailableRoomCount = 2;
 	std::vector<class CharacterRoomButton*> vecCharacterRoomButton;
 
+	float4 m_SelectRoomScale = float4::ZERO;
+
 	const float4 m_CharacterRoomButtonStartPos = float4{ 26.0f , 112.0f };
 	const float4 m_DistanceBTWCharacterRoomButton = float4{ 6.0f , 0.0f };
 
+
+	// 방 경계선
 	void loadSelectRoomBorder();
 	std::vector<class CommonTexture*> vecSelectRoomBorder;
 
 
+	// Fade
 	void loadFadeScreen();
 	class FadeScreen* m_FadeScreen = nullptr;
 	const int m_FadeScreenAlphaValue = 70;
 
+
+	// 업데이트
+
+	void updateRoomDetectionChange();
+	void updateCharacterRoomBorder();
+
+	int returnCharacterRoomNumber();
+	bool checkCharacterRoomOverMouse(int _Value);
+	void changeBorder(int _Value);
+
+	
 
 	void updateFirstElementUIVisibility();
 
