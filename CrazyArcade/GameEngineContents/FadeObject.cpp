@@ -118,7 +118,7 @@ void FadeObject::Update(float _Delta)
 	}
 	else if (CallFadeType::FadeIn == m_FadeType)
 	{
-		m_Alpha += static_cast<int>(static_cast<float>(m_RequestAlphaValue - MinAlphaValue) / m_FadeDuration * _Delta);
+		m_Alpha -= static_cast<int>(static_cast<float>(m_RequestAlphaValue - MinAlphaValue) / m_FadeDuration * _Delta);
 		m_DebugAlphaValue = m_Alpha;
 
 		Renderer->SetAlpha(m_Alpha);
