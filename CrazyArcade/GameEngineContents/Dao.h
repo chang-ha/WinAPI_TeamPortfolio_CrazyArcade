@@ -20,7 +20,7 @@ protected:
 
 	int GetBubblePower() override
 	{
-		return BubblePower;
+		return BubblePower + 1;
 	}
 
 	float GetSpeed() override

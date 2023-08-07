@@ -20,6 +20,11 @@ public:
 protected:
 	void ChangeAnimationState(const std::string& _StateName) override;
 
+	int GetBubblePower() override
+	{
+		return BubblePower;
+	}
+
 	float GetSpeed() override
 	{
 		return Speed;

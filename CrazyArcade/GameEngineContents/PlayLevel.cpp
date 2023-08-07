@@ -60,7 +60,7 @@ void PlayLevel::Start()
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
 	// Create Character 
-	Player = CreateActor<Kephi>(UpdateOrder::Character);
+	Player = CreateActor<Dao>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
@@ -433,52 +433,108 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 	// 왼쪽 타일--------------------------------------------------------------
 	for (int i = 1; i <= BubblePower; i++)
 	{
-		if (i == BubblePower)
+		int X = _X - i;
+		int Y = _Y;
+
+		if (true == ObjectTile->IsOver(X, Y))
 		{
-			SideBubblePop(_X - i, _Y, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f);
+			break;
+		}
+
+		if (TileObjectOrder::ImmovableBlock == TileInfo[Y][X].MapInfo
+			|| TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
+		{
+			PopTile(X, Y);
+			break;
+		}
+		else if (i == BubblePower)
+		{
+			SideBubblePop(X, Y, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f);
 		}
 		else
 		{
-			SideBubblePop(_X - i, _Y, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f);
+			SideBubblePop(X, Y, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f);
 		}
 	}
 
 	//오른쪽 타일--------------------------------------------------------------
 	for (int i = 1; i <= BubblePower; i++)
 	{
-		if (i == BubblePower)
+		int X = _X + i;
+		int Y = _Y;
+
+		if (true == ObjectTile->IsOver(X, Y))
 		{
-			SideBubblePop(_X + i, _Y, "Right_1.Bmp", "Bubble_Pop_Right", 0.05f);
+			break;
+		}
+
+		if (TileObjectOrder::ImmovableBlock == TileInfo[Y][X].MapInfo
+			|| TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
+		{
+			PopTile(X, Y);
+			break;
+		}
+		else if (i == BubblePower)
+		{
+			SideBubblePop(X, Y, "Right_1.Bmp", "Bubble_Pop_Right", 0.05f);
 		}
 		else
 		{
-			SideBubblePop(_X + i, _Y, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f);
+			SideBubblePop(X, Y, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f);
 		}
 	}
 
 	//위쪽 타일--------------------------------------------------------------
 	for (int i = 1; i <= BubblePower; i++)
 	{
-		if (i == BubblePower)
+		int X = _X;
+		int Y = _Y - i;
+
+		if (true == ObjectTile->IsOver(X, Y))
 		{
-			SideBubblePop(_X, _Y - i, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f);
+			break;
+		}
+
+		if (TileObjectOrder::ImmovableBlock == TileInfo[Y][X].MapInfo
+			|| TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
+		{
+			PopTile(X, Y);
+			break;
+		}
+		else if (i == BubblePower)
+		{
+			SideBubblePop(X, Y, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f);
 		}
 		else
 		{
-			SideBubblePop(_X, _Y - i, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f);
+			SideBubblePop(X, Y, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f);
 		}
 	}
 
 	//아래쪽 타일--------------------------------------------------------------
 	for (int i = 1; i <= BubblePower; i++)
 	{
-		if (i == BubblePower)
+		int X = _X;
+		int Y = _Y + i;
+
+		if (true == ObjectTile->IsOver(X, Y))
 		{
-			SideBubblePop(_X, _Y + i, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f);
+			break;
+		}
+
+		if (TileObjectOrder::ImmovableBlock == TileInfo[Y][X].MapInfo
+			|| TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
+		{
+			PopTile(X, Y);
+			break;
+		}
+		else if (i == BubblePower)
+		{
+			SideBubblePop(X, Y, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f);
 		}
 		else
 		{
-			SideBubblePop(_X, _Y + i, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f);
+			SideBubblePop(X, Y, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f);
 		}
 	}
 }
@@ -522,17 +578,10 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 // 물풍선 상하좌우 타일 변경 함수
 void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
 {
-	if (true == ObjectTile->IsOver(_X, _Y))
+	/*if (true == ObjectTile->IsOver(_X, _Y))
 	{
 		return;
-	}
-
-	if (TileObjectOrder::ImmovableBlock == TileInfo[_Y][_X].MapInfo
-		|| TileObjectOrder::MovableBlock == TileInfo[_Y][_X].MapInfo)
-	{
-		PopTile(_X, _Y);
-		return;
-	}
+	}*/
 
 	if (TileObjectOrder::Empty != TileInfo[_Y][_X].MapInfo)
 	{
