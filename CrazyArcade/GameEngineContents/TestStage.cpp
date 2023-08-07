@@ -26,7 +26,7 @@ void TestStage::Start()
 {
 	PlayLevel::Start();
 
-	MapFileLoad("TestMap.map");
+	MapFileLoad("TestMap2.map");
 	TileSetting();
 }
 
