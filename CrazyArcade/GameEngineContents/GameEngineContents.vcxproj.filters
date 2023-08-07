@@ -16,9 +16,6 @@
     <ClCompile Include="Button.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Cappi.cpp">
-      <Filter>Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="ContentLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -79,6 +76,9 @@
     <ClCompile Include="CharacterTraits.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Kephi.cpp">
+      <Filter>Actor\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -95,9 +95,6 @@
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Actor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Cappi.h">
-      <Filter>Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="ContentLevel.h">
       <Filter>Level</Filter>
@@ -161,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="CharacterTraits.h">
       <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Kephi.h">
+      <Filter>Actor\Unit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

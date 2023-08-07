@@ -10,7 +10,7 @@
 #include "BackGround.h"
 #include "Dao.h"
 #include "Bazzi.h"
-#include "Cappi.h"
+#include "Kephi.h"
 #include "Marid.h"
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
@@ -60,7 +60,7 @@ void PlayLevel::Start()
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
 	// Create Character 
-	Player = CreateActor<Marid>(UpdateOrder::Character);
+	Player = CreateActor<Kephi>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
