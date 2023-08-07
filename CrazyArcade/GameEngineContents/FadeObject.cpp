@@ -6,9 +6,10 @@
 
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCore.h>
 
 
-bool FadeObject::g_FadeOutValue = false;
+FadeObject* FadeObject::g_FadeObject = nullptr;
 FadeObject::FadeObject() 
 {
 }
@@ -48,8 +49,14 @@ void FadeObject::Start()
 }
 
 // 
-void FadeObject::CallFadeOut(GameEngineLevel* _Level, float _FadeOutDuration /*= 1.0f*/, int _Alpha /*= 0*/)
+void FadeObject::CallFadeOut(GameEngineLevel* _Level, const std::string& _LevelName, float _FadeOutDuration /*= 1.0f*/, int _Alpha /*= 0*/)
 {
+	if (nullptr != g_FadeObject)
+	{
+		MsgBoxAssert("초기화가 이뤄지지 않았습니다.");
+		return;
+	}
+
 	FadeObject* FadeOut = _Level->CreateActor<FadeObject>(UpdateOrder::UI);
 	if (nullptr == FadeOut)
 	{
@@ -57,17 +64,23 @@ void FadeObject::CallFadeOut(GameEngineLevel* _Level, float _FadeOutDuration /*=
 		return;
 	}
 
+
+	FadeOut->m_FadeType = CallFadeType::FadeOut;
+	FadeOut->m_NextLevelName = _LevelName;
+
 	FadeOut->m_Alpha = _Alpha;
 
 	FadeOut->m_FadeDuration = _FadeOutDuration;
 	FadeOut->m_RequestAlphaValue = _Alpha;
 
-	FadeOut->m_FadeType = CallFadeType::FadeOut;
 
 	if (FadeOut->Renderer)
 	{
 		FadeOut->Renderer->SetAlpha(_Alpha);
 	}
+
+
+	g_FadeObject = FadeOut;
 }
 
 void FadeObject::CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration /*= 1.0f*/, int _Alpha /*= 255*/)
@@ -92,6 +105,22 @@ void FadeObject::CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration /*= 
 	}
 }
 
+void FadeObject::ReleaseFadeObject()
+{
+	if (CallFadeType::FadeOut != m_FadeType)
+	{
+		return;
+	}
+
+	Death();
+	if (Renderer)
+	{
+		Renderer = nullptr;
+	}
+
+	g_FadeObject = nullptr;
+}
+
 
 
 void FadeObject::Update(float _Delta)
@@ -107,13 +136,8 @@ void FadeObject::Update(float _Delta)
 
 		if (m_Alpha > MaxAlphaValue)
 		{
-			g_FadeOutValue = true;
-
-			Death();
-			if (Renderer)
-			{
-				Renderer = nullptr;
-			}
+			GameEngineCore::ChangeLevel(m_NextLevelName);
+			return;
 		}
 	}
 	else if (CallFadeType::FadeIn == m_FadeType)

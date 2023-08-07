@@ -201,7 +201,7 @@ void RoomLevel::loadButtonElement()
 
 void RoomLevel::clickGameStartButton()
 {
-	FadeObject::CallFadeOut(this, 0.4f);
+	FadeObject::CallFadeOut(this, "UITestStage", 0.4f);
 }
 
 
@@ -698,10 +698,6 @@ void RoomLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
 
-	if (true == FadeObject::isDoneFadeOut())
-	{
-		GameEngineCore::ChangeLevel("UITestStage");
-	}
 
 	updateRoomDetectionChange();
 	updateSelectedMapDetectionChange();
@@ -983,5 +979,5 @@ void RoomLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 void RoomLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	FadeObject::g_FadeObject->ReleaseFadeObject();
 }
