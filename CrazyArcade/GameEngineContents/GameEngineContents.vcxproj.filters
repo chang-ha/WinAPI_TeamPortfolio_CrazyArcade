@@ -85,6 +85,9 @@
     <ClCompile Include="CharacterRoomButton.cpp">
       <Filter>Actor\UI\CharacterSelect</Filter>
     </ClCompile>
+    <ClCompile Include="UITestStage.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
     <ClCompile Include="Kephi.cpp">
       <Filter>Actor\Unit</Filter>
     </ClCompile>
@@ -179,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="Kephi.h">
       <Filter>Actor\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="UITestStage.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
