@@ -27,19 +27,27 @@ public:
 	}
 
 	void setRendererCopyPos(const float4& _Scale, int _XBoxNumber, int _YBoxNumber);
+	void setRendererCopyAndRenderScale(int _XBoxNumber, int _YBoxNumber);
+	void setRendererCopyPos(int _XBoxNumber, int _YBoxNumber);
 
 	void setRendererOrder(int _Order);
 
+
+	GameEngineRenderer* getRenderer()
+	{
+		return Renderer;
+	}
 
 	float4 getTextureScale() const
 	{
 		return m_TextureScale;
 	}
 
-	GameEngineRenderer* getRenderer()
+	float4 getScale() const
 	{
-		return Renderer;
+		return m_Scale;
 	}
+
 
 
 protected:
@@ -52,5 +60,6 @@ private:
 	GameEngineRenderer* Renderer = nullptr;
 
 	float4 m_TextureScale = float4::ZERO;
+	float4 m_Scale = float4::ZERO;
 };
 

@@ -90,6 +90,24 @@ private:
 	std::vector<WindowPanelUI*> vecWindowPanel;
 
 
+	// 선택된 맵 텍스처
+	void loadSelectedMapComposition();
+
+	struct SelectedMapInfo
+	{
+	public:
+		CommonTexture* Img = nullptr;
+		CommonTexture* Outline = nullptr;
+	};
+
+	SelectedMapInfo m_SelectedMapInfo;
+
+	const float4 m_SelectedMapImgStarPos = float4{ 488.0f , 348.0f };
+	const float4 m_SelectedMapOutlineStarPos = float4{ 642.0f , 346.0f };
+
+	MapType m_CurMapType = MapType::Max;
+
+
 	// 버튼
 	void loadButtonElement();
 	std::vector<Button*> vecButton;
@@ -172,6 +190,7 @@ private:
 	// 업데이트
 
 	void updateRoomDetectionChange();
+	void updateSelectedMapDetectionChange();
 	void updateCharacterRoomBorder();
 
 	int returnCharacterRoomNumber();
