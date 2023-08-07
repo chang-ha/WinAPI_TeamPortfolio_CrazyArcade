@@ -23,9 +23,18 @@ protected:
 		return BubblePower;
 	}
 
+	float GetSpeed() override
+	{
+		return Speed;
+	}
+
 private:
-	float Speed = 300.0f;
-	int BubblePower = 1;
+	float Speed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MinSpeed * SPEEDREFERENCEVALUE;
+	float MaxSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MaxSpeed * SPEEDREFERENCEVALUE;
+	int BubblePower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MinBombPower;
+	int MaxBubblePower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MaxBombPower;
+	int BombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MinWaterBombs;
+	int MaxBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MaxWaterBombs;
 
 	void Start() override;
 };

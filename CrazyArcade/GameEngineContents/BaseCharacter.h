@@ -17,8 +17,11 @@
 #define LEFTBOTCHECKPOS { -16.0f, 25.0f }
 #define RIGHTBOTCHECKPOS { 16.0f, 25.0f }
 
+#define SPEEDREFERENCEVALUE 40.0f
+
 #include "ActorEnum.h"
 #include "ContentsEnum.h"
+#include "GlobalValue.h"
 
 #include <string>
 #include <GameEngineCore/GameEngineActor.h>
@@ -70,9 +73,14 @@ protected:
 		IsDebugData = !IsDebugData;
 	}
 
+	virtual float GetSpeed()
+	{
+		return Speed;
+	}
+
 protected:
 	ActorDir Dir = ActorDir::Down;
-	float Speed = 200.0f;
+	float Speed = 0.0f;
 	int BubblePower = 1;
 
 	void DirCheck();

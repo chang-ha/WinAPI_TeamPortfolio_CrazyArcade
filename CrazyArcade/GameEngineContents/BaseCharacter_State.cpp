@@ -30,6 +30,8 @@ void BaseCharacter::MoveUpdate(float _Delta)
 {
 	DirCheck();
 
+	float MoveSpeed = GetSpeed();
+
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos1 = float4::ZERO;
 	float4 CheckPos2 = float4::ZERO;
@@ -38,7 +40,7 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	if (ActorDir::Up == Dir && GameEngineInput::IsDown('W')
 		|| ActorDir::Up == Dir && GameEngineInput::IsPress('W'))
 	{
-		MovePos = float4::UP * Speed * _Delta;
+		MovePos = float4::UP * MoveSpeed * _Delta;
 		CheckPos1 = LEFTTOPCHECKPOS;
 		CheckPos2 = TOPCHECKPOS;
 		CheckPos3 = RIGHTTOPCHECKPOS;
@@ -46,7 +48,7 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	else if (ActorDir::Down == Dir && GameEngineInput::IsDown('S')
 		|| ActorDir::Down == Dir && GameEngineInput::IsPress('S'))
 	{
-		MovePos = float4::DOWN * Speed * _Delta;
+		MovePos = float4::DOWN * MoveSpeed * _Delta;
 		CheckPos1 = LEFTBOTCHECKPOS;
 		CheckPos2 = BOTCHECKPOS;
 		CheckPos3 = RIGHTBOTCHECKPOS;
@@ -54,7 +56,7 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	else if (ActorDir::Left == Dir && GameEngineInput::IsDown('A')
 		|| ActorDir::Left == Dir && GameEngineInput::IsPress('A'))
 	{
-		MovePos = float4::LEFT * Speed * _Delta;
+		MovePos = float4::LEFT * MoveSpeed * _Delta;
 		CheckPos1 = LEFTMOVETOPCHECKPOS;
 		CheckPos2 = LEFTCHECKPOS;
 		CheckPos3 = LEFTMOVEBOTCHECKPOS;
@@ -62,7 +64,7 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	else if (ActorDir::Right == Dir && GameEngineInput::IsDown('D')
 		|| ActorDir::Right == Dir && GameEngineInput::IsPress('D'))
 	{
-		MovePos = float4::RIGHT * Speed * _Delta;
+		MovePos = float4::RIGHT * MoveSpeed * _Delta;
 		CheckPos1 = RIGHTMOVETOPCHECKPOS;
 		CheckPos2 = RIGHTCHECKPOS;
 		CheckPos3 = RIGHTMOVEBOTCHECKPOS;

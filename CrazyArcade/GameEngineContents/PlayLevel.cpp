@@ -60,7 +60,7 @@ void PlayLevel::Start()
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
 	// Create Character 
-	Player = CreateActor<Bazzi>(UpdateOrder::Character);
+	Player = CreateActor<Marid>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
@@ -81,6 +81,7 @@ void PlayLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
 
+	// 물폭탄의 타이머를 위한 for문
 	if (AllBubbleIndex.size() > 0)
 	{
 		std::list<GameMapIndex>::iterator StartIter = AllBubbleIndex.begin();
@@ -114,6 +115,7 @@ void PlayLevel::Update(float _Delta)
 		}
 	}
 
+	// 터진 부분의 Effect를 지워주기 위한 for문
 	if (AllBubbleDeathIndex.size() > 0)
 	{
 		std::list<GameMapIndex>::iterator StartIter = AllBubbleDeathIndex.begin();

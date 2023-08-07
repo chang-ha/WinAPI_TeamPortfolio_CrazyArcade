@@ -18,8 +18,18 @@ public:
 protected:
 	void ChangeAnimationState(const std::string& _StateName) override;
 
+	float GetSpeed() override
+	{
+		return Speed;
+	}
+
 private:
-	float Speed = 300.0f;
+	float Speed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MinSpeed * SPEEDREFERENCEVALUE;
+	float MaxSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MaxSpeed * SPEEDREFERENCEVALUE;
+	int BubblePower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MinBombPower;
+	int MaxBubblePower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MaxBombPower;
+	int BombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MinWaterBombs;
+	int MaxBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MaxWaterBombs;
 
 	void Start() override;
 };
