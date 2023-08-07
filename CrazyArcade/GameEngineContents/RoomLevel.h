@@ -114,6 +114,8 @@ private:
 
 	const float4 m_GameExitButtonStartPos = float4{ 749.0f, 572.0f };
 
+	void clickGameStartButton();
+
 
 
 	// 캐릭터 선택 버튼
@@ -188,6 +190,7 @@ private:
 
 
 	// 업데이트
+	void checkNextLevelByDetectingFadevalue();
 
 	void updateRoomDetectionChange();
 	void updateSelectedMapDetectionChange();

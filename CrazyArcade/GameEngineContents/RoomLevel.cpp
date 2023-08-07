@@ -8,6 +8,7 @@
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineSprite.h>
 
 
@@ -18,6 +19,7 @@
 #include "CharacterTraits.h"
 #include "CommonTexture.h"
 #include "FadeScreen.h"
+#include "FadeObject.h"
 
 
 
@@ -164,13 +166,13 @@ void RoomLevel::loadButtonElement()
 	GameStartButtonPtr->setButtonTexture(ButtonState::Normal, "Button_GameStart_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameStartButtonPtr->setButtonTexture(ButtonState::Click, "Button_GameStart_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameStartButtonPtr->setButtonTexture(ButtonState::Hover, "Button_GameStart_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 3);
+	GameStartButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickGameStartButton);
 
 	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
 	
-	/*ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickSelectButton);*/
-
-
 	GameStartButtonPtr->setButtonPos(float4{ 512.0f, 494.0f });
+
+
 	vecButton[static_cast<int>(ButtonActor::GameStart)] = GameStartButtonPtr;
 
 
@@ -186,10 +188,9 @@ void RoomLevel::loadButtonElement()
 	GameExitButtonPtr->setButtonTexture(ButtonState::Normal, "Button_GameExit_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameExitButtonPtr->setButtonTexture(ButtonState::Click, "Button_GameExit_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameExitButtonPtr->setButtonTexture(ButtonState::Hover, "Button_GameExit_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
-
 	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
 
-	/*ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickSelectButton);*/
+	//ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickGameStartButton);
 
 
 	GameExitButtonPtr->setButtonPos(m_GameExitButtonStartPos);
@@ -197,6 +198,12 @@ void RoomLevel::loadButtonElement()
 
 	m_ButtonUpdateValue = true;
 }
+
+void RoomLevel::clickGameStartButton()
+{
+	FadeObject::CallFadeOut(this, 0.4f);
+}
+
 
 void RoomLevel::loadCharacterButton()
 {
@@ -690,6 +697,11 @@ void RoomLevel::loadFadeScreen()
 void RoomLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
+
+	if (true == FadeObject::isDoneFadeOut())
+	{
+		GameEngineCore::ChangeLevel("TestStage");
+	}
 
 	updateRoomDetectionChange();
 	updateSelectedMapDetectionChange();
