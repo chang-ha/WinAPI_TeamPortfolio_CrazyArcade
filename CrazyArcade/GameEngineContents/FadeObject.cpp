@@ -6,9 +6,9 @@
 
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCore.h>
 
 
-bool FadeObject::g_FadeOutValue = false;
 FadeObject::FadeObject() 
 {
 }
@@ -48,7 +48,7 @@ void FadeObject::Start()
 }
 
 // 
-void FadeObject::CallFadeOut(GameEngineLevel* _Level, float _FadeOutDuration /*= 1.0f*/, int _Alpha /*= 0*/)
+void FadeObject::CallFadeOut(GameEngineLevel* _Level, const std::string& _LevelName, float _FadeOutDuration /*= 1.0f*/, int _Alpha /*= 0*/)
 {
 	FadeObject* FadeOut = _Level->CreateActor<FadeObject>(UpdateOrder::UI);
 	if (nullptr == FadeOut)
@@ -57,12 +57,15 @@ void FadeObject::CallFadeOut(GameEngineLevel* _Level, float _FadeOutDuration /*=
 		return;
 	}
 
+
+	FadeOut->m_FadeType = CallFadeType::FadeOut;
+	FadeOut->m_NextLevelName = _LevelName;
+
 	FadeOut->m_Alpha = _Alpha;
 
 	FadeOut->m_FadeDuration = _FadeOutDuration;
 	FadeOut->m_RequestAlphaValue = _Alpha;
 
-	FadeOut->m_FadeType = CallFadeType::FadeOut;
 
 	if (FadeOut->Renderer)
 	{
@@ -93,7 +96,6 @@ void FadeObject::CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration /*= 
 }
 
 
-
 void FadeObject::Update(float _Delta)
 {
 	m_FadeTime += _Delta;
@@ -103,18 +105,14 @@ void FadeObject::Update(float _Delta)
 		m_Alpha += static_cast<int>(static_cast<float>(MaxAlphaValue - m_RequestAlphaValue) / m_FadeDuration * _Delta);
 		m_DebugAlphaValue = m_Alpha;
 
-		Renderer->SetAlpha(m_Alpha);
-
 		if (m_Alpha > MaxAlphaValue)
 		{
-			g_FadeOutValue = true;
-
-			Death();
-			if (Renderer)
-			{
-				Renderer = nullptr;
-			}
+			m_Alpha = MaxAlphaValue;
+			GameEngineCore::ChangeLevel(m_NextLevelName);
 		}
+
+		Renderer->SetAlpha(m_Alpha);
+
 	}
 	else if (CallFadeType::FadeIn == m_FadeType)
 	{
@@ -131,5 +129,20 @@ void FadeObject::Update(float _Delta)
 				Renderer = nullptr;
 			}
 		}
+	}
+}
+
+
+void FadeObject::LevelEnd()
+{
+	if (CallFadeType::FadeOut != m_FadeType)
+	{
+		return;
+	}
+
+	Death();
+	if (Renderer)
+	{
+		Renderer = nullptr;
 	}
 }
