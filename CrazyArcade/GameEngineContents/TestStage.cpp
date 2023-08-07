@@ -14,6 +14,7 @@ TestStage::~TestStage()
 
 void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	PlayLevel::LevelStart(_PrevLevel);
 	FadeObject::CallFadeIn(this, 0.4f);
 }
 

@@ -22,7 +22,6 @@ PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
 PlayLevel::PlayLevel()
 {
-	CurPlayLevel = this;
 }
 
 PlayLevel::~PlayLevel()
@@ -32,7 +31,7 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
+	CurPlayLevel = this;
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
