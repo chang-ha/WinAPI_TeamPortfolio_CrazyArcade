@@ -544,13 +544,13 @@ void MapEditor::TileSetting()
 			{
 			case TileObjectOrder::Empty:
 			case TileObjectOrder::Structure:
-				DrawingView_Object->SetTileToSprite(X, Y, "Structures.bmp", TileInfo[Y][X].ObjectTextureInfo, DrawingView_StartPos + float4(0, -20), true);
+				DrawingView_Object->SetTileToSprite(X, Y, "Structures.bmp", TileInfo[Y][X].ObjectTextureInfo, DrawingView_StartPos - GlobalValue::StructureOverSize, true);
 				break;
 			case TileObjectOrder::ImmovableBlock:
-				DrawingView_Object->SetTileToSprite(X, Y, "ImmovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, DrawingView_StartPos + float4(0, -2), true);
+				DrawingView_Object->SetTileToSprite(X, Y, "ImmovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, DrawingView_StartPos - GlobalValue::BlockOverSize, true);
 				break;
 			case TileObjectOrder::MovableBlock:
-				DrawingView_Object->SetTileToSprite(X, Y, "MovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, DrawingView_StartPos + float4(0, -2), true);
+				DrawingView_Object->SetTileToSprite(X, Y, "MovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, DrawingView_StartPos - GlobalValue::BlockOverSize, true);
 				break;
 			case TileObjectOrder::Item:
 				break;

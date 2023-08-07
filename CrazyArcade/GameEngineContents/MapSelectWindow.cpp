@@ -31,9 +31,8 @@ void MapSelectWindow::Start()
 void MapSelectWindow::initButton()
 {
 	loadButton();
-
 	loadMapInfoButton();
-
+	loadSelectMapInfo();
 }
 
 void MapSelectWindow::loadButton()
@@ -391,23 +390,179 @@ void MapSelectWindow::changeMapCompart(MapType _Type)
 void MapSelectWindow::clickSeal1Button()
 {
 	changeMapCompart(MapType::Seal1);
+	changeMapInfo(MapType::Seal1);
 }
 
 void MapSelectWindow::clickSeal2Button()
 {
 	changeMapCompart(MapType::Seal2);
+	changeMapInfo(MapType::Seal2);
 }
 
 void MapSelectWindow::clickPenguin1Button()
 {
 	changeMapCompart(MapType::Peng1);
+	changeMapInfo(MapType::Peng1);
 }
 
 void MapSelectWindow::clickPenguin2Button()
 {
 	changeMapCompart(MapType::Peng2);
+	changeMapInfo(MapType::Peng2);
 }
 
+
+void MapSelectWindow::loadSelectMapInfo()
+{
+	GameEngineLevel* CurLevelPtr = GetLevel();
+	if (nullptr == CurLevelPtr)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	CommonTexture* TitlePtr = CurLevelPtr->CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (TitlePtr)
+	{
+		TitlePtr->loadTexture("MapSelect_Title.bmp", "Resources\\Textures\\UI\\MapSelect");
+		TitlePtr->setTexture("MapSelect_Title.bmp");
+		
+		float4 TitleTextureScale = TitlePtr->getTextureScale();
+		m_TitleScale = float4{ TitleTextureScale.X , TitleTextureScale.Y / static_cast<float>(static_cast<int>(MapType::Max)) };
+
+		GameEngineRenderer* TitleRenderer = TitlePtr->getRenderer();
+		if (TitleRenderer)
+		{
+			TitleRenderer->SetCopyScale(m_TitleScale);
+			TitleRenderer->SetRenderScale(m_TitleScale);
+		}
+
+		float4 TitlePos = GetPos() - m_WindowScale.Half() + SelectedMapTitleStartPos + m_TitleScale.Half();
+
+		TitlePtr->setRendererOrder(RenderOrder::SecondElementUI);
+		TitlePtr->SetPos(TitlePos);
+		TitlePtr->Off();
+
+		m_MapInfo.Title = TitlePtr;
+	}
+
+
+	CommonTexture* MapImgPtr = CurLevelPtr->CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (MapImgPtr)
+	{
+
+		MapImgPtr->loadTexture("MapSelect_Map.bmp", "Resources\\Textures\\UI\\MapSelect");
+		MapImgPtr->setTexture("MapSelect_Map.bmp");
+
+		float4 ImgTextureScale = MapImgPtr->getTextureScale();
+		m_ImgScale = float4{ ImgTextureScale.X , ImgTextureScale.Y / static_cast<float>(static_cast<int>(MapType::Max)) };
+
+		GameEngineRenderer* ImgRenderer = MapImgPtr->getRenderer();
+		if (ImgRenderer)
+		{
+			ImgRenderer->SetCopyScale(m_ImgScale);
+			ImgRenderer->SetRenderScale(m_ImgScale);
+		}
+
+		float4 ImgPos = GetPos() - m_WindowScale.Half() + SelectedMapImgStartPos + m_ImgScale.Half();
+
+		MapImgPtr->setRendererOrder(RenderOrder::SecondElementUI);
+		MapImgPtr->SetPos(ImgPos);
+		MapImgPtr->Off();
+
+		m_MapInfo.Img = MapImgPtr;
+	}
+
+
+	CommonTexture* MapOutlinePtr = CurLevelPtr->CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (MapOutlinePtr)
+	{
+
+		MapOutlinePtr->loadTexture("MapSelect_Penguin_Explanation.bmp", "Resources\\Textures\\UI\\MapSelect");
+		MapOutlinePtr->setTexture("MapSelect_Penguin_Explanation.bmp");
+
+		float4 m_ImgScale = MapOutlinePtr->getTextureScale();
+
+		float4 ImgPos = GetPos() - m_WindowScale.Half() + SelectedMapOutlineStartPos + m_ImgScale.Half();
+
+		MapOutlinePtr->setRendererOrder(RenderOrder::SecondElementUI);
+		MapOutlinePtr->SetPos(ImgPos);
+		MapOutlinePtr->Off();
+
+		m_MapInfo.Outline = MapOutlinePtr;
+	}
+
+
+	CommonTexture* MapTextPtr = CurLevelPtr->CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (MapTextPtr)
+	{
+		MapTextPtr->loadTexture("MapSelect_Text.bmp", "Resources\\Textures\\UI\\MapSelect");
+		MapTextPtr->setTexture("MapSelect_Text.bmp");
+
+		float4 TextTextureScale = MapTextPtr->getTextureScale();
+		m_TextScale = float4{ TextTextureScale.X , TextTextureScale.Y / 2.0f };
+
+		GameEngineRenderer* TextRenderer = MapTextPtr->getRenderer();
+		if (TextRenderer)
+		{
+			TextRenderer->SetCopyScale(m_TextScale);
+			TextRenderer->SetRenderScale(m_TextScale);
+		}
+
+		float4 TextPos = GetPos() - m_WindowScale.Half() + SelectedMapTextStartPos + m_TextScale.Half();
+
+		MapTextPtr->setRendererOrder(RenderOrder::SecondElementUI);
+		MapTextPtr->SetPos(TextPos);
+		MapTextPtr->Off();
+
+		m_MapInfo.Text = MapTextPtr;
+	}
+}
+
+void MapSelectWindow::changeMapInfo(MapType _Type)
+{
+	CommonTexture* MapInfoTitle = m_MapInfo.Title;
+	if (MapInfoTitle)
+	{
+		MapInfoTitle->setRendererCopyPos(m_TitleScale, 0, static_cast<int>(_Type));
+	}
+
+	CommonTexture* MapInfoImg = m_MapInfo.Img;
+	if (MapInfoImg)
+	{
+		MapInfoImg->setRendererCopyPos(m_ImgScale, 0, static_cast<int>(_Type));
+	}
+
+	CommonTexture* MapInfoText = m_MapInfo.Text;
+	if (MapInfoText)
+	{
+		int SelectedMapType = -1;
+
+		switch (_Type)
+		{
+		case MapType::Seal1:
+			SelectedMapType = 0;
+			break;
+		case MapType::Seal2:
+			SelectedMapType = 0;
+			break;
+		case MapType::Peng1:
+			SelectedMapType = 1;
+			break;
+		case MapType::Peng2:
+			SelectedMapType = 1;
+			break;
+		case MapType::Max:
+			break;
+		default:
+			MsgBoxAssert("선택한 맵타입이 없습니다.");
+			return;
+			break;
+		}
+
+		MapInfoText->setRendererCopyPos(m_TextScale, 0, SelectedMapType);
+	}
+}
 
 
 void MapSelectWindow::Update(float _Delta)
@@ -478,6 +633,58 @@ void MapSelectWindow::onPanel()
 	{
 		SelectMapComPartTexture->On();
 	}
+
+
+	CommonTexture* MapInfoTitle = m_MapInfo.Title;
+	if (MapInfoTitle)
+	{
+		MapInfoTitle->setRendererCopyPos(m_TitleScale, 0, static_cast<int>(CurSelectMap));
+		MapInfoTitle->On();
+	}
+
+	CommonTexture* MapInfoImg = m_MapInfo.Img;
+	if (MapInfoImg)
+	{
+		MapInfoImg->setRendererCopyPos(m_ImgScale, 0, static_cast<int>(CurSelectMap));
+		MapInfoImg->On();
+	}
+
+	CommonTexture* MapInfoOutline = m_MapInfo.Outline;
+	if (MapInfoOutline)
+	{
+		MapInfoOutline->On();
+	}
+
+	CommonTexture* MapInfoText = m_MapInfo.Text;
+	if (MapInfoText)
+	{ 
+		int SelectedMapType = -1;
+
+		switch (CurSelectMap)
+		{
+		case MapType::Seal1:
+			SelectedMapType = 0;
+			break;
+		case MapType::Seal2:
+			SelectedMapType = 0;
+			break;
+		case MapType::Peng1:
+			SelectedMapType = 1;
+			break;
+		case MapType::Peng2:
+			SelectedMapType = 1;
+			break;
+		case MapType::Max:
+			break;
+		default:
+			MsgBoxAssert("선택한 맵타입이 없습니다.");
+			return;
+			break;
+		}
+
+		MapInfoText->setRendererCopyPos(m_TextScale, 0, SelectedMapType);
+		MapInfoText->On();
+	}
 }
 
 
@@ -529,6 +736,31 @@ void MapSelectWindow::offPanel()
 		{
 			NumberTexture->Off();
 		}
+	}
+
+
+	CommonTexture* MapInfoTitle = m_MapInfo.Title;
+	if (MapInfoTitle)
+	{
+		MapInfoTitle->Off();
+	}
+
+	CommonTexture* MapInfoImg = m_MapInfo.Img;
+	if (MapInfoImg)
+	{
+		MapInfoImg->Off();
+	}
+
+	CommonTexture* MapInfoOutline = m_MapInfo.Outline;
+	if (MapInfoOutline)
+	{
+		MapInfoOutline->Off();
+	}
+
+	CommonTexture* MapInfoText = m_MapInfo.Text;
+	if (MapInfoText)
+	{
+		MapInfoText->Off();
 	}
 }
 

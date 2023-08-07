@@ -8,7 +8,7 @@ float4 GlobalValue::MapTileSize = {40, 40};
 float4 GlobalValue::TileStartPos = { 20, 41 };
 
 float4 GlobalValue::StructureOverSize = { 0, 20 };
-float4 GlobalValue::BlockOverSize = { 0, 2 };
+float4 GlobalValue::BlockOverSize = { 0, 5 };
 
 int GlobalValue::AllTextureIndex_X = 3;
 

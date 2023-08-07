@@ -59,3 +59,47 @@ void CommonTexture::setRendererOrder(int _Order)
 		Renderer->SetOrder(_Order);
 	}
 }
+
+void CommonTexture::setRendererCopyPos(const float4& _Scale, int _XBoxNumber, int _YBoxNumber)
+{
+	if (nullptr == Renderer)
+	{
+		MsgBoxAssert("렌더러가 없습니다.");
+		return;
+	}
+
+	float4 Scale = _Scale;
+
+	float4 CopyPos = float4{ Scale.X * static_cast<float>(_XBoxNumber) , Scale.Y * static_cast<float>(_YBoxNumber) };
+
+	Renderer->SetCopyPos(CopyPos);
+}
+
+void CommonTexture::setRendererCopyPos(int _XBoxNumber, int _YBoxNumber)
+{
+	if (nullptr == Renderer)
+	{
+		MsgBoxAssert("렌더러가 없습니다.");
+		return;
+	}
+
+	float4 Scale = m_Scale;
+
+	float4 CopyPos = float4{ Scale.X * static_cast<float>(_XBoxNumber) , Scale.Y * static_cast<float>(_YBoxNumber) };
+
+	Renderer->SetCopyPos(CopyPos);
+}
+
+void  CommonTexture::setRendererCopyAndRenderScale(int _XBoxNumber, int _YBoxNumber)
+{
+	if (nullptr == Renderer)
+	{
+		MsgBoxAssert("렌더러가 없습니다.");
+		return;
+	}
+
+	m_Scale = float4{ m_TextureScale.X / static_cast<float>(_XBoxNumber + 1) , m_TextureScale.Y / static_cast<float>(_YBoxNumber + 1) };
+
+	Renderer->SetCopyScale(m_Scale);
+	Renderer->SetRenderScale(m_Scale);
+}
