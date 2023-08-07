@@ -20,10 +20,25 @@ public:
 	void loadTexture(const std::string& _FileName, const std::string& _Path);
 	void setTexture(const std::string& _FileName);
 
+	template<typename OrderType>
+	void setRendererOrder(OrderType _Order)
+	{
+		return setRendererOrder(static_cast<int>(_Order));
+	}
+
+	void setRendererOrder(int _Order);
+
+
 	float4 getTextureScale() const
 	{
 		return m_TextureScale;
 	}
+
+	GameEngineRenderer* getRenderer()
+	{
+		return Renderer;
+	}
+
 
 protected:
 

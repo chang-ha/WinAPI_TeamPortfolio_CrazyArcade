@@ -21,21 +21,3 @@ enum class ActorDir
 	Up,
 	Down,
 };
-
-
-enum class CharacterList
-{
-	Bazzi,
-	Dao,
-	Marid,
-	Kephi,
-	Ethi,
-	Mos,
-	Uni,
-	Dizni,
-	Su,
-	HooU,
-	Ray,
-	Random,
-	Max,
-};

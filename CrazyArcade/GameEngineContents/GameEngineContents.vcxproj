@@ -176,6 +176,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="CharacterRoomButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CommonTexture.h">
       <SubType>
       </SubType>
@@ -272,6 +276,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Cappi.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CharacterRoomButton.cpp">
       <SubType>
       </SubType>
     </ClCompile>

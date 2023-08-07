@@ -24,3 +24,11 @@ void GlobalLoad::TileTextureLoad()
 		GlobalUtils::SpriteFileLoad("Bubble.bmp", "Resources\\Textures\\Bubble", 3, 1);
 	}
 }
+
+
+void GlobalLoad::LoadMapInfoTexture()
+{
+	GlobalUtils::TextureFileLoad("MapSelect_SelectImageBar_Active.bmp", "Resources\\Textures\\UI\\MapSelect");
+
+	GlobalUtils::TextureFileLoad("MapSelect_SelectImageBar_Active.bmp", "Resources\\Textures\\UI\\MapSelect");
+}

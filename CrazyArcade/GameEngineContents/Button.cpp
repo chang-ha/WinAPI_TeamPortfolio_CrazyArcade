@@ -32,7 +32,7 @@ void Button::Start()
 }
 
 
-void Button::setRenderer(RenderOrder _Order)
+void Button::setRenderer(int _Order)
 {
 	Renderer = CreateRenderer(_Order);
 	if (nullptr == Renderer)

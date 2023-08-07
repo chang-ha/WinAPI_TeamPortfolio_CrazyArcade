@@ -20,6 +20,9 @@ public:
 	static const int ImmovableBlockMaxIndex = 3;
 	static const int MovableBlockMaxIndex = 2;
 
+
+	static void LoadMapInfoTexture();
+
 protected:
 
 private:
