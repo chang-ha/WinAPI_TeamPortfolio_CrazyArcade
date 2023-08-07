@@ -59,3 +59,16 @@ void CommonTexture::setRendererOrder(int _Order)
 		Renderer->SetOrder(_Order);
 	}
 }
+
+void CommonTexture::setRendererCopyPos(const float4& _Scale, int _XBoxNumber, int _YBoxNumber)
+{
+	if (nullptr == Renderer)
+	{
+		MsgBoxAssert("렌더러가 없습니다.");
+		return;
+	}
+
+	float4 CopyPos = float4{ _Scale.X * static_cast<float>(_XBoxNumber) , _Scale.Y * static_cast<float>(_YBoxNumber) };
+
+	Renderer->SetCopyPos(CopyPos);
+}

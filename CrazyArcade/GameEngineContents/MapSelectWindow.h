@@ -63,7 +63,7 @@ private:
 
 	MapType CurSelectMap = MapType::Max;
 
-	struct MapInfo
+	struct SelectButtonInfo
 	{
 	public:
 		class Button* MapCompart = nullptr;
@@ -81,7 +81,7 @@ private:
 	float4 m_MapNameScale = float4::ZERO;
 	float4 m_MapNumberScale = float4::ZERO;
 
-	std::vector<MapInfo> vecMapInfoButton;
+	std::vector<SelectButtonInfo> vecMapInfoButton;
 
 	void changeMapCompart(MapType _Type);
 
@@ -91,6 +91,32 @@ private:
 	void clickPenguin2Button();
 
 
+
+
+	// Map Info
+	struct MapInfo
+	{
+	public:
+		CommonTexture* Title = nullptr;
+		CommonTexture* Img = nullptr;
+		CommonTexture* Outline = nullptr;
+		CommonTexture* Text = nullptr;
+	};
+
+	void loadSelectMapInfo();
+
+	MapInfo m_MapInfo;
+
+	float4 m_TitleScale = float4::ZERO;
+	float4 m_TextScale = float4::ZERO;
+	float4 m_ImgScale = float4::ZERO;
+
+	const float4 SelectedMapTitleStartPos = float4{ 24.0f , 65.0f };
+	const float4 SelectedMapImgStartPos = float4{ 26.0f , 91.0f };
+	const float4 SelectedMapOutlineStartPos = float4{ 25.0f , 225.0f };
+	const float4 SelectedMapTextStartPos = float4{ 25.0f , 302.0f };
+
+	void changeMapInfo(MapType _Type);
 
 };
 

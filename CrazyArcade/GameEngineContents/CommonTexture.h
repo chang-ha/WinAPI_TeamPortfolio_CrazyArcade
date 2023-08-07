@@ -26,6 +26,8 @@ public:
 		return setRendererOrder(static_cast<int>(_Order));
 	}
 
+	void setRendererCopyPos(const float4& _Scale, int _XBoxNumber, int _YBoxNumber);
+
 	void setRendererOrder(int _Order);
 
 
