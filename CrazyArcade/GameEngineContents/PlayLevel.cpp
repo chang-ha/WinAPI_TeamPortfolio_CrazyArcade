@@ -137,6 +137,7 @@ void PlayLevel::Update(float _Delta)
 			{
 				TileInfo[CheckIndex.Y][CheckIndex.X].MapInfo = TileObjectOrder::Empty;
 				TileInfo[CheckIndex.Y][CheckIndex.X].ObjectTextureInfo = 0;
+				TileInfo[CheckIndex.Y][CheckIndex.X].BubblePower = 0;
 
 				ObjectTile->DeathTile(CheckIndex.X, CheckIndex.Y);
 
@@ -392,7 +393,7 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 물폭탄
-void PlayLevel::SetBubble(const float4& _Pos)
+void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower)
 {
 	if (nullptr != Player)
 	{
@@ -413,6 +414,7 @@ void PlayLevel::SetBubble(const float4& _Pos)
 		AllBubbleIndex.push_back({ BubbleIndexX, BubbleIndexY });
 
 		TileInfo[BubbleIndexY][BubbleIndexX].MapInfo = TileObjectOrder::Bubble;
+		TileInfo[BubbleIndexY][BubbleIndexX].BubblePower = _BubblePower;
 
 		BubbleRenderer = ObjectTile->SetTileToSprite(BubbleIndexX, BubbleIndexY, "Bubble.bmp",
 			TileInfo[BubbleIndexY][BubbleIndexX].ObjectTextureInfo, GlobalValue::TileStartPos, true);
@@ -432,7 +434,8 @@ void PlayLevel::SetBubble(const float4& _Pos)
 
 void PlayLevel::BubblePop(const int _X, const int _Y)
 {
-	int BubblePower = Player->GetBubblePower();
+	Player->BombCountPlus();
+	int BubblePower = TileInfo[_Y][_X].BubblePower;
 	TileInfo[_Y][_X].Timer = 0.0f;
 	TileInfo[_Y][_X].MapInfo = TileObjectOrder::PopRange;
 
@@ -603,11 +606,6 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 // 물풍선 상하좌우 타일 변경 함수
 void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
 {
-	/*if (true == ObjectTile->IsOver(_X, _Y))
-	{
-		return;
-	}*/
-
 	if (TileObjectOrder::Empty != TileInfo[_Y][_X].MapInfo)
 	{
 		return;

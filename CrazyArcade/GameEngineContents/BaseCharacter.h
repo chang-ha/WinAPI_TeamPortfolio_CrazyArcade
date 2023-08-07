@@ -29,6 +29,7 @@
 class GameEngineRenderer;
 class BaseCharacter : public GameEngineActor
 {
+	friend class PlayLevel;
 public:
 	// constrcuter destructer
 	BaseCharacter();
@@ -43,11 +44,6 @@ public:
 	ActorDir GetDir()
 	{
 		return Dir;
-	}
-
-	virtual int GetBubblePower()
-	{
-		return BubblePower;
 	}
 
 protected:
@@ -78,10 +74,31 @@ protected:
 		return Speed;
 	}
 
+	virtual int GetBubblePower()
+	{
+		return BubblePower;
+	}
+
+	virtual int GetBombCount()
+	{
+		return BombCount;
+	}
+
+	virtual void BombCountPlus()
+	{
+		++BombCount;
+	}
+
+	virtual void BombCountMinus()
+	{
+		--BombCount;
+	}
+
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
 	int BubblePower = 1;
+	int BombCount = 1;
 
 	void DirCheck();
 	void SetBubble();

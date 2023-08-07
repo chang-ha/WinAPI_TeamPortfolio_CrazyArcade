@@ -23,10 +23,11 @@ void BaseCharacter::Update(float _Delta)
 	StateUpdate(_Delta);
 
 	// 물풍선 설치
-	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle"
-		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move")
+	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle" && GetBombCount() > 0
+		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
 	{
-		PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f});
+		PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f}, GetBubblePower());
+		BombCountMinus();
 	}
 
 	if (true == GameEngineInput::IsDown('J'))

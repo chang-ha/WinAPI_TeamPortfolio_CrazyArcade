@@ -20,14 +20,29 @@ public:
 protected:
 	void ChangeAnimationState(const std::string& _StateName) override;
 
+	float GetSpeed() override
+	{
+		return Speed;
+	}
+
 	int GetBubblePower() override
 	{
 		return BubblePower;
 	}
 
-	float GetSpeed() override
+	int GetBombCount() override
 	{
-		return Speed;
+		return BombCount;
+	}
+
+	void BombCountPlus() override
+	{
+		++BombCount;
+	}
+
+	void BombCountMinus() override
+	{
+		--BombCount;
 	}
 
 private:

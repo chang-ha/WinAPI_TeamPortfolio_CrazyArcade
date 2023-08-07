@@ -22,7 +22,7 @@ public:
 	bool CheckTile(const float4& _Pos, float _Delta);
 	bool CheckSidePos(const float4& _Pos);
 	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y);
-	void SetBubble(const float4& _Pos);
+	void SetBubble(const float4& _Pos, int _BubblePower);
 	void BubblePop(const int _X, const int _Y);
 	void SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	void PopTile(const int _X, const int _Y);
