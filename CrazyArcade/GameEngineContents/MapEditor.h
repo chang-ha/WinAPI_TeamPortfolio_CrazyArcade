@@ -43,8 +43,10 @@ private:
 	// Setting Function
 	void TileInit();
 	void TileSetting();
-	void TileInfoReset();
 
+	void TileInfoReset();
+	void TileGroundInfoReset();
+	void TileObjectInfoReset();
 	class TileMap* SelectViewInit(TileObjectOrder _SelectedObjectType);
 
 	void ChangeSelectViewInfo(TileObjectOrder _SelectedObjectType);

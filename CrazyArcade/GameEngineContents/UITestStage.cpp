@@ -14,6 +14,7 @@ UITestStage::~UITestStage()
 
 void UITestStage::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	PlayLevel::LevelStart(_PrevLevel);
 	FadeObject::CallFadeIn(this, 0.4f);
 }
 

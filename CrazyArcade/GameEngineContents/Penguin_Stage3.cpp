@@ -27,8 +27,8 @@ void Penguin_Stage3::Start()
 {
 	PlayLevel::Start();
 
-	MapFileLoad("Penguin_Stage3.map");
-	TileSetting();
+	//MapFileLoad("Penguin_Stage3.map");
+	//TileSetting();
 }
 
 void Penguin_Stage3::Update(float _Delta)

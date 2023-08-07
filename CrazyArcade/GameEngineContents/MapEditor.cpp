@@ -243,8 +243,6 @@ void MapEditor::Update(float _Delta)
 		}
 	}
 
-
-
 	if (true == GameEngineInput::IsPress(VK_CONTROL))
 	{
 		// Draw All Tile
@@ -294,7 +292,15 @@ void MapEditor::Update(float _Delta)
 		else if (true == GameEngineInput::IsDown('C')) 
 		{
 			// All Clear
-			TileInfoReset();
+			if (CurSelectedObjectType == TileObjectOrder::Empty)
+			{
+				TileGroundInfoReset();
+			}
+			else
+			{
+				TileObjectInfoReset();
+			}
+
 			TileSetting();
 			//GameEngineWindow::MainWindow.CursorOn();
 			//if (1 == MessageBox(GameEngineWindow::MainWindow.GetHWND(), L"타일을 전부 지우시겠습니까?", L"", MB_OKCANCEL))
@@ -314,6 +320,11 @@ void MapEditor::Update(float _Delta)
 			// Save File
 			SaveFileDialog();
 		}
+	}
+
+	if (true == GameEngineInput::IsDown(VK_DELETE))
+	{
+		TileInfoReset();
 	}
 }
 
@@ -563,30 +574,40 @@ void MapEditor::TileSetting()
 
 void MapEditor::TileInfoReset()
 {
-	if (CurSelectedObjectType == TileObjectOrder::Empty)
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 	{
-		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 		{
-			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
-			{
-				TileInfo[Y][X].GroundTextureInfo = 0;
-			}
+			TileInfo[Y][X] = GameMapInfo::DefaultInfo;
 		}
 	}
-	else
+}
+
+void MapEditor::TileGroundInfoReset()
+{
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 	{
-		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 		{
-			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
-			{
-				TileInfo[Y][X].ObjectTextureInfo = 0;
-			}
+			TileInfo[Y][X].GroundTextureInfo = 0;
+		}
+	}
+}
+
+void MapEditor::TileObjectInfoReset()
+{
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+	{
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+		{
+			TileInfo[Y][X].ObjectTextureInfo = 0;
 		}
 	}
 }
 
 void MapEditor::OpenFileDialog()
 {
+	TileInfoReset();
 	std::string FilePath = "";
 
 	OPENFILENAME OFN;
@@ -668,6 +689,5 @@ void MapEditor::SaveFileDialog()
 		// File Close
 		fclose(File);
 	}
-
 	GameEngineWindow::MainWindow.CursorOff();
 }
