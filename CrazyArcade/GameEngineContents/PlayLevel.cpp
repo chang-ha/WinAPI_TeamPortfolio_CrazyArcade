@@ -73,7 +73,7 @@ void PlayLevel::Start()
 	}
 
 	PlayTimerPtr->SetPos(float4{ 711.0f , 78.0f });
-	PlayTimerPtr->setTimer(65.0f);
+	PlayTimerPtr->setTimer(66.0f);
 	PlayTimerPtr->flowTimer();
 }
 
@@ -154,6 +154,31 @@ void PlayLevel::Update(float _Delta)
 void PlayLevel::Render(float _Delta)
 {
 
+}
+
+void PlayLevel::MapFileLoad(const std::string& _FileName)
+{
+	GameEnginePath FilePath;
+	FilePath.SetCurrentPath();
+	FilePath.MoveParentToExistsChild("Resources");
+	FilePath.MoveChild("Resources\\TileMap\\" + _FileName);
+
+	
+	FILE* File = nullptr;
+
+	fopen_s(&File, FilePath.GetStringPath().c_str(), "rb"); // rb : Read Binary
+
+	// Read Data
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+	{
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+		{
+			fread(&TileInfo[Y][X], sizeof(TileInfo[Y][X]), 1, File);
+		}
+	}
+
+	// File Close
+	fclose(File);
 }
 
 void PlayLevel::TileSetting()

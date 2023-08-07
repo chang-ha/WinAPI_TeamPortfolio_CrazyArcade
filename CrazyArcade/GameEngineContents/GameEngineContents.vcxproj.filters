@@ -73,8 +73,17 @@
     <ClCompile Include="Marid.cpp">
       <Filter>Actor\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterTraits.cpp">
+    <ClCompile Include="CommonTexture.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeScreen.cpp">
       <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterTraits.cpp">
+      <Filter>Actor\UI\CharacterSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterRoomButton.cpp">
+      <Filter>Actor\UI\CharacterSelect</Filter>
     </ClCompile>
     <ClCompile Include="Kephi.cpp">
       <Filter>Actor\Unit</Filter>
@@ -153,11 +162,20 @@
     <ClInclude Include="WindowPanelUI.h">
       <Filter>Actor\UI\ContentsWindow</Filter>
     </ClInclude>
+    <ClInclude Include="CommonTexture.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeScreen.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Marid.h">
       <Filter>Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="CharacterTraits.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\CharacterSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterRoomButton.h">
+      <Filter>Actor\UI\CharacterSelect</Filter>
     </ClInclude>
     <ClInclude Include="Kephi.h">
       <Filter>Actor\Unit</Filter>
@@ -184,6 +202,9 @@
     </Filter>
     <Filter Include="Actor\UI\ContentsWindow">
       <UniqueIdentifier>{2165203b-e808-44e5-ae22-15dbaf4f53e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\CharacterSelect">
+      <UniqueIdentifier>{a52647cb-aeb8-44ef-9546-f7f6b035f9cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

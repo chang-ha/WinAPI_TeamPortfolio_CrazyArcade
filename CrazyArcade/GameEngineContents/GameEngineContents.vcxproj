@@ -172,6 +172,18 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Cappi.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CharacterRoomButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CommonTexture.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CharacterTraits.h">
       <SubType>
       </SubType>
@@ -186,6 +198,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="FadeObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FadeScreen.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -267,6 +283,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Cappi.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CharacterRoomButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CommonTexture.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CharacterTraits.cpp">
       <SubType>
       </SubType>
@@ -280,6 +308,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="FadeObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FadeScreen.cpp">
       <SubType>
       </SubType>
     </ClCompile>

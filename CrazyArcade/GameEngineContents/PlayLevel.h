@@ -35,6 +35,7 @@ protected:
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
+	void MapFileLoad(const std::string& _FileName);
 	void TileSetting();
 
 	std::vector<std::vector<class GameMapInfo>> TileInfo;

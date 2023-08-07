@@ -42,6 +42,9 @@ private:
 
 	// Setting Function
 	void TileInit();
+	void TileSetting();
+	void TileInfoReset();
+
 	class TileMap* SelectViewInit(TileObjectOrder _SelectedObjectType);
 
 	void ChangeSelectViewInfo(TileObjectOrder _SelectedObjectType);
@@ -49,6 +52,13 @@ private:
 	
 	TileMap* GetCurSelectViewTile();
 
+	void DrawingTile();
+	void DeleteTile();
+	void SelectObject();
+
+	// File Save Function
+	void OpenFileDialog();
+	void SaveFileDialog();
 
 	// View Position
 	float4 DrawingView_StartPos = { 20.0f, 50.0f };

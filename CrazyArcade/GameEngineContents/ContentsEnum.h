@@ -15,9 +15,10 @@ enum class RenderOrder
 	MapObject,
 	SelectTile,
 	FirstElementUI,
+	FadeScreenUI = 10,
 	WindowPanelUI,
 	SecondElementUI,
-	MouseUI,
+	MouseUI = 20,
 	FadeOutUI,
 	Character
 };
