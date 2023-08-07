@@ -667,9 +667,6 @@ void MapEditor::SaveFileDialog()
 
 		// File Close
 		fclose(File);
-
-		TileInfoReset();
-		TileSetting();
 	}
 
 	GameEngineWindow::MainWindow.CursorOff();
