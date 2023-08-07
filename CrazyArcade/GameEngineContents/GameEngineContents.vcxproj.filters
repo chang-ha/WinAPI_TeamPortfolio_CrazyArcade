@@ -85,6 +85,9 @@
     <ClCompile Include="CharacterRoomButton.cpp">
       <Filter>Actor\UI\CharacterSelect</Filter>
     </ClCompile>
+    <ClCompile Include="UITestStage.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -173,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="CharacterRoomButton.h">
       <Filter>Actor\UI\CharacterSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="UITestStage.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -700,7 +700,7 @@ void RoomLevel::Update(float _Delta)
 
 	if (true == FadeObject::isDoneFadeOut())
 	{
-		GameEngineCore::ChangeLevel("TestStage");
+		GameEngineCore::ChangeLevel("UITestStage");
 	}
 
 	updateRoomDetectionChange();
