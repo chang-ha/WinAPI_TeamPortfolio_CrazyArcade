@@ -230,6 +230,18 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Penguin_Stage1.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Penguin_Stage2.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Penguin_Stage3.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <SubType>
       </SubType>
@@ -333,6 +345,18 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MapSelectWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Penguin_Stage1.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Penguin_Stage2.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Penguin_Stage3.cpp">
       <SubType>
       </SubType>
     </ClCompile>

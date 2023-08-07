@@ -979,5 +979,5 @@ void RoomLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 void RoomLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-	FadeObject::g_FadeObject->ReleaseFadeObject();
+
 }

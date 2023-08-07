@@ -17,9 +17,6 @@ enum class CallFadeType
 class FadeObject : public GameEngineActor
 {
 public:
-	static FadeObject* g_FadeObject;
-
-public:
 	// constrcuter destructer
 	FadeObject();
 	~FadeObject();
@@ -34,7 +31,6 @@ public:
 	static void CallFadeOut(GameEngineLevel* _Level, const std::string& _LevelName, float _FadeOutDuration = 1.0f, int _Alpha = 0);
 	static void CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration = 1.0f, int _Alpha = 255);
 
-	void ReleaseFadeObject();
 
 protected:
 
@@ -42,6 +38,9 @@ private:
 	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Detla) override;
+
+	// GameEngineLevel 상속
+	void LevelEnd() override;
 
 
 
@@ -60,8 +59,8 @@ private:
 	float m_FadeTime = 0.0f;
 
 
-	const float MinAlphaValue = 0;
-	const float MaxAlphaValue = 255;
+	const int MinAlphaValue = 0;
+	const int MaxAlphaValue = 255;
 
 
 	int m_DebugAlphaValue = 0;

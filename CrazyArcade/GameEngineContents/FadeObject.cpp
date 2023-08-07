@@ -9,7 +9,6 @@
 #include <GameEngineCore/GameEngineCore.h>
 
 
-FadeObject* FadeObject::g_FadeObject = nullptr;
 FadeObject::FadeObject() 
 {
 }
@@ -51,12 +50,6 @@ void FadeObject::Start()
 // 
 void FadeObject::CallFadeOut(GameEngineLevel* _Level, const std::string& _LevelName, float _FadeOutDuration /*= 1.0f*/, int _Alpha /*= 0*/)
 {
-	if (nullptr != g_FadeObject)
-	{
-		MsgBoxAssert("초기화가 이뤄지지 않았습니다.");
-		return;
-	}
-
 	FadeObject* FadeOut = _Level->CreateActor<FadeObject>(UpdateOrder::UI);
 	if (nullptr == FadeOut)
 	{
@@ -78,9 +71,6 @@ void FadeObject::CallFadeOut(GameEngineLevel* _Level, const std::string& _LevelN
 	{
 		FadeOut->Renderer->SetAlpha(_Alpha);
 	}
-
-
-	g_FadeObject = FadeOut;
 }
 
 void FadeObject::CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration /*= 1.0f*/, int _Alpha /*= 255*/)
@@ -105,23 +95,6 @@ void FadeObject::CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration /*= 
 	}
 }
 
-void FadeObject::ReleaseFadeObject()
-{
-	if (CallFadeType::FadeOut != m_FadeType)
-	{
-		return;
-	}
-
-	Death();
-	if (Renderer)
-	{
-		Renderer = nullptr;
-	}
-
-	g_FadeObject = nullptr;
-}
-
-
 
 void FadeObject::Update(float _Delta)
 {
@@ -132,13 +105,14 @@ void FadeObject::Update(float _Delta)
 		m_Alpha += static_cast<int>(static_cast<float>(MaxAlphaValue - m_RequestAlphaValue) / m_FadeDuration * _Delta);
 		m_DebugAlphaValue = m_Alpha;
 
-		Renderer->SetAlpha(m_Alpha);
-
 		if (m_Alpha > MaxAlphaValue)
 		{
+			m_Alpha = MaxAlphaValue;
 			GameEngineCore::ChangeLevel(m_NextLevelName);
-			return;
 		}
+
+		Renderer->SetAlpha(m_Alpha);
+
 	}
 	else if (CallFadeType::FadeIn == m_FadeType)
 	{
@@ -155,5 +129,20 @@ void FadeObject::Update(float _Delta)
 				Renderer = nullptr;
 			}
 		}
+	}
+}
+
+
+void FadeObject::LevelEnd()
+{
+	if (CallFadeType::FadeOut != m_FadeType)
+	{
+		return;
+	}
+
+	Death();
+	if (Renderer)
+	{
+		Renderer = nullptr;
 	}
 }
