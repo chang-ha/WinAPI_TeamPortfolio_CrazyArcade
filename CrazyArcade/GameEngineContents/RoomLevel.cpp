@@ -8,6 +8,7 @@
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineSprite.h>
 
 
@@ -18,6 +19,7 @@
 #include "CharacterTraits.h"
 #include "CommonTexture.h"
 #include "FadeScreen.h"
+#include "FadeObject.h"
 
 
 
@@ -45,6 +47,7 @@ void RoomLevel::Start()
 
 
 	loadWindowElement();
+	loadSelectedMapComposition();
 	loadButtonElement();
 	loadFadeScreen();
 }
@@ -66,6 +69,52 @@ void RoomLevel::loadWindowElement()
 	WindowPanelMapSelectPtr->initButton();
 
 	vecWindowPanel[static_cast<int>(WindowPanelActor::MapSelect)] = WindowPanelMapSelectPtr;
+}
+
+void RoomLevel::loadSelectedMapComposition()
+{
+	CommonTexture* SelectedMapImg = CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (nullptr == SelectedMapImg)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	SelectedMapImg->loadTexture("MapSelect_Map.bmp", "Resources\\Textures\\UI\\MapSelect");
+
+	SelectedMapImg->setTexture("MapSelect_Map.bmp");
+	SelectedMapImg->setRendererCopyAndRenderScale(0, 3);
+
+	float4 MapImgScale = SelectedMapImg->getScale();
+
+	SelectedMapImg->setRendererCopyPos(MapImgScale, 0, static_cast<int>(GlobalValue::g_SelectMap));
+	SelectedMapImg->SetPos(m_SelectedMapImgStarPos + MapImgScale.Half());
+
+	m_SelectedMapInfo.Img = SelectedMapImg;
+
+
+	CommonTexture* SelectedMapOutline = CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (nullptr == SelectedMapOutline)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	SelectedMapOutline->loadTexture("SelectedMap_Outline.bmp", "Resources\\Textures\\UI\\MapSelect");
+
+	SelectedMapOutline->setTexture("SelectedMap_Outline.bmp");
+	SelectedMapOutline->setRendererCopyAndRenderScale(0, 3);
+
+	float4 MapOutlineScale = SelectedMapOutline->getScale();
+
+	SelectedMapOutline->setRendererCopyPos(MapOutlineScale, 0, static_cast<int>(GlobalValue::g_SelectMap));
+	SelectedMapOutline->SetPos(m_SelectedMapOutlineStarPos + MapOutlineScale.Half());
+
+
+	m_SelectedMapInfo.Outline = SelectedMapOutline;;
+
+
+	m_CurMapType = GlobalValue::g_SelectMap;
 }
 
 
@@ -117,13 +166,13 @@ void RoomLevel::loadButtonElement()
 	GameStartButtonPtr->setButtonTexture(ButtonState::Normal, "Button_GameStart_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameStartButtonPtr->setButtonTexture(ButtonState::Click, "Button_GameStart_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameStartButtonPtr->setButtonTexture(ButtonState::Hover, "Button_GameStart_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 3);
+	GameStartButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickGameStartButton);
 
 	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
 	
-	/*ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickSelectButton);*/
-
-
 	GameStartButtonPtr->setButtonPos(float4{ 512.0f, 494.0f });
+
+
 	vecButton[static_cast<int>(ButtonActor::GameStart)] = GameStartButtonPtr;
 
 
@@ -139,10 +188,9 @@ void RoomLevel::loadButtonElement()
 	GameExitButtonPtr->setButtonTexture(ButtonState::Normal, "Button_GameExit_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameExitButtonPtr->setButtonTexture(ButtonState::Click, "Button_GameExit_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameExitButtonPtr->setButtonTexture(ButtonState::Hover, "Button_GameExit_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
-
 	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
 
-	/*ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickSelectButton);*/
+	//ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickGameStartButton);
 
 
 	GameExitButtonPtr->setButtonPos(m_GameExitButtonStartPos);
@@ -150,6 +198,12 @@ void RoomLevel::loadButtonElement()
 
 	m_ButtonUpdateValue = true;
 }
+
+void RoomLevel::clickGameStartButton()
+{
+	FadeObject::CallFadeOut(this, 0.4f);
+}
+
 
 void RoomLevel::loadCharacterButton()
 {
@@ -644,7 +698,13 @@ void RoomLevel::Update(float _Delta)
 {
 	ContentLevel::Update(_Delta);
 
+	if (true == FadeObject::isDoneFadeOut())
+	{
+		GameEngineCore::ChangeLevel("TestStage");
+	}
+
 	updateRoomDetectionChange();
+	updateSelectedMapDetectionChange();
 	updateFirstElementUIVisibility();
 }
 
@@ -676,6 +736,33 @@ void RoomLevel::updateRoomDetectionChange()
 			changeBorder(ChangeValue);
 		}
 	}
+}
+
+
+void RoomLevel::updateSelectedMapDetectionChange()
+{
+	if (GlobalValue::g_SelectMap == m_CurMapType)
+	{
+		return;
+	}
+
+	CommonTexture* MapImg = m_SelectedMapInfo.Img;
+	if (nullptr == MapImg)
+	{
+		MsgBoxAssert("맵의 이미지가 없습니다.");
+		return;
+	}
+
+	MapImg->setRendererCopyPos(0, static_cast<int>(GlobalValue::g_SelectMap));
+
+	CommonTexture* MapOutline = m_SelectedMapInfo.Outline;
+	if (nullptr == MapOutline)
+	{
+		MsgBoxAssert("맵의 이미지가 없습니다.");
+		return;
+	}
+
+	MapOutline->setRendererCopyPos(0, static_cast<int>(GlobalValue::g_SelectMap));
 }
 
 

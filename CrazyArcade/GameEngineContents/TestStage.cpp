@@ -2,6 +2,7 @@
 
 #include "GlobalValue.h"
 #include "GameMapInfo.h"
+#include "FadeObject.h"
 
 TestStage::TestStage()
 {
@@ -13,7 +14,7 @@ TestStage::~TestStage()
 
 void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
+	FadeObject::CallFadeIn(this, 0.4f);
 }
 
 void TestStage::LevelEnd(GameEngineLevel* _NextLevel)
