@@ -91,6 +91,15 @@
     <ClCompile Include="Kephi.cpp">
       <Filter>Actor\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="Penguin_Stage1.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin_Stage2.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin_Stage3.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -184,6 +193,15 @@
       <Filter>Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="UITestStage.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin_Stage1.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin_Stage2.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin_Stage3.h">
       <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
