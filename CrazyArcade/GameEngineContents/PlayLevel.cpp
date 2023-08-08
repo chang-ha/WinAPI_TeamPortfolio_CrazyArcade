@@ -22,6 +22,7 @@
 #include "CommonTexture.h"
 #include "PlayTimer.h"
 #include "GameStartAnimation.h"
+#include "Button.h"
 
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
@@ -38,11 +39,28 @@ PlayLevel::~PlayLevel()
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	CurPlayLevel = this;
+
+	UILevelStart();
+}
+
+void PlayLevel::UILevelStart()
+{
 	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
 
 	if (-1 != CurrentStage)
 	{
 		CreateGameStartAnimation();
+	}
+
+	if (m_FadeScreen)
+	{
+		m_FadeScreen->On();
+	}
+
+	if (m_PlayTimer)
+	{
+		m_PlayTimer->setTimer(CONST_TimeSetting);
+		m_PlayTimer->stopTimer();
 	}
 }
 
@@ -697,9 +715,9 @@ void PlayLevel::setGameStartCallBack()
 		m_FadeScreen->Off();
 	}
 
-	if (PlayTimerPtr)
+	if (m_PlayTimer)
 	{
-		PlayTimerPtr->flowTimer();
+		m_PlayTimer->flowTimer();
 	}
 }
 
@@ -719,6 +737,7 @@ void PlayLevel::SetUpUIStart()
 	SetUpStageInfo();
 	SetUpFadeScreen();
 	SetUpTimer();
+	SetGoBackButton();
 }
 
 void PlayLevel::SetUpStageInfo()
@@ -756,18 +775,43 @@ void PlayLevel::SetUpFadeScreen()
 	m_FadeScreen->setRenderScale(WinScale);
 	m_FadeScreen->setAlpha(GlobalValue::g_FadeScreenAlphaValue);
 	m_FadeScreen->SetPos(WinScale.Half());
+	m_FadeScreen->Off();
 }
 
 void PlayLevel::SetUpTimer()
 {
-	PlayTimerPtr = CreateActor<PlayTimer>(UpdateOrder::UI);
-	if (nullptr == PlayTimerPtr)
+	m_PlayTimer = CreateActor<PlayTimer>(UpdateOrder::UI);
+	if (nullptr == m_PlayTimer)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
 		return;
 	}
 
-	PlayTimerPtr->SetPos(CONST_TimerLocation);
-	PlayTimerPtr->setTimer(CONST_TimeSetting);
-	PlayTimerPtr->stopTimer();
+	m_PlayTimer->SetPos(CONST_TimerLocation);
+}
+
+void PlayLevel::SetGoBackButton()
+{
+	m_GoBackButton = CreateActor<Button>(UpdateOrder::UI);
+	if (nullptr == m_GoBackButton)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_GoBackButton->setRenderer(RenderOrder::FirstElementUI);
+	m_GoBackButton->setButtonTexture(ButtonState::Normal, "Play_Button_Exit_Normal.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 1);
+	m_GoBackButton->setButtonTexture(ButtonState::Hover, "Play_Button_Exit_Hover.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 2);
+	m_GoBackButton->setButtonTexture(ButtonState::Click, "Play_Button_Exit_Click.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 1);
+	m_GoBackButton->setCallback<PlayLevel>(ButtonEventState::Click, this, &PlayLevel::clickGoBackButton);
+
+	float4 ButtonScale = m_GoBackButton->getButtonScale();
+	float4 ButtonPos = CONST_GoBackButtonStartPos + ButtonScale.Half();
+
+	m_GoBackButton->SetPos(ButtonPos);
+}
+
+void PlayLevel::clickGoBackButton()
+{
+	FadeObject::CallFadeOut(this, "RoomLevel", GlobalValue::g_ChangeLevelFadeSpeed);
 }

@@ -974,7 +974,7 @@ void RoomLevel::Render(float _Delta)
 
 void RoomLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
-
+	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
 }
 
 void RoomLevel::LevelEnd(GameEngineLevel* _NextLevel)

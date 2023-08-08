@@ -53,6 +53,8 @@ protected:
 	void CreateUIElements();
 
 private:
+	void UILevelStart();
+
 	void setGameStartCallBack();
 
 	void SetUpUIStart();
@@ -67,7 +69,7 @@ private:
 
 
 	void SetUpTimer();
-	class PlayTimer* PlayTimerPtr = nullptr;
+	class PlayTimer* m_PlayTimer = nullptr;
 
 	const float4 CONST_TimerLocation = float4{ 711.0f , 78.0f };
 	const float CONST_TimeSetting = 120.0f;
@@ -77,6 +79,8 @@ private:
 
 	void SetGoBackButton();
 	class Button* m_GoBackButton = nullptr;
+	void clickGoBackButton();
+	const float4 CONST_GoBackButtonStartPos = float4{ 647.0f , 561.0f };
 
 	void SetUpUIEnd();
 

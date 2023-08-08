@@ -342,7 +342,7 @@ void GameStartAnimation::Release()
 		}
 
 		UpperString->Release();
-
+		 
 		StageStartActor* LowerString = vecLowerString[StringCount];
 		if (nullptr == LowerString)
 		{
