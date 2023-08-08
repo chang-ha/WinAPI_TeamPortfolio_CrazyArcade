@@ -172,10 +172,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Cappi.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="CharacterRoomButton.h">
       <SubType>
       </SubType>
@@ -222,6 +218,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Kephi.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MapEditor.h">
       <SubType>
       </SubType>
@@ -230,18 +230,13 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Penguin_Stage1.h">
+    <ClInclude Include="Marid.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Penguin_Stage2.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Penguin_Stage3.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="Penguin_Stage1.h" />
+    <ClInclude Include="Penguin_Stage2.h" />
+    <ClInclude Include="Penguin_Stage3.h" />
     <ClInclude Include="PlayLevel.h">
       <SubType>
       </SubType>
@@ -291,10 +286,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Cappi.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="CharacterRoomButton.cpp">
       <SubType>
       </SubType>
@@ -340,6 +331,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Kephi.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapEditor.cpp">
       <SubType>
       </SubType>
@@ -348,18 +343,13 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Penguin_Stage1.cpp">
+    <ClCompile Include="Marid.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Penguin_Stage2.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Penguin_Stage3.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="Penguin_Stage1.cpp" />
+    <ClCompile Include="Penguin_Stage2.cpp" />
+    <ClCompile Include="Penguin_Stage3.cpp" />
     <ClCompile Include="PlayLevel.cpp">
       <SubType>
       </SubType>

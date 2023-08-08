@@ -1,6 +1,5 @@
 ﻿#include "BaseCharacter.h"
 #include "PlayLevel.h"
-#include "ContentsEnum.h"
 
 #include <GameEngineBase/GameEnginePath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -24,10 +23,10 @@ void BaseCharacter::Update(float _Delta)
 	StateUpdate(_Delta);
 
 	// 물풍선 설치
-	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle"
-		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move")
+	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle" && GetBombCount() > 0
+		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
 	{
-		PlayLevel::CurPlayLevel->SetBubble(GetPos());
+		PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f}, GetBubblePower());
 	}
 
 	if (true == GameEngineInput::IsDown('J'))
@@ -55,19 +54,59 @@ void BaseCharacter::Render(float _Delta)
 		CollisionData Data;
 
 		Data.Pos = GetPos();
-		Data.Scale = { 5, 5 };
+		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
-		Data.Pos = GetPos() + float4 BOTCHECKPOS;
-		Data.Scale = { 5, 5 };
+
+		Data.Pos = GetPos() + float4 TOPCHECKPOS;
+		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 LEFTTOPCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 RIGHTTOPCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
 
 		Data.Pos = GetPos() + float4 LEFTCHECKPOS;
-		Data.Scale = { 5, 5 };
+		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
+		Data.Pos = GetPos() + float4 LEFTMOVETOPCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 LEFTMOVEBOTCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+
 		Data.Pos = GetPos() + float4 RIGHTCHECKPOS;
-		Data.Scale = { 5, 5 };
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 RIGHTMOVETOPCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 RIGHTMOVEBOTCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+
+		Data.Pos = GetPos() + float4 BOTCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 LEFTBOTCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 RIGHTBOTCHECKPOS;
+		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "ContentLevel.h"
 #include <vector>
+#include <list>
 
 class BaseCharacter;
 class PlayLevel : public ContentLevel
@@ -18,10 +19,14 @@ public:
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
-	bool CheckTile(const float4& _Pos);
+	bool CheckTile(const float4& _Pos, float _Delta);
+	bool CheckSidePos(const float4& _Pos);
 	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y);
-	void SetBubble(const float4& _Pos);
-	void BubbleReset(const int _X, const int _Y);
+	void SetBubble(const float4& _Pos, int _BubblePower);
+	void BubblePop(const int _X, const int _Y);
+	void SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
+	void PopTile(const int _X, const int _Y);
+	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
@@ -37,11 +42,13 @@ protected:
 	class TileMap* GroundTile = nullptr;
 	class TileMap* ObjectTile = nullptr;
 
-	std::vector<class GameMapIndex> AllBubbleIndex;
+	std::list<class GameMapIndex> AllBubbleIndex;
+	std::list<class GameMapIndex> AllBubbleDeathIndex;
 
 private:
-	BaseCharacter* Player = nullptr;
+	float LerpTime = 1.0f;
 
+	BaseCharacter* Player = nullptr;
 	class PlayTimer* PlayTimerPtr = nullptr;
 };
 

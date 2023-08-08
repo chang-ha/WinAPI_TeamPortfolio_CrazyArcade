@@ -1,13 +1,27 @@
 #pragma once
 
 #define TOPCHECKPOS { 0.0f, -15.0f }
-#define LEFTCHECKPOS { -20.0f, 10.0f }
-#define RIGHTCHECKPOS { 20.0f, 10.0f }
-#define LEFTBOTCHECKPOS { -20.0f, 25.0f }
+#define LEFTTOPCHECKPOS { -16.0f, -15.0f }
+#define RIGHTTOPCHECKPOS { 16.0f, -15.0f }
+
+
+#define LEFTCHECKPOS { -20.0f, 5.0f }
+#define LEFTMOVETOPCHECKPOS { -20.0f, -13.0f }
+#define LEFTMOVEBOTCHECKPOS { -20.0f, 23.0f }
+
+#define RIGHTCHECKPOS { 20.0f, 5.0f }
+#define RIGHTMOVETOPCHECKPOS { 20.0f, -13.0f }
+#define RIGHTMOVEBOTCHECKPOS { 20.0f, 23.0f }
+
 #define BOTCHECKPOS { 0.0f, 25.0f }
-#define RIGHTBOTCHECKPOS { -20.0f, 25.0f }
+#define LEFTBOTCHECKPOS { -16.0f, 25.0f }
+#define RIGHTBOTCHECKPOS { 16.0f, 25.0f }
+
+#define SPEEDREFERENCEVALUE 40.0f
 
 #include "ActorEnum.h"
+#include "ContentsEnum.h"
+#include "GlobalValue.h"
 
 #include <string>
 #include <GameEngineCore/GameEngineActor.h>
@@ -15,6 +29,7 @@
 class GameEngineRenderer;
 class BaseCharacter : public GameEngineActor
 {
+	friend class PlayLevel;
 public:
 	// constrcuter destructer
 	BaseCharacter();
@@ -54,10 +69,36 @@ protected:
 		IsDebugData = !IsDebugData;
 	}
 
+	virtual float GetSpeed()
+	{
+		return Speed;
+	}
+
+	virtual int GetBubblePower()
+	{
+		return BubblePower;
+	}
+
+	virtual int GetBombCount()
+	{
+		return BombCount;
+	}
+
+	virtual void BombCountPlus()
+	{
+		++BombCount;
+	}
+
+	virtual void BombCountMinus()
+	{
+		--BombCount;
+	}
 
 protected:
 	ActorDir Dir = ActorDir::Down;
-	float Speed = 300.0f;
+	float Speed = 0.0f;
+	int BubblePower = 1;
+	int BombCount = 1;
 
 	void DirCheck();
 	void SetBubble();
