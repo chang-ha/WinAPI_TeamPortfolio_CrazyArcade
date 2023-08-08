@@ -695,6 +695,9 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 }
 
 
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+// UI
+
 void PlayLevel::CreateGameStartAnimation()
 {
 	GameStartAnimation* GameStartAnimationPtr = CreateActor<GameStartAnimation>(UpdateOrder::UI);

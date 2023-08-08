@@ -8,7 +8,6 @@
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineSprite.h>
 
 
