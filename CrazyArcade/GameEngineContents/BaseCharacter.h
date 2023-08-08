@@ -57,6 +57,9 @@ protected:
 	void MoveStart();
 	void MoveUpdate(float _Delta);
 
+	void BubbleStart();
+	void BubbleUpdate(float _Delta);
+
 	CharacterState State = CharacterState::Max;
 	std::string CurState = "";
 	GameEngineRenderer* MainRenderer = nullptr;
@@ -99,6 +102,8 @@ protected:
 	float Speed = 0.0f;
 	int BubblePower = 1;
 	int BombCount = 1;
+
+	TileObjectOrder CurTile = TileObjectOrder::Empty;
 
 	void DirCheck();
 	void SetBubble();

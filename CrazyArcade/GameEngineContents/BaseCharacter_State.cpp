@@ -125,3 +125,13 @@ void BaseCharacter::MoveUpdate(float _Delta)
 		return;
 	}
 }
+
+void BaseCharacter::BubbleStart()
+{
+	ChangeAnimationState("Bubble");
+}
+
+void BaseCharacter::BubbleUpdate(float _Delta)
+{
+
+}

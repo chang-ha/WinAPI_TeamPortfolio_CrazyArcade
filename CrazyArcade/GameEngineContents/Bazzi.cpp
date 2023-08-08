@@ -26,6 +26,7 @@ void Bazzi::Start()
 	GlobalUtils::SpriteFileLoad("Bazzi_Right.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 6, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Up.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 8, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Down.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 8, 1);
+	GlobalUtils::SpriteFileLoad("Bazzi_Bubble.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 13, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 	MainRenderer->CreateAnimation("Bazzi_Idle_Up", "Bazzi_Idle_Up.Bmp");
@@ -36,6 +37,7 @@ void Bazzi::Start()
 	MainRenderer->CreateAnimation("Bazzi_Move_Right", "Bazzi_Right.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Move_Up", "Bazzi_Up.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Move_Down", "Bazzi_Down.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_Bubble", "Bazzi_Bubble.Bmp");
 
 	ChangeState(CharacterState::Idle);
 }

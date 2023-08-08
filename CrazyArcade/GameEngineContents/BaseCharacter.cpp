@@ -20,6 +20,13 @@ BaseCharacter::~BaseCharacter()
 
 void BaseCharacter::Update(float _Delta)
 {
+	CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+
+	if (CurTile == TileObjectOrder::PopRange)
+	{
+		ChangeState(CharacterState::Bubble);
+	}
+
 	StateUpdate(_Delta);
 
 	// 물풍선 설치
@@ -148,13 +155,13 @@ void BaseCharacter::StateUpdate(float _Delta)
 		return IdleUpdate(_Delta);
 	case CharacterState::Move:
 		return MoveUpdate(_Delta);
+	case CharacterState::Bubble:
+		return BubbleUpdate(_Delta);
 	/*case CharacterState::Ready:
 		break;
 	case CharacterState::FlashLong:
 		break;
 	case CharacterState::FlashShort:
-		break;
-	case CharacterState::Bubble:
 		break;
 	case CharacterState::Live:
 		break;
@@ -179,13 +186,14 @@ void BaseCharacter::ChangeState(CharacterState _State)
 		case CharacterState::Move:
 			MoveStart();
 			break;
+		case CharacterState::Bubble:
+			BubbleStart();
+			break;
 		/*case CharacterState::Ready:
 			break;
 		case CharacterState::FlashLong:
 			break;
 		case CharacterState::FlashShort:
-			break;
-		case CharacterState::Bubble:
 			break;
 		case CharacterState::Live:
 			break;

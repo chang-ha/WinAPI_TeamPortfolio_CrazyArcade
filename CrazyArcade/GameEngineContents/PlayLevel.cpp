@@ -59,7 +59,7 @@ void PlayLevel::Start()
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
 	// Create Character 
-	Player = CreateActor<Dao>(UpdateOrder::Character);
+	Player = CreateActor<Bazzi>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
@@ -238,7 +238,7 @@ void PlayLevel::TileSetting()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 캐릭터 이동
+// 캐릭터
 bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 {
 	float4 CheckPos = { _Pos.X, _Pos.Y };
@@ -416,6 +416,20 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 	}
 }
 
+TileObjectOrder PlayLevel::GetCurTileType(const float4& _Pos)
+{
+	float4 CharacterPos = _Pos;
+	CharacterPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
+	float4 ChangeIndex = ObjectTile->PosToIndex(CharacterPos);
+
+	int CurIndexX = ChangeIndex.iX() - 1;
+	int CurIndexY = ChangeIndex.iY() - 1;
+
+	GameMapInfo Temp = TileInfo[CurIndexY][CurIndexX];
+
+	TileObjectOrder Result = Temp.MapInfo;
+	return Result;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 물폭탄
