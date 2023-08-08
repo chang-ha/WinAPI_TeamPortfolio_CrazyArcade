@@ -303,6 +303,17 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 
 		if (TileObjectOrder::Bubble == TileInfo[CheckY][CheckX].MapInfo)
 		{
+			float4 CheckPos = Player->GetPos();
+			CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
+			float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
+
+			int PlayerX = CheckIndex.iX() - 1;
+			int PlayerY = CheckIndex.iY() - 1;
+
+			if (TileObjectOrder::Bubble == TileInfo[PlayerY][PlayerX].MapInfo)
+			{
+				return false;
+			}
 			return true;
 		}
 
@@ -330,6 +341,22 @@ bool PlayLevel::CheckSidePos(const float4& _Pos)
 		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
 		{
 			return false;
+		}
+
+		if (TileObjectOrder::Bubble == TileInfo[CheckY][CheckX].MapInfo)
+		{
+			float4 CheckPos = Player->GetPos();
+			CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
+			float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
+
+			int PlayerX = CheckIndex.iX() - 1;
+			int PlayerY = CheckIndex.iY() - 1;
+
+			if (TileObjectOrder::Bubble == TileInfo[PlayerY][PlayerX].MapInfo)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		return true;
