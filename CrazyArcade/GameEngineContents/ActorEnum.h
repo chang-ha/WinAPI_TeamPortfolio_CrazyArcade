@@ -28,7 +28,7 @@ enum class MonsterState
 	Idle,
 	Move,
 	Ready,
-	BreakOut,
-	Ice,
+	Freeze,
+	Melt,
 	Die
 };
