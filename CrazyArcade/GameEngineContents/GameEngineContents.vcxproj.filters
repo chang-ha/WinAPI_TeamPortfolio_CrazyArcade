@@ -91,6 +91,18 @@
     <ClCompile Include="Kephi.cpp">
       <Filter>Actor\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="Snowmon_black.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Snowmon_red.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseMonster.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -186,6 +198,18 @@
     <ClInclude Include="UITestStage.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="Snowmon_black.h">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Snowmon_red.h">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin.h">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMonster.h">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -211,6 +235,9 @@
     </Filter>
     <Filter Include="Actor\UI\CharacterSelect">
       <UniqueIdentifier>{a52647cb-aeb8-44ef-9546-f7f6b035f9cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Unit\Monster">
+      <UniqueIdentifier>{8b155376-e157-496f-9e1c-11bb15fe4e3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
