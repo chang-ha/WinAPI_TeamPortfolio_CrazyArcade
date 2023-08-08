@@ -17,6 +17,8 @@
 #include "GlobalLoad.h"
 #include "GameMapInfo.h"
 #include "PlayTimer.h"
+#include "FadeObject.h"
+
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
@@ -32,6 +34,7 @@ PlayLevel::~PlayLevel()
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	CurPlayLevel = this;
+	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)

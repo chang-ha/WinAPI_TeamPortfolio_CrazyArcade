@@ -30,6 +30,8 @@ CharacterList GlobalValue::g_SelectCharacter = CharacterList::Max;
 AvailableCharacterList GlobalValue::g_SelectAvailableCharacter1 = AvailableCharacterList::Max;
 AvailableCharacterList GlobalValue::g_SelectAvailableCharacter2 = AvailableCharacterList::Max;
 
+float GlobalValue::g_ChangeLevelFadeSpeed = 0.3f;
+
 GlobalValue::GlobalValue()
 {
 

@@ -22,7 +22,7 @@
 #include "FadeObject.h"
 
 
-
+int RoomLevel::g_SelectRoomNumber = 0;
 RoomLevel::RoomLevel()
 {
 }
@@ -201,7 +201,7 @@ void RoomLevel::loadButtonElement()
 
 void RoomLevel::clickGameStartButton()
 {
-	FadeObject::CallFadeOut(this, "UITestStage", 0.4f);
+	FadeObject::CallFadeOut(this, "UITestStage", GlobalValue::g_ChangeLevelFadeSpeed);
 }
 
 
@@ -506,7 +506,7 @@ void RoomLevel::changeSelectedCharacterUI(CharacterList _Order)
 
 	float4 CharacterButtonPos = m_SelectedCharacterButtonStartPos + m_CharacterButtonScale.Half();
 
-	if (0 == m_SelectRoomNumber)
+	if (0 == g_SelectRoomNumber)
 	{
 		m_SelectChecker1->SetPos(CharacterButtonPos + SelectButtonPos + m_SelectChecker1PosToButton);
 	}
@@ -618,7 +618,7 @@ void RoomLevel::loadSelectRoomBorder()
 			}
 		}
 
-		vecSelectRoomBorder[m_SelectRoomNumber]->On();
+		vecSelectRoomBorder[g_SelectRoomNumber]->On();
 	}
 }
 
@@ -728,7 +728,7 @@ void RoomLevel::updateRoomDetectionChange()
 
 		if (true == SelectRoomBorderPtr->IsUpdate() && false == RoomButtonPtr->isSpaceButtonState())
 		{
-			int ChangeValue = m_SelectRoomNumber - 1;
+			int ChangeValue = g_SelectRoomNumber - 1;
 			changeBorder(ChangeValue);
 		}
 	}
@@ -791,7 +791,7 @@ void RoomLevel::updateCharacterRoomBorder()
 			return;
 		}
 
-		if (m_SelectRoomNumber != RoomNumber)
+		if (g_SelectRoomNumber != RoomNumber)
 		{
 			changeBorder(RoomNumber);
 			m_SelectChecker2->Off();
@@ -801,7 +801,7 @@ void RoomLevel::updateCharacterRoomBorder()
 
 void RoomLevel::changeBorder(int _Value)
 {
-	CommonTexture* PrevBorderPtr = vecSelectRoomBorder[m_SelectRoomNumber];
+	CommonTexture* PrevBorderPtr = vecSelectRoomBorder[g_SelectRoomNumber];
 	if (nullptr == PrevBorderPtr)
 	{
 		MsgBoxAssert("경계선을 불러오지 못했습니다.");
@@ -819,7 +819,7 @@ void RoomLevel::changeBorder(int _Value)
 
 	CurBorderPtr->On();
 
-	m_SelectRoomNumber = _Value;
+	g_SelectRoomNumber = _Value;
 }
 
 

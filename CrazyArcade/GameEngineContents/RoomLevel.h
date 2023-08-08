@@ -166,7 +166,7 @@ private:
 
 
 	// 각 방 버튼
-	int m_SelectRoomNumber = 0;
+	static int g_SelectRoomNumber;
 
 	void loadRoomCharacterButton();
 	const int m_AvailableRoomCount = 2;

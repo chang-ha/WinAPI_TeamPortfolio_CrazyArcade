@@ -95,6 +95,7 @@ public:
 	static AvailableCharacterList g_SelectAvailableCharacter1;
 	static AvailableCharacterList g_SelectAvailableCharacter2;
 
+	static float g_ChangeLevelFadeSpeed;
 
 	static void Init();
 protected:
