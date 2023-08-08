@@ -128,7 +128,8 @@ void PlayLevel::Update(float _Delta)
 
 			if (nullptr == PopRenderer)
 			{
-				continue;
+				AllBubbleDeathIndex.erase(StartIter);
+				break;
 			}
 
 			// Pop 애니메이션이 끝난 후 해당 물폭탄 삭제
@@ -138,9 +139,8 @@ void PlayLevel::Update(float _Delta)
 				TileInfo[CheckIndex.Y][CheckIndex.X].ObjectTextureInfo = 0;
 				TileInfo[CheckIndex.Y][CheckIndex.X].BubblePower = 0;
 
-				ObjectTile->DeathTile(CheckIndex.X, CheckIndex.Y);
-
 				AllBubbleDeathIndex.erase(StartIter);
+				ObjectTile->DeathTile(CheckIndex.X, CheckIndex.Y);
 				break;
 			}
 			else
@@ -503,6 +503,11 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			PopTile(X, Y);
 			break;
 		}
+		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo
+			|| TileObjectOrder::PopRange == TileInfo[Y][X].MapInfo)
+		{
+			break;
+		}
 		else if (i == BubblePower)
 		{
 			SideBubblePop(X, Y, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f);
@@ -528,6 +533,11 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			|| TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
 		{
 			PopTile(X, Y);
+			break;
+		}
+		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo
+			|| TileObjectOrder::PopRange == TileInfo[Y][X].MapInfo)
+		{
 			break;
 		}
 		else if (i == BubblePower)
@@ -557,6 +567,11 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			PopTile(X, Y);
 			break;
 		}
+		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo
+			|| TileObjectOrder::PopRange == TileInfo[Y][X].MapInfo)
+		{
+			break;
+		}
 		else if (i == BubblePower)
 		{
 			SideBubblePop(X, Y, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f);
@@ -582,6 +597,11 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			|| TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
 		{
 			PopTile(X, Y);
+			break;
+		}
+		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo
+			|| TileObjectOrder::PopRange == TileInfo[Y][X].MapInfo)
+		{
 			break;
 		}
 		else if (i == BubblePower)
