@@ -48,11 +48,19 @@ public:
 	void addTimer(float _Delta)
 	{
 		m_PlayTimerValue += _Delta;
+
+		int TimerValue = static_cast<int>(m_PlayTimerValue);
+
+		updateRendererTimer(TimerValue);
 	}
 
 	void setTimer(float _Delta)
 	{
 		m_PlayTimerValue = _Delta;
+
+		int TimerValue = static_cast<int>(m_PlayTimerValue);
+
+		updateRendererTimer(TimerValue);
 	}
 
 protected:
@@ -78,10 +86,12 @@ private:
 	void initRenderer();
 	std::vector<TimerElement> vecTimerElemnet;
 
+	void updateRendererTimer(int _Value);
 
 	void updateTimer(float _Delta);
 
 	bool m_TimeFlowValue = false;
+	int m_RenderValue = 0;
 	float m_PlayTimerValue = 0.0f;
 	float m_PlayTimerRender = 0.0f;
 };

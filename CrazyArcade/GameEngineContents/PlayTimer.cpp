@@ -149,12 +149,24 @@ void PlayTimer::updateTimer(float _Delta)
 		m_TimeFlowValue = false;
 	}
 
-
 	int TimerValue = static_cast<int>(m_PlayTimerValue);
-	int MinuteValue = TimerValue / 60;
+
+	if (m_RenderValue == TimerValue)
+	{
+		return;
+	}
+
+	updateRendererTimer(TimerValue);
+}
+
+void PlayTimer::updateRendererTimer(int _Value)
+{
+	m_RenderValue = _Value;
+
+	int MinuteValue = m_RenderValue / 60;
 	int MinuteTensValue = MinuteValue / 10;
 	int MinuteUnitsValue = MinuteValue % 10;
-	int SecondValue = TimerValue % 60;
+	int SecondValue = m_RenderValue % 60;
 	int SecondTensValue = SecondValue / 10;
 	int SecondUnitsValue = SecondValue % 10;
 
@@ -203,6 +215,8 @@ void PlayTimer::updateTimer(float _Delta)
 		}
 	}
 }
+
+
 
 
 void PlayTimer::Render(float _Delta)

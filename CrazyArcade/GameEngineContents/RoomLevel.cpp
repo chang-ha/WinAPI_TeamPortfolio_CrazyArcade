@@ -679,7 +679,7 @@ void RoomLevel::loadFadeScreen()
 	float4 WinHalfScale = WindowScale.Half();
 
 	m_FadeScreen->setRenderScale(WindowScale);
-	m_FadeScreen->setAlpha(m_FadeScreenAlphaValue);
+	m_FadeScreen->setAlpha(GlobalValue::g_FadeScreenAlphaValue);
 	m_FadeScreen->SetPos(WinHalfScale);
 	m_FadeScreen->Off();
 }

@@ -186,7 +186,6 @@ private:
 	// Fade
 	void loadFadeScreen();
 	class FadeScreen* m_FadeScreen = nullptr;
-	const int m_FadeScreenAlphaValue = 70;
 
 
 	// 업데이트

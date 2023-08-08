@@ -96,6 +96,7 @@ public:
 	static AvailableCharacterList g_SelectAvailableCharacter2;
 
 	static float g_ChangeLevelFadeSpeed;
+	static const int g_FadeScreenAlphaValue = 70;
 
 	static void Init();
 protected:

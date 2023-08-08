@@ -100,6 +100,12 @@
     <ClCompile Include="Penguin_Stage3.cpp">
       <Filter>Level\Penguin_Stage</Filter>
     </ClCompile>
+    <ClCompile Include="GameStartAnimation.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="StageStartActor.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -203,6 +209,12 @@
     </ClInclude>
     <ClInclude Include="Penguin_Stage3.h">
       <Filter>Level\Penguin_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStartAnimation.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StageStartActor.h">
+      <Filter>Actor\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

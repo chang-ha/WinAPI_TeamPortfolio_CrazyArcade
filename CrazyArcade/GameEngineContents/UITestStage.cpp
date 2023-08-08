@@ -28,6 +28,9 @@ void UITestStage::Start()
 
 	MapFileLoad("Penguin_Stage1.map");
 	TileSetting();
+
+	CurrentStage = 1;
+	CreateUIElements();
 }
 
 void UITestStage::Update(float _Delta)

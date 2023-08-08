@@ -17,8 +17,11 @@
 #include "GlobalUtils.h"
 #include "GlobalLoad.h"
 #include "GameMapInfo.h"
-#include "PlayTimer.h"
 #include "FadeObject.h"
+#include "FadeScreen.h"
+#include "CommonTexture.h"
+#include "PlayTimer.h"
+#include "GameStartAnimation.h"
 
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
@@ -36,6 +39,11 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	CurPlayLevel = this;
 	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+
+	if (-1 != CurrentStage)
+	{
+		CreateGameStartAnimation();
+	}
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
@@ -66,17 +74,6 @@ void PlayLevel::Start()
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
-
-	PlayTimerPtr = CreateActor<PlayTimer>(UpdateOrder::UI);
-	if (nullptr == PlayTimerPtr)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
-	PlayTimerPtr->SetPos(float4{ 711.0f , 78.0f });
-	PlayTimerPtr->setTimer(66.0f);
-	PlayTimerPtr->flowTimer();
 }
 
 void PlayLevel::Update(float _Delta)
@@ -677,4 +674,100 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 
 	// 터진 후 사라져야하는 물폭탄 인덱스 저장
 	AllBubbleDeathIndex.push_back({ _X, _Y });
+}
+
+
+void PlayLevel::CreateGameStartAnimation()
+{
+	GameStartAnimation* GameStartAnimationPtr = CreateActor<GameStartAnimation>(UpdateOrder::UI);
+	if (nullptr == GameStartAnimationPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	GameStartAnimationPtr->initStartAnimation(CurrentStage);
+	GameStartAnimationPtr->setGameStartCallBack(this, &PlayLevel::setGameStartCallBack);
+}
+
+void PlayLevel::setGameStartCallBack()
+{
+	if (m_FadeScreen)
+	{
+		m_FadeScreen->Off();
+	}
+
+	if (PlayTimerPtr)
+	{
+		PlayTimerPtr->flowTimer();
+	}
+}
+
+void PlayLevel::CreateUIElements()
+{
+	if (-1 == CurrentStage)
+	{
+		MsgBoxAssert("CurrentStage로 스테이지 UI를 만들 수 없습니다.");
+		return;
+	}
+
+	SetUpUIStart();
+}
+
+void PlayLevel::SetUpUIStart()
+{
+	SetUpStageInfo();
+	SetUpFadeScreen();
+	SetUpTimer();
+}
+
+void PlayLevel::SetUpStageInfo()
+{
+	m_StageInfo = CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (nullptr == m_StageInfo)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_StageInfo->loadTexture("PenguinLevelStageInfo.bmp", "Resources\\Textures\\UI\\PlayStage");
+	m_StageInfo->setTexture("PenguinLevelStageInfo.bmp");
+	m_StageInfo->setRendererCopyAndRenderScale(0, 2);
+
+	float4 StageInfoScale = m_StageInfo->getScale();
+	float4 StageInfoRenderPos = float4{ 0.0f , StageInfoScale.Y * static_cast<float>(CurrentStage - 1) };
+	m_StageInfo->setRendererCopyPos(0, CurrentStage - 1);
+
+	float4 StageRenderPos = CONST_StageInfoStartPos + StageInfoScale.Half();
+	m_StageInfo->SetPos(StageRenderPos);
+}
+
+void PlayLevel::SetUpFadeScreen()
+{
+	m_FadeScreen = CreateActor<FadeScreen>(UpdateOrder::UI);
+	if (nullptr == m_FadeScreen)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	float4 WinScale = GlobalValue::WinScale;
+
+	m_FadeScreen->setRenderScale(WinScale);
+	m_FadeScreen->setAlpha(GlobalValue::g_FadeScreenAlphaValue);
+	m_FadeScreen->SetPos(WinScale.Half());
+}
+
+void PlayLevel::SetUpTimer()
+{
+	PlayTimerPtr = CreateActor<PlayTimer>(UpdateOrder::UI);
+	if (nullptr == PlayTimerPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	PlayTimerPtr->SetPos(CONST_TimerLocation);
+	PlayTimerPtr->setTimer(CONST_TimeSetting);
+	PlayTimerPtr->stopTimer();
 }

@@ -45,10 +45,46 @@ protected:
 	std::list<class GameMapIndex> AllBubbleIndex;
 	std::list<class GameMapIndex> AllBubbleDeathIndex;
 
+
+	// UI
+	int CurrentStage = -1;
+
+	void CreateGameStartAnimation();
+	void CreateUIElements();
+
+private:
+	void setGameStartCallBack();
+
+	void SetUpUIStart();
+
+	void SetUpStageInfo();
+	class CommonTexture* m_StageInfo = nullptr;
+	const float4 CONST_StageInfoStartPos = float4{ 12.0f , 2.0f };
+
+	void SetUpFadeScreen();
+	class FadeScreen* m_FadeScreen = nullptr;
+
+
+
+	void SetUpTimer();
+	class PlayTimer* PlayTimerPtr = nullptr;
+
+	const float4 CONST_TimerLocation = float4{ 711.0f , 78.0f };
+	const float CONST_TimeSetting = 120.0f;
+
+	void SetUpCharacterStatePanel();
+
+
+	void SetGoBackButton();
+	class Button* m_GoBackButton = nullptr;
+
+	void SetUpUIEnd();
+
+
+
 private:
 	float LerpTime = 1.0f;
 
 	BaseCharacter* Player = nullptr;
-	class PlayTimer* PlayTimerPtr = nullptr;
 };
 
