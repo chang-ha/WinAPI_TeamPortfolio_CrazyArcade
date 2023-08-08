@@ -58,6 +58,16 @@ void BaseCharacter::Render(float _Delta)
 		YText += std::to_string(GetPos().Y);
 		TextOutA(dc, 2, 30, YText.c_str(), static_cast<int>(YText.size()));
 
+		std::string BombCountText = "";
+		BombCountText += "폭탄 설치 개수 : ";
+		BombCountText += std::to_string(GetBombCount());
+		TextOutA(dc, 2, 57, BombCountText.c_str(), static_cast<int>(BombCountText.size()));
+
+		std::string CurTileText = "";
+		CurTileText += "밟고있는 타일 번호 : ";
+		CurTileText += std::to_string(static_cast<int>(CurTile));
+		TextOutA(dc, 2, 84, CurTileText.c_str(), static_cast<int>(CurTileText.size()));
+
 		CollisionData Data;
 
 		Data.Pos = GetPos();
