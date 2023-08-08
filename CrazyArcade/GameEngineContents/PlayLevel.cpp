@@ -474,8 +474,8 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		return;
 	}
 
-	BubbleRenderer = ObjectTile->SetTileToSprite(_X, _Y, "Pop.bmp",
-		TileInfo[_Y][_X].ObjectTextureInfo, GlobalValue::TileStartPos, true);
+	//BubbleRenderer = ObjectTile->SetTileToSprite(_X, _Y, "Pop.bmp",
+	//	TileInfo[_Y][_X].ObjectTextureInfo, GlobalValue::TileStartPos, true);
 
 	if (nullptr == BubbleRenderer->FindAnimation("Bubble_Pop"))
 	{
@@ -639,12 +639,12 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 {
 	GameEngineRenderer* TileRenderer = ObjectTile->GetTile(_X, _Y);
 
-	TileRenderer = ObjectTile->SetTileToSprite(_X, _Y, "Pop_Tile.Bmp",
-		TileInfo[_Y][_X].ObjectTextureInfo, GlobalValue::TileStartPos, true);
+	//TileRenderer = ObjectTile->SetTileToSprite(_X, _Y, "Pop_Tile.Bmp", 
+	//	TileInfo[_Y][_X].ObjectTextureInfo, GlobalValue::TileStartPos, false);
 
 	if (nullptr == TileRenderer->FindAnimation("Pop_Tile"))
 	{
-		TileRenderer->CreateAnimation("Pop_Tile", "Pop_Tile.Bmp", -1, -1, 0.1f, false);
+		TileRenderer->CreateAnimation("Pop_Tile", "Pop_Tile.Bmp", 0, 3, 0.1f, false);
 	}
 	TileRenderer->ChangeAnimation("Pop_Tile");
 
