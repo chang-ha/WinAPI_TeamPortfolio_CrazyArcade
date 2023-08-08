@@ -3,6 +3,8 @@
 
 #include <GameEngineCore/GameEngineLevel.h>
 
+#include <string>
+
 
 enum class CallFadeType
 {
@@ -26,20 +28,9 @@ public:
 	FadeObject& operator=(FadeObject&& _Other) noexcept = delete;
 
 	
-	static void CallFadeOut(GameEngineLevel* _Level, float _FadeOutDuration = 1.0f, int _Alpha = 0);
+	static void CallFadeOut(GameEngineLevel* _Level, const std::string& _LevelName, float _FadeOutDuration = 1.0f, int _Alpha = 0);
 	static void CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration = 1.0f, int _Alpha = 255);
 
-	static bool isDoneFadeOut()
-	{
-		if (g_FadeOutValue ==  true)
-		{
-			g_FadeOutValue = false;
-
-			return true;
-		}
-
-		return false;
-	}
 
 protected:
 
@@ -48,6 +39,9 @@ private:
 	void Start() override;
 	void Update(float _Detla) override;
 
+	// GameEngineLevel »ó¼Ó
+	void LevelEnd() override;
+
 
 
 	// this
@@ -55,7 +49,8 @@ private:
 
 	CallFadeType m_FadeType = CallFadeType::Max;
 
-	static bool g_FadeOutValue;
+	std::string m_NextLevelName = "";
+
 
 	int m_Alpha = 0;
 	int m_RequestAlphaValue = 0;
@@ -64,8 +59,8 @@ private:
 	float m_FadeTime = 0.0f;
 
 
-	const float MinAlphaValue = 0;
-	const float MaxAlphaValue = 255;
+	const int MinAlphaValue = 0;
+	const int MaxAlphaValue = 255;
 
 
 	int m_DebugAlphaValue = 0;
