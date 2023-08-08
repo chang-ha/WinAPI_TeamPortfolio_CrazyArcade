@@ -22,5 +22,5 @@ protected:
 	void Render(float _Delta) override;
 
 private:
-
+	class BaseMonster* Monster = nullptr;
 };

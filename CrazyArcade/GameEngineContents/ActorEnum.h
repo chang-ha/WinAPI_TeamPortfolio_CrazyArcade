@@ -24,6 +24,7 @@ enum class ActorDir
 
 enum class MonsterState
 {
+	None,
 	Idle,
 	Move,
 	Ready,

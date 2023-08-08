@@ -4,6 +4,8 @@
 #include "GameMapInfo.h"
 #include "FadeObject.h"
 
+#include "Snowmon_black.h"
+
 TestStage::TestStage()
 {
 }
@@ -29,6 +31,10 @@ void TestStage::Start()
 
 	MapFileLoad("TestMap.map");
 	TileSetting();
+
+	// 몬스터 테스트
+	Monster = CreateActor<Snowmon_black>();
+	Monster->SetPos({ GlobalValue::WinScale.Half().X + 200, GlobalValue::WinScale.Half().Y });
 }
 
 void TestStage::Update(float _Delta)

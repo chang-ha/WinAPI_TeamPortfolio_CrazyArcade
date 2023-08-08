@@ -1,7 +1,9 @@
 #pragma once
 
+#include "BaseMonster.h"
+
 // Ό³Έν :
-class Snowmon_black
+class Snowmon_black : public BaseMonster
 {
 public:
 	// constrcuter destructer
@@ -17,6 +19,6 @@ public:
 protected:
 
 private:
-
+	void Start() override;
 };
 

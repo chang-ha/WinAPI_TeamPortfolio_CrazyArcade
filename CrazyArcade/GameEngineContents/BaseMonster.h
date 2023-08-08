@@ -23,7 +23,7 @@ public:
 
 protected:
 	void StateUpdate(float _Delta);
-	void ChangeState(CharacterState _State);
+	void ChangeState(MonsterState _State);
 
 	void IdleStart();
 	void IdleUpdate(float _Delta);
@@ -36,7 +36,9 @@ protected:
 	void DirCheck();
 
 	class GameEngineRenderer* MainRenderer = nullptr;
-private:
 
+	MonsterState State = MonsterState::Idle;
+
+private:
 };
 
