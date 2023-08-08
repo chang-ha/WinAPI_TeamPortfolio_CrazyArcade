@@ -437,6 +437,8 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower)
 			return;
 		}
 
+		Player->BombCountMinus();
+
 		AllBubbleIndex.push_back({ BubbleIndexX, BubbleIndexY });
 
 		TileInfo[BubbleIndexY][BubbleIndexX].MapInfo = TileObjectOrder::Bubble;

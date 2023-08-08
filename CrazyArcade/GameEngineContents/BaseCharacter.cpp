@@ -27,7 +27,6 @@ void BaseCharacter::Update(float _Delta)
 		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
 	{
 		PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f}, GetBubblePower());
-		BombCountMinus();
 	}
 
 	if (true == GameEngineInput::IsDown('J'))
