@@ -92,13 +92,13 @@
       <Filter>Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="Penguin_Stage1.cpp">
-      <Filter>Level</Filter>
+      <Filter>Level\Penguin_Stage</Filter>
     </ClCompile>
     <ClCompile Include="Penguin_Stage2.cpp">
-      <Filter>Level</Filter>
+      <Filter>Level\Penguin_Stage</Filter>
     </ClCompile>
     <ClCompile Include="Penguin_Stage3.cpp">
-      <Filter>Level</Filter>
+      <Filter>Level\Penguin_Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,13 +196,13 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="Penguin_Stage1.h">
-      <Filter>Level</Filter>
+      <Filter>Level\Penguin_Stage</Filter>
     </ClInclude>
     <ClInclude Include="Penguin_Stage2.h">
-      <Filter>Level</Filter>
+      <Filter>Level\Penguin_Stage</Filter>
     </ClInclude>
     <ClInclude Include="Penguin_Stage3.h">
-      <Filter>Level</Filter>
+      <Filter>Level\Penguin_Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +229,9 @@
     </Filter>
     <Filter Include="Actor\UI\CharacterSelect">
       <UniqueIdentifier>{a52647cb-aeb8-44ef-9546-f7f6b035f9cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\Penguin_Stage">
+      <UniqueIdentifier>{c65e308e-2475-4482-9002-834a879d9ab7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

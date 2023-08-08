@@ -37,7 +37,7 @@ void CrazyArcadeCore::Start()
 	GameEngineCore::CreateLevel<UITestStage>("UITestStage");
 	
 
-	GameEngineCore::ChangeLevel("Penguin_Stage3");
+	GameEngineCore::ChangeLevel("TitleLevel");
 }
 
 void CrazyArcadeCore::Update(float _Delta)
