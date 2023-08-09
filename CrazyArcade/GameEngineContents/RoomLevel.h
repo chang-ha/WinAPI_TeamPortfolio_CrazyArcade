@@ -166,7 +166,7 @@ private:
 
 
 	// 각 방 버튼
-	int m_SelectRoomNumber = 0;
+	static int g_SelectRoomNumber;
 
 	void loadRoomCharacterButton();
 	const int m_AvailableRoomCount = 2;
@@ -186,7 +186,6 @@ private:
 	// Fade
 	void loadFadeScreen();
 	class FadeScreen* m_FadeScreen = nullptr;
-	const int m_FadeScreenAlphaValue = 70;
 
 
 	// 업데이트

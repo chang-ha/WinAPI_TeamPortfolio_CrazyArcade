@@ -91,6 +91,21 @@
     <ClCompile Include="Kephi.cpp">
       <Filter>Actor\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="Penguin_Stage1.cpp">
+      <Filter>Level\Penguin_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin_Stage2.cpp">
+      <Filter>Level\Penguin_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin_Stage3.cpp">
+      <Filter>Level\Penguin_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStartAnimation.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="StageStartActor.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Snowmon_black.cpp">
       <Filter>Actor\Unit\Monster</Filter>
     </ClCompile>
@@ -201,6 +216,21 @@
     <ClInclude Include="UITestStage.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="Penguin_Stage1.h">
+      <Filter>Level\Penguin_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin_Stage2.h">
+      <Filter>Level\Penguin_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin_Stage3.h">
+      <Filter>Level\Penguin_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStartAnimation.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StageStartActor.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Snowmon_black.h">
       <Filter>Actor\Unit\Monster</Filter>
     </ClInclude>
@@ -238,6 +268,9 @@
     </Filter>
     <Filter Include="Actor\UI\CharacterSelect">
       <UniqueIdentifier>{a52647cb-aeb8-44ef-9546-f7f6b035f9cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\Penguin_Stage">
+      <UniqueIdentifier>{c65e308e-2475-4482-9002-834a879d9ab7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Unit\Monster">
       <UniqueIdentifier>{8b155376-e157-496f-9e1c-11bb15fe4e3b}</UniqueIdentifier>

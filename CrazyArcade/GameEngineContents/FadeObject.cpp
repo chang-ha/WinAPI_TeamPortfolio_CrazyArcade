@@ -50,6 +50,12 @@ void FadeObject::Start()
 // 
 void FadeObject::CallFadeOut(GameEngineLevel* _Level, const std::string& _LevelName, float _FadeOutDuration /*= 1.0f*/, int _Alpha /*= 0*/)
 {
+	if (nullptr == _Level)
+	{
+		MsgBoxAssert("Level을 불러오지 못했습니다.");
+		return;
+	}
+
 	FadeObject* FadeOut = _Level->CreateActor<FadeObject>(UpdateOrder::UI);
 	if (nullptr == FadeOut)
 	{
@@ -75,6 +81,12 @@ void FadeObject::CallFadeOut(GameEngineLevel* _Level, const std::string& _LevelN
 
 void FadeObject::CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration /*= 1.0f*/, int _Alpha /*= 255*/)
 {
+	if (nullptr == _Level)
+	{
+		MsgBoxAssert("Level을 불러오지 못했습니다.");
+		return;
+	}
+
 	FadeObject* FadeIn = _Level->CreateActor<FadeObject>(UpdateOrder::UI);
 	if (nullptr == FadeIn)
 	{

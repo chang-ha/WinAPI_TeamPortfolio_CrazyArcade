@@ -17,7 +17,13 @@
 #include "GlobalUtils.h"
 #include "GlobalLoad.h"
 #include "GameMapInfo.h"
+#include "FadeObject.h"
+#include "FadeScreen.h"
+#include "CommonTexture.h"
 #include "PlayTimer.h"
+#include "GameStartAnimation.h"
+#include "Button.h"
+
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
@@ -33,6 +39,29 @@ PlayLevel::~PlayLevel()
 void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	CurPlayLevel = this;
+
+	UILevelStart();
+}
+
+void PlayLevel::UILevelStart()
+{
+	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+
+	if (-1 != CurrentStage)
+	{
+		CreateGameStartAnimation();
+	}
+
+	if (m_FadeScreen)
+	{
+		m_FadeScreen->On();
+	}
+
+	if (m_PlayTimer)
+	{
+		m_PlayTimer->setTimer(CONST_TimeSetting);
+		m_PlayTimer->stopTimer();
+	}
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
@@ -63,17 +92,6 @@ void PlayLevel::Start()
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
-
-	PlayTimerPtr = CreateActor<PlayTimer>(UpdateOrder::UI);
-	if (nullptr == PlayTimerPtr)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
-	PlayTimerPtr->SetPos(float4{ 711.0f , 78.0f });
-	PlayTimerPtr->setTimer(66.0f);
-	PlayTimerPtr->flowTimer();
 }
 
 void PlayLevel::Update(float _Delta)
@@ -688,4 +706,129 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 
 	// 터진 후 사라져야하는 물폭탄 인덱스 저장
 	AllBubbleDeathIndex.push_back({ _X, _Y });
+}
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+// UI
+
+void PlayLevel::CreateGameStartAnimation()
+{
+	GameStartAnimation* GameStartAnimationPtr = CreateActor<GameStartAnimation>(UpdateOrder::UI);
+	if (nullptr == GameStartAnimationPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	GameStartAnimationPtr->initStartAnimation(CurrentStage);
+	GameStartAnimationPtr->setGameStartCallBack(this, &PlayLevel::setGameStartCallBack);
+}
+
+void PlayLevel::setGameStartCallBack()
+{
+	if (m_FadeScreen)
+	{
+		m_FadeScreen->Off();
+	}
+
+	if (m_PlayTimer)
+	{
+		m_PlayTimer->flowTimer();
+	}
+}
+
+void PlayLevel::CreateUIElements()
+{
+	if (-1 == CurrentStage)
+	{
+		MsgBoxAssert("CurrentStage로 스테이지 UI를 만들 수 없습니다.");
+		return;
+	}
+
+	SetUpUIStart();
+}
+
+void PlayLevel::SetUpUIStart()
+{
+	SetUpStageInfo();
+	SetUpFadeScreen();
+	SetUpTimer();
+	SetGoBackButton();
+}
+
+void PlayLevel::SetUpStageInfo()
+{
+	m_StageInfo = CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (nullptr == m_StageInfo)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_StageInfo->loadTexture("PenguinLevelStageInfo.bmp", "Resources\\Textures\\UI\\PlayStage");
+	m_StageInfo->setTexture("PenguinLevelStageInfo.bmp");
+	m_StageInfo->setRendererCopyAndRenderScale(0, 2);
+
+	float4 StageInfoScale = m_StageInfo->getScale();
+	float4 StageInfoRenderPos = float4{ 0.0f , StageInfoScale.Y * static_cast<float>(CurrentStage - 1) };
+	m_StageInfo->setRendererCopyPos(0, CurrentStage - 1);
+
+	float4 StageRenderPos = CONST_StageInfoStartPos + StageInfoScale.Half();
+	m_StageInfo->SetPos(StageRenderPos);
+}
+
+void PlayLevel::SetUpFadeScreen()
+{
+	m_FadeScreen = CreateActor<FadeScreen>(UpdateOrder::UI);
+	if (nullptr == m_FadeScreen)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	float4 WinScale = GlobalValue::WinScale;
+
+	m_FadeScreen->setRenderScale(WinScale);
+	m_FadeScreen->setAlpha(GlobalValue::g_FadeScreenAlphaValue);
+	m_FadeScreen->SetPos(WinScale.Half());
+	m_FadeScreen->Off();
+}
+
+void PlayLevel::SetUpTimer()
+{
+	m_PlayTimer = CreateActor<PlayTimer>(UpdateOrder::UI);
+	if (nullptr == m_PlayTimer)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_PlayTimer->SetPos(CONST_TimerLocation);
+}
+
+void PlayLevel::SetGoBackButton()
+{
+	m_GoBackButton = CreateActor<Button>(UpdateOrder::UI);
+	if (nullptr == m_GoBackButton)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_GoBackButton->setRenderer(RenderOrder::FirstElementUI);
+	m_GoBackButton->setButtonTexture(ButtonState::Normal, "Play_Button_Exit_Normal.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 1);
+	m_GoBackButton->setButtonTexture(ButtonState::Hover, "Play_Button_Exit_Hover.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 2);
+	m_GoBackButton->setButtonTexture(ButtonState::Click, "Play_Button_Exit_Click.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 1);
+	m_GoBackButton->setCallback<PlayLevel>(ButtonEventState::Click, this, &PlayLevel::clickGoBackButton);
+
+	float4 ButtonScale = m_GoBackButton->getButtonScale();
+	float4 ButtonPos = CONST_GoBackButtonStartPos + ButtonScale.Half();
+
+	m_GoBackButton->SetPos(ButtonPos);
+}
+
+void PlayLevel::clickGoBackButton()
+{
+	FadeObject::CallFadeOut(this, "RoomLevel", GlobalValue::g_ChangeLevelFadeSpeed);
 }
