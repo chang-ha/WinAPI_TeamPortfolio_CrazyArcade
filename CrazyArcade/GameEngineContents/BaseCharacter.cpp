@@ -29,6 +29,15 @@ void BaseCharacter::Update(float _Delta)
 
 	StateUpdate(_Delta);
 
+	/*if (true == GameEngineInput::IsDown('K'))
+	{
+		ChangeState(CharacterState::FlashLong);
+	}
+	if (true == GameEngineInput::IsDown('L'))
+	{
+		ChangeState(CharacterState::FlashShort);
+	}*/
+
 	// 물풍선 설치
 	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle" && GetBombCount() > 0
 		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
@@ -169,13 +178,13 @@ void BaseCharacter::StateUpdate(float _Delta)
 		return BubbleUpdate(_Delta);
 	case CharacterState::Ready:
 		return ReadyUpdate(_Delta);
-	/*case CharacterState::FlashLong:
-		break;
+	case CharacterState::FlashLong:
+		return FlashLongUpdate(_Delta);
 	case CharacterState::FlashShort:
-		break;
+		return FlashShortUpdate(_Delta);
 	case CharacterState::Live:
-		break;
-	case CharacterState::Die:
+		return LiveUpdate(_Delta);
+	/*case CharacterState::Die:
 		break;
 	case CharacterState::Jump:
 		break;*/
@@ -202,13 +211,16 @@ void BaseCharacter::ChangeState(CharacterState _State)
 		case CharacterState::Ready:
 			ReadyStart();
 			break;
-		/*case CharacterState::FlashLong:
+		case CharacterState::FlashLong:
+			FlashLongStart();
 			break;
 		case CharacterState::FlashShort:
+			FlashShortStart();
 			break;
 		case CharacterState::Live:
+			LiveStart();
 			break;
-		case CharacterState::Die:
+		/*case CharacterState::Die:
 			break;
 		case CharacterState::Jump:
 			break;*/
