@@ -15,22 +15,16 @@ public:
 	Item& operator=(Item&& _Other) noexcept = delete;
 
 	// 아이템의 Type 반환
-	inline ItemType GetItemTypeInt()
+	inline ItemType GetItemType()
 	{
 		return Type;
 	}
 
 	// int로 아이템의 Type 반환
-	inline int GetItemTypeInt() const
+	inline int GetItemTypeIntInt() const
 	{
 		return static_cast<int>(Type);
 
-	}
-
-	// int를 인자로 받아서 Type 세팅
-	inline void SetItemTypeInt(int _Type)
-	{
-		Type = static_cast<ItemType>(_Type);
 	}
 
 	// Type 세팅
@@ -38,6 +32,12 @@ public:
 	{
 		Type = _Type;
 		SetTexture(Type);
+	}
+
+	// int를 인자로 받아서 Type 세팅
+	inline void SetItemTypeInt(int _Type)
+	{
+		Type = static_cast<ItemType>(_Type);
 	}
 
 	// 아이템 획득
