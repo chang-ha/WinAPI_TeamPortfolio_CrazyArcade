@@ -21,6 +21,13 @@ Penguin::~Penguin()
 
 void Penguin::Start()
 {
+	CurPlayLevel = dynamic_cast<PlayLevel*>(GetLevel());
+	if (nullptr == CurPlayLevel)
+	{
+		MsgBoxAssert("PlayLevel이 아닌 곳에 보스몬스터를 생성할 수 없습니다.");
+		return;
+	}
+
 	MainRenderer = CreateRenderer(RenderOrder::SelectTile);
 
 	if (nullptr == ResourcesManager::GetInst().FindSprite("Penguin.bmp"))
@@ -53,13 +60,13 @@ void Penguin::Update(float _Delta)
 void Penguin::Render(float _Delta)
 {
 	// Debug
-	//HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 
-	//CollisionData Data;
-	//
-	//Data.Pos = GetPos();
-	//Data.Scale = { 40, 40 };
-	//Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	CollisionData Data;
+
+	Data.Pos = GetPos() + GlobalValue::MapTileSize.Half();
+	Data.Scale = { 40, 40 };
+	Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 }
 
 

@@ -3,6 +3,8 @@
 #include "BaseMonster.h"
 
 // Ό³Έν :
+class TileMap;
+class PlayLevel;
 class Penguin : public BaseMonster
 {
 public:
@@ -17,16 +19,16 @@ public:
 	Penguin& operator=(Penguin&& _Other) noexcept = delete;
 
 protected:
+	TileMap* CurLevelTile = nullptr;
+	PlayLevel* CurPlayLevel = nullptr;
 
 private:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
-
-	// Before Virtual
-	void StateUpdate(float _Delta);
-	void ChangeState(MonsterState _State);
+	void StateUpdate(float _Delta) override;
+	void ChangeState(MonsterState _State) override;
 
 	void IdleStart();
 	void IdleUpdate(float _Delta);
