@@ -36,6 +36,8 @@ void TestStage::Start()
 	Monster = CreateActor<Snowmon_black>();
 	Monster->SetPos({ GlobalValue::WinScale.Half().X + 200, GlobalValue::WinScale.Half().Y });
 
+
+	// 아이템 테스트
 	TestItem = CreateActor<Item>(UpdateOrder::Map);
 	TestItem->SetItemType(ItemType::Bubble);
 	TestItem->AddPos({ (40 * 7), (40 * 7) });
