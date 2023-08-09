@@ -21,3 +21,14 @@ enum class ActorDir
 	Up,
 	Down,
 };
+
+enum class MonsterState
+{
+	None,
+	Idle,
+	Move,
+	Ready,
+	Freeze,
+	Melt,
+	Die
+};

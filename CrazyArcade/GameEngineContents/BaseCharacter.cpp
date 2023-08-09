@@ -1,4 +1,5 @@
 ﻿#include "BaseCharacter.h"
+#include "GlobalUtils.h"
 #include "PlayLevel.h"
 
 #include <GameEngineBase/GameEnginePath.h>
@@ -18,8 +19,28 @@ BaseCharacter::~BaseCharacter()
 {
 }
 
+void BaseCharacter::Start()
+{
+	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Character\\", 1, 1);
+
+	ShadowRenderer = CreateRenderer("Shadow.Bmp", RenderOrder::Shadow);
+	ShadowRenderer->SetRenderPos(BOTCHECKPOS);
+}
+
 void BaseCharacter::Update(float _Delta)
 {
+	CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+
+	if (CurTile == TileObjectOrder::PopRange)
+	{
+		ChangeState(CharacterState::Bubble);
+	}
+
+	if (true == GameEngineInput::IsDown('K'))
+	{
+		ChangeState(CharacterState::Jump);
+	}
+
 	StateUpdate(_Delta);
 
 	// 물풍선 설치
@@ -50,6 +71,16 @@ void BaseCharacter::Render(float _Delta)
 		YText += "Player Pos Y : ";
 		YText += std::to_string(GetPos().Y);
 		TextOutA(dc, 2, 30, YText.c_str(), static_cast<int>(YText.size()));
+
+		std::string BombCountText = "";
+		BombCountText += "폭탄 설치 개수 : ";
+		BombCountText += std::to_string(GetBombCount());
+		TextOutA(dc, 2, 57, BombCountText.c_str(), static_cast<int>(BombCountText.size()));
+
+		std::string CurTileText = "";
+		CurTileText += "밟고있는 타일 번호 : ";
+		CurTileText += std::to_string(static_cast<int>(CurTile));
+		TextOutA(dc, 2, 84, CurTileText.c_str(), static_cast<int>(CurTileText.size()));
 
 		CollisionData Data;
 
@@ -148,20 +179,20 @@ void BaseCharacter::StateUpdate(float _Delta)
 		return IdleUpdate(_Delta);
 	case CharacterState::Move:
 		return MoveUpdate(_Delta);
-	/*case CharacterState::Ready:
-		break;
-	case CharacterState::FlashLong:
-		break;
-	case CharacterState::FlashShort:
-		break;
 	case CharacterState::Bubble:
-		break;
+		return BubbleUpdate(_Delta);
+	case CharacterState::Ready:
+		return ReadyUpdate(_Delta);
+	case CharacterState::FlashLong:
+		return FlashLongUpdate(_Delta);
+	case CharacterState::FlashShort:
+		return FlashShortUpdate(_Delta);
 	case CharacterState::Live:
-		break;
+		return LiveUpdate(_Delta);
 	case CharacterState::Die:
-		break;
+		return DieUpdate(_Delta);
 	case CharacterState::Jump:
-		break;*/
+		return JumpUpdate(_Delta);
 	default:
 		break;
 	}
@@ -179,20 +210,27 @@ void BaseCharacter::ChangeState(CharacterState _State)
 		case CharacterState::Move:
 			MoveStart();
 			break;
-		/*case CharacterState::Ready:
+		case CharacterState::Bubble:
+			BubbleStart();
+			break;
+		case CharacterState::Ready:
+			ReadyStart();
 			break;
 		case CharacterState::FlashLong:
+			FlashLongStart();
 			break;
 		case CharacterState::FlashShort:
-			break;
-		case CharacterState::Bubble:
+			FlashShortStart();
 			break;
 		case CharacterState::Live:
+			LiveStart();
 			break;
 		case CharacterState::Die:
+			DieStart();
 			break;
 		case CharacterState::Jump:
-			break;*/
+			JumpStart();
+			break;
 		default:
 			break;
 		}
@@ -202,8 +240,3 @@ void BaseCharacter::ChangeState(CharacterState _State)
 }
 
 void BaseCharacter::ChangeAnimationState(const std::string& _StateName) {}
-
-void BaseCharacter::SetBubble()
-{
-	
-}

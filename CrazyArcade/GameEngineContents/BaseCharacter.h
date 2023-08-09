@@ -57,10 +57,34 @@ protected:
 	void MoveStart();
 	void MoveUpdate(float _Delta);
 
+	void ReadyStart();
+	void ReadyUpdate(float _Delta);
+
+	void JumpStart();
+	void JumpUpdate(float _Delta);
+
+	void BubbleStart();
+	void BubbleUpdate(float _Delta);
+
+	void FlashLongStart();
+	void FlashLongUpdate(float _Delta);
+
+	void FlashShortStart();
+	void FlashShortUpdate(float _Delta);
+
+	void LiveStart();
+	void LiveUpdate(float _Delta);
+
+	void DieStart();
+	void DieUpdate(float _Delta);
+
+protected:
 	CharacterState State = CharacterState::Max;
 	std::string CurState = "";
 	GameEngineRenderer* MainRenderer = nullptr;
+	GameEngineRenderer* ShadowRenderer = nullptr;
 
+	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
@@ -100,8 +124,9 @@ protected:
 	int BubblePower = 1;
 	int BombCount = 1;
 
+	TileObjectOrder CurTile = TileObjectOrder::Empty;
+
 	void DirCheck();
-	void SetBubble();
 
 private:
 	bool IsDebugData = false;

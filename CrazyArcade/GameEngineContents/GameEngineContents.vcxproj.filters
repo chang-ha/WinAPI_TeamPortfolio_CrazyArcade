@@ -112,6 +112,21 @@
     <ClCompile Include="PlayCharacterPortrait.cpp">
       <Filter>Actor\UI\PlayLevel</Filter>
     </ClCompile>
+    <ClCompile Include="Snowmon_black.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Snowmon_red.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Penguin.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseMonster.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter_Bubble_State.cpp">
+      <Filter>Actor\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -228,6 +243,18 @@
     <ClInclude Include="PlayCharacterPortrait.h">
       <Filter>Actor\UI\PlayLevel</Filter>
     </ClInclude>
+    <ClInclude Include="Snowmon_black.h">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Snowmon_red.h">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Penguin.h">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMonster.h">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -256,6 +283,9 @@
     </Filter>
     <Filter Include="Level\Penguin_Stage">
       <UniqueIdentifier>{c65e308e-2475-4482-9002-834a879d9ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Unit\Monster">
+      <UniqueIdentifier>{8b155376-e157-496f-9e1c-11bb15fe4e3b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\UI\PlayLevel">
       <UniqueIdentifier>{83f1e4cf-84ba-4aba-9b1c-d61540ab0471}</UniqueIdentifier>
