@@ -49,7 +49,7 @@ void Marid::Start()
 	MainRenderer->CreateAnimation("Marid_FlashLong", "Marid_FlashLong.Bmp");
 	MainRenderer->CreateAnimation("Marid_FlashShort", "Marid_FlashShort.Bmp");
 	MainRenderer->CreateAnimation("Marid_Live", "Marid_Live.Bmp");
-	MainRenderer->CreateAnimation("Marid_Die", "Marid_Die.Bmp");
+	MainRenderer->CreateAnimation("Marid_Die", "Marid_Die.Bmp", -1, -1, 0.1f, false);
 	MainRenderer->CreateAnimation("Marid_Jump", "Marid_Jump.Bmp", -1, -1, 0.3f, true);
 
 	ChangeState(CharacterState::Ready);

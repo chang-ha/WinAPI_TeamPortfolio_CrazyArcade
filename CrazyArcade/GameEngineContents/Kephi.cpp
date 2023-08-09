@@ -49,7 +49,7 @@ void Kephi::Start()
 	MainRenderer->CreateAnimation("Kephi_FlashLong", "Kephi_FlashLong.Bmp");
 	MainRenderer->CreateAnimation("Kephi_FlashShort", "Kephi_FlashShort.Bmp");
 	MainRenderer->CreateAnimation("Kephi_Live", "Kephi_Live.Bmp");
-	MainRenderer->CreateAnimation("Kephi_Die", "Kephi_Die.Bmp");
+	MainRenderer->CreateAnimation("Kephi_Die", "Kephi_Die.Bmp", -1, -1, 0.1f, false);
 	MainRenderer->CreateAnimation("Kephi_Jump", "Kephi_Jump.Bmp", -1, -1, 0.3f, true);
 
 	ChangeState(CharacterState::Ready);

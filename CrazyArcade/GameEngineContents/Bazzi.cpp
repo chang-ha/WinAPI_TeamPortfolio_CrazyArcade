@@ -49,7 +49,7 @@ void Bazzi::Start()
 	MainRenderer->CreateAnimation("Bazzi_FlashLong", "Bazzi_FlashLong.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_FlashShort", "Bazzi_FlashShort.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Live", "Bazzi_Live.Bmp");
-	MainRenderer->CreateAnimation("Bazzi_Die", "Bazzi_Die.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_Die", "Bazzi_Die.Bmp", -1, -1, 0.1f, false);
 	MainRenderer->CreateAnimation("Bazzi_Jump", "Bazzi_Jump.Bmp", -1, -1, 0.3f, true);
 
 	ChangeState(CharacterState::Ready);

@@ -92,7 +92,13 @@ void BaseCharacter::DieUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
-		ChangeState(CharacterState::Max);
-		return;
+		ShadowRenderer->Off();
+
+		if (true == GameEngineInput::IsDown('R'))
+		{
+			ShadowRenderer->On();
+			ChangeState(CharacterState::Ready);
+			return;
+		}
 	}
 }

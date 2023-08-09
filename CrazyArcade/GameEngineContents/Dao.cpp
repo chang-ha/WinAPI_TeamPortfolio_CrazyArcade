@@ -49,7 +49,7 @@ void Dao::Start()
 	MainRenderer->CreateAnimation("Dao_FlashLong", "Dao_FlashLong.Bmp");
 	MainRenderer->CreateAnimation("Dao_FlashShort", "Dao_FlashShort.Bmp");
 	MainRenderer->CreateAnimation("Dao_Live", "Dao_Live.Bmp");
-	MainRenderer->CreateAnimation("Dao_Die", "Dao_Die.Bmp");
+	MainRenderer->CreateAnimation("Dao_Die", "Dao_Die.Bmp", -1, -1, 0.1f, false);
 	MainRenderer->CreateAnimation("Dao_Jump", "Dao_Jump.Bmp", -1, -1, 0.3f, true);
 
 	ChangeState(CharacterState::Ready);
