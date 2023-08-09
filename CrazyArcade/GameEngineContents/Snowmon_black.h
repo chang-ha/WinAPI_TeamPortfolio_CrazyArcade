@@ -17,6 +17,7 @@ public:
 	Snowmon_black& operator=(Snowmon_black&& _Other) noexcept = delete;
 
 protected:
+	void ChangeAnimationState(const std::string& _StateName) override;
 
 private:
 	void Start() override;

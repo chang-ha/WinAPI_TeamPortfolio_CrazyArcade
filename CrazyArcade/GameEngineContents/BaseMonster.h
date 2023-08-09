@@ -24,6 +24,7 @@ public:
 protected:
 	void StateUpdate(float _Delta);
 	void ChangeState(MonsterState _State);
+	virtual void ChangeAnimationState(const std::string& _StateName);
 
 	void IdleStart();
 	void IdleUpdate(float _Delta);
@@ -38,6 +39,8 @@ protected:
 	class GameEngineRenderer* MainRenderer = nullptr;
 
 	MonsterState State = MonsterState::Idle;
+	ActorDir Dir = ActorDir::Down;
+	std::string CurState = "";
 
 private:
 };

@@ -8,6 +8,7 @@ void BaseCharacter::IdleStart()
 {
 	ChangeAnimationState("Idle");
 }
+
 void BaseCharacter::IdleUpdate(float _Delta)
 {
 	if (true == GameEngineInput::IsDown('W') || true == GameEngineInput::IsPress('W')

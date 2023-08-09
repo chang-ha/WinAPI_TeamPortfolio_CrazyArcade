@@ -4,15 +4,6 @@
     <ClCompile Include="BackGround.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="BaseCharacter.cpp">
-      <Filter>Actor\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseCharacter_State.cpp">
-      <Filter>Actor\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="Bazzi.cpp">
-      <Filter>Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
@@ -21,9 +12,6 @@
     </ClCompile>
     <ClCompile Include="CrazyArcadeCore.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Dao.cpp">
-      <Filter>Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="FadeObject.cpp">
       <Filter>Actor\UI</Filter>
@@ -67,9 +55,6 @@
     <ClCompile Include="WindowPanelUI.cpp">
       <Filter>Actor\UI\ContentsWindow</Filter>
     </ClCompile>
-    <ClCompile Include="Marid.cpp">
-      <Filter>Actor\Unit</Filter>
-    </ClCompile>
     <ClCompile Include="CommonTexture.cpp">
       <Filter>Global</Filter>
     </ClCompile>
@@ -84,9 +69,6 @@
     </ClCompile>
     <ClCompile Include="UITestStage.cpp">
       <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="Kephi.cpp">
-      <Filter>Actor\Unit</Filter>
     </ClCompile>
     <ClCompile Include="Penguin_Stage1.cpp">
       <Filter>Level\Penguin_Stage</Filter>
@@ -124,8 +106,26 @@
     <ClCompile Include="BaseMonster.cpp">
       <Filter>Actor\Unit\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="BaseCharacter.cpp">
+      <Filter>Actor\Unit\Character</Filter>
+    </ClCompile>
     <ClCompile Include="BaseCharacter_Bubble_State.cpp">
-      <Filter>Actor\Unit</Filter>
+      <Filter>Actor\Unit\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter_State.cpp">
+      <Filter>Actor\Unit\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Bazzi.cpp">
+      <Filter>Actor\Unit\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Dao.cpp">
+      <Filter>Actor\Unit\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Kephi.cpp">
+      <Filter>Actor\Unit\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Marid.cpp">
+      <Filter>Actor\Unit\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,12 +134,6 @@
     </ClInclude>
     <ClInclude Include="BackGround.h">
       <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCharacter.h">
-      <Filter>Actor\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="Bazzi.h">
-      <Filter>Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Actor\UI</Filter>
@@ -152,9 +146,6 @@
     </ClInclude>
     <ClInclude Include="CrazyArcadeCore.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Dao.h">
-      <Filter>Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="FadeObject.h">
       <Filter>Actor\UI</Filter>
@@ -204,17 +195,11 @@
     <ClInclude Include="FadeScreen.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Marid.h">
-      <Filter>Actor\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterTraits.h">
       <Filter>Actor\UI\CharacterSelect</Filter>
     </ClInclude>
     <ClInclude Include="CharacterRoomButton.h">
       <Filter>Actor\UI\CharacterSelect</Filter>
-    </ClInclude>
-    <ClInclude Include="Kephi.h">
-      <Filter>Actor\Unit</Filter>
     </ClInclude>
     <ClInclude Include="UITestStage.h">
       <Filter>Level</Filter>
@@ -255,6 +240,21 @@
     <ClInclude Include="BaseMonster.h">
       <Filter>Actor\Unit\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="BaseCharacter.h">
+      <Filter>Actor\Unit\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Bazzi.h">
+      <Filter>Actor\Unit\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Dao.h">
+      <Filter>Actor\Unit\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Kephi.h">
+      <Filter>Actor\Unit\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Marid.h">
+      <Filter>Actor\Unit\Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -289,6 +289,9 @@
     </Filter>
     <Filter Include="Actor\UI\PlayLevel">
       <UniqueIdentifier>{83f1e4cf-84ba-4aba-9b1c-d61540ab0471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Unit\Character">
+      <UniqueIdentifier>{85bd63d1-c20e-4d31-95bd-4c100263f61d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
