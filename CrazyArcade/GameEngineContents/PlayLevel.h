@@ -6,6 +6,8 @@
 class BaseCharacter;
 class PlayLevel : public ContentLevel
 {
+	friend class Penguin;
+
 public:
 	static PlayLevel* CurPlayLevel;
 
@@ -29,7 +31,7 @@ public:
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
 
-	const class TileMap* GetGroundTile()
+	class TileMap* GetGroundTile()
 	{
 		return GroundTile;
 	}
@@ -58,8 +60,6 @@ protected:
 	int CurrentStage = -1;
 
 	void CreateUIElements();
-
-	BaseCharacter* Player = nullptr;
 
 private:
 	void UILevelStart();

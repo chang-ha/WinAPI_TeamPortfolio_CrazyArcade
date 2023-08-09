@@ -35,5 +35,8 @@ private:
 
 	void HittenStart();
 	void HittenUpdate(float _Delta);
+
+	bool IsDebugMode = false;
+	std::vector<std::vector<float4>> BossTile;
 };
 
