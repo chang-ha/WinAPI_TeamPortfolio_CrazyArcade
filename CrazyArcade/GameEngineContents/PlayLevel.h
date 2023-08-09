@@ -50,13 +50,15 @@ protected:
 	// UI
 	int CurrentStage = -1;
 
-	void CreateGameStartAnimation();
 	void CreateUIElements();
 
 private:
 	void UILevelStart();
 
+	void CreateGameStartAnimation();
 	void setGameStartCallBack();
+
+	void CreatePortrait();
 
 	void SetUpUIStart();
 
@@ -74,8 +76,6 @@ private:
 
 	const float4 CONST_TimerLocation = float4{ 711.0f , 78.0f };
 	const float CONST_TimeSetting = 120.0f;
-
-	void SetUpCharacterStatePanel();
 
 
 	void SetGoBackButton();
