@@ -55,9 +55,6 @@
     <ClCompile Include="TileSelect.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="PlayTimer.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UIMouseObject.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
@@ -101,10 +98,19 @@
       <Filter>Level\Penguin_Stage</Filter>
     </ClCompile>
     <ClCompile Include="GameStartAnimation.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayPortrait.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayTimer.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="StageStartActor.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayCharacterPortrait.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="Snowmon_black.cpp">
       <Filter>Actor\Unit\Monster</Filter>
@@ -183,9 +189,6 @@
     <ClInclude Include="TileSelect.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="PlayTimer.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
     <ClInclude Include="UIMouseObject.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
@@ -229,10 +232,19 @@
       <Filter>Level\Penguin_Stage</Filter>
     </ClInclude>
     <ClInclude Include="GameStartAnimation.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayPortrait.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayTimer.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
     </ClInclude>
     <ClInclude Include="StageStartActor.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayCharacterPortrait.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
     </ClInclude>
     <ClInclude Include="Snowmon_black.h">
       <Filter>Actor\Unit\Monster</Filter>
@@ -280,6 +292,9 @@
     </Filter>
     <Filter Include="Actor\Unit\Monster">
       <UniqueIdentifier>{8b155376-e157-496f-9e1c-11bb15fe4e3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\PlayLevel">
+      <UniqueIdentifier>{83f1e4cf-84ba-4aba-9b1c-d61540ab0471}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Item">
       <UniqueIdentifier>{0c224388-2290-4826-92d7-29bd8c88cafe}</UniqueIdentifier>

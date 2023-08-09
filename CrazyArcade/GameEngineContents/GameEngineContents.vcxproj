@@ -253,7 +253,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PlayCharacterPortrait.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PlayLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayPortrait.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -395,7 +403,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PlayCharacterPortrait.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayPortrait.cpp">
       <SubType>
       </SubType>
     </ClCompile>

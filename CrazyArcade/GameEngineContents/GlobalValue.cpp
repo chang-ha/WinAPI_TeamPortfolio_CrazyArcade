@@ -28,9 +28,14 @@ int GlobalValue::MapTileIndex_Y = 13;
 std::vector<CharacterTrait> GlobalValue::VecCharacterTraits;
 
 MapType GlobalValue::g_SelectMap = MapType::Max;
+
+int GlobalValue::g_ActiveRoomCount = 0;
 CharacterList GlobalValue::g_SelectCharacter = CharacterList::Max;
 AvailableCharacterList GlobalValue::g_SelectAvailableCharacter1 = AvailableCharacterList::Max;
 AvailableCharacterList GlobalValue::g_SelectAvailableCharacter2 = AvailableCharacterList::Max;
+
+int GlobalValue::g_Player1Level = 0;
+int GlobalValue::g_Player2Level = 3;
 
 float GlobalValue::g_ChangeLevelFadeSpeed = 0.3f;
 

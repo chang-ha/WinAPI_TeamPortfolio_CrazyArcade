@@ -29,6 +29,11 @@ public:
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
 
+	const class TileMap* GetGroundTile()
+	{
+		return GroundTile;
+	}
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
@@ -38,6 +43,8 @@ protected:
 
 	void MapFileLoad(const std::string& _FileName);
 	void TileSetting();
+
+	BaseCharacter* Player = nullptr;
 
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
 	class TileMap* GroundTile = nullptr;
@@ -50,13 +57,22 @@ protected:
 	// UI
 	int CurrentStage = -1;
 
-	void CreateGameStartAnimation();
 	void CreateUIElements();
 
 private:
 	void UILevelStart();
 
+	void CreateGameStartAnimation();
 	void setGameStartCallBack();
+
+	void CreatePortrait();
+	std::vector<class PlayPortrait*> vec_PlayPortrait;
+	const float4 CONST_PlayPortraitStartPos = float4{ 654.0f , 98.0f };
+	const float4 CONST_PlayPortraitNextPos = float4{ 0.0f , 43.0f };
+
+
+	void UILevelEnd();
+	void ReleaseLevelComposition();
 
 	void SetUpUIStart();
 
@@ -75,8 +91,6 @@ private:
 	const float4 CONST_TimerLocation = float4{ 711.0f , 78.0f };
 	const float CONST_TimeSetting = 120.0f;
 
-	void SetUpCharacterStatePanel();
-
 
 	void SetGoBackButton();
 	class Button* m_GoBackButton = nullptr;
@@ -85,11 +99,8 @@ private:
 
 	void SetUpUIEnd();
 
-
-
 private:
 	float LerpTime = 1.0f;
 
-	BaseCharacter* Player = nullptr;
 };
 
