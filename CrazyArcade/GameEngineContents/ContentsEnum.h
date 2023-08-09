@@ -40,3 +40,13 @@ enum class TileObjectOrder
 	Bubble,
 	PopRange,
 };
+
+enum class ItemType
+{
+	Bubble, // 물풍선 개수 1 증가
+	Fluid, // 물줄기 길이 1 증가
+	Ultra, // 물줄기 길이 최대치 증가
+	Roller, // 이동속도 1 증가
+	Red_Devil, // 이동속도 최대치 증가
+};
+

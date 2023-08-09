@@ -14,6 +14,7 @@ public:
 	GlobalLoad& operator=(GlobalLoad&& _Other) noexcept = delete;
 
 	static void TileTextureLoad();
+	static void ItemTextureLoad();
 
 	static const int GroundMaxIndex = 11; 
 	static const int StructureMaxIndex = 13;
@@ -26,5 +27,6 @@ public:
 protected:
 
 private:
-	static bool LoadTexture;
+	static bool LoadTileTexture;
+	static bool LoadItemTexture;
 };

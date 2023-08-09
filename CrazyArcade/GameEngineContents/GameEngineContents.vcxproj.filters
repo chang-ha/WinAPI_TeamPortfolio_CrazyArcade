@@ -121,6 +121,9 @@
     <ClCompile Include="BaseCharacter_Bubble_State.cpp">
       <Filter>Actor\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Actor\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -243,6 +246,9 @@
     <ClInclude Include="BaseMonster.h">
       <Filter>Actor\Unit\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Actor\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -274,6 +280,9 @@
     </Filter>
     <Filter Include="Actor\Unit\Monster">
       <UniqueIdentifier>{8b155376-e157-496f-9e1c-11bb15fe4e3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Item">
+      <UniqueIdentifier>{0c224388-2290-4826-92d7-29bd8c88cafe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

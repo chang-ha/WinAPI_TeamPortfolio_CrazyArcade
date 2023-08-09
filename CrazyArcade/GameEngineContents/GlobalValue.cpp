@@ -10,6 +10,8 @@ float4 GlobalValue::TileStartPos = { 20, 41 };
 float4 GlobalValue::StructureOverSize = { 0, 20 };
 float4 GlobalValue::BlockOverSize = { 0, 5 };
 
+float4 GlobalValue::ItemPosNormalize = { 20 , 0 };
+
 int GlobalValue::AllTextureIndex_X = 3;
 
 int GlobalValue::GroundTextureIndex_Y = 4;
@@ -31,6 +33,7 @@ AvailableCharacterList GlobalValue::g_SelectAvailableCharacter1 = AvailableChara
 AvailableCharacterList GlobalValue::g_SelectAvailableCharacter2 = AvailableCharacterList::Max;
 
 float GlobalValue::g_ChangeLevelFadeSpeed = 0.3f;
+
 
 GlobalValue::GlobalValue()
 {
