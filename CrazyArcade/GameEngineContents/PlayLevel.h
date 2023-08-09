@@ -53,6 +53,8 @@ protected:
 	void CreateGameStartAnimation();
 	void CreateUIElements();
 
+	BaseCharacter* Player = nullptr;
+
 private:
 	void UILevelStart();
 
@@ -90,6 +92,5 @@ private:
 private:
 	float LerpTime = 1.0f;
 
-	BaseCharacter* Player = nullptr;
 };
 
