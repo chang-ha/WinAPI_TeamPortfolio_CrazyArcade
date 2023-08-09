@@ -33,27 +33,30 @@ public:
 	}
 
 	void initPortrait(int _Value);
+	float4 getPortraitScale() const
+	{
+		return m_PortraitScale;
+	}
 
+	void changeState(PlayPortraitState _State);
+
+	void Release();
 
 protected:
 
 private:
 	// GameEngineObject »ó¼Ó
 	void Start() override;
-	void Update(float _Delta) override;
 
 
 	// this
 	GameEngineRenderer* Renderer = nullptr;
 
 	void loadPortrait();
+	float4 m_PortraitScale = float4::ZERO;
+
 
 	PlayPortraitState m_State = PlayPortraitState::Max;
 
-	void updateState(float _Delta);
-	void changeState(PlayPortraitState _State);
-	void changeAnimationAndSetRenderScale();
-
-	float4 m_PortraitScale = float4::ZERO;
 };
 
