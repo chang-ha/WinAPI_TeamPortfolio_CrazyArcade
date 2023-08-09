@@ -241,7 +241,15 @@
     <ClInclude Include="Penguin_Stage1.h" />
     <ClInclude Include="Penguin_Stage2.h" />
     <ClInclude Include="Penguin_Stage3.h" />
+    <ClInclude Include="PlayCharacterPortrait.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PlayLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayPortrait.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -362,7 +370,15 @@
     <ClCompile Include="Penguin_Stage1.cpp" />
     <ClCompile Include="Penguin_Stage2.cpp" />
     <ClCompile Include="Penguin_Stage3.cpp" />
+    <ClCompile Include="PlayCharacterPortrait.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayPortrait.cpp">
       <SubType>
       </SubType>
     </ClCompile>

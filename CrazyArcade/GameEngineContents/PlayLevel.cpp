@@ -46,10 +46,10 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 void PlayLevel::UILevelStart()
 {
 	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
-
 	if (-1 != CurrentStage)
 	{
 		CreateGameStartAnimation();
+		CreatePortrait();
 	}
 
 	if (m_FadeScreen)
@@ -723,6 +723,12 @@ void PlayLevel::setGameStartCallBack()
 		m_PlayTimer->flowTimer();
 	}
 }
+
+void PlayLevel::CreatePortrait()
+{
+
+}
+
 
 void PlayLevel::CreateUIElements()
 {

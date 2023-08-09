@@ -55,9 +55,6 @@
     <ClCompile Include="TileSelect.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="PlayTimer.cpp">
-      <Filter>Actor\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UIMouseObject.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
@@ -101,10 +98,19 @@
       <Filter>Level\Penguin_Stage</Filter>
     </ClCompile>
     <ClCompile Include="GameStartAnimation.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayPortrait.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayTimer.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="StageStartActor.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayCharacterPortrait.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,9 +171,6 @@
     <ClInclude Include="TileSelect.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="PlayTimer.h">
-      <Filter>Actor\UI</Filter>
-    </ClInclude>
     <ClInclude Include="UIMouseObject.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
@@ -211,10 +214,19 @@
       <Filter>Level\Penguin_Stage</Filter>
     </ClInclude>
     <ClInclude Include="GameStartAnimation.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayPortrait.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayTimer.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
     </ClInclude>
     <ClInclude Include="StageStartActor.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayCharacterPortrait.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +256,9 @@
     </Filter>
     <Filter Include="Level\Penguin_Stage">
       <UniqueIdentifier>{c65e308e-2475-4482-9002-834a879d9ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\PlayLevel">
+      <UniqueIdentifier>{83f1e4cf-84ba-4aba-9b1c-d61540ab0471}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
