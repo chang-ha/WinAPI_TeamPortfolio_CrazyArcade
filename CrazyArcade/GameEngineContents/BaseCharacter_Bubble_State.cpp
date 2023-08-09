@@ -10,11 +10,23 @@ void BaseCharacter::BubbleStart()
 }
 void BaseCharacter::BubbleUpdate(float _Delta)
 {
+	static float BubbleTimer = 0.0f;
+
 	if (true == GameEngineInput::IsDown(VK_CONTROL))
 	{
+		BubbleTimer = 0.0f;
 		ChangeState(CharacterState::Live);
 		return;
 	}
+
+	if (3.0f < BubbleTimer)
+	{
+		BubbleTimer = 0.0f;
+		ChangeState(CharacterState::Die);
+		return;
+	}
+
+	BubbleTimer += _Delta;
 }
 
 
@@ -78,5 +90,9 @@ void BaseCharacter::DieStart()
 }
 void BaseCharacter::DieUpdate(float _Delta)
 {
-
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(CharacterState::Max);
+		return;
+	}
 }

@@ -125,7 +125,6 @@ protected:
 	TileObjectOrder CurTile = TileObjectOrder::Empty;
 
 	void DirCheck();
-	void SetBubble();
 
 private:
 	bool IsDebugData = false;

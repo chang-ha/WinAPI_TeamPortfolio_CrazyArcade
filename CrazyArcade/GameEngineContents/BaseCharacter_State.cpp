@@ -142,7 +142,4 @@ void BaseCharacter::JumpStart()
 {
 	ChangeAnimationState("Jump");
 }
-void BaseCharacter::JumpUpdate(float _Delta)
-{
-
-}
+void BaseCharacter::JumpUpdate(float _Delta) {}
