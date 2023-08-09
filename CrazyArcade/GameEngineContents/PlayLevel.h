@@ -29,6 +29,11 @@ public:
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
 
+	const TileMap* GetGroundTile()
+	{
+		return GroundTile;
+	}
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
@@ -38,6 +43,8 @@ protected:
 
 	void MapFileLoad(const std::string& _FileName);
 	void TileSetting();
+
+	BaseCharacter* Player = nullptr;
 
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
 	class TileMap* GroundTile = nullptr;
@@ -85,11 +92,8 @@ private:
 
 	void SetUpUIEnd();
 
-
-
 private:
 	float LerpTime = 1.0f;
 
-	BaseCharacter* Player = nullptr;
 };
 
