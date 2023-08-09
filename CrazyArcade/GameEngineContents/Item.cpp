@@ -61,15 +61,22 @@ void Item::SetTexture(ItemType _Type)
 	switch (_Type)
 	{
 	case ItemType::Bubble:
+		ItemRenderer->SetTexture("Item_Bubble.bmp");
 		break;
 	case ItemType::Fluid:
-		ItemRenderer->SetTexture("Fluid.bmp");
+		ItemRenderer->SetTexture("Item_Fluid.bmp");
 		break;
 	case ItemType::Ultra:
+		ItemRenderer->SetTexture("Item_Ultra.bmp");
 		break;
 	case ItemType::Roller:
+		ItemRenderer->SetTexture("Item_Roller.bmp");
 		break;
 	case ItemType::Red_Devil:
+		ItemRenderer->SetTexture("Item_Red_Devil.bmp");
+		break;
+	case ItemType::Needle:
+		ItemRenderer->SetTexture("Item_Needle.bmp");
 		break;
 	default:
 		break;

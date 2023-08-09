@@ -48,5 +48,6 @@ enum class ItemType
 	Ultra, // 물줄기 길이 최대치 증가
 	Roller, // 이동속도 1 증가
 	Red_Devil, // 이동속도 최대치 증가
+	Needle, // 바늘
 };
 

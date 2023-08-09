@@ -42,7 +42,12 @@ void GlobalLoad::ItemTextureLoad()
 		LoadItemTexture = true;
 
 		// Item
-		GlobalUtils::TextureFileLoad("Fluid.bmp", "Resources\\Textures\\Item\\");
+		GlobalUtils::TextureFileLoad("Item_Bubble.bmp", "Resources\\Textures\\Item\\");
+		GlobalUtils::TextureFileLoad("Item_Fluid.bmp", "Resources\\Textures\\Item\\");
+		GlobalUtils::TextureFileLoad("Item_Roller.bmp", "Resources\\Textures\\Item\\");
+		GlobalUtils::TextureFileLoad("Item_Ultra.bmp", "Resources\\Textures\\Item\\");
+		GlobalUtils::TextureFileLoad("Item_Red_Devil.bmp", "Resources\\Textures\\Item\\");
+		GlobalUtils::TextureFileLoad("Item_Needle.bmp", "Resources\\Textures\\Item\\");
 
 		// Shadow
 		GlobalUtils::TextureFileLoad("ItemShadow1.bmp", "Resources\\Textures\\Item\\");

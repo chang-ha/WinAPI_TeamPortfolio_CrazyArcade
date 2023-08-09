@@ -37,8 +37,28 @@ void TestStage::Start()
 	Monster->SetPos({ GlobalValue::WinScale.Half().X + 200, GlobalValue::WinScale.Half().Y });
 
 	TestItem = CreateActor<Item>(UpdateOrder::Map);
+	TestItem->SetItemType(ItemType::Bubble);
+	TestItem->AddPos({ (40 * 7), (40 * 7) });
+
+	TestItem = CreateActor<Item>(UpdateOrder::Map);
 	TestItem->SetItemType(ItemType::Fluid);
-	TestItem->AddPos({ (40 * 13), (40 * 6) });
+	TestItem->AddPos({ (40 * 8), (40 * 7) });
+
+	TestItem = CreateActor<Item>(UpdateOrder::Map);
+	TestItem->SetItemType(ItemType::Roller);
+	TestItem->AddPos({ (40 * 9), (40 * 7) });
+
+	TestItem = CreateActor<Item>(UpdateOrder::Map);
+	TestItem->SetItemType(ItemType::Needle);
+	TestItem->AddPos({ (40 * 10), (40 * 7) });
+
+	TestItem = CreateActor<Item>(UpdateOrder::Map);
+	TestItem->SetItemType(ItemType::Ultra);
+	TestItem->AddPos({ (40 * 11), (40 * 7) });
+
+	TestItem = CreateActor<Item>(UpdateOrder::Map);
+	TestItem->SetItemType(ItemType::Red_Devil);
+	TestItem->AddPos({ (40 * 12), (40 * 7) });
 }
 
 void TestStage::Update(float _Delta)
