@@ -286,6 +286,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BaseCharacter_Bubble_State.cpp" />
     <ClCompile Include="BaseMonster.cpp">
       <SubType>
       </SubType>

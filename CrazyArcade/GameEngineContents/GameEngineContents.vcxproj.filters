@@ -103,6 +103,9 @@
     <ClCompile Include="BaseMonster.cpp">
       <Filter>Actor\Unit\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="BaseCharacter_Bubble_State.cpp">
+      <Filter>Actor\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">

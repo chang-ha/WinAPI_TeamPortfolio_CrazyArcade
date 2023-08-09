@@ -167,9 +167,9 @@ void BaseCharacter::StateUpdate(float _Delta)
 		return MoveUpdate(_Delta);
 	case CharacterState::Bubble:
 		return BubbleUpdate(_Delta);
-	/*case CharacterState::Ready:
-		break;
-	case CharacterState::FlashLong:
+	case CharacterState::Ready:
+		return ReadyUpdate(_Delta);
+	/*case CharacterState::FlashLong:
 		break;
 	case CharacterState::FlashShort:
 		break;
@@ -199,9 +199,10 @@ void BaseCharacter::ChangeState(CharacterState _State)
 		case CharacterState::Bubble:
 			BubbleStart();
 			break;
-		/*case CharacterState::Ready:
+		case CharacterState::Ready:
+			ReadyStart();
 			break;
-		case CharacterState::FlashLong:
+		/*case CharacterState::FlashLong:
 			break;
 		case CharacterState::FlashShort:
 			break;

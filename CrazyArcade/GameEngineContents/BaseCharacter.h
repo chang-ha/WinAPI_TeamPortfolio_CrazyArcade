@@ -57,9 +57,28 @@ protected:
 	void MoveStart();
 	void MoveUpdate(float _Delta);
 
+	void ReadyStart();
+	void ReadyUpdate(float _Delta);
+
+	void JumpStart();
+	void JumpUpdate(float _Delta);
+
 	void BubbleStart();
 	void BubbleUpdate(float _Delta);
 
+	void FlashLongStart();
+	void FlashLongUpdate(float _Delta);
+
+	void FlashShortStart();
+	void FlashShortUpdate(float _Delta);
+
+	void LiveStart();
+	void LiveUpdate(float _Delta);
+
+	void DieStart();
+	void DieUpdate(float _Delta);
+
+protected:
 	CharacterState State = CharacterState::Max;
 	std::string CurState = "";
 	GameEngineRenderer* MainRenderer = nullptr;

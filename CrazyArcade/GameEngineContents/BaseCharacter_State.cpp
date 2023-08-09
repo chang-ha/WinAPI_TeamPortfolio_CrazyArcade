@@ -2,12 +2,12 @@
 #include "PlayLevel.h"
 
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineRenderer.h>
 
 void BaseCharacter::IdleStart()
 {
 	ChangeAnimationState("Idle");
 }
-
 void BaseCharacter::IdleUpdate(float _Delta)
 {
 	if (true == GameEngineInput::IsDown('W') || true == GameEngineInput::IsPress('W')
@@ -25,7 +25,6 @@ void BaseCharacter::MoveStart()
 {
 	ChangeAnimationState("Move");
 }
-
 void BaseCharacter::MoveUpdate(float _Delta)
 {
 	DirCheck();
@@ -126,12 +125,24 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	}
 }
 
-void BaseCharacter::BubbleStart()
+void BaseCharacter::ReadyStart()
 {
-	ChangeAnimationState("Bubble");
+	ChangeAnimationState("Ready");
+}
+void BaseCharacter::ReadyUpdate(float _Delta)
+{
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(CharacterState::Idle);
+		return;
+	}
 }
 
-void BaseCharacter::BubbleUpdate(float _Delta)
+void BaseCharacter::JumpStart()
+{
+	ChangeAnimationState("Jump");
+}
+void BaseCharacter::JumpUpdate(float _Delta)
 {
 
 }
