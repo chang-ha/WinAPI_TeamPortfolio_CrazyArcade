@@ -59,6 +59,13 @@ private:
 	void setGameStartCallBack();
 
 	void CreatePortrait();
+	std::vector<class PlayPortrait*> vec_PlayPortrait;
+	const float4 CONST_PlayPortraitStartPos = float4{ 654.0f , 98.0f };
+	const float4 CONST_PlayPortraitNextPos = float4{ 0.0f , 43.0f };
+
+
+	void UILevelEnd();
+	void ReleaseLevelComposition();
 
 	void SetUpUIStart();
 

@@ -19,7 +19,7 @@ void UITestStage::LevelStart(GameEngineLevel* _PrevLevel)
 
 void UITestStage::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	PlayLevel::LevelEnd(_NextLevel);
 }
 
 void UITestStage::Start()
