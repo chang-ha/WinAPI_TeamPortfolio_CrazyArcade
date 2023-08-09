@@ -112,6 +112,8 @@ void Penguin::StateUpdate(float _Delta)
 	{
 	case MonsterState::Idle:
 		return IdleUpdate(_Delta);
+	case MonsterState::Die:
+		return DieUpdate(_Delta);
 	case MonsterState::Hitten:
 		return HittenUpdate(_Delta);
 	default:
@@ -125,6 +127,9 @@ void Penguin::ChangeState(MonsterState _State)
 	{
 	case MonsterState::Idle:
 		IdleStart();
+		break;
+	case MonsterState::Die:
+		DieStart();
 		break;
 	case MonsterState::Hitten:
 		HittenStart();
@@ -150,18 +155,30 @@ void Penguin::IdleUpdate(float _Delta)
 			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()));
 			if (CurTile == TileObjectOrder::PopRange)
 			{
-				ChangeState(MonsterState::Hitten);
-				break;
+				--BossHP;
+				if (0 == BossHP)
+				{
+					// ChangeState(MonsterState::Die);
+				}
+				else if (0 < BossHP)
+				{
+					ChangeState(MonsterState::Hitten);
+				}
 			}
 		}
 	}
-	//TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
-
-	//if (CurTile == TileObjectOrder::PopRange)
-	//{
-	//	ChangeState(MonsterState::Hitten);
-	//}
 }
+
+void Penguin::DieStart()
+{
+
+}
+
+void Penguin::DieUpdate(float _Delta)
+{
+	ChangeState(MonsterState::Idle);
+}
+
 
 void Penguin::HittenStart()
 {

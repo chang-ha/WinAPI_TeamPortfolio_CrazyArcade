@@ -18,6 +18,11 @@ public:
 	Penguin& operator=(const Penguin& _Other) = delete;
 	Penguin& operator=(Penguin&& _Other) noexcept = delete;
 
+	const std::vector<std::vector<float4>> GetBossTile()
+	{
+		return BossTile;
+	}
+
 protected:
 	TileMap* CurLevelTile = nullptr;
 	PlayLevel* CurPlayLevel = nullptr;
@@ -33,10 +38,14 @@ private:
 	void IdleStart();
 	void IdleUpdate(float _Delta);
 
+	void DieStart();
+	void DieUpdate(float _Delta);
+
 	void HittenStart();
 	void HittenUpdate(float _Delta);
 
 	bool IsDebugMode = false;
+	int BossHP = 6;
 	std::vector<std::vector<float4>> BossTile;
 };
 
