@@ -18,6 +18,7 @@ Kephi::~Kephi()
 
 void Kephi::Start()
 {
+	BaseCharacter::Start();
 	GlobalUtils::SpriteFileLoad("Kephi_Idle_Up.Bmp", "Resources\\Textures\\Character\\Kephi\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Idle_Down.Bmp", "Resources\\Textures\\Character\\Kephi\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Idle_Left.Bmp", "Resources\\Textures\\Character\\Kephi\\", 1, 1);

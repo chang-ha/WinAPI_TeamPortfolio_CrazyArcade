@@ -18,6 +18,7 @@ Dao::~Dao()
 
 void Dao::Start()
 {
+	BaseCharacter::Start();
 	GlobalUtils::SpriteFileLoad("Dao_Idle_Up.Bmp", "Resources\\Textures\\Character\\Dao\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Dao_Idle_Down.Bmp", "Resources\\Textures\\Character\\Dao\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Dao_Idle_Left.Bmp", "Resources\\Textures\\Character\\Dao\\", 1, 1);

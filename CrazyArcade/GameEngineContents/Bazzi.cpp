@@ -18,6 +18,7 @@ Bazzi::~Bazzi()
 
 void Bazzi::Start()
 {
+	BaseCharacter::Start();
 	GlobalUtils::SpriteFileLoad("Bazzi_Ready.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 17, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Idle_Up.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Idle_Down.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 1, 1);

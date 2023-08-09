@@ -18,6 +18,7 @@ Marid::~Marid()
 
 void Marid::Start()
 {
+	BaseCharacter::Start();
 	GlobalUtils::SpriteFileLoad("Marid_Idle_Up.Bmp", "Resources\\Textures\\Character\\Marid\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Marid_Idle_Down.Bmp", "Resources\\Textures\\Character\\Marid\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Marid_Idle_Left.Bmp", "Resources\\Textures\\Character\\Marid\\", 1, 1);

@@ -1,4 +1,5 @@
 ﻿#include "BaseCharacter.h"
+#include "GlobalUtils.h"
 #include "PlayLevel.h"
 
 #include <GameEngineBase/GameEnginePath.h>
@@ -16,6 +17,14 @@ BaseCharacter::BaseCharacter()
 
 BaseCharacter::~BaseCharacter()
 {
+}
+
+void BaseCharacter::Start()
+{
+	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Character\\", 1, 1);
+
+	ShadowRenderer = CreateRenderer("Shadow.Bmp", RenderOrder::Shadow);
+	ShadowRenderer->SetRenderPos(BOTCHECKPOS);
 }
 
 void BaseCharacter::Update(float _Delta)

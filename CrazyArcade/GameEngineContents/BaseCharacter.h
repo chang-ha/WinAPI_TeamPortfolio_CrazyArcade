@@ -82,7 +82,9 @@ protected:
 	CharacterState State = CharacterState::Max;
 	std::string CurState = "";
 	GameEngineRenderer* MainRenderer = nullptr;
+	GameEngineRenderer* ShadowRenderer = nullptr;
 
+	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
