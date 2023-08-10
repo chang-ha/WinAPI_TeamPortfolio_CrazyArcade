@@ -89,6 +89,7 @@ private:
 	void CreateGameStartPlayerSignal();
 	void CreateGameStartAnimation();
 	void setGameStartCallBack();
+	bool GameStartCheckValue = false;
 
 	void CreatePortrait();
 	std::vector<class PlayPortrait*> vec_PlayPortrait;
@@ -113,9 +114,8 @@ private:
 
 	void SetUpTimer();
 	class PlayTimer* m_PlayTimer = nullptr;
-
 	const float4 CONST_TimerLocation = float4{ 711.0f , 78.0f };
-	const float CONST_TimeSetting = 120.0f;
+	const float CONST_TimeSetting = 5.0f;
 
 
 	void SetGoBackButton();
