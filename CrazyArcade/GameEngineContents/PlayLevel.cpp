@@ -24,6 +24,7 @@
 #include "PlayTimer.h"
 #include "PlayPortrait.h"
 #include "GameStartAnimation.h"
+#include "PlayResultWindow.h"
 #include "Button.h"
 
 
@@ -43,28 +44,6 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	CurPlayLevel = this;
 
 	UILevelStart();
-}
-
-void PlayLevel::UILevelStart()
-{
-	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
-	if (-1 != CurrentStage)
-	{
-		CreateGameStartAnimation();
-
-		CreatePortrait();
-	}
-
-	if (m_FadeScreen)
-	{
-		m_FadeScreen->On();
-	}
-
-	if (m_PlayTimer)
-	{
-		m_PlayTimer->setTimer(CONST_TimeSetting);
-		m_PlayTimer->stopTimer();
-	}
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
@@ -105,6 +84,17 @@ void PlayLevel::Update(float _Delta)
 	}
 
 	ContentLevel::Update(_Delta);
+
+	// UI가 캐릭터에게 요청 : 플레이어가 죽는 것을 추적하는 변수를 넣어주세요!!
+	// 지금은 타이머 때문에 막아놨습니다.
+	if (-1 != CurrentStage)
+	{
+		if (false == GameOverCheckValue && (false == m_PlayTimer->getTimeFlowValue() && false))
+		{
+			StartGameOver();
+		}
+	}
+
 
 	// 물폭탄의 타이머를 위한 for문
 	if (AllBubbleIndex.size() > 0)
@@ -720,6 +710,29 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 // UI
 
+
+void PlayLevel::UILevelStart()
+{
+	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+	if (-1 != CurrentStage)
+	{
+		CreateGameStartAnimation();
+		CreatePortrait();
+		CreateGameResult();
+	}
+
+	if (m_FadeScreen)
+	{
+		m_FadeScreen->On();
+	}
+
+	if (m_PlayTimer)
+	{
+		m_PlayTimer->setTimer(CONST_TimeSetting);
+		m_PlayTimer->stopTimer();
+	}
+}
+
 void PlayLevel::CreateGameStartAnimation()
 {
 	GameStartAnimation* GameStartAnimationPtr = CreateActor<GameStartAnimation>(UpdateOrder::UI);
@@ -769,31 +782,30 @@ void PlayLevel::CreatePortrait()
 	}
 }
 
-void PlayLevel::UILevelEnd()
+void PlayLevel::CreateGameResult()
 {
-	if (-1 != CurrentStage)
-	{
-		ReleaseLevelComposition();
-	}
+	SetUpResultWindow();
 }
 
-void PlayLevel::ReleaseLevelComposition()
+void PlayLevel::SetUpResultWindow()
 {
-	for (int VecCount = 0; VecCount < vec_PlayPortrait.size(); VecCount++)
+	m_ResultWindow = CreateActor<PlayResultWindow>(UpdateOrder::UI);
+	if (nullptr == m_ResultWindow)
 	{
-		PlayPortrait* PlayPortraitPtr = vec_PlayPortrait[VecCount];
-		if (PlayPortraitPtr)
-		{
-			PlayPortraitPtr->Release();
-		}
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
 	}
 
-	vec_PlayPortrait.clear();
+	m_ResultWindow->SetPos(CONST_ResultWindowStartPos);
+	m_ResultWindow->initResultWindow();
+
+	VecPlayerResult.resize(CurrentStage);
 }
+
 
 void PlayLevel::CreateUIElements()
 {
-	if (-1 == CurrentStage)
+	if (CurrentStage < 1 || CurrentStage > 3)
 	{
 		MsgBoxAssert("CurrentStage로 스테이지 UI를 만들 수 없습니다.");
 		return;
@@ -884,4 +896,52 @@ void PlayLevel::SetGoBackButton()
 void PlayLevel::clickGoBackButton()
 {
 	FadeObject::CallFadeOut(this, "RoomLevel", GlobalValue::g_ChangeLevelFadeSpeed);
+}
+
+
+void PlayLevel::StartGameOver()
+{
+	if (nullptr == m_ResultWindow)
+	{
+		MsgBoxAssert("액터를 생성하지 않았습니다.");
+		return;
+	}
+
+	m_ResultWindow->OnResultWindow(VecPlayerResult);
+
+	GameOverCheckValue = true;
+}
+
+
+void PlayLevel::UILevelEnd()
+{
+	if (-1 != CurrentStage)
+	{
+		ReleaseLevelComposition();
+		ReleaseResultWindow();
+	}
+}
+
+void PlayLevel::ReleaseLevelComposition()
+{
+	for (int VecCount = 0; VecCount < vec_PlayPortrait.size(); VecCount++)
+	{
+		PlayPortrait* PlayPortraitPtr = vec_PlayPortrait[VecCount];
+		if (PlayPortraitPtr)
+		{
+			PlayPortraitPtr->ActorRelease();
+		}
+	}
+
+	vec_PlayPortrait.clear();
+}
+
+void PlayLevel::ReleaseResultWindow()
+{
+	if (m_ResultWindow)
+	{
+		m_ResultWindow->ActorRelease();
+		m_ResultWindow = nullptr;
+	}
+
 }

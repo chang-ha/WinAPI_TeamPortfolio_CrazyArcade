@@ -122,7 +122,7 @@ void PlayCharacterPortrait::changeState(PlayPortraitState _State)
 	}
 }
 
-void PlayCharacterPortrait::Release()
+void PlayCharacterPortrait::ActorRelease()
 {
 	Death();
 	if (Renderer)

@@ -32,5 +32,8 @@ enum class MonsterState
 	Anger,
 	Die,
 	// Boss State
-	Hitten
+	Hitten,
+	Summon,
+	Die_Ready,
+	Die_Bubble,
 };

@@ -78,7 +78,7 @@ void StageStartActor::updateDownState(float _Delta)
 }
 
 
-void StageStartActor::Release()
+void StageStartActor::ActorRelease()
 {
 	Death();
 	if (Renderer)

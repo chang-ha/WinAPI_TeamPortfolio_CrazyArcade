@@ -26,7 +26,7 @@ public:
 	StageStartActor& operator=(const StageStartActor& _Other) = delete;
 	StageStartActor& operator=(StageStartActor&& _Other) noexcept = delete;
 
-	void Release();
+	void ActorRelease();
 
 	void setTexture(const std::string& _FileName);
 	void setState(StringAniState _State)

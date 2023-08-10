@@ -30,7 +30,7 @@ public:
 		}
 	}
 
-	void Release();
+	void ActorRelease();
 
 protected:
 
