@@ -20,7 +20,7 @@ void BaseMonster::Start()
 {
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
 	ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
-	ShadowRenderer->SetRenderPos(BOTCHECKPOS);
+	ShadowRenderer->SetRenderPos(BOTPOS);
 }
 
 void BaseMonster::Update(float _Delta)
@@ -56,19 +56,19 @@ void BaseMonster::Render(float _Delta)
 	{
 		CollisionData Data;
 
-		Data.Pos = GetPos() + float4 TOPCHECKPOS;
+		Data.Pos = GetPos() + float4 TOPPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
-		Data.Pos = GetPos() + float4 BOTCHECKPOS;
+		Data.Pos = GetPos() + float4 BOTPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
-		Data.Pos = GetPos() + float4 LEFTCHECKPOS;
+		Data.Pos = GetPos() + float4 LEFTPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
-		Data.Pos = GetPos() + float4 RIGHTCHECKPOS;
+		Data.Pos = GetPos() + float4 RIGHTPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 	}
@@ -158,25 +158,25 @@ void BaseMonster::MoveUpdate(float _Delta)
 	if (Dir == ActorDir::Down)
 	{
 		MovePos = { 0.0f, Speed * _Delta };
-		CheckPos = BOTCHECKPOS;
+		CheckPos = BOTPOS;
 	}
 
 	if (Dir == ActorDir::Up)
 	{
 		MovePos = { 0.0f, -Speed * _Delta };
-		CheckPos = TOPCHECKPOS;
+		CheckPos = TOPPOS;
 	}
 
 	if (Dir == ActorDir::Left)
 	{
 		MovePos = { -Speed * _Delta, 0.0f };
-		CheckPos = LEFTCHECKPOS;
+		CheckPos = LEFTPOS;
 	}
 
 	if (Dir == ActorDir::Right)
 	{
 		MovePos = { Speed * _Delta, 0.0f };
-		CheckPos = RIGHTCHECKPOS;
+		CheckPos = RIGHTPOS;
 	}
 
 	CheckPos += GetPos();
