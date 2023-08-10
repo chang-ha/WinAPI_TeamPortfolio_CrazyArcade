@@ -126,8 +126,6 @@ private:
 private:
 	bool GameOverCheckValue = false;
 	void StartGameOver();
-	void UpdateGameOver();
-
 
 private:
 	float LerpTime = 1.0f;

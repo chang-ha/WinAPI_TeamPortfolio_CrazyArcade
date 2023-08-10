@@ -86,6 +86,7 @@ void PlayLevel::Update(float _Delta)
 	ContentLevel::Update(_Delta);
 
 	// UI가 캐릭터에게 요청 : 플레이어가 죽는 것을 추적하는 변수를 넣어주세요!!
+	// 지금은 타이머 때문에 막아놨습니다.
 	if (-1 != CurrentStage)
 	{
 		if (false == GameOverCheckValue && (false == m_PlayTimer->getTimeFlowValue() && false))
@@ -802,40 +803,6 @@ void PlayLevel::SetUpResultWindow()
 }
 
 
-void PlayLevel::UILevelEnd()
-{
-	if (-1 != CurrentStage)
-	{
-		ReleaseLevelComposition();
-		ReleaseResultWindow();
-	}
-}
-
-void PlayLevel::ReleaseLevelComposition()
-{
-	for (int VecCount = 0; VecCount < vec_PlayPortrait.size(); VecCount++)
-	{
-		PlayPortrait* PlayPortraitPtr = vec_PlayPortrait[VecCount];
-		if (PlayPortraitPtr)
-		{
-			PlayPortraitPtr->ActorRelease();
-		}
-	}
-
-	vec_PlayPortrait.clear();
-}
-
-void PlayLevel::ReleaseResultWindow()
-{
-	if (m_ResultWindow)
-	{
-		m_ResultWindow->ActorRelease();
-		m_ResultWindow = nullptr;
-	}
-	
-}
-
-
 void PlayLevel::CreateUIElements()
 {
 	if (CurrentStage < 1 || CurrentStage > 3)
@@ -941,4 +908,40 @@ void PlayLevel::StartGameOver()
 	}
 
 	m_ResultWindow->OnResultWindow(VecPlayerResult);
+
+	GameOverCheckValue = true;
+}
+
+
+void PlayLevel::UILevelEnd()
+{
+	if (-1 != CurrentStage)
+	{
+		ReleaseLevelComposition();
+		ReleaseResultWindow();
+	}
+}
+
+void PlayLevel::ReleaseLevelComposition()
+{
+	for (int VecCount = 0; VecCount < vec_PlayPortrait.size(); VecCount++)
+	{
+		PlayPortrait* PlayPortraitPtr = vec_PlayPortrait[VecCount];
+		if (PlayPortraitPtr)
+		{
+			PlayPortraitPtr->ActorRelease();
+		}
+	}
+
+	vec_PlayPortrait.clear();
+}
+
+void PlayLevel::ReleaseResultWindow()
+{
+	if (m_ResultWindow)
+	{
+		m_ResultWindow->ActorRelease();
+		m_ResultWindow = nullptr;
+	}
+
 }
