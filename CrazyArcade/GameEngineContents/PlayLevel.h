@@ -58,7 +58,8 @@ protected:
 	// Item
 	void ItemSetting();
 	void CreateItem(int _X, int _Y);
-	
+	bool ItemDebugValue = false;
+
 	std::vector<std::vector<class Item*>> Items;
 	class Item* ItemActor = nullptr;
 

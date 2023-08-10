@@ -26,8 +26,7 @@ enum class RenderOrder
 
 enum class CollisionOrder
 {
-	PlayerBody
-	Character,
+	PlayerBody,
 	Item
 };
 

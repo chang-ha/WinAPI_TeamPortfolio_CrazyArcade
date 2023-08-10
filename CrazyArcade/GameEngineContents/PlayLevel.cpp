@@ -168,6 +168,29 @@ void PlayLevel::Update(float _Delta)
 			}
 		}
 	}
+
+	if (true == GameEngineInput::IsDown('I'))
+	{
+		ItemDebugValue = !ItemDebugValue;
+		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+		{
+			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+			{
+				
+				if (nullptr != Items[Y][X])
+				{
+					if (true == ItemDebugValue)
+					{
+						Items[Y][X]->On();
+					}
+					else
+					{
+						Items[Y][X]->Off();
+					}
+				}
+			}
+		}
+	}
 }
 
 void PlayLevel::Render(float _Delta)
@@ -258,9 +281,13 @@ void PlayLevel::ItemSetting()
 	{
 		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 		{
-			if (static_cast<int>(TileInfo[Y][X].MapInfo) >= 2)
+			int TileInfoInt = static_cast<int>(TileInfo[Y][X].MapInfo);
+
+			// ImmovableBlock, MovableBlock일 때 아이템 생성
+			if (TileInfoInt == 2 ||
+				TileInfoInt == 3)
 			{
-				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2); // 33% 확률로 아이템 생성
+				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2); // 33.3% 확률로 아이템 생성
 				if (0 == RandomNumber)
 				{
 					CreateItem(X, Y);
@@ -281,15 +308,14 @@ void PlayLevel::CreateItem(int _X, int _Y)
 	// 5 : Needle -> 블럭에서 안나옴
 	
 	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 3); 
-
 	if (RandomNumber == 0)
 	{
-		// 25% 확률로 Ultra, Red_Devil 생성
+		// 25% 확률로 Ultra, Red_Devil 중 하나 생성
 		RandomNumber = GameEngineRandom::MainRandom.RandomInt(3, 4);
 	}
 	else
 	{
-		// 75% 확률로 Bubble, Fluid, Roller 생성
+		// 75% 확률로 Bubble, Fluid, Roller 중 하나 생성
 		RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2);
 	}
 
@@ -616,6 +642,12 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		{
 			SideBubblePop(X, Y, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f);
 		}
+
+		if (nullptr != Items[Y][X])
+		{
+			Items[Y][X]->Death();
+			Items[Y][X] = nullptr;
+		}
 	}
 
 	//오른쪽 타일--------------------------------------------------------------
@@ -647,6 +679,12 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		else
 		{
 			SideBubblePop(X, Y, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f);
+		}
+
+		if (nullptr != Items[Y][X])
+		{
+			Items[Y][X]->Death();
+			Items[Y][X] = nullptr;
 		}
 	}
 
@@ -680,6 +718,12 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		{
 			SideBubblePop(X, Y, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f);
 		}
+
+		if (nullptr != Items[Y][X])
+		{
+			Items[Y][X]->Death();
+			Items[Y][X] = nullptr;
+		}
 	}
 
 	//아래쪽 타일--------------------------------------------------------------
@@ -711,6 +755,12 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		else
 		{
 			SideBubblePop(X, Y, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f);
+		}
+
+		if (nullptr != Items[Y][X])
+		{
+			Items[Y][X]->Death();
+			Items[Y][X] = nullptr;
 		}
 	}
 }

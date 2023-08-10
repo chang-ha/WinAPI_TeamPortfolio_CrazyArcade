@@ -30,21 +30,19 @@ void Item::Start()
 
 	// Item Collision
 	ItemCollision = CreateCollision(CollisionOrder::Item);
-	ItemCollision->SetCollisionType(CollisionType::Point);
-
+	ItemCollision->SetCollisionType(CollisionType::Rect);
+	ItemCollision->SetCollisionScale({1, 1});
 	ItemPosInit();
 }
 
 void Item::Update(float _Delta)
 {
 	std::vector<GameEngineCollision*> Col;
-	if (true == ItemCollision->Collision(CollisionOrder::Character, 
+	if (true == ItemCollision->Collision(CollisionOrder::PlayerBody,
 		Col,
 		CollisionType::Rect,
-		CollisionType::Point))
+		CollisionType::Rect))
 	{
-		ItemRenderer->Off();
-		ShadowRenderer->Off();
 		Death();
 		return;
 	}
