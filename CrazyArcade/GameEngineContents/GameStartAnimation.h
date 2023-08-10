@@ -108,6 +108,6 @@ private:
 	bool GameStartCallValue = false;
 
 
-	void Release();
+	void ActorRelease();
 };
 

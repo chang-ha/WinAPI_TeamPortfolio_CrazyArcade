@@ -23,6 +23,7 @@
 #include "PlayTimer.h"
 #include "PlayPortrait.h"
 #include "GameStartAnimation.h"
+#include "PlayResultWindow.h"
 #include "Button.h"
 
 
@@ -50,8 +51,8 @@ void PlayLevel::UILevelStart()
 	if (-1 != CurrentStage)
 	{
 		CreateGameStartAnimation();
-
 		CreatePortrait();
+		SetUpGameEnd();
 	}
 
 	if (m_FadeScreen)
@@ -763,6 +764,25 @@ void PlayLevel::CreatePortrait()
 	}
 }
 
+void PlayLevel::SetUpGameEnd()
+{
+	SetUpResultWindow();
+}
+
+void PlayLevel::SetUpResultWindow()
+{
+	m_ResultWindow = CreateActor<PlayResultWindow>(UpdateOrder::UI);
+	if (nullptr == m_ResultWindow)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_ResultWindow->SetPos(CONST_ResultWindowStartPos);
+	m_ResultWindow->initResultWindow();
+}
+
+
 void PlayLevel::UILevelEnd()
 {
 	if (-1 != CurrentStage)
@@ -778,7 +798,7 @@ void PlayLevel::ReleaseLevelComposition()
 		PlayPortrait* PlayPortraitPtr = vec_PlayPortrait[VecCount];
 		if (PlayPortraitPtr)
 		{
-			PlayPortraitPtr->Release();
+			PlayPortraitPtr->ActorRelease();
 		}
 	}
 
@@ -787,7 +807,7 @@ void PlayLevel::ReleaseLevelComposition()
 
 void PlayLevel::CreateUIElements()
 {
-	if (-1 == CurrentStage)
+	if (CurrentStage < 1 || CurrentStage > 3)
 	{
 		MsgBoxAssert("CurrentStage로 스테이지 UI를 만들 수 없습니다.");
 		return;

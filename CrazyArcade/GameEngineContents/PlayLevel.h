@@ -62,6 +62,8 @@ protected:
 private:
 	void UILevelStart();
 
+	void CreateBossImage();
+	void CreateGameStartPlayerSignal();
 	void CreateGameStartAnimation();
 	void setGameStartCallBack();
 
@@ -97,7 +99,14 @@ private:
 	const float4 CONST_GoBackButtonStartPos = float4{ 647.0f , 561.0f };
 	void clickGoBackButton();
 
-	void SetUpUIEnd();
+	void SetUpGameEnd();
+
+	void SetUpResultWindow();
+	class PlayResultWindow* m_ResultWindow = nullptr;
+	const float4 CONST_ResultWindowStartPos = float4{ 39.0f , 138.0f };
+
+	void SetUpResulutBoardAnimation();
+
 
 private:
 	float LerpTime = 1.0f;

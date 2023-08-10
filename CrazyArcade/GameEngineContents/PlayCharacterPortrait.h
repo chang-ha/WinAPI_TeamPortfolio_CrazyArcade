@@ -40,7 +40,7 @@ public:
 
 	void changeState(PlayPortraitState _State);
 
-	void Release();
+	void ActorRelease();
 
 protected:
 

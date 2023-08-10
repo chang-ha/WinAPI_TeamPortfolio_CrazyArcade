@@ -38,6 +38,7 @@ void CommonTexture::loadTexture(const std::string& _FileName, const std::string&
 	}
 
 	m_TextureScale = Texture->GetScale();
+	m_Scale = m_TextureScale;
 }
 
 void CommonTexture::setTexture(const std::string& _FileName)
@@ -105,7 +106,7 @@ void CommonTexture::setRendererCopyAndRenderScale(int _XBoxNumber, int _YBoxNumb
 }
 
 
-void CommonTexture::Release()
+void CommonTexture::ActorRelease()
 {
 	Death();
 	if (Renderer)
