@@ -169,6 +169,7 @@ void PlayLevel::Update(float _Delta)
 		}
 	}
 
+	// Item Debug
 	if (true == GameEngineInput::IsDown('I'))
 	{
 		ItemDebugValue = !ItemDebugValue;
