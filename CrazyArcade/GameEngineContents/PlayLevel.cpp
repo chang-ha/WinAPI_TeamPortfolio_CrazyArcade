@@ -93,6 +93,16 @@ void PlayLevel::Update(float _Delta)
 			{
 				StartGameOver();
 			}
+
+			if (true == GameEngineInput::IsPress('6'))
+			{
+				for (int PlayerCount = 0; PlayerCount < GlobalValue::g_ActiveRoomCount; PlayerCount++)
+				{
+					VecPlayerResult[PlayerCount].PlayerWinValue = true;
+				}
+
+				StartGameOver();
+			}
 		}
 	}
 

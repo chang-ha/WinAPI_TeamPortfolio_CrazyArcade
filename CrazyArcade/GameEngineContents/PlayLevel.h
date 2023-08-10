@@ -9,7 +9,7 @@ struct PlayerResult
 public:
 	int KillNUmber = 0;
 	int SaveNUmber = 0;
-	bool WinOrLoseValue = false;
+	bool PlayerWinValue = false;
 };
 
 class BaseCharacter;
@@ -107,7 +107,7 @@ private:
 	void SetUpTimer();
 	class PlayTimer* m_PlayTimer = nullptr;
 	const float4 CONST_TimerLocation = float4{ 711.0f , 78.0f };
-	const float CONST_TimeSetting = 5.0f;
+	const float CONST_TimeSetting = 120.0f;
 
 
 	void SetGoBackButton();
