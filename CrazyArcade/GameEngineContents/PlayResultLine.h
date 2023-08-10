@@ -26,6 +26,8 @@ public:
 
 	void ActorRelease();
 
+	void onResultLine();
+
 
 protected:
 

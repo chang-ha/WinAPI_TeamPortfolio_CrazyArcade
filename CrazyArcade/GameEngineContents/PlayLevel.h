@@ -3,6 +3,15 @@
 #include <vector>
 #include <list>
 
+
+struct PlayerResult
+{
+public:
+	int KillNUmber = 0;
+	int SaveNUmber = 0;
+	bool WinOrLoseValue = false;
+};
+
 class BaseCharacter;
 class PlayLevel : public ContentLevel
 {
@@ -55,6 +64,10 @@ protected:
 	std::list<class GameMapIndex> AllBubbleIndex;
 	std::list<class GameMapIndex> AllBubbleDeathIndex;
 
+	// 각 플레이어별 몬스터를 죽인 횟수, 아군을 구한 횟수, 승패 판정을 아래의 벡터에 넣어주세요
+	// 벡터 생성은 UI에서 했습니다.
+	// 배열의 순서는 플레이어 오름차순으로 입니다.
+	std::vector<PlayerResult> VecPlayerResult;
 
 	// UI
 	int CurrentStage = -1;
@@ -77,6 +90,7 @@ private:
 
 	void UILevelEnd();
 	void ReleaseLevelComposition();
+	void ReleaseResultWindow();
 
 	void SetUpUIStart();
 
@@ -101,13 +115,18 @@ private:
 	const float4 CONST_GoBackButtonStartPos = float4{ 647.0f , 561.0f };
 	void clickGoBackButton();
 
-	void SetUpGameEnd();
+	void CreateGameResult();
 
 	void SetUpResultWindow();
 	class PlayResultWindow* m_ResultWindow = nullptr;
 	const float4 CONST_ResultWindowStartPos = float4{ 39.0f , 138.0f };
 
 	void SetUpResulutBoardAnimation();
+
+private:
+	bool GameOverCheckValue = false;
+	void StartGameOver();
+	void UpdateGameOver();
 
 
 private:

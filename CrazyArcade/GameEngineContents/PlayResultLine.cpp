@@ -68,6 +68,7 @@ void PlayResultLine::setupLineBack()
 
 	LineBack->SetPos(LinePos);
 	LineBack->setRendererOrder(6);
+	LineBack->Off();
 
 	ResultLine.Back = LineBack;
 }
@@ -98,6 +99,7 @@ void PlayResultLine::setupLineNubmer()
 
 	LineNumber->SetPos(LinePos);
 	LineNumber->setRendererOrder(7);
+	LineNumber->Off();
 
 	ResultLine.LineNumber = LineNumber;
 }
@@ -127,6 +129,7 @@ void PlayResultLine::setupWinOrLose()
 
 	LineWinOrLose->SetPos(WinOrLosePos);
 	LineWinOrLose->setRendererOrder(7);
+	LineWinOrLose->Off();
 
 	ResultLine.PlayerWinOrLose = LineWinOrLose;
 
@@ -171,6 +174,7 @@ void PlayResultLine::setupLineRank()
 
 	LineRank->SetPos(PlayerRankPos);
 	LineRank->setRendererOrder(7);
+	LineRank->Off();
 
 	ResultLine.PlayerRank = LineRank;
 
@@ -242,6 +246,7 @@ void PlayResultLine::setupPlayerID()
 
 	PlayerName->SetPos(PlayerIdPos);
 	PlayerName->setRendererOrder(7);
+	PlayerName->Off();
 
 	ResultLine.PlayerID = PlayerName;
 }
@@ -276,6 +281,7 @@ void PlayResultLine::setupKillNumber()
 
 		KillNumber->SetPos(NumberPos);
 		KillNumber->setRendererOrder(7);
+		KillNumber->Off();
 
 		ResultLine.KillNumber[NumberCount] = KillNumber;
 	}
@@ -346,6 +352,7 @@ void PlayResultLine::setupSaveNumber()
 
 		SaveNumber->SetPos(NumberPos);
 		SaveNumber->setRendererOrder(7);
+		SaveNumber->Off();
 
 		ResultLine.SaveNumber[NumberCount] = SaveNumber;
 	}
@@ -409,6 +416,7 @@ void PlayResultLine::setupExp()
 
 	Exp->SetPos(ExpPanelPos);
 	Exp->setRendererOrder(7);
+	Exp->Off();
 
 	ResultLine.Exp = Exp;
 }
@@ -437,10 +445,59 @@ void PlayResultLine::setupLevelUp()
 
 	LevelUp->SetPos(LevelUpPos);
 	LevelUp->setRendererOrder(7);
+	LevelUp->Off();
 
 	ResultLine.LevelUp = LevelUp;
 }
 
+void PlayResultLine::onResultLine()
+{
+	if (ResultLine.Back)
+	{
+		ResultLine.Back->On();
+	}
+
+	if (ResultLine.PlayerWinOrLose)
+	{
+		ResultLine.PlayerWinOrLose->On();
+	}
+
+	if (ResultLine.PlayerRank)
+	{
+		ResultLine.PlayerRank->On();
+	}
+
+	if (ResultLine.PlayerID)
+	{
+		ResultLine.PlayerID->On();
+	}
+
+	for (int NumberCount = 0; NumberCount < m_KillNumberSlot; NumberCount++)
+	{
+		if (ResultLine.KillNumber[NumberCount])
+		{
+			ResultLine.KillNumber[NumberCount]->On();
+		}
+	}
+
+	for (int NumberCount = 0; NumberCount < m_SaveNumberSlot; NumberCount++)
+	{
+		if (ResultLine.SaveNumber[NumberCount])
+		{
+			ResultLine.SaveNumber[NumberCount]->On();
+		}
+	}
+
+	if (ResultLine.Exp)
+	{
+		ResultLine.Exp->On();
+	}
+
+	if (ResultLine.LevelUp)
+	{
+		ResultLine.LevelUp->On();
+	}
+}
 
 void PlayResultLine::Update(float _Delta)
 {

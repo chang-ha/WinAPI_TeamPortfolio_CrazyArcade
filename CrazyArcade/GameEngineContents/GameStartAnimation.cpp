@@ -358,3 +358,9 @@ void GameStartAnimation::ActorRelease()
 
 	Death();
 }
+
+
+void GameStartAnimation::LevelEnd()
+{
+	ActorRelease();
+}

@@ -70,6 +70,8 @@ void PlayResultWindow::setupFadeWindow()
 	}
 
 	ResultWinRenderer->SetAlpha(CONST_FadeWindowAlpha);
+
+	m_ResultFadeWindow->Off();
 }
 
 
@@ -96,7 +98,9 @@ void PlayResultWindow::setupResultSummary()
 	float4 ResultSummaryPos = GetPos() + CONST_ResultSummaryStartPos + ResultSummaryScale.Half();
 
 	m_ResultSummary->SetPos(ResultSummaryPos);
-	m_ResultFadeWindow->setRendererOrder(6);
+	m_ResultSummary->setRendererOrder(6);
+
+	m_ResultSummary->Off();
 }
 
 
@@ -130,6 +134,36 @@ void PlayResultWindow::setupResultLine()
 	}
 }
 
+void PlayResultWindow::OnResultWindow(const std::vector<PlayerResult>& _VecResult)
+{
+	if (m_ResultSummary)
+	{
+		m_ResultSummary->On();
+	}
+
+	if (m_ResultFadeWindow)
+	{
+		m_ResultFadeWindow->On();
+	}
+
+	for (int vecCount = 0; vecCount < vecPlayResultLine.size(); vecCount++)
+	{
+		PlayResultLine* LinePtr = vecPlayResultLine[vecCount];
+		if (nullptr == LinePtr)
+		{
+			MsgBoxAssert("벡터 인수를 확인해주세요.");
+			return;
+		}
+
+		LinePtr->onResultLine();
+		
+		LinePtr->changePlayerMatchValue(_VecResult[vecCount].WinOrLoseValue);
+		LinePtr->changeKillNumber(_VecResult[vecCount].KillNUmber);
+		LinePtr->changeSaveNumber(_VecResult[vecCount].SaveNUmber);
+	}
+}
+
+
 void PlayResultWindow::Update(float _Delta)
 {
 
@@ -140,13 +174,13 @@ void PlayResultWindow::ActorRelease()
 {
 	if (m_ResultFadeWindow)
 	{
-		//m_ResultFadeWindow->ActorRelease();
+		m_ResultFadeWindow->ActorRelease();
 		m_ResultFadeWindow = nullptr;
 	}
 
 	if (m_ResultSummary)
 	{
-		//m_ResultSummary->ActorRelease();
+		m_ResultSummary->ActorRelease();
 		m_ResultSummary = nullptr;
 	}
 
@@ -155,7 +189,7 @@ void PlayResultWindow::ActorRelease()
 		PlayResultLine* PlayResultLinePtr = vecPlayResultLine[LineCount];
 		if (PlayResultLinePtr)
 		{
-			//PlayResultLinePtr->ActorRelease();
+			PlayResultLinePtr->ActorRelease();
 		}
 	}
 
