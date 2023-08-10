@@ -29,10 +29,8 @@ enum class MonsterState
 	Ready,
 	Freeze,
 	Melt,
-	Die,
-
-	// Boss State
-	Hitten,
 	Anger,
-	Die
+	Die,
+	// Boss State
+	Hitten
 };

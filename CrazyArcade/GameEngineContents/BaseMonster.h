@@ -24,6 +24,7 @@ public:
 protected:
 	virtual void StateUpdate(float _Delta);
 	virtual void ChangeState(MonsterState _State);
+	virtual void ChangeAnimationState(const std::string& _StateName);
 
 	void IdleStart();
 	void IdleUpdate(float _Delta);
