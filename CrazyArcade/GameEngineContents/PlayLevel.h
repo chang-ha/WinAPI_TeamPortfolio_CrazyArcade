@@ -47,6 +47,8 @@ protected:
 	// Item
 	void ItemSetting();
 	void CreateItem(int _X, int _Y);
+	
+	std::vector<std::vector<class Item*>> Items;
 	class Item* ItemActor = nullptr;
 
 	BaseCharacter* Player = nullptr;

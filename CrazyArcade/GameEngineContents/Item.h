@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include "ContentsEnum.h"
+#include "GlobalValue.h"
 class Item : public GameEngineActor
 {
 public:
@@ -41,14 +42,14 @@ public:
 		SetTexture(Type);
 	}
 
-	inline void SetTileIndex(float4 _TileIndex)
-	{
-		TileIndex = _TileIndex;
-	}
-
 	inline void SetTileInfo(TileObjectOrder _Info)
 	{
 		TileInfo = _Info;
+	}
+
+	inline void ItemPosInit()
+	{
+		SetPos(GlobalValue::ItemPosNormalize + GlobalValue::TileStartPos);
 	}
 
 protected:
@@ -62,7 +63,6 @@ private:
 
 	// Item 상태변수
 	ItemType Type;
-	float4 TileIndex = float4::ZERO;
 	TileObjectOrder TileInfo = TileObjectOrder::Empty;
 
 

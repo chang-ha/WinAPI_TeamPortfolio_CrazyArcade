@@ -32,8 +32,7 @@ void Item::Start()
 	ItemCollision = CreateCollision(CollisionOrder::Item);
 	ItemCollision->SetCollisionType(CollisionType::Point);
 
-	// 
-	SetPos(GlobalValue::ItemPosNormalize + GlobalValue::TileStartPos);
+	ItemPosInit();
 }
 
 void Item::Update(float _Delta)
@@ -83,11 +82,11 @@ void Item::SetTexture(ItemType _Type)
 	case ItemType::Fluid:
 		ItemRenderer->SetTexture("Item_Fluid.bmp");
 		break;
-	case ItemType::Ultra:
-		ItemRenderer->SetTexture("Item_Ultra.bmp");
-		break;
 	case ItemType::Roller:
 		ItemRenderer->SetTexture("Item_Roller.bmp");
+		break;
+	case ItemType::Ultra:
+		ItemRenderer->SetTexture("Item_Ultra.bmp");
 		break;
 	case ItemType::Red_Devil:
 		ItemRenderer->SetTexture("Item_Red_Devil.bmp");

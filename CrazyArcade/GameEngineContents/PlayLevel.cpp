@@ -90,6 +90,9 @@ void PlayLevel::Start()
 	// TileInfo Initialize
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
+	// Item Initialize
+	Items.assign(GlobalValue::MapTileIndex_Y, (std::vector<Item*>(GlobalValue::MapTileIndex_X, nullptr)));
+
 	// Create Character 
 	Player = CreateActor<Dao>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
@@ -262,7 +265,7 @@ void PlayLevel::ItemSetting()
 		{
 			if (static_cast<int>(TileInfo[Y][X].MapInfo) >= 2)
 			{
-				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 1);
+				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2); // 33% 확률로 아이템 생성
 				if (0 == RandomNumber)
 				{
 					CreateItem(X, Y);
@@ -274,11 +277,32 @@ void PlayLevel::ItemSetting()
 
 void PlayLevel::CreateItem(int _X, int _Y)
 {
-	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 5);
+	// < 아이템 번호 >
+	// 0 : Bubble
+	// 1 : Fluid
+	// 2 : Roller
+	// 3 : Ultra
+	// 4 : Red_Devil
+	// 5 : Needle -> 블럭에서 안나옴
+	
+	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 3); 
+
+	if (RandomNumber == 0)
+	{
+		// 25% 확률로 Ultra, Red_Devil 생성
+		RandomNumber = GameEngineRandom::MainRandom.RandomInt(3, 4);
+	}
+	else
+	{
+		// 75% 확률로 Bubble, Fluid, Roller 생성
+		RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2);
+	}
 
 	ItemActor = CreateActor<Item>(UpdateOrder::Map);
 	ItemActor->SetItemTypeInt(RandomNumber);
 	ItemActor->AddPos({GlobalValue::MapTileSize.X * _X, GlobalValue::MapTileSize.Y * _Y });
+	ItemActor->Off();
+	Items[_Y][_X] = ItemActor;
 	ItemActor = nullptr;
 }
 
@@ -416,7 +440,7 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 
 	ActorDir PlayerDir = Player->GetDir();
 	MOVEDIR LerpDir = MOVEDIR::NONE;
-
+	float4 ItemMoveDir = float4::ZERO;
 	int NewX = _X;
 	int NewY = _Y;
 
@@ -424,18 +448,22 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 	{
 	case ActorDir::Left:
 		LerpDir = MOVEDIR::LEFT;
+		ItemMoveDir = float4::LEFT;
 		--NewX;
 		break;
 	case ActorDir::Right:
 		LerpDir = MOVEDIR::RIGHT;
+		ItemMoveDir = float4::RIGHT;
 		++NewX;
 		break;
 	case ActorDir::Up:
 		LerpDir = MOVEDIR::UP;
+		ItemMoveDir = float4::UP;
 		--NewY;
 		break;
 	case ActorDir::Down:
 		LerpDir = MOVEDIR::DOWN;
+		ItemMoveDir = float4::DOWN;
 		++NewY;
 		break;
 	default:
@@ -454,12 +482,28 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 			return;
 		}
 
-
+		// TileInfo 수정
 		GameMapInfo Temp = TileInfo[_Y][_X];
 		TileInfo[_Y][_X] = TileInfo[NewY][NewX];
 		TileInfo[NewY][NewX] = Temp;
+
+		//MoveCheck = ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::MapTileSize - GlobalValue::TileStartPos);
 		MoveCheck = ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
 		TileInfo[NewY][NewX].LerpTimer = 0.0f;
+
+		// Item 수정
+		if (nullptr != Items[_Y][_X])
+		{
+			if (nullptr != Items[NewY][NewX])
+			{
+				Items[NewY][NewX]->Death();
+				Items[NewY][NewX] = nullptr;
+			}
+
+			Items[NewY][NewX] = Items[_Y][_X];
+			Items[NewY][NewX]->AddPos(GlobalValue::MapTileSize * ItemMoveDir);
+			Items[_Y][_X] = nullptr;
+		}
 	}
 }
 
@@ -708,8 +752,12 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 		TileRenderer->CreateAnimation("Pop_Tile", "Pop_Tile.Bmp", 0, 3, 0.1f, false);
 	}
 	TileRenderer->ChangeAnimation("Pop_Tile");
-
 	AllBubbleDeathIndex.push_back({ _X, _Y });
+	
+	if (nullptr != Items[_Y][_X])
+	{
+		Items[_Y][_X]->On();
+	}
 }
 
 // 물풍선 상하좌우 타일 변경 함수
