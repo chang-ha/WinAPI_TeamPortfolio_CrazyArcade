@@ -56,7 +56,7 @@ void Penguin::Start()
 
 	MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, ANIMATION_SPEED, true);
 	MainRenderer->ChangeAnimation("Down_Idle");
-	MainRenderer->SetRenderPos({0, -60});
+	MainRenderer->SetRenderPos({0, -70});
 
 	// BossTile Vector resize
 	BossTile.resize(2);
@@ -80,25 +80,32 @@ void Penguin::Update(float _Delta)
 
 	// BossTile Update
 	CurLevelTile = CurPlayLevel->GetGroundTile();
-	float4 CurPos = GetPos();
+	float4 CurPos = GetPos() - GlobalValue::TileStartPos;
 	float4 Index = CurLevelTile->PosToIndex(CurPos);
 
 	for (int Y = 0; Y < BossTile.size(); Y++)
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			BossTile[Y][X] = float4{ Index.X - 1 + X, Index.Y + Y};
+			float4 Value;
+			Value.X = static_cast<float>(Index.iX() + X - 1);
+			Value.Y = static_cast<float>(Index.iY() + Y);
+			BossTile[Y][X] = Value;
 		}
 	}
 
-	// 바로 아래 물풍선 터지게하려는데 버그있음
-	//for (int Y = 0; Y < BossTile.size(); Y++)
-	//{
-	//	for (int X = 0; X < BossTile[Y].size(); X++)
-	//	{
-	//		CurPlayLevel->TileInfo[BossTile[Y][X].iY() - 1][BossTile[Y][X].iX() - 1].Timer = 2.0f;
-	//	}
-	//}
+	for (int Y = 0; Y < BossTile.size(); Y++)
+	{
+		for (int X = 0; X < BossTile[Y].size(); X++)
+		{
+			int Index_X = BossTile[Y][X].iX();
+			int Index_Y = BossTile[Y][X].iY();
+			if (CurPlayLevel->TileInfo[Index_Y][Index_X].MapInfo == TileObjectOrder::Bubble)
+			{
+				CurPlayLevel->BubblePop(Index_X , Index_Y);
+			}
+		}
+	}
 
 	HitJudgement();
 
@@ -121,7 +128,7 @@ void Penguin::Render(float _Delta)
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			Data.Pos = CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()) + GlobalValue::MapTileSize.Half() - GlobalValue::TileStartPos;
+			Data.Pos = CurLevelTile->IndexToPos(BossTile[Y][X].iX() + 1, BossTile[Y][X].iY() + 2) + GlobalValue::MapTileSize.Half() - GlobalValue::TileStartPos;
 			Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 		}
 	}
