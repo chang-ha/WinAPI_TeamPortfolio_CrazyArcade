@@ -24,14 +24,14 @@ enum class ActorDir
 
 enum class MonsterState
 {
-	None,
 	Idle,
 	Move,
 	Ready,
 	Freeze,
 	Melt,
+	Anger,
 	Die,
-
 	// Boss State
 	Hitten,
+	Summon,
 };
