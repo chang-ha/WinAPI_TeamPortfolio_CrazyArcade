@@ -46,28 +46,6 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	UILevelStart();
 }
 
-void PlayLevel::UILevelStart()
-{
-	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
-	if (-1 != CurrentStage)
-	{
-		CreateGameStartAnimation();
-		CreatePortrait();
-		SetUpGameEnd();
-	}
-
-	if (m_FadeScreen)
-	{
-		m_FadeScreen->On();
-	}
-
-	if (m_PlayTimer)
-	{
-		m_PlayTimer->setTimer(CONST_TimeSetting);
-		m_PlayTimer->stopTimer();
-	}
-}
-
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	UILevelEnd();
@@ -106,6 +84,16 @@ void PlayLevel::Update(float _Delta)
 	}
 
 	ContentLevel::Update(_Delta);
+
+	// UI가 캐릭터에게 요청 : 플레이어가 죽는 것을 추적하는 변수를 넣어주세요!!
+	if (-1 != CurrentStage)
+	{
+		if (false == GameOverCheckValue && (false == m_PlayTimer->getTimeFlowValue() && false))
+		{
+			StartGameOver();
+		}
+	}
+
 
 	// 물폭탄의 타이머를 위한 for문
 	if (AllBubbleIndex.size() > 0)
@@ -721,6 +709,29 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 // UI
 
+
+void PlayLevel::UILevelStart()
+{
+	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+	if (-1 != CurrentStage)
+	{
+		CreateGameStartAnimation();
+		CreatePortrait();
+		CreateGameResult();
+	}
+
+	if (m_FadeScreen)
+	{
+		m_FadeScreen->On();
+	}
+
+	if (m_PlayTimer)
+	{
+		m_PlayTimer->setTimer(CONST_TimeSetting);
+		m_PlayTimer->stopTimer();
+	}
+}
+
 void PlayLevel::CreateGameStartAnimation()
 {
 	GameStartAnimation* GameStartAnimationPtr = CreateActor<GameStartAnimation>(UpdateOrder::UI);
@@ -770,7 +781,7 @@ void PlayLevel::CreatePortrait()
 	}
 }
 
-void PlayLevel::SetUpGameEnd()
+void PlayLevel::CreateGameResult()
 {
 	SetUpResultWindow();
 }
@@ -786,6 +797,8 @@ void PlayLevel::SetUpResultWindow()
 
 	m_ResultWindow->SetPos(CONST_ResultWindowStartPos);
 	m_ResultWindow->initResultWindow();
+
+	VecPlayerResult.resize(CurrentStage);
 }
 
 
@@ -794,6 +807,7 @@ void PlayLevel::UILevelEnd()
 	if (-1 != CurrentStage)
 	{
 		ReleaseLevelComposition();
+		ReleaseResultWindow();
 	}
 }
 
@@ -810,6 +824,17 @@ void PlayLevel::ReleaseLevelComposition()
 
 	vec_PlayPortrait.clear();
 }
+
+void PlayLevel::ReleaseResultWindow()
+{
+	if (m_ResultWindow)
+	{
+		m_ResultWindow->ActorRelease();
+		m_ResultWindow = nullptr;
+	}
+	
+}
+
 
 void PlayLevel::CreateUIElements()
 {
@@ -904,4 +929,16 @@ void PlayLevel::SetGoBackButton()
 void PlayLevel::clickGoBackButton()
 {
 	FadeObject::CallFadeOut(this, "RoomLevel", GlobalValue::g_ChangeLevelFadeSpeed);
+}
+
+
+void PlayLevel::StartGameOver()
+{
+	if (nullptr == m_ResultWindow)
+	{
+		MsgBoxAssert("액터를 생성하지 않았습니다.");
+		return;
+	}
+
+	m_ResultWindow->OnResultWindow(VecPlayerResult);
 }

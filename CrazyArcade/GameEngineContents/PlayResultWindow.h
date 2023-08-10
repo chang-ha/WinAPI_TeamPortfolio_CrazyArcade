@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+#include "PlayLevel.h"
 #include <vector>
 
 
@@ -21,7 +22,10 @@ public:
 
 	void initResultWindow();
 
+	void OnResultWindow(const std::vector<PlayerResult>& _VecResult);
+
 	void ActorRelease();
+
 
 protected:
 

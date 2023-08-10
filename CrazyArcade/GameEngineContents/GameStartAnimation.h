@@ -37,12 +37,17 @@ public:
 		CallGameStart = std::bind(_Func, _Actor);
 	}
 
+	void ActorRelease();
+
 protected:
 
 private:
 	// GameEngineObject 상속
 	void Start() override;
 	void Update(float _Delta) override;
+
+	// GameEngineActor 상속
+	void LevelEnd() override;
 
 
 	// this
@@ -108,6 +113,6 @@ private:
 	bool GameStartCallValue = false;
 
 
-	void ActorRelease();
+	
 };
 
