@@ -12,6 +12,7 @@
 #include "ActorEnum.h"
 #include "ContentsEnum.h"
 #include "PlayLevel.h"
+#include "GameMapInfo.h"
 
 // Debug
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -42,20 +43,19 @@ void Penguin::Start()
 		FilePath.MoveParentToExistsChild("Resources");
 		FilePath.MoveChild("Resources\\Textures\\Monster\\Boss\\");
 
-		// ResourcesManager::GetInst().CreateSpriteSheet("Down_Idle", FilePath.PlusFilePath("Idle_Penguin.bmp"), 10, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Down_Idle", FilePath.PlusFilePath("Idle_Penguin.bmp"), 9, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Down_Hitten", FilePath.PlusFilePath("Hitten_Penguin.bmp"), 5, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Summon_Penguin", FilePath.PlusFilePath("Summon_Penguin.bmp"), 20, 1);
 	}
 
-	//MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 9, 0.15f, true);
-	//MainRenderer->FindAnimation("Down_Idle")->Inters[9] = 5.0f;
-	//MainRenderer->ChangeAnimation("Down_Idle");
+	MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 8, ANIMATION_SPEED, true);
+	MainRenderer->FindAnimation("Down_Idle")->Inters[8] = 5.0f;
+	MainRenderer->ChangeAnimation("Down_Idle");
 
 	MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, ANIMATION_SPEED, true);
 
 	MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, ANIMATION_SPEED, true);
-	MainRenderer->ChangeAnimation("Down_Hitten");
-	State = MonsterState::Hitten;
+	MainRenderer->ChangeAnimation("Down_Idle");
 	MainRenderer->SetRenderPos({0, -60});
 
 	// BossTile Vector resize
@@ -73,6 +73,11 @@ void Penguin::Update(float _Delta)
 		IsDebugMode = !IsDebugMode;
 	}
 
+	if (true == GameEngineInput::IsDown('M'))
+	{
+		ChangeState(MonsterState::Summon);
+	}
+
 	// BossTile Update
 	CurLevelTile = CurPlayLevel->GetGroundTile();
 	float4 CurPos = GetPos();
@@ -82,9 +87,20 @@ void Penguin::Update(float _Delta)
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			BossTile[Y][X] = float4{ Index.X - 1 + X, Index.Y + Y};
+			BossTile[Y][X] = float4{ Index.X - 1 + X, Index.Y + Y - 1};
 		}
 	}
+
+	// 바로 아래 물풍선 터지게하려는데 버그있음
+	//for (int Y = 0; Y < BossTile.size(); Y++)
+	//{
+	//	for (int X = 0; X < BossTile[Y].size(); X++)
+	//	{
+	//		CurPlayLevel->TileInfo[BossTile[Y][X].iY() - 1][BossTile[Y][X].iX() - 1].Timer = 2.0f;
+	//	}
+	//}
+
+	HitJudgement();
 
 	// State Update
 	StateUpdate(_Delta);
@@ -154,30 +170,14 @@ void Penguin::ChangeState(MonsterState _State)
 
 void Penguin::IdleStart()
 {
-	// MainRenderer->ChangeAnimation("Down_Idle");
-	// MainRenderer->ChangeAnimation("Summon");
+	MainRenderer->ChangeAnimation("Down_Idle");
 }
 
 void Penguin::IdleUpdate(float _Delta)
 {
-	for (int Y = 0; Y < BossTile.size(); Y++)
+	if (true == MainRenderer->IsAnimationEnd())
 	{
-		for (int X = 0; X < BossTile[Y].size(); X++)
-		{
-			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()));
-			if (CurTile == TileObjectOrder::PopRange)
-			{
-				--BossHP;
-				if (0 == BossHP)
-				{
-					// ChangeState(MonsterState::Die);
-				}
-				else if (0 < BossHP)
-				{
-					ChangeState(MonsterState::Hitten);
-				}
-			}
-		}
+		ChangeState(MonsterState::Summon);
 	}
 }
 
@@ -191,6 +191,35 @@ void Penguin::DieUpdate(float _Delta)
 	ChangeState(MonsterState::Idle);
 }
 
+void Penguin::HitJudgement()
+{
+	if (true == IsHitten)
+	{
+		return;
+	}
+
+	for (int Y = 0; Y < BossTile.size(); Y++)
+	{
+		for (int X = 0; X < BossTile[Y].size(); X++)
+		{
+			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()));
+			if (CurTile == TileObjectOrder::PopRange)
+			{
+				--BossHP;
+				IsHitten = true;
+				if (0 == BossHP)
+				{
+					// ChangeState(MonsterState::Die);
+				}
+				else if (0 < BossHP)
+				{
+					ChangeState(MonsterState::Hitten);
+				}
+				break;
+			}
+		}
+	}
+}
 
 void Penguin::HittenStart()
 {
@@ -201,7 +230,8 @@ void Penguin::HittenUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
-		ChangeState(MonsterState::Summon);
+		ChangeState(MonsterState::Idle);
+		IsHitten = false;
 	}
 }
 
@@ -214,6 +244,6 @@ void Penguin::SummonUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
-		ChangeState(MonsterState::Hitten);
+		ChangeState(MonsterState::Idle);
 	}
 }

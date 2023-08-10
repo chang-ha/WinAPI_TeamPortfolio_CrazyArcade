@@ -41,6 +41,7 @@ private:
 	void DieStart();
 	void DieUpdate(float _Delta);
 
+	void HitJudgement();
 	void HittenStart();
 	void HittenUpdate(float _Delta);
 
@@ -48,6 +49,7 @@ private:
 	void SummonUpdate(float _Delta);
 
 	bool IsDebugMode = false;
+	bool IsHitten = false;
 	int BossHP = 6;
 	std::vector<std::vector<float4>> BossTile;
 };
