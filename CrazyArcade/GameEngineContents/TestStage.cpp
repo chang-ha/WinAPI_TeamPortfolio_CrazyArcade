@@ -4,6 +4,7 @@
 #include "GameMapInfo.h"
 #include "FadeObject.h"
 
+#include "Item.h"
 #include "Snowmon_black.h"
 
 TestStage::TestStage()
