@@ -1,6 +1,7 @@
 #include "Item.h"
 
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include <cmath>
 #include "GlobalLoad.h"
 #include "GlobalValue.h"
@@ -17,23 +18,39 @@ void Item::Start()
 {
 	GlobalLoad::ItemTextureLoad();
 	
+	// Item MainRenderer
 	ItemRenderer = CreateRenderer(RenderOrder::MapObject);
+	ItemRenderer->SetRenderPos(StartPos);
+
+	// Item Shadow Renderer
 	ShadowRenderer = CreateRenderer(RenderOrder::Shadow);
 	ShadowRenderer->SetTexture("ItemShadow2.bmp");
-
-	ItemRenderer->SetRenderPos(StartPos);
 	ShadowRenderer->SetRenderPos({0, 20});
+	ShadowRenderer->SetAlpha(static_cast<unsigned char>(AlphaValue));
 
+	// Item Collision
+	ItemCollision = CreateCollision(CollisionOrder::Item);
+	ItemCollision->SetCollisionType(CollisionType::Point);
+
+	// 
 	SetPos(GlobalValue::ItemPosNormalize + GlobalValue::TileStartPos);
 }
 
 void Item::Update(float _Delta)
 {
-	
-	Levitation(_Delta);
+	std::vector<GameEngineCollision*> Col;
+	if (true == ItemCollision->Collision(CollisionOrder::Character, 
+		Col,
+		CollisionType::Rect,
+		CollisionType::Point))
+	{
+		ItemRenderer->Off();
+		ShadowRenderer->Off();
+		Death();
+		return;
+	}
 
-	//AlphaValue -= 100 * _Delta;
-	ShadowRenderer->SetAlpha(static_cast<unsigned char>(AlphaValue));
+	Levitation(_Delta);
 }
 
 void Item::Levitation(float _Delta)

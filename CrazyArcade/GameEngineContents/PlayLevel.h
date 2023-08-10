@@ -44,6 +44,10 @@ protected:
 	void MapFileLoad(const std::string& _FileName);
 	void TileSetting();
 
+	// Item
+	void ItemSetting();
+	void CreateItem(int _X, int _Y);
+
 	BaseCharacter* Player = nullptr;
 
 	std::vector<std::vector<class GameMapInfo>> TileInfo;

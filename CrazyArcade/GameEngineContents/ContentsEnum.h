@@ -26,6 +26,8 @@ enum class RenderOrder
 
 enum class CollisionOrder
 {
+	Character,
+	Item
 };
 
 enum class TileObjectOrder

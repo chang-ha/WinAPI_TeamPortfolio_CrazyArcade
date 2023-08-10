@@ -24,7 +24,7 @@
 #include "PlayPortrait.h"
 #include "GameStartAnimation.h"
 #include "Button.h"
-
+#include "Item.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
@@ -251,6 +251,24 @@ void PlayLevel::TileSetting()
 			}
 		}
 	}
+}
+
+void PlayLevel::ItemSetting()
+{
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+	{
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+		{
+			if (static_cast<int>(TileInfo[Y][X].MapInfo) >= 2)
+			{
+				ObjectTile->IndexToPos(X, Y);
+			}
+		}
+	}
+}
+
+void PlayLevel::CreateItem(int _X, int _Y)
+{
 }
 
 
