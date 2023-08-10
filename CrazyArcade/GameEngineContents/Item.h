@@ -66,4 +66,5 @@ private:
 	float AlphaValue = 200.0f;
 	class GameEngineRenderer* ItemRenderer = nullptr;
 	class GameEngineRenderer* ShadowRenderer = nullptr;
+	class GameEngineCollision* ItemCollision = nullptr;
 };
