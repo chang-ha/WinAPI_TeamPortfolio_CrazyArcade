@@ -57,6 +57,7 @@ private:
 	bool IsDebugMode = false;
 	bool IsHitten = false;
 	int BossHP = 2;
+	float DieAlpha = 255.0f;
 	std::vector<std::vector<float4>> BossTile;
 };
 
