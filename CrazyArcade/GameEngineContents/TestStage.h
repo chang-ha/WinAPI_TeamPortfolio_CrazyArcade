@@ -23,4 +23,5 @@ protected:
 
 private:
 	class BaseMonster* Monster = nullptr;
+	class Item* TestItem = nullptr;
 };

@@ -77,6 +77,8 @@ public:
 	static float4 BlockOverSize;
 	static float4 StructureOverSize;
 
+	static float4 ItemPosNormalize;
+
 	static int AllTextureIndex_X;
 
 	static int GroundTextureIndex_Y;

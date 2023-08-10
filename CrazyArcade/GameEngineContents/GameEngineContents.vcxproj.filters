@@ -127,6 +127,9 @@
     <ClCompile Include="Marid.cpp">
       <Filter>Actor\Unit\Character</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Actor\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -255,6 +258,9 @@
     <ClInclude Include="Marid.h">
       <Filter>Actor\Unit\Character</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Actor\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -292,6 +298,9 @@
     </Filter>
     <Filter Include="Actor\Unit\Character">
       <UniqueIdentifier>{85bd63d1-c20e-4d31-95bd-4c100263f61d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Item">
+      <UniqueIdentifier>{0c224388-2290-4826-92d7-29bd8c88cafe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
