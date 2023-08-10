@@ -55,6 +55,14 @@ protected:
 	void MapFileLoad(const std::string& _FileName);
 	void TileSetting();
 
+	// Item
+	void ItemSetting();
+	void CreateItem(int _X, int _Y);
+	bool ItemDebugValue = false;
+
+	std::vector<std::vector<class Item*>> Items;
+	class Item* ItemActor = nullptr;
+
 	BaseCharacter* Player = nullptr;
 
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
