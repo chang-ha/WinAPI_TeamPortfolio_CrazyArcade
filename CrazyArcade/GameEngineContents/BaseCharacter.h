@@ -122,6 +122,11 @@ protected:
 		--BombCount;
 	}
 
+	virtual bool GetPlayerDeath()
+	{
+		return PlayerDeath;
+	}
+
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
@@ -134,5 +139,6 @@ protected:
 
 private:
 	bool IsDebugData = false;
+	bool PlayerDeath = false;
 };
 
