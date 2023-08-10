@@ -26,7 +26,7 @@ void Penguin_Stage3::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		Boss_Penguin = CreateActor<Penguin>();
 	}
-	Boss_Penguin->SetPos(GroundTile->IndexToPos(8, 5));
+	Boss_Penguin->SetPos(GroundTile->IndexToPos(8, 6));
 }
 
 void Penguin_Stage3::LevelEnd(GameEngineLevel* _NextLevel)

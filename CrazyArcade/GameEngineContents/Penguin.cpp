@@ -40,17 +40,20 @@ void Penguin::Start()
 		FilePath.MoveParentToExistsChild("Resources");
 		FilePath.MoveChild("Resources\\Textures\\Monster\\Boss\\");
 
-		ResourcesManager::GetInst().CreateSpriteSheet("Down_Idle", FilePath.PlusFilePath("Idle_Penguin.bmp"), 10, 1);
-		ResourcesManager::GetInst().CreateSpriteSheet("Down_Hit", FilePath.PlusFilePath("Hit_Penguin.bmp"), 3, 1);
+		// ResourcesManager::GetInst().CreateSpriteSheet("Down_Idle", FilePath.PlusFilePath("Idle_Penguin.bmp"), 10, 1);
+		// ResourcesManager::GetInst().CreateSpriteSheet("Down_Hit", FilePath.PlusFilePath("Hit_Penguin.bmp"), 3, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Summon_Penguin", FilePath.PlusFilePath("Summon_Penguin.bmp"), 20, 1);
 	}
 
-	MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 9, 0.15f, true);
-	MainRenderer->FindAnimation("Down_Idle")->Inters[9] = 5.0f;
-	MainRenderer->ChangeAnimation("Down_Idle");
+	//MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 9, 0.15f, true);
+	//MainRenderer->FindAnimation("Down_Idle")->Inters[9] = 5.0f;
+	//MainRenderer->ChangeAnimation("Down_Idle");
 
-	MainRenderer->CreateAnimation("Down_Hit", "Down_Hit", 0, 2, 1.0f, false);
+	//MainRenderer->CreateAnimation("Down_Hit", "Down_Hit", 0, 2, 1.0f, false);
 
-	MainRenderer->SetScaleRatio(1.5f);
+	MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, 0.1f, true);
+	MainRenderer->ChangeAnimation("Summon");
+	MainRenderer->SetRenderPos({0, -50});
 
 	// BossTile Vector resize
 	BossTile.resize(2);
@@ -76,7 +79,7 @@ void Penguin::Update(float _Delta)
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			BossTile[Y][X] = float4{ Index.X - 1 + X, Index.Y + Y + 1};
+			BossTile[Y][X] = float4{ Index.X - 1 + X, Index.Y + Y};
 		}
 	}
 
@@ -116,6 +119,8 @@ void Penguin::StateUpdate(float _Delta)
 		return DieUpdate(_Delta);
 	case MonsterState::Hitten:
 		return HittenUpdate(_Delta);
+	case MonsterState::Summon:
+		return SummonUpdate(_Delta);
 	default:
 		break;
 	}
@@ -134,6 +139,9 @@ void Penguin::ChangeState(MonsterState _State)
 	case MonsterState::Hitten:
 		HittenStart();
 		break;
+	case MonsterState::Summon:
+		SummonStart();
+		break;
 	default:
 		break;
 	}
@@ -143,7 +151,8 @@ void Penguin::ChangeState(MonsterState _State)
 
 void Penguin::IdleStart()
 {
-	MainRenderer->ChangeAnimation("Down_Idle");
+	// MainRenderer->ChangeAnimation("Down_Idle");
+	MainRenderer->ChangeAnimation("Summon");
 }
 
 void Penguin::IdleUpdate(float _Delta)
@@ -191,4 +200,14 @@ void Penguin::HittenUpdate(float _Delta)
 	{
 		ChangeState(MonsterState::Idle);
 	}
+}
+
+void Penguin::SummonStart()
+{
+	MainRenderer->ChangeAnimation("Summon");
+}
+
+void Penguin::SummonUpdate(float _Delta)
+{
+
 }
