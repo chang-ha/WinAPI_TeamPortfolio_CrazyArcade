@@ -69,5 +69,6 @@ void Snowmon_black::ChangeAnimationState(const std::string& _StateName)
 	}
 
 	CurState = _StateName;
+
 	MainRenderer->ChangeAnimation(AnimationName);
 }
