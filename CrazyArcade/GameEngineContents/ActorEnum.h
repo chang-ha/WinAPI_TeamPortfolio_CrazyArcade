@@ -34,4 +34,5 @@ enum class MonsterState
 
 	// Boss State
 	Hitten,
+	Summon,
 };

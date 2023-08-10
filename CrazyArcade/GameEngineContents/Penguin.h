@@ -44,6 +44,9 @@ private:
 	void HittenStart();
 	void HittenUpdate(float _Delta);
 
+	void SummonStart();
+	void SummonUpdate(float _Delta);
+
 	bool IsDebugMode = false;
 	int BossHP = 6;
 	std::vector<std::vector<float4>> BossTile;
