@@ -34,7 +34,6 @@ enum class TileObjectOrder
 	Structure,
 	ImmovableBlock,
 	MovableBlock,
-	Item,
 	Monster,
 	Character,
 	Bubble,

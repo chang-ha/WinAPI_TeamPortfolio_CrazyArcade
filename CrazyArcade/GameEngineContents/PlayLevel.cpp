@@ -246,8 +246,6 @@ void PlayLevel::TileSetting()
 			case TileObjectOrder::MovableBlock:
 				ObjectTile->SetTileToSprite(X, Y, "MovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos - GlobalValue::BlockOverSize, true);
 				break;
-			case TileObjectOrder::Item:
-				break;
 			default:
 				break;
 			}

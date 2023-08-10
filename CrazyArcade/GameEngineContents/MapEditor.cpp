@@ -142,7 +142,7 @@ void MapEditor::ClickPrevButton()
 	SelectTilesMapNum -= 1;
 	if (SelectTilesMapNum < 0)
 	{
-		SelectTilesMapNum = static_cast<int>(TileObjectOrder::Bubble);
+		SelectTilesMapNum = static_cast<int>(TileObjectOrder::MovableBlock);
 	}
 
 	ChangeSelectViewInfo(static_cast<TileObjectOrder>(SelectTilesMapNum));
@@ -173,7 +173,7 @@ void MapEditor::ClickPrevButton()
 void MapEditor::ClickNextButton()
 {
 	SelectTilesMapNum += 1;
-	if (SelectTilesMapNum > static_cast<int>(TileObjectOrder::Bubble))
+	if (SelectTilesMapNum > static_cast<int>(TileObjectOrder::MovableBlock))
 	{
 		SelectTilesMapNum = 0;
 	}
@@ -562,8 +562,6 @@ void MapEditor::TileSetting()
 				break;
 			case TileObjectOrder::MovableBlock:
 				DrawingView_Object->SetTileToSprite(X, Y, "MovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, DrawingView_StartPos - GlobalValue::BlockOverSize, true);
-				break;
-			case TileObjectOrder::Item:
 				break;
 			default:
 				break;
