@@ -25,6 +25,13 @@ void BaseCharacter::Start()
 
 	ShadowRenderer = CreateRenderer("Shadow.Bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(BOTCHECKPOS);
+
+	{
+		BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
+		BodyCollision->SetCollisionPos(GetPos());
+		BodyCollision->SetCollisionScale(BODYCOLLISIONSCALE);
+		BodyCollision->SetCollisionType(CollisionType::Rect);
+	}
 }
 
 void BaseCharacter::Update(float _Delta)
