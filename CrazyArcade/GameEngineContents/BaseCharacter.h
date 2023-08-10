@@ -19,6 +19,8 @@
 
 #define SPEEDREFERENCEVALUE 40.0f
 
+#define BODYCOLLISIONSCALE { 30.0f, 30.0f }
+
 #include "ActorEnum.h"
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
@@ -83,6 +85,8 @@ protected:
 	std::string CurState = "";
 	GameEngineRenderer* MainRenderer = nullptr;
 	GameEngineRenderer* ShadowRenderer = nullptr;
+
+	GameEngineCollision* BodyCollision = nullptr;
 
 	void Start() override;
 	void Update(float _Delta) override;

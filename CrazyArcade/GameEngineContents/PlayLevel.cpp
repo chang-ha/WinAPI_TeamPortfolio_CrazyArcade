@@ -1,6 +1,7 @@
 ﻿#include "PlayLevel.h"
 
 #include <GameEngineBase/GameEnginePath.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/TileMap.h>
@@ -90,7 +91,7 @@ void PlayLevel::Start()
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
 	// Create Character 
-	Player = CreateActor<Dao>(UpdateOrder::Character);
+	Player = CreateActor<Bazzi>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
@@ -98,6 +99,11 @@ void PlayLevel::Start()
 
 void PlayLevel::Update(float _Delta)
 {
+	if (true == GameEngineInput::IsDown('H'))
+	{
+		CollisionDebugRenderSwitch();
+	}
+
 	ContentLevel::Update(_Delta);
 
 	// 물폭탄의 타이머를 위한 for문
