@@ -295,7 +295,7 @@ void GameStartAnimation::UpdateGameStart(float _Delta)
 	{
 		if (m_MoveNumber > 8)
 		{
-			Release();
+			ActorRelease();
 
 			m_State = StageStartState::Max;
 			return;
@@ -330,7 +330,7 @@ void GameStartAnimation::UpdateGameStart(float _Delta)
 }
 
 
-void GameStartAnimation::Release()
+void GameStartAnimation::ActorRelease()
 {
 	for (int StringCount = 0; StringCount < CONST_UpperStringCount; StringCount++)
 	{
@@ -341,7 +341,7 @@ void GameStartAnimation::Release()
 			return;
 		}
 
-		UpperString->Release();
+		UpperString->ActorRelease();
 		 
 		StageStartActor* LowerString = vecLowerString[StringCount];
 		if (nullptr == LowerString)
@@ -350,11 +350,17 @@ void GameStartAnimation::Release()
 			return;
 		}
 
-		LowerString->Release();
+		LowerString->ActorRelease();
 	}
 
 	vecUpperString.clear();
 	vecLowerString.clear();
 
 	Death();
+}
+
+
+void GameStartAnimation::LevelEnd()
+{
+	ActorRelease();
 }

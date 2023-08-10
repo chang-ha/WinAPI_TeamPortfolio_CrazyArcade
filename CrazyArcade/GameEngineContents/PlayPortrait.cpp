@@ -128,17 +128,17 @@ void PlayPortrait::CreatePlayPortrait(int _PortraitNumber)
 	switch (_PortraitNumber)
 	{
 	case 0:
-		Rank = static_cast<int>(GlobalValue::g_Player1Level);
+		Rank += static_cast<int>(GlobalValue::g_Player1Level);
 		break;
 	case 1:
-		Rank = static_cast<int>(GlobalValue::g_Player2Level);
+		Rank += static_cast<int>(GlobalValue::g_Player2Level);
 		break;
 	default:
 		break;
 	}
 
 
-	CharacterRank->setRendererCopyPos(0, Rank);
+	CharacterRank->setRendererCopyPos(0, Rank - 1);
 
 	float4 RankScale = CharacterRank->getScale();
 	float4 RankPos = GetPos() + CONST_RankStartPos + RankScale.Half();
@@ -149,23 +149,23 @@ void PlayPortrait::CreatePlayPortrait(int _PortraitNumber)
 }
 
 
-void PlayPortrait::Release()
+void PlayPortrait::ActorRelease()
 {
 	if (m_PortraitInfo.Portrait)
 	{
-		m_PortraitInfo.Portrait->Release();
+		m_PortraitInfo.Portrait->ActorRelease();
 		m_PortraitInfo.Portrait = nullptr;
 	}
 
 	if (m_PortraitInfo.Name)
 	{
-		m_PortraitInfo.Name->Release();
+		m_PortraitInfo.Name->ActorRelease();
 		m_PortraitInfo.Name = nullptr;
 	}
 
 	if (m_PortraitInfo.Rank)
 	{
-		m_PortraitInfo.Rank->Release();
+		m_PortraitInfo.Rank->ActorRelease();
 		m_PortraitInfo.Rank = nullptr;
 	}
 

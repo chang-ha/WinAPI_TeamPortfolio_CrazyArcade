@@ -48,7 +48,7 @@ public:
 		return m_Scale;
 	}
 
-	void Release();
+	void ActorRelease();
 
 
 protected:
