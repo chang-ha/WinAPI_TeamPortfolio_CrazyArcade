@@ -238,11 +238,15 @@ void CharacterRoomButton::loadSpaceCharacterComposition()
 void CharacterRoomButton::clickSpaceButton()
 {
 	m_SpaceButtonState = SpaceButtonState::UnspaceButton;
+
+	--GlobalValue::g_ActiveRoomCount;
 }
 
 void CharacterRoomButton::clickUnspaceButton()
 {
 	m_SpaceButtonState = SpaceButtonState::SpaceButton;
+
+	++GlobalValue::g_ActiveRoomCount;
 }
 
 

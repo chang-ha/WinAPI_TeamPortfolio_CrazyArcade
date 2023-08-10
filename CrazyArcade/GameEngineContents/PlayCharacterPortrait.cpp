@@ -80,20 +80,53 @@ void PlayCharacterPortrait::initPortrait(int _Value)
 	FileName += "Play_Portrait_";
 	FileName += StringArr[_Value];
 
+
 	std::string NormalFileName = FileName;
 	NormalFileName += "_Normal.bmp";
+	Renderer->CreateAnimationToFrame("Idle", NormalFileName, { 1, 0, 1, 0, 1, 0 }, 0.1f, true);
+	Renderer->FindAnimation("Idle")->Inters = { 0.15f, 0.15f, 0.15f, 0.15f, 0.15f, 5.0f };
+
 
 	std::string LoseFileName = FileName;
 	LoseFileName += "_Lose.bmp";
 
-
-	Renderer->CreateAnimationToFrame("Idle", NormalFileName, { 1, 0, 1, 0, 1, 0 }, 0.1f, false);
-	Renderer->CreateAnimation("Lose", LoseFileName, 0, 3, 0.1f, true);
+	Renderer->CreateAnimation("Lose", LoseFileName, 0, 3, 0.15f, true);
 }
 
 
 
-void PlayCharacterPortrait::Update(float _Delta)
+void PlayCharacterPortrait::changeState(PlayPortraitState _State)
 {
+	if (_State == m_State)
+	{
+		return;
+	}
 
+	m_State = _State;
+
+	if (Renderer)
+	{
+		switch (m_State)
+		{
+		case PlayPortraitState::Idle:
+			Renderer->ChangeAnimation("Idle");
+			break;
+		case PlayPortraitState::Lose:
+			Renderer->ChangeAnimation("Lose");
+			break;
+		default:
+			break;
+		}
+
+		Renderer->SetRenderScaleToTexture();
+	}
+}
+
+void PlayCharacterPortrait::Release()
+{
+	Death();
+	if (Renderer)
+	{
+		Renderer = nullptr;
+	}
 }

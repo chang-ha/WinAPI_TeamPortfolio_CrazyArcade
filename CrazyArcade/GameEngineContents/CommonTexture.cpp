@@ -90,7 +90,7 @@ void CommonTexture::setRendererCopyPos(int _XBoxNumber, int _YBoxNumber)
 	Renderer->SetCopyPos(CopyPos);
 }
 
-void  CommonTexture::setRendererCopyAndRenderScale(int _XBoxNumber, int _YBoxNumber)
+void CommonTexture::setRendererCopyAndRenderScale(int _XBoxNumber, int _YBoxNumber)
 {
 	if (nullptr == Renderer)
 	{
@@ -102,4 +102,14 @@ void  CommonTexture::setRendererCopyAndRenderScale(int _XBoxNumber, int _YBoxNum
 
 	Renderer->SetCopyScale(m_Scale);
 	Renderer->SetRenderScale(m_Scale);
+}
+
+
+void CommonTexture::Release()
+{
+	Death();
+	if (Renderer)
+	{
+		Renderer = nullptr;
+	}
 }
