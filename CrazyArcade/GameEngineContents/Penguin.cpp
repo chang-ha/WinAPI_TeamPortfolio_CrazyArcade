@@ -1,3 +1,5 @@
+#define ANIMATION_SPEED 0.15f
+
 #include <GameEnginePlatform/GameEngineInput.h>
 
 #include <GameEngineCore/GameEngineRenderer.h>
@@ -41,7 +43,7 @@ void Penguin::Start()
 		FilePath.MoveChild("Resources\\Textures\\Monster\\Boss\\");
 
 		// ResourcesManager::GetInst().CreateSpriteSheet("Down_Idle", FilePath.PlusFilePath("Idle_Penguin.bmp"), 10, 1);
-		// ResourcesManager::GetInst().CreateSpriteSheet("Down_Hit", FilePath.PlusFilePath("Hit_Penguin.bmp"), 3, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Down_Hitten", FilePath.PlusFilePath("Hitten_Penguin.bmp"), 5, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Summon_Penguin", FilePath.PlusFilePath("Summon_Penguin.bmp"), 20, 1);
 	}
 
@@ -49,11 +51,12 @@ void Penguin::Start()
 	//MainRenderer->FindAnimation("Down_Idle")->Inters[9] = 5.0f;
 	//MainRenderer->ChangeAnimation("Down_Idle");
 
-	//MainRenderer->CreateAnimation("Down_Hit", "Down_Hit", 0, 2, 1.0f, false);
+	MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, ANIMATION_SPEED, true);
 
-	MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, 0.1f, true);
-	MainRenderer->ChangeAnimation("Summon");
-	MainRenderer->SetRenderPos({0, -50});
+	MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, ANIMATION_SPEED, true);
+	MainRenderer->ChangeAnimation("Down_Hitten");
+	State = MonsterState::Hitten;
+	MainRenderer->SetRenderPos({0, -60});
 
 	// BossTile Vector resize
 	BossTile.resize(2);
@@ -152,7 +155,7 @@ void Penguin::ChangeState(MonsterState _State)
 void Penguin::IdleStart()
 {
 	// MainRenderer->ChangeAnimation("Down_Idle");
-	MainRenderer->ChangeAnimation("Summon");
+	// MainRenderer->ChangeAnimation("Summon");
 }
 
 void Penguin::IdleUpdate(float _Delta)
@@ -191,14 +194,14 @@ void Penguin::DieUpdate(float _Delta)
 
 void Penguin::HittenStart()
 {
-	MainRenderer->ChangeAnimation("Down_Hit");
+	MainRenderer->ChangeAnimation("Down_Hitten");
 }
 
 void Penguin::HittenUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
-		ChangeState(MonsterState::Idle);
+		ChangeState(MonsterState::Summon);
 	}
 }
 
@@ -209,5 +212,8 @@ void Penguin::SummonStart()
 
 void Penguin::SummonUpdate(float _Delta)
 {
-
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(MonsterState::Hitten);
+	}
 }
