@@ -1,4 +1,5 @@
-#define ANIMATION_SPEED 0.15f
+#define IDLE_ANI_SPEED 0.15f
+#define BUBBLE_ANI_SPEED 0.18f
 
 #include <GameEnginePlatform/GameEngineInput.h>
 
@@ -46,15 +47,26 @@ void Penguin::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet("Down_Idle", FilePath.PlusFilePath("Idle_Penguin.bmp"), 9, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Down_Hitten", FilePath.PlusFilePath("Hitten_Penguin.bmp"), 5, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Summon_Penguin", FilePath.PlusFilePath("Summon_Penguin.bmp"), 20, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Die_Ready", FilePath.PlusFilePath("Die_Ready_Penguin.bmp"), 3, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Die_Bubble", FilePath.PlusFilePath("Die_Bubble_Penguin.bmp"), 8, 1);
 	}
 
-	MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 8, ANIMATION_SPEED, true);
-	MainRenderer->FindAnimation("Down_Idle")->Inters[8] = 5.0f;
-	MainRenderer->ChangeAnimation("Down_Idle");
+	{
+		// Idle
+		MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 8, IDLE_ANI_SPEED);
+		MainRenderer->FindAnimation("Down_Idle")->Inters[8] = 5.0f;
+		
+		// Hitten
+		MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, IDLE_ANI_SPEED, false);
 
-	MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, ANIMATION_SPEED, true);
+		// Summon
+		MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, IDLE_ANI_SPEED, false);
 
-	MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, ANIMATION_SPEED, true);
+		// Death
+		MainRenderer->CreateAnimation("Die_Ready", "Die_Ready", 0, 2, BUBBLE_ANI_SPEED, false);
+		MainRenderer->CreateAnimation("Die_Bubble", "Die_Bubble", 0, 7, BUBBLE_ANI_SPEED);
+	}
+
 	MainRenderer->ChangeAnimation("Down_Idle");
 	MainRenderer->SetRenderPos({0, -70});
 
@@ -147,6 +159,10 @@ void Penguin::StateUpdate(float _Delta)
 		return HittenUpdate(_Delta);
 	case MonsterState::Summon:
 		return SummonUpdate(_Delta);
+	case MonsterState::Die_Ready:
+		return DieReadyUpdate(_Delta);
+	case MonsterState::Die_Bubble:
+		return DieBubbleUpdate(_Delta);
 	default:
 		break;
 	}
@@ -168,6 +184,12 @@ void Penguin::ChangeState(MonsterState _State)
 	case MonsterState::Summon:
 		SummonStart();
 		break;
+	case MonsterState::Die_Ready:
+		DieReadyStart();
+		break;
+	case MonsterState::Die_Bubble:
+		DieBubbleStart();
+		break;
 	default:
 		break;
 	}
@@ -187,6 +209,32 @@ void Penguin::IdleUpdate(float _Delta)
 		ChangeState(MonsterState::Summon);
 	}
 }
+
+void Penguin::DieReadyStart()
+{
+	MainRenderer->ChangeAnimation("Die_Ready");
+
+}
+
+void Penguin::DieReadyUpdate(float _Delta)
+{
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(MonsterState::Die_Bubble);
+	}
+}
+
+void Penguin::DieBubbleStart()
+{
+	MainRenderer->ChangeAnimation("Die_Bubble");
+
+}
+
+void Penguin::DieBubbleUpdate(float _Delta)
+{
+
+}
+
 
 void Penguin::DieStart()
 {
@@ -209,14 +257,14 @@ void Penguin::HitJudgement()
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()));
+			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX() + 1, BossTile[Y][X].iY() + 1) + GlobalValue::TileStartPos);
 			if (CurTile == TileObjectOrder::PopRange)
 			{
 				--BossHP;
 				IsHitten = true;
 				if (0 == BossHP)
 				{
-					// ChangeState(MonsterState::Die);
+					ChangeState(MonsterState::Die_Ready);
 				}
 				else if (0 < BossHP)
 				{

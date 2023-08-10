@@ -38,6 +38,12 @@ private:
 	void IdleStart();
 	void IdleUpdate(float _Delta);
 
+	void DieReadyStart();
+	void DieReadyUpdate(float _Delta);
+
+	void DieBubbleStart();
+	void DieBubbleUpdate(float _Delta);
+
 	void DieStart();
 	void DieUpdate(float _Delta);
 
@@ -50,7 +56,7 @@ private:
 
 	bool IsDebugMode = false;
 	bool IsHitten = false;
-	int BossHP = 6;
+	int BossHP = 2;
 	std::vector<std::vector<float4>> BossTile;
 };
 
