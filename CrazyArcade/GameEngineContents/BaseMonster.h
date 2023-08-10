@@ -39,8 +39,8 @@ public:
 	BaseMonster& operator=(BaseMonster&& _Other) noexcept = delete;
 
 protected:
-	void StateUpdate(float _Delta);
-	void ChangeState(MonsterState _State);
+	virtual void StateUpdate(float _Delta);
+	virtual void ChangeState(MonsterState _State);
 	virtual void ChangeAnimationState(const std::string& _StateName);
 
 	void IdleStart();

@@ -1,6 +1,7 @@
 ﻿#include "PlayLevel.h"
 
 #include <GameEngineBase/GameEnginePath.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/TileMap.h>
@@ -21,6 +22,7 @@
 #include "FadeScreen.h"
 #include "CommonTexture.h"
 #include "PlayTimer.h"
+#include "PlayPortrait.h"
 #include "GameStartAnimation.h"
 #include "Button.h"
 
@@ -49,6 +51,7 @@ void PlayLevel::UILevelStart()
 	if (-1 != CurrentStage)
 	{
 		CreateGameStartAnimation();
+
 		CreatePortrait();
 	}
 
@@ -66,7 +69,7 @@ void PlayLevel::UILevelStart()
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	UILevelEnd();
 }
 
 void PlayLevel::Start()
@@ -96,6 +99,11 @@ void PlayLevel::Start()
 
 void PlayLevel::Update(float _Delta)
 {
+	if (true == GameEngineInput::IsDown('H'))
+	{
+		CollisionDebugRenderSwitch();
+	}
+
 	ContentLevel::Update(_Delta);
 
 	// 물폭탄의 타이머를 위한 for문
@@ -740,9 +748,48 @@ void PlayLevel::setGameStartCallBack()
 
 void PlayLevel::CreatePortrait()
 {
+	vec_PlayPortrait.resize(static_cast<int>(GlobalValue::g_ActiveRoomCount));
 
+	for (int RoomCount = 0; RoomCount < GlobalValue::g_ActiveRoomCount; RoomCount++)
+	{
+		PlayPortrait* PlayPortraitPtr = CreateActor<PlayPortrait>(UpdateOrder::UI);
+		if (nullptr == PlayPortraitPtr)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		float4 PortraitPos = CONST_PlayPortraitStartPos + float4::DOWN +
+			float4{ CONST_PlayPortraitNextPos.X , CONST_PlayPortraitNextPos.Y * static_cast<float>(RoomCount) };
+
+		PlayPortraitPtr->SetPos(PortraitPos);
+		PlayPortraitPtr->CreatePlayPortrait(RoomCount);
+
+		vec_PlayPortrait[RoomCount] = PlayPortraitPtr;
+	}
 }
 
+void PlayLevel::UILevelEnd()
+{
+	if (-1 != CurrentStage)
+	{
+		ReleaseLevelComposition();
+	}
+}
+
+void PlayLevel::ReleaseLevelComposition()
+{
+	for (int VecCount = 0; VecCount < vec_PlayPortrait.size(); VecCount++)
+	{
+		PlayPortrait* PlayPortraitPtr = vec_PlayPortrait[VecCount];
+		if (PlayPortraitPtr)
+		{
+			PlayPortraitPtr->Release();
+		}
+	}
+
+	vec_PlayPortrait.clear();
+}
 
 void PlayLevel::CreateUIElements()
 {

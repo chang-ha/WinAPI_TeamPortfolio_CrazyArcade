@@ -18,14 +18,14 @@ Snowmon_black::~Snowmon_black()
 
 void Snowmon_black::Start()
 {
-	GlobalUtils::SpriteFileLoad("Snowmon_Black_Idle_Down.Bmp", "Resources\\Textures\\Monster\\Snowmon\\", 1, 1);
-	GlobalUtils::SpriteFileLoad("Snowmon_Black_Move_Down.Bmp",	"Resources\\Textures\\Monster\\Snowmon\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Snowmon_Black_Move_Up.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Snowmon_Black_Move_Right.Bmp",	"Resources\\Textures\\Monster\\Snowmon\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Snowmon_Black_Move_Left.Bmp",	"Resources\\Textures\\Monster\\Snowmon\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Snowmon_Black_Freeze.Bmp",	"Resources\\Textures\\Monster\\Snowmon\\", 3, 1);
-	GlobalUtils::SpriteFileLoad("Snowmon_Black_Melt.Bmp",	"Resources\\Textures\\Monster\\Snowmon\\", 3, 1);
-	GlobalUtils::SpriteFileLoad("Snowmon_Black_Anger.Bmp", "Resources\\Textures\\Monster\\Snowmon\\", 9, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Black_Idle_Down.Bmp", "Resources\\Textures\\Monster\\Snowmon\\Black\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Black_Move_Down.Bmp",	"Resources\\Textures\\Monster\\Snowmon\\Black\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Black_Move_Up.Bmp", "Resources\\Textures\\Monster\\Snowmon\\Black\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Black_Move_Right.Bmp", "Resources\\Textures\\Monster\\Snowmon\\Black\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Black_Move_Left.Bmp", "Resources\\Textures\\Monster\\Snowmon\\Black\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Black_Freeze.Bmp", "Resources\\Textures\\Monster\\Snowmon\\Black\\", 3, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Black_Melt.Bmp", "Resources\\Textures\\Monster\\Snowmon\\Black\\", 3, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Black_Anger.Bmp", "Resources\\Textures\\Monster\\Snowmon\\Black\\", 9, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 	MainRenderer->CreateAnimation("Snowmon_Black_Idle_Down",	"Snowmon_Black_Idle_Down.Bmp");

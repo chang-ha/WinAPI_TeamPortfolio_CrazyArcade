@@ -91,9 +91,13 @@ public:
 
 	static MapType g_SelectMap;
 
+	static int g_ActiveRoomCount;
 	static CharacterList g_SelectCharacter;
 	static AvailableCharacterList g_SelectAvailableCharacter1;
 	static AvailableCharacterList g_SelectAvailableCharacter2;
+
+	static int g_Player1Level;
+	static int g_Player2Level;
 
 	static float g_ChangeLevelFadeSpeed;
 	static const int g_FadeScreenAlphaValue = 70;
