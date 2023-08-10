@@ -2,6 +2,7 @@
 
 #include <GameEngineBase/GameEnginePath.h>
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/TileMap.h>
@@ -24,8 +25,9 @@
 #include "PlayTimer.h"
 #include "PlayPortrait.h"
 #include "GameStartAnimation.h"
+#include "PlayResultWindow.h"
 #include "Button.h"
-
+#include "Item.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
@@ -43,28 +45,6 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	CurPlayLevel = this;
 
 	UILevelStart();
-}
-
-void PlayLevel::UILevelStart()
-{
-	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
-	if (-1 != CurrentStage)
-	{
-		CreateGameStartAnimation();
-
-		CreatePortrait();
-	}
-
-	if (m_FadeScreen)
-	{
-		m_FadeScreen->On();
-	}
-
-	if (m_PlayTimer)
-	{
-		m_PlayTimer->setTimer(CONST_TimeSetting);
-		m_PlayTimer->stopTimer();
-	}
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
@@ -90,6 +70,9 @@ void PlayLevel::Start()
 	// TileInfo Initialize
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
+	// Item Initialize
+	Items.assign(GlobalValue::MapTileIndex_Y, (std::vector<Item*>(GlobalValue::MapTileIndex_X, nullptr)));
+
 	// Create Character 
 	Player = CreateActor<Bazzi>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
@@ -105,6 +88,18 @@ void PlayLevel::Update(float _Delta)
 	}
 
 	ContentLevel::Update(_Delta);
+
+	if (-1 != CurrentStage)
+	{
+		if (false == GameOverCheckValue)
+		{
+			if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+			{
+				StartGameOver();
+			}
+		}
+	}
+
 
 	// 물폭탄의 타이머를 위한 for문
 	if (AllBubbleIndex.size() > 0)
@@ -172,6 +167,30 @@ void PlayLevel::Update(float _Delta)
 			else
 			{
 				++StartIter;
+			}
+		}
+	}
+
+	// Item Debug
+	if (true == GameEngineInput::IsDown('I'))
+	{
+		ItemDebugValue = !ItemDebugValue;
+		for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+		{
+			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+			{
+				
+				if (nullptr != Items[Y][X])
+				{
+					if (true == ItemDebugValue)
+					{
+						Items[Y][X]->On();
+					}
+					else
+					{
+						Items[Y][X]->Off();
+					}
+				}
 			}
 		}
 	}
@@ -252,13 +271,63 @@ void PlayLevel::TileSetting()
 			case TileObjectOrder::MovableBlock:
 				ObjectTile->SetTileToSprite(X, Y, "MovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos - GlobalValue::BlockOverSize, true);
 				break;
-			case TileObjectOrder::Item:
-				break;
 			default:
 				break;
 			}
 		}
 	}
+}
+
+void PlayLevel::ItemSetting()
+{
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
+	{
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
+		{
+			int TileInfoInt = static_cast<int>(TileInfo[Y][X].MapInfo);
+
+			// ImmovableBlock, MovableBlock일 때 아이템 생성
+			if (TileInfoInt == 2 ||
+				TileInfoInt == 3)
+			{
+				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2); // 33.3% 확률로 아이템 생성
+				if (0 == RandomNumber)
+				{
+					CreateItem(X, Y);
+				}
+			}
+		}
+	}
+}
+
+void PlayLevel::CreateItem(int _X, int _Y)
+{
+	// < 아이템 번호 >
+	// 0 : Bubble
+	// 1 : Fluid
+	// 2 : Roller
+	// 3 : Ultra
+	// 4 : Red_Devil
+	// 5 : Needle -> 블럭에서 안나옴
+	
+	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 3); 
+	if (RandomNumber == 0)
+	{
+		// 25% 확률로 Ultra, Red_Devil 중 하나 생성
+		RandomNumber = GameEngineRandom::MainRandom.RandomInt(3, 4);
+	}
+	else
+	{
+		// 75% 확률로 Bubble, Fluid, Roller 중 하나 생성
+		RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2);
+	}
+
+	ItemActor = CreateActor<Item>(UpdateOrder::Map);
+	ItemActor->SetItemTypeInt(RandomNumber);
+	ItemActor->AddPos({GlobalValue::MapTileSize.X * _X, GlobalValue::MapTileSize.Y * _Y });
+	ItemActor->Off();
+	Items[_Y][_X] = ItemActor;
+	ItemActor = nullptr;
 }
 
 
@@ -395,7 +464,7 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 
 	ActorDir PlayerDir = Player->GetDir();
 	MOVEDIR LerpDir = MOVEDIR::NONE;
-
+	float4 ItemMoveDir = float4::ZERO;
 	int NewX = _X;
 	int NewY = _Y;
 
@@ -403,18 +472,22 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 	{
 	case ActorDir::Left:
 		LerpDir = MOVEDIR::LEFT;
+		ItemMoveDir = float4::LEFT;
 		--NewX;
 		break;
 	case ActorDir::Right:
 		LerpDir = MOVEDIR::RIGHT;
+		ItemMoveDir = float4::RIGHT;
 		++NewX;
 		break;
 	case ActorDir::Up:
 		LerpDir = MOVEDIR::UP;
+		ItemMoveDir = float4::UP;
 		--NewY;
 		break;
 	case ActorDir::Down:
 		LerpDir = MOVEDIR::DOWN;
+		ItemMoveDir = float4::DOWN;
 		++NewY;
 		break;
 	default:
@@ -433,12 +506,28 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 			return;
 		}
 
-
+		// TileInfo 수정
 		GameMapInfo Temp = TileInfo[_Y][_X];
 		TileInfo[_Y][_X] = TileInfo[NewY][NewX];
 		TileInfo[NewY][NewX] = Temp;
+
+		//MoveCheck = ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::MapTileSize - GlobalValue::TileStartPos);
 		MoveCheck = ObjectTile->LerpTile(_Renderer, LerpDir, GlobalValue::TileStartPos + float4(0, -20));
 		TileInfo[NewY][NewX].LerpTimer = 0.0f;
+
+		// Item 수정
+		if (nullptr != Items[_Y][_X])
+		{
+			if (nullptr != Items[NewY][NewX])
+			{
+				Items[NewY][NewX]->Death();
+				Items[NewY][NewX] = nullptr;
+			}
+
+			Items[NewY][NewX] = Items[_Y][_X];
+			Items[NewY][NewX]->AddPos(GlobalValue::MapTileSize * ItemMoveDir);
+			Items[_Y][_X] = nullptr;
+		}
 	}
 }
 
@@ -552,6 +641,12 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		{
 			SideBubblePop(X, Y, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f);
 		}
+
+		if (nullptr != Items[Y][X])
+		{
+			Items[Y][X]->Death();
+			Items[Y][X] = nullptr;
+		}
 	}
 
 	//오른쪽 타일--------------------------------------------------------------
@@ -583,6 +678,12 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		else
 		{
 			SideBubblePop(X, Y, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f);
+		}
+
+		if (nullptr != Items[Y][X])
+		{
+			Items[Y][X]->Death();
+			Items[Y][X] = nullptr;
 		}
 	}
 
@@ -616,6 +717,12 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		{
 			SideBubblePop(X, Y, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f);
 		}
+
+		if (nullptr != Items[Y][X])
+		{
+			Items[Y][X]->Death();
+			Items[Y][X] = nullptr;
+		}
 	}
 
 	//아래쪽 타일--------------------------------------------------------------
@@ -647,6 +754,12 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		else
 		{
 			SideBubblePop(X, Y, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f);
+		}
+
+		if (nullptr != Items[Y][X])
+		{
+			Items[Y][X]->Death();
+			Items[Y][X] = nullptr;
 		}
 	}
 }
@@ -680,8 +793,12 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 		TileRenderer->CreateAnimation("Pop_Tile", "Pop_Tile.Bmp", 0, 3, 0.1f, false);
 	}
 	TileRenderer->ChangeAnimation("Pop_Tile");
-
 	AllBubbleDeathIndex.push_back({ _X, _Y });
+	
+	if (nullptr != Items[_Y][_X])
+	{
+		Items[_Y][_X]->On();
+	}
 }
 
 // 물풍선 상하좌우 타일 변경 함수
@@ -712,6 +829,29 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 // UI
 
+
+void PlayLevel::UILevelStart()
+{
+	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+	if (-1 != CurrentStage)
+	{
+		CreateGameStartAnimation();
+		CreatePortrait();
+		CreateGameResult();
+	}
+
+	if (m_FadeScreen)
+	{
+		m_FadeScreen->On();
+	}
+
+	if (m_PlayTimer)
+	{
+		m_PlayTimer->setTimer(CONST_TimeSetting);
+		m_PlayTimer->stopTimer();
+	}
+}
+
 void PlayLevel::CreateGameStartAnimation()
 {
 	GameStartAnimation* GameStartAnimationPtr = CreateActor<GameStartAnimation>(UpdateOrder::UI);
@@ -736,6 +876,8 @@ void PlayLevel::setGameStartCallBack()
 	{
 		m_PlayTimer->flowTimer();
 	}
+
+	GameStartCheckValue = true;
 }
 
 void PlayLevel::CreatePortrait()
@@ -761,31 +903,30 @@ void PlayLevel::CreatePortrait()
 	}
 }
 
-void PlayLevel::UILevelEnd()
+void PlayLevel::CreateGameResult()
 {
-	if (-1 != CurrentStage)
-	{
-		ReleaseLevelComposition();
-	}
+	SetUpResultWindow();
 }
 
-void PlayLevel::ReleaseLevelComposition()
+void PlayLevel::SetUpResultWindow()
 {
-	for (int VecCount = 0; VecCount < vec_PlayPortrait.size(); VecCount++)
+	m_ResultWindow = CreateActor<PlayResultWindow>(UpdateOrder::UI);
+	if (nullptr == m_ResultWindow)
 	{
-		PlayPortrait* PlayPortraitPtr = vec_PlayPortrait[VecCount];
-		if (PlayPortraitPtr)
-		{
-			PlayPortraitPtr->Release();
-		}
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
 	}
 
-	vec_PlayPortrait.clear();
+	m_ResultWindow->SetPos(CONST_ResultWindowStartPos);
+	m_ResultWindow->initResultWindow();
+
+	VecPlayerResult.resize(GlobalValue::g_ActiveRoomCount);
 }
+
 
 void PlayLevel::CreateUIElements()
 {
-	if (-1 == CurrentStage)
+	if (CurrentStage < 1 || CurrentStage > 3)
 	{
 		MsgBoxAssert("CurrentStage로 스테이지 UI를 만들 수 없습니다.");
 		return;
@@ -876,6 +1017,55 @@ void PlayLevel::SetGoBackButton()
 void PlayLevel::clickGoBackButton()
 {
 	FadeObject::CallFadeOut(this, "RoomLevel", GlobalValue::g_ChangeLevelFadeSpeed);
+}
+
+
+void PlayLevel::StartGameOver()
+{
+	if (nullptr == m_ResultWindow)
+	{
+		MsgBoxAssert("액터를 생성하지 않았습니다.");
+		return;
+	}
+
+	m_ResultWindow->OnResultWindow(VecPlayerResult);
+
+	GameOverCheckValue = true;
+}
+
+
+void PlayLevel::UILevelEnd()
+{
+	if (-1 != CurrentStage)
+	{
+		ReleaseLevelComposition();
+		ReleaseResultWindow();
+	}
+}
+
+void PlayLevel::ReleaseLevelComposition()
+{
+	for (int VecCount = 0; VecCount < vec_PlayPortrait.size(); VecCount++)
+	{
+		PlayPortrait* PlayPortraitPtr = vec_PlayPortrait[VecCount];
+		if (PlayPortraitPtr)
+		{
+			PlayPortraitPtr->ActorRelease();
+		}
+	}
+
+	vec_PlayPortrait.clear();
+}
+
+void PlayLevel::ReleaseResultWindow()
+{
+	if (m_ResultWindow)
+	{
+		m_ResultWindow->ActorRelease();
+		m_ResultWindow = nullptr;
+	}
+
+}
 }
 
 

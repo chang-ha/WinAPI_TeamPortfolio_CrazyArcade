@@ -265,6 +265,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PlayResultLine.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayResultWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PlayTimer.h">
       <SubType>
       </SubType>
@@ -412,6 +420,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayPortrait.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayResultLine.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayResultWindow.cpp">
       <SubType>
       </SubType>
     </ClCompile>
