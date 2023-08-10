@@ -41,7 +41,12 @@ public:
 		SetTexture(Type);
 	}
 
-	inline void SaveTileInfo(TileObjectOrder _Info)
+	inline void SetTileIndex(float4 _TileIndex)
+	{
+		TileIndex = _TileIndex;
+	}
+
+	inline void SetTileInfo(TileObjectOrder _Info)
 	{
 		TileInfo = _Info;
 	}
@@ -57,6 +62,7 @@ private:
 
 	// Item 상태변수
 	ItemType Type;
+	float4 TileIndex = float4::ZERO;
 	TileObjectOrder TileInfo = TileObjectOrder::Empty;
 
 
