@@ -34,4 +34,6 @@ enum class MonsterState
 	// Boss State
 	Hitten,
 	Summon,
+	Die_Ready,
+	Die_Bubble,
 };

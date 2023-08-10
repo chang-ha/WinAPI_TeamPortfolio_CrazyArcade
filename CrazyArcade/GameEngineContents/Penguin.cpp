@@ -1,4 +1,5 @@
-#define ANIMATION_SPEED 0.15f
+#define IDLE_ANI_SPEED 0.15f
+#define BUBBLE_ANI_SPEED 0.18f
 
 #include <GameEnginePlatform/GameEngineInput.h>
 
@@ -46,17 +47,28 @@ void Penguin::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet("Down_Idle", FilePath.PlusFilePath("Idle_Penguin.bmp"), 9, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Down_Hitten", FilePath.PlusFilePath("Hitten_Penguin.bmp"), 5, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Summon_Penguin", FilePath.PlusFilePath("Summon_Penguin.bmp"), 20, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Die_Ready", FilePath.PlusFilePath("Die_Ready_Penguin.bmp"), 3, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Die_Bubble", FilePath.PlusFilePath("Die_Bubble_Penguin.bmp"), 8, 1);
 	}
 
-	MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 8, ANIMATION_SPEED, true);
-	MainRenderer->FindAnimation("Down_Idle")->Inters[8] = 5.0f;
-	MainRenderer->ChangeAnimation("Down_Idle");
+	{
+		// Idle
+		MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 8, IDLE_ANI_SPEED);
+		MainRenderer->FindAnimation("Down_Idle")->Inters[8] = 5.0f;
+		
+		// Hitten
+		MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, IDLE_ANI_SPEED, false);
 
-	MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, ANIMATION_SPEED, true);
+		// Summon
+		MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, IDLE_ANI_SPEED, false);
 
-	MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, ANIMATION_SPEED, true);
+		// Death
+		MainRenderer->CreateAnimation("Die_Ready", "Die_Ready", 0, 2, BUBBLE_ANI_SPEED, false);
+		MainRenderer->CreateAnimation("Die_Bubble", "Die_Bubble", 0, 7, BUBBLE_ANI_SPEED);
+	}
+
 	MainRenderer->ChangeAnimation("Down_Idle");
-	MainRenderer->SetRenderPos({0, -60});
+	MainRenderer->SetRenderPos({0, -70});
 
 	// BossTile Vector resize
 	BossTile.resize(2);
@@ -80,25 +92,32 @@ void Penguin::Update(float _Delta)
 
 	// BossTile Update
 	CurLevelTile = CurPlayLevel->GetGroundTile();
-	float4 CurPos = GetPos();
+	float4 CurPos = GetPos() - GlobalValue::TileStartPos;
 	float4 Index = CurLevelTile->PosToIndex(CurPos);
 
 	for (int Y = 0; Y < BossTile.size(); Y++)
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			BossTile[Y][X] = float4{ Index.X - 1 + X, Index.Y + Y};
+			float4 Value;
+			Value.X = static_cast<float>(Index.iX() + X - 1);
+			Value.Y = static_cast<float>(Index.iY() + Y);
+			BossTile[Y][X] = Value;
 		}
 	}
 
-	// 바로 아래 물풍선 터지게하려는데 버그있음
-	//for (int Y = 0; Y < BossTile.size(); Y++)
-	//{
-	//	for (int X = 0; X < BossTile[Y].size(); X++)
-	//	{
-	//		CurPlayLevel->TileInfo[BossTile[Y][X].iY() - 1][BossTile[Y][X].iX() - 1].Timer = 2.0f;
-	//	}
-	//}
+	for (int Y = 0; Y < BossTile.size(); Y++)
+	{
+		for (int X = 0; X < BossTile[Y].size(); X++)
+		{
+			int Index_X = BossTile[Y][X].iX();
+			int Index_Y = BossTile[Y][X].iY();
+			if (CurPlayLevel->TileInfo[Index_Y][Index_X].MapInfo == TileObjectOrder::Bubble)
+			{
+				CurPlayLevel->BubblePop(Index_X , Index_Y);
+			}
+		}
+	}
 
 	HitJudgement();
 
@@ -121,7 +140,7 @@ void Penguin::Render(float _Delta)
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			Data.Pos = CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()) + GlobalValue::MapTileSize.Half() - GlobalValue::TileStartPos;
+			Data.Pos = CurLevelTile->IndexToPos(BossTile[Y][X].iX() + 1, BossTile[Y][X].iY() + 2) + GlobalValue::MapTileSize.Half() - GlobalValue::TileStartPos;
 			Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 		}
 	}
@@ -140,6 +159,10 @@ void Penguin::StateUpdate(float _Delta)
 		return HittenUpdate(_Delta);
 	case MonsterState::Summon:
 		return SummonUpdate(_Delta);
+	case MonsterState::Die_Ready:
+		return DieReadyUpdate(_Delta);
+	case MonsterState::Die_Bubble:
+		return DieBubbleUpdate(_Delta);
 	default:
 		break;
 	}
@@ -161,6 +184,12 @@ void Penguin::ChangeState(MonsterState _State)
 	case MonsterState::Summon:
 		SummonStart();
 		break;
+	case MonsterState::Die_Ready:
+		DieReadyStart();
+		break;
+	case MonsterState::Die_Bubble:
+		DieBubbleStart();
+		break;
 	default:
 		break;
 	}
@@ -180,6 +209,32 @@ void Penguin::IdleUpdate(float _Delta)
 		ChangeState(MonsterState::Summon);
 	}
 }
+
+void Penguin::DieReadyStart()
+{
+	MainRenderer->ChangeAnimation("Die_Ready");
+
+}
+
+void Penguin::DieReadyUpdate(float _Delta)
+{
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(MonsterState::Die_Bubble);
+	}
+}
+
+void Penguin::DieBubbleStart()
+{
+	MainRenderer->ChangeAnimation("Die_Bubble");
+
+}
+
+void Penguin::DieBubbleUpdate(float _Delta)
+{
+
+}
+
 
 void Penguin::DieStart()
 {
@@ -202,14 +257,14 @@ void Penguin::HitJudgement()
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()));
+			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX() + 1, BossTile[Y][X].iY() + 1) + GlobalValue::TileStartPos);
 			if (CurTile == TileObjectOrder::PopRange)
 			{
 				--BossHP;
 				IsHitten = true;
 				if (0 == BossHP)
 				{
-					// ChangeState(MonsterState::Die);
+					ChangeState(MonsterState::Die_Ready);
 				}
 				else if (0 < BossHP)
 				{
