@@ -49,6 +49,9 @@ void RoomLevel::Start()
 	loadSelectedMapComposition();
 	loadButtonElement();
 	loadFadeScreen();
+
+	GlobalValue::g_ActiveRoomCount = 1;
+	GlobalValue::g_SelectAvailableCharacter2 = AvailableCharacterList::Bazzi;
 }
 
 void RoomLevel::loadWindowElement()
