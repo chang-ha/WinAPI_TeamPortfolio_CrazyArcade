@@ -38,12 +38,12 @@ public:
 	inline void SetItemTypeInt(int _Type)
 	{
 		Type = static_cast<ItemType>(_Type);
+		SetTexture(Type);
 	}
 
-	// 아이템 획득
-	inline void GetItem()
+	inline void SaveTileInfo(TileObjectOrder _Info)
 	{
-		Death();
+		TileInfo = _Info;
 	}
 
 protected:
@@ -52,10 +52,13 @@ private:
 	void Start() override;
 	void Update(float _Delta) override;
 	void SetTexture(ItemType _Type);
+
 	void Levitation(float _Delta);
 
 	// Item 상태변수
 	ItemType Type;
+	TileObjectOrder TileInfo = TileObjectOrder::Empty;
+
 
 	// Item 물리변수
 	float Speed = 3.5f;

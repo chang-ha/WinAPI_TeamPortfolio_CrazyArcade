@@ -61,6 +61,8 @@ void TestStage::Start()
 	TestItem = CreateActor<Item>(UpdateOrder::Map);
 	TestItem->SetItemType(ItemType::Red_Devil);
 	TestItem->AddPos({ (40 * 12), (40 * 7) });
+
+	ItemSetting();
 }
 
 void TestStage::Update(float _Delta)

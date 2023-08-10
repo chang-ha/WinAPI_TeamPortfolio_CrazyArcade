@@ -47,6 +47,7 @@ protected:
 	// Item
 	void ItemSetting();
 	void CreateItem(int _X, int _Y);
+	class Item* ItemActor = nullptr;
 
 	BaseCharacter* Player = nullptr;
 

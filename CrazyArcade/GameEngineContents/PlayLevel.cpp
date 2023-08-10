@@ -1,6 +1,7 @@
 ﻿#include "PlayLevel.h"
 
 #include <GameEngineBase/GameEnginePath.h>
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/TileMap.h>
@@ -261,7 +262,11 @@ void PlayLevel::ItemSetting()
 		{
 			if (static_cast<int>(TileInfo[Y][X].MapInfo) >= 2)
 			{
-				ObjectTile->IndexToPos(X, Y);
+				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 1);
+				if (0 == RandomNumber)
+				{
+					CreateItem(X, Y);
+				}
 			}
 		}
 	}
@@ -269,6 +274,12 @@ void PlayLevel::ItemSetting()
 
 void PlayLevel::CreateItem(int _X, int _Y)
 {
+	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 5);
+
+	ItemActor = CreateActor<Item>(UpdateOrder::Map);
+	ItemActor->SetItemTypeInt(RandomNumber);
+	ItemActor->AddPos({GlobalValue::MapTileSize.X * _X, GlobalValue::MapTileSize.Y * _Y });
+	ItemActor = nullptr;
 }
 
 
