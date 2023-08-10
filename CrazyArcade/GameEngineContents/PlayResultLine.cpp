@@ -457,6 +457,11 @@ void PlayResultLine::onResultLine()
 		ResultLine.Back->On();
 	}
 
+	if (ResultLine.LineNumber)
+	{
+		ResultLine.LineNumber->On();
+	}
+
 	if (ResultLine.PlayerWinOrLose)
 	{
 		ResultLine.PlayerWinOrLose->On();

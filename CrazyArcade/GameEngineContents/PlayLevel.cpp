@@ -85,13 +85,14 @@ void PlayLevel::Update(float _Delta)
 
 	ContentLevel::Update(_Delta);
 
-	// UI가 캐릭터에게 요청 : 플레이어가 죽는 것을 추적하는 변수를 넣어주세요!!
-	// 지금은 타이머 때문에 막아놨습니다.
 	if (-1 != CurrentStage)
 	{
-		if (false == GameOverCheckValue && (false == m_PlayTimer->getTimeFlowValue() && false))
+		if (false == GameOverCheckValue)
 		{
-			StartGameOver();
+			if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+			{
+				StartGameOver();
+			}
 		}
 	}
 
@@ -757,6 +758,8 @@ void PlayLevel::setGameStartCallBack()
 	{
 		m_PlayTimer->flowTimer();
 	}
+
+	GameStartCheckValue = true;
 }
 
 void PlayLevel::CreatePortrait()
@@ -799,7 +802,7 @@ void PlayLevel::SetUpResultWindow()
 	m_ResultWindow->SetPos(CONST_ResultWindowStartPos);
 	m_ResultWindow->initResultWindow();
 
-	VecPlayerResult.resize(CurrentStage);
+	VecPlayerResult.resize(GlobalValue::g_ActiveRoomCount);
 }
 
 
