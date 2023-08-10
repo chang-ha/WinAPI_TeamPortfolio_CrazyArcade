@@ -87,7 +87,7 @@ void Penguin::Update(float _Delta)
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			BossTile[Y][X] = float4{ Index.X - 1 + X, Index.Y + Y - 1};
+			BossTile[Y][X] = float4{ Index.X - 1 + X, Index.Y + Y};
 		}
 	}
 
