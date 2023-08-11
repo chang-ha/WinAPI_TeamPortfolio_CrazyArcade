@@ -31,7 +31,6 @@ void BaseMonster::Update(float _Delta)
 
 	if (CurTileType == TileObjectOrder::PopRange)
 	{
-		 // Freeze
 		ChangeState(MonsterState::Freeze);
 	}
 
@@ -90,6 +89,8 @@ void BaseMonster::StateUpdate(float _Delta)
 		return FreezeUpdate(_Delta);
 	case MonsterState::Anger:
 		return AngerUpdate(_Delta);
+	case MonsterState::AngerIdle:
+		return AngerIdleUpdate(_Delta);
 	case MonsterState::Die:
 		return DieUpdate(_Delta);
 	default:
@@ -112,6 +113,9 @@ void BaseMonster::ChangeState(MonsterState _State)
 		break;
 	case MonsterState::Anger:
 		AngerStart();
+		break;
+	case MonsterState::AngerIdle:
+		AngerIdleStart();
 		break;
 	case MonsterState::Die:
 		DieStart();
@@ -220,10 +224,33 @@ void BaseMonster::FreezeUpdate(float _Delta)
 
 void BaseMonster::AngerStart()
 {
-
+	ChangeAnimationState("Anger");
 }
 
 void BaseMonster::AngerUpdate(float _Delta)
+{
+	//static float AngerIdleTimer = 0.0f;
+
+	//if (AngerIdleTimer > 1.0f)
+	//{
+	//	AngerIdleTimer = 0.0f;
+	//	//ChangeState(MonsterState::AngerMove);
+	//	return;
+	//}
+
+	//AngerIdleTimer += _Delta;
+
+	//true == PopRenderer->IsAnimationEnd()
+
+	//ChangeState(MonsterState::AngerIdle);
+}
+
+void BaseMonster::AngerIdleStart()
+{
+	ChangeAnimationState("AngerIdle");
+}
+
+void BaseMonster::AngerIdleUpdate(float _Delta)
 {
 
 }
