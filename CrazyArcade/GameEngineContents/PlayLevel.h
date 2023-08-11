@@ -1,5 +1,6 @@
 #pragma once
 #include "ContentLevel.h"
+#include "ContentsEnum.h"
 #include <vector>
 #include <list>
 
@@ -60,7 +61,8 @@ protected:
 
 	// Item
 	void ItemSetting();
-	void CreateItem(int _X, int _Y);
+	void CreateItemInBlock(int _X, int _Y);
+	void CreateItemInTile(int _X, int _Y, ItemType _Type);
 
 	bool ItemDebugValue = false;
 

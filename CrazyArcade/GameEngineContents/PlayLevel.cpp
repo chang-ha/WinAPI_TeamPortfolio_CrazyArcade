@@ -183,11 +183,17 @@ void PlayLevel::Update(float _Delta)
 				{
 					if (true == ItemDebugValue)
 					{
-						Items[Y][X]->On();
+						if (true == Items[Y][X]->ItemInBlock())
+						{
+							Items[Y][X]->On();
+						}
 					}
 					else
 					{
-						Items[Y][X]->Off();
+						if (true == Items[Y][X]->ItemInBlock())
+						{
+							Items[Y][X]->Off();
+						}
 					}
 				}
 			}
@@ -292,14 +298,14 @@ void PlayLevel::ItemSetting()
 				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2); // 33.3% 확률로 아이템 생성
 				if (0 == RandomNumber)
 				{
-					CreateItem(X, Y);
+					CreateItemInBlock(X, Y);
 				}
 			}
 		}
 	}
 }
 
-void PlayLevel::CreateItem(int _X, int _Y)
+void PlayLevel::CreateItemInBlock(int _X, int _Y)
 {
 	// < 아이템 번호 >
 	// 0 : Bubble
@@ -323,9 +329,17 @@ void PlayLevel::CreateItem(int _X, int _Y)
 
 	ItemActor = CreateActor<Item>(UpdateOrder::Map);
 	ItemActor->SetItemTypeInt(RandomNumber);
-	ItemActor->AddPos({GlobalValue::MapTileSize.X * _X, GlobalValue::MapTileSize.Y * _Y });
-	ItemActor->SetTileIndexInfo(_X, _Y);
-	ItemActor->Off();
+	ItemActor->SetItemPos(_X, _Y);
+	ItemActor->PutIteminBlock();
+	Items[_Y][_X] = ItemActor;
+	ItemActor = nullptr;
+}
+
+void PlayLevel::CreateItemInTile(int _X, int _Y, ItemType _Type)
+{
+	ItemActor = CreateActor<Item>(UpdateOrder::Map);
+	ItemActor->SetItemType(_Type);
+	ItemActor->SetItemPos(_X, _Y);
 	Items[_Y][_X] = ItemActor;
 	ItemActor = nullptr;
 }
@@ -346,7 +360,7 @@ void PlayLevel::CheckItemInTile(float _X, float _Y)
 	if (nullptr != Items[Y][X])
 	{
 		Items[Y][X]->Death();
-		Items[_Y][_X] = nullptr;
+		Items[Y][X] = nullptr;
 	}
 }
 
@@ -801,7 +815,7 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 	
 	if (nullptr != Items[_Y][_X])
 	{
-		Items[_Y][_X]->On();
+		Items[_Y][_X]->OutItemInBlock();
 	}
 }
 

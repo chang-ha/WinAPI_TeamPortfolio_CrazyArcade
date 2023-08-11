@@ -47,28 +47,24 @@ public:
 		TileInfo = _Info;
 	}
 
-	inline void SetTileIndexInfo(float4 _Index)
+	inline void PutIteminBlock()
 	{
-		TileIndex = _Index;
+		InBlock = true;
+		Off();
 	}
 
-	inline void SetTileIndexInfo(int _X, int _Y)
+	inline bool ItemInBlock() const
 	{
-		TileIndex.X = static_cast<float>(_X);
-		TileIndex.Y = static_cast<float>(_Y);
+		return InBlock;
 	}
 
-	inline void SetTileIndexInfo(float _X, float _Y)
+	inline void OutItemInBlock()
 	{
-		TileIndex.X = _X;
-		TileIndex.Y = _Y;
+		InBlock = false;
+		On();
 	}
 
-	inline void ItemPosInit()
-	{
-		SetPos(GlobalValue::ItemPosNormalize + GlobalValue::TileStartPos);
-	}
-	
+	void SetItemPos(int _X, int _Y);
 
 protected:
 
@@ -82,7 +78,9 @@ private:
 	// Item 상태변수
 	ItemType Type;
 	TileObjectOrder TileInfo = TileObjectOrder::Empty;
-	float4 TileIndex = float4::ZERO;
+	int TileIndexX = 0;
+	int TileIndexY = 0;
+	bool InBlock = false;
 
 	// Item 물리변수
 	float Speed = 3.5f;
