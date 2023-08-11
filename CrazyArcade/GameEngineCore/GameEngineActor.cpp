@@ -51,7 +51,6 @@ void GameEngineActor::ActorRelease()
 
 		// [s] [a] [a]     [a] [e]
 		ObjectStartIter = AllRenderer.erase(ObjectStartIter);
-
 	}
 }
 

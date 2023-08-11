@@ -79,6 +79,7 @@ protected:
 
 	// UI
 	int CurrentStage = -1;
+	std::string NextLevelName = "";
 
 	void CreateUIElements();
 
@@ -129,14 +130,19 @@ private:
 	class PlayResultWindow* m_ResultWindow = nullptr;
 	const float4 CONST_ResultWindowStartPos = float4{ 39.0f , 138.0f };
 
-	void SetUpResulutBoardAnimation();
+	void SetUpResultBoardAnimation();
 
 private:
 	bool GameOverCheckValue = false;
+	bool WinCheckValue = false;
+
+	float GameOverTime = 0.0f;
+	const float GameOverDuration = 10.0f;
+
 	void StartGameOver();
+
 
 private:
 	float LerpTime = 1.0f;
 
 };
-

@@ -33,6 +33,7 @@ public:
 	}
 
 	void initPortrait(int _Value);
+
 	float4 getPortraitScale() const
 	{
 		return m_PortraitScale;

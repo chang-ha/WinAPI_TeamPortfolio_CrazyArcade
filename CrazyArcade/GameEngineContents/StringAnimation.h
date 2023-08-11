@@ -13,22 +13,26 @@ enum class StringAniState
 
 
 // Ό³Έν :
-class StageStartActor : public GameEngineActor
+class StringAnimation : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	StageStartActor();
-	~StageStartActor();
+	StringAnimation();
+	~StringAnimation();
 
 	// delete Function
-	StageStartActor(const StageStartActor& _Other) = delete;
-	StageStartActor(StageStartActor&& _Other) noexcept = delete;
-	StageStartActor& operator=(const StageStartActor& _Other) = delete;
-	StageStartActor& operator=(StageStartActor&& _Other) noexcept = delete;
+	StringAnimation(const StringAnimation& _Other) = delete;
+	StringAnimation(StringAnimation&& _Other) noexcept = delete;
+	StringAnimation& operator=(const StringAnimation& _Other) = delete;
+	StringAnimation& operator=(StringAnimation&& _Other) noexcept = delete;
 
-	void ActorRelease();
 
 	void setTexture(const std::string& _FileName);
+	GameEngineRenderer* getRenderer() const
+	{
+		return Renderer;
+	}
+
 	void setState(StringAniState _State)
 	{
 		m_State = _State;
@@ -44,6 +48,7 @@ public:
 		m_StopYPos = _YPos;
 	}
 
+	void ActorRelease();
 
 protected:
 
@@ -67,4 +72,3 @@ private:
 	void updateDownState(float _Delta);
 
 };
-
