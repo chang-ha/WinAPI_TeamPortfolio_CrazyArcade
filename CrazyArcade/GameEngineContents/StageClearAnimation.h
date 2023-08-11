@@ -1,43 +1,38 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
-#include <functional>
 #include <string>
 #include <vector>
 
 
-enum class StageStartState
+enum class StageClearState
 {
 	UpperStringDown,
 	DownStringAppear,
-	GameStart,
 	Max,
 };
 
 
+
 // Ό³Έν :
-class GameStartAnimation : public GameEngineActor
+class StageClearAnimation : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	GameStartAnimation();
-	~GameStartAnimation();
+	StageClearAnimation();
+	~StageClearAnimation();
 
 	// delete Function
-	GameStartAnimation(const GameStartAnimation& _Other) = delete;
-	GameStartAnimation(GameStartAnimation&& _Other) noexcept = delete;
-	GameStartAnimation& operator=(const GameStartAnimation& _Other) = delete;
-	GameStartAnimation& operator=(GameStartAnimation&& _Other) noexcept = delete;
+	StageClearAnimation(const StageClearAnimation& _Other) = delete;
+	StageClearAnimation(StageClearAnimation&& _Other) noexcept = delete;
+	StageClearAnimation& operator=(const StageClearAnimation& _Other) = delete;
+	StageClearAnimation& operator=(StageClearAnimation&& _Other) noexcept = delete;
+
 
 	void initStartAnimation(int _StageNumber);
 
-	template<typename ActorType>
-	void setGameStartCallBack(ActorType* _Actor, void(ActorType::* _Func)())
-	{
-		CallGameStart = std::bind(_Func, _Actor);
-	}
-
 	void ActorRelease();
+
 
 protected:
 
@@ -59,7 +54,7 @@ private:
 	std::vector<class StringAnimation*> vecUpperString;
 	const int CONST_UpperStringCount = 6;
 	const float CONST_UpperStringXStartPos = 210.0f;
-	const float CONST_UpperStringYStartPos = 21.0f;
+	const float CONST_UpperStringYStartPos = 32.0f;
 
 	const std::vector<float> CONST_vecUpperXPos =
 	{
@@ -74,8 +69,8 @@ private:
 	void initLowerString();
 	std::vector<class StringAnimation*> vecLowerString;
 	const int CONST_LowerStringCount = 6;
-	const float CONST_LowerAppearYPos = 310.0f;
 	const float CONST_LowerStringXStartPos = 138.0f;
+	const float CONST_LowerAppearYPos = 114.0f;
 
 	const std::vector<float> CONST_vecLowerXPos =
 	{
@@ -88,7 +83,7 @@ private:
 	};
 
 
-	StageStartState m_State = StageStartState::Max;
+	StageClearState m_State = StageClearState::Max;
 
 	void UpdateState(float _Delta);
 	float CONST_StringSpeed = 2000.0f;
@@ -97,19 +92,11 @@ private:
 	int m_MoveNumber = 0;
 	float StateTime = 0.0f;
 
-	const float CONST_NextMoveTime = 0.15f;
-	const float CONST_UpperStopYPos = 248.0f;
+	const float CONST_NextMoveTime = 0.18f;
+	const float CONST_UpperStopYPos = 53.0f;
 
 
-	void UpdateDownStringAppear(float _Delta);
+	void UpdateLowerStringAppear(float _Delta);
 	bool AppearLowerStringValue = false;
-	const float CONST_DownStringAppearStateDuration = 1.0f;
-
-	void setDownStringAppear();
-	const float CONST_StringYScale = 35.0f;
-
-	void UpdateGameStart(float _Delta);
-	std::function<void()> CallGameStart;
-	bool GameStartCallValue = false;
 };
 

@@ -7,6 +7,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/TileMap.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/GameEngineCore.h>
 
 
 #include "BackGround.h"
@@ -26,6 +27,7 @@
 #include "PlayPortrait.h"
 #include "GameStartAnimation.h"
 #include "PlayResultWindow.h"
+#include "GameOverAnimation.h"
 #include "Button.h"
 #include "Item.h"
 
@@ -87,16 +89,45 @@ void PlayLevel::Update(float _Delta)
 		CollisionDebugRenderSwitch();
 	}
 
+	if (true == GameOverCheckValue)
+	{
+		GameOverTime += _Delta;
+
+		if (GameOverTime > GameOverDuration)
+		{
+			GameOverTime = 0.0f;
+
+			std::string MoveLevel = WinCheckValue ? NextLevelName : "RoomLevel";
+			GameEngineCore::ChangeLevel(MoveLevel);
+		}
+	}
+
 	ContentLevel::Update(_Delta);
 
-	if (-1 != CurrentStage)
+	if (-1 != CurrentStage && false == GameOverCheckValue)
 	{
-		if (false == GameOverCheckValue)
+		if (nullptr == Player)
 		{
-			if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+			return;
+		}
+
+		if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+		{
+			WinCheckValue = false;
+
+			StartGameOver();
+		}
+
+		if (true == GameEngineInput::IsPress('6'))
+		{
+			for (int PlayerCount = 0; PlayerCount < GlobalValue::g_ActiveRoomCount; PlayerCount++)
 			{
-				StartGameOver();
+				VecPlayerResult[PlayerCount].PlayerWinValue = true;
 			}
+
+			WinCheckValue = true;
+
+			StartGameOver();
 		}
 	}
 
@@ -871,6 +902,7 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 void PlayLevel::UILevelStart()
 {
 	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+
 	if (-1 != CurrentStage)
 	{
 		CreateGameStartAnimation();
@@ -959,6 +991,18 @@ void PlayLevel::SetUpResultWindow()
 	m_ResultWindow->initResultWindow();
 
 	VecPlayerResult.resize(GlobalValue::g_ActiveRoomCount);
+}
+
+void PlayLevel::SetUpResultBoardAnimation()
+{
+	GameOverAnimation* GameOverAnimationPtr = CreateActor<GameOverAnimation>(UpdateOrder::UI);
+	if (nullptr == GameOverAnimationPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	GameOverAnimationPtr->initStageResultAnimation(CurrentStage, WinCheckValue);
 }
 
 
@@ -1068,6 +1112,8 @@ void PlayLevel::StartGameOver()
 
 	m_ResultWindow->OnResultWindow(VecPlayerResult);
 
+	SetUpResultBoardAnimation();
+
 	GameOverCheckValue = true;
 }
 
@@ -1079,6 +1125,15 @@ void PlayLevel::UILevelEnd()
 		ReleaseLevelComposition();
 		ReleaseResultWindow();
 	}
+
+	if (Player)
+	{
+		Player->Death();
+		Player = nullptr;
+	}
+
+	GameOverCheckValue = false;
+	GameStartCheckValue = false;
 }
 
 void PlayLevel::ReleaseLevelComposition()
