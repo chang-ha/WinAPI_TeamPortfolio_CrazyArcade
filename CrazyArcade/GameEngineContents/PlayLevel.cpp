@@ -378,7 +378,8 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 			}
 		}
 
-		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
+		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo
+			|| TileObjectOrder::PopRange == TileInfo[CheckY][CheckX].MapInfo)
 		{
 			return false;
 		}
@@ -442,7 +443,8 @@ bool PlayLevel::CheckSidePos(const float4& _Pos)
 	}
 	else
 	{
-		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
+		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo
+			|| TileObjectOrder::PopRange == TileInfo[CheckY][CheckX].MapInfo)
 		{
 			return false;
 		}
@@ -781,7 +783,11 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 	{
 		TileRenderer->CreateAnimation("Pop_Tile", "Pop_Tile.Bmp", 0, 3, 0.1f, false);
 	}
+
+	TileInfo[_Y][_X].MapInfo = TileObjectOrder::Empty;
+
 	TileRenderer->ChangeAnimation("Pop_Tile");
+
 	AllBubbleDeathIndex.push_back({ _X, _Y });
 	
 	if (nullptr != Items[_Y][_X])
