@@ -74,7 +74,7 @@ void PlayLevel::Start()
 	Items.assign(GlobalValue::MapTileIndex_Y, (std::vector<Item*>(GlobalValue::MapTileIndex_X, nullptr)));
 
 	// Create Character 
-	Player = CreateActor<Bazzi>(UpdateOrder::Character);
+	Player = CreateActor<Dao>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);

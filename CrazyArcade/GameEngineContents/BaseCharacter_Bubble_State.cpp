@@ -4,6 +4,20 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
+// 물풍선에 맞았을 경우
+void BaseCharacter::BubbleHitStart()
+{
+	ChangeAnimationState("BubbleHit");
+}
+void BaseCharacter::BubbleHitUpdate(float _Delta)
+{
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(CharacterState::Bubble);
+		return;
+	}
+}
+
 void BaseCharacter::BubbleStart()
 {
 	ChangeAnimationState("Bubble");
@@ -19,16 +33,29 @@ void BaseCharacter::BubbleUpdate(float _Delta)
 		return;
 	}
 
-	if (3.0f < BubbleTimer)
+	if (5.0f < BubbleTimer)
 	{
 		BubbleTimer = 0.0f;
-		ChangeState(CharacterState::Die);
+		ChangeState(CharacterState::BubbleEnd);
 		return;
 	}
 
 	BubbleTimer += _Delta;
 }
 
+// 버블이 된 후 시간이 경과했을경우
+void BaseCharacter::BubbleEndStart()
+{
+	ChangeAnimationState("BubbleEnd");
+}
+void BaseCharacter::BubbleEndUpdate(float _Delta)
+{
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(CharacterState::Die);
+		return;
+	}
+}
 
 void BaseCharacter::FlashLongStart()
 {
@@ -48,7 +75,6 @@ void BaseCharacter::FlashLongUpdate(float _Delta)
 
 	FlashLongTimer += _Delta;
 }
-
 
 void BaseCharacter::FlashShortStart()
 {

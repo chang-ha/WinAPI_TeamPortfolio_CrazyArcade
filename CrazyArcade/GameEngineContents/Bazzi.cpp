@@ -45,7 +45,9 @@ void Bazzi::Start()
 	MainRenderer->CreateAnimation("Bazzi_Move_Right", "Bazzi_Right.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Move_Up", "Bazzi_Up.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Move_Down", "Bazzi_Down.Bmp");
-	MainRenderer->CreateAnimation("Bazzi_Bubble", "Bazzi_Bubble.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_BubbleHit", "Bazzi_Bubble.Bmp", 0, 2, 0.1f, false);
+	MainRenderer->CreateAnimation("Bazzi_Bubble", "Bazzi_Bubble.Bmp", 3, 11, 0.1f, true);
+	MainRenderer->CreateAnimation("Bazzi_BubbleEnd", "Bazzi_Bubble.Bmp", 12, 13, 0.1f, false);
 	MainRenderer->CreateAnimation("Bazzi_FlashLong", "Bazzi_FlashLong.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_FlashShort", "Bazzi_FlashShort.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Live", "Bazzi_Live.Bmp");
