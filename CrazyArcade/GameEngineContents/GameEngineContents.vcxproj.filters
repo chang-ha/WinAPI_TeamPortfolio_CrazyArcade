@@ -88,7 +88,7 @@
     <ClCompile Include="PlayTimer.cpp">
       <Filter>Actor\UI\PlayLevel</Filter>
     </ClCompile>
-    <ClCompile Include="StageStartActor.cpp">
+    <ClCompile Include="StringAnimation.cpp">
       <Filter>Actor\UI\PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="PlayCharacterPortrait.cpp">
@@ -135,6 +135,18 @@
     </ClCompile>
     <ClCompile Include="PlayResultWindow.cpp">
       <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverAnimation.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="StageClearAnimation.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LoseAnimation.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="UITestStage2.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,7 +243,7 @@
     <ClInclude Include="PlayTimer.h">
       <Filter>Actor\UI\PlayLevel</Filter>
     </ClInclude>
-    <ClInclude Include="StageStartActor.h">
+    <ClInclude Include="StringAnimation.h">
       <Filter>Actor\UI\PlayLevel</Filter>
     </ClInclude>
     <ClInclude Include="PlayCharacterPortrait.h">
@@ -272,6 +284,18 @@
     </ClInclude>
     <ClInclude Include="PlayResultLine.h">
       <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverAnimation.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="StageClearAnimation.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LoseAnimation.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="UITestStage2.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

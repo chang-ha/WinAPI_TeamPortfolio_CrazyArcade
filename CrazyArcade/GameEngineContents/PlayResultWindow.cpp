@@ -157,7 +157,7 @@ void PlayResultWindow::OnResultWindow(const std::vector<PlayerResult>& _VecResul
 
 		LinePtr->onResultLine();
 		
-		LinePtr->changePlayerMatchValue(_VecResult[vecCount].WinOrLoseValue);
+		LinePtr->changePlayerMatchValue(_VecResult[vecCount].PlayerWinValue);
 		LinePtr->changeKillNumber(_VecResult[vecCount].KillNUmber);
 		LinePtr->changeSaveNumber(_VecResult[vecCount].SaveNUmber);
 	}

@@ -1,5 +1,6 @@
 #pragma once
 #include "ContentLevel.h"
+#include "ContentsEnum.h"
 #include <vector>
 #include <list>
 
@@ -9,7 +10,7 @@ struct PlayerResult
 public:
 	int KillNUmber = 0;
 	int SaveNUmber = 0;
-	bool WinOrLoseValue = false;
+	bool PlayerWinValue = false;
 };
 
 class BaseCharacter;
@@ -42,11 +43,17 @@ public:
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
 
+	void CheckItemInTile(int _X, int _Y);
 	void CheckItemInTile(float _X, float _Y);
 
 	class TileMap* GetGroundTile()
 	{
 		return GroundTile;
+	}
+
+	class TileMap* GetObjectTile()
+	{
+		return ObjectTile;
 	}
 
 protected:
@@ -61,7 +68,8 @@ protected:
 
 	// Item
 	void ItemSetting();
-	void CreateItem(int _X, int _Y);
+	void CreateItemInBlock(int _X, int _Y);
+	void CreateItemInTile(int _X, int _Y, ItemType _Type);
 
 	bool ItemDebugValue = false;
 
@@ -84,6 +92,7 @@ protected:
 
 	// UI
 	int CurrentStage = -1;
+	std::string NextLevelName = "";
 
 	void CreateUIElements();
 
@@ -120,7 +129,7 @@ private:
 	void SetUpTimer();
 	class PlayTimer* m_PlayTimer = nullptr;
 	const float4 CONST_TimerLocation = float4{ 711.0f , 78.0f };
-	const float CONST_TimeSetting = 5.0f;
+	const float CONST_TimeSetting = 120.0f;
 
 
 	void SetGoBackButton();
@@ -134,11 +143,17 @@ private:
 	class PlayResultWindow* m_ResultWindow = nullptr;
 	const float4 CONST_ResultWindowStartPos = float4{ 39.0f , 138.0f };
 
-	void SetUpResulutBoardAnimation();
+	void SetUpResultBoardAnimation();
 
 private:
 	bool GameOverCheckValue = false;
+	bool WinCheckValue = false;
+
+	float GameOverTime = 0.0f;
+	const float GameOverDuration = 10.0f;
+
 	void StartGameOver();
+
 
 private:
 	float LerpTime = 1.0f;

@@ -16,6 +16,11 @@ public:
 	Snowmon_red& operator=(Snowmon_red&& _Other) noexcept = delete;
 
 protected:
+	void ChangeAnimationState(const std::string& _StateName) override;
+	class PlayLevel* CurPlayLevel = nullptr;
+	class TileMap* CurTile = nullptr;
+
+	TileObjectOrder CurTileType = TileObjectOrder::Empty;
 
 private:
 	void Start() override;

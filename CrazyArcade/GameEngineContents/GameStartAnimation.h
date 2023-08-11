@@ -56,7 +56,7 @@ private:
 	void loadStringTexture();
 
 	void initUpperString();
-	std::vector<class StageStartActor*> vecUpperString;
+	std::vector<class StringAnimation*> vecUpperString;
 	const int CONST_UpperStringCount = 6;
 	const float CONST_UpperStringXStartPos = 210.0f;
 	const float CONST_UpperStringYStartPos = 21.0f;
@@ -72,7 +72,7 @@ private:
 	};
 
 	void initLowerString();
-	std::vector<class StageStartActor*> vecLowerString;
+	std::vector<class StringAnimation*> vecLowerString;
 	const int CONST_LowerStringCount = 6;
 	const float CONST_LowerAppearYPos = 310.0f;
 	const float CONST_LowerStringXStartPos = 138.0f;
@@ -111,8 +111,5 @@ private:
 	void UpdateGameStart(float _Delta);
 	std::function<void()> CallGameStart;
 	bool GameStartCallValue = false;
-
-
-	
 };
 

@@ -39,6 +39,12 @@ void PlayCharacterPortrait::loadPortrait()
 	{
 		GlobalUtils::SpriteFileLoad("Play_Portrait_Bazzi_Normal.bmp", "Resources\\Textures\\UI\\PlayStage\\Portrait", 1, 2);
 		GlobalUtils::SpriteFileLoad("Play_Portrait_Bazzi_Lose.bmp", "Resources\\Textures\\UI\\PlayStage\\Portrait", 1, 4);
+		GlobalUtils::SpriteFileLoad("Play_Portrait_Dao_Normal.bmp", "Resources\\Textures\\UI\\PlayStage\\Portrait", 1, 2);
+		GlobalUtils::SpriteFileLoad("Play_Portrait_Dao_Lose.bmp", "Resources\\Textures\\UI\\PlayStage\\Portrait", 1, 4);
+		GlobalUtils::SpriteFileLoad("Play_Portrait_Marid_Normal.bmp", "Resources\\Textures\\UI\\PlayStage\\Portrait", 1, 2);
+		GlobalUtils::SpriteFileLoad("Play_Portrait_Marid_Lose.bmp", "Resources\\Textures\\UI\\PlayStage\\Portrait", 1, 4);
+		GlobalUtils::SpriteFileLoad("Play_Portrait_Kephi_Normal.bmp", "Resources\\Textures\\UI\\PlayStage\\Portrait", 1, 2);
+		GlobalUtils::SpriteFileLoad("Play_Portrait_Kephi_Lose.bmp", "Resources\\Textures\\UI\\PlayStage\\Portrait", 1, 4);
 
 		PlayPortraitTextureLoadValue = true;
 	}
@@ -90,7 +96,7 @@ void PlayCharacterPortrait::initPortrait(int _Value)
 	std::string LoseFileName = FileName;
 	LoseFileName += "_Lose.bmp";
 
-	Renderer->CreateAnimation("Lose", LoseFileName, 0, 3, 0.15f, true);
+	Renderer->CreateAnimationToFrame("Lose", LoseFileName, { 0, 1, 2, 3, 1, 2, 3, 1, 2, 3 }, 0.1f, true);
 }
 
 

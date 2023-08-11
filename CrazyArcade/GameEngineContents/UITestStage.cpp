@@ -30,6 +30,7 @@ void UITestStage::Start()
 	TileSetting();
 
 	CurrentStage = 1;
+	NextLevelName = "UITestStage2";
 	CreateUIElements();
 }
 

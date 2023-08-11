@@ -37,29 +37,12 @@ void TestStage::Start()
 	Monster->SetPos({ GlobalValue::WinScale.Half().X + 200, GlobalValue::WinScale.Half().Y });
 
 	// 아이템 테스트
-	TestItem = CreateActor<Item>(UpdateOrder::Map);
-	TestItem->SetItemType(ItemType::Bubble);
-	TestItem->AddPos({ (40 * 3), (40 * 6) });
-
-	TestItem = CreateActor<Item>(UpdateOrder::Map);
-	TestItem->SetItemType(ItemType::Fluid);
-	TestItem->AddPos({ (40 * 4), (40 * 6) });
-
-	TestItem = CreateActor<Item>(UpdateOrder::Map);
-	TestItem->SetItemType(ItemType::Roller);
-	TestItem->AddPos({ (40 * 5), (40 * 6) });
-
-	TestItem = CreateActor<Item>(UpdateOrder::Map);
-	TestItem->SetItemType(ItemType::Needle);
-	TestItem->AddPos({ (40 * 6), (40 * 6) });
-
-	TestItem = CreateActor<Item>(UpdateOrder::Map);
-	TestItem->SetItemType(ItemType::Ultra);
-	TestItem->AddPos({ (40 * 7), (40 * 6) });
-
-	TestItem = CreateActor<Item>(UpdateOrder::Map);
-	TestItem->SetItemType(ItemType::Red_Devil);
-	TestItem->AddPos({ (40 * 8), (40 * 6) });
+	CreateItemInTile(3, 6, ItemType::Bubble);
+	CreateItemInTile(8, 6, ItemType::Fluid);
+	CreateItemInTile(4, 6, ItemType::Roller);
+	CreateItemInTile(5, 6, ItemType::Needle);
+	CreateItemInTile(6, 6, ItemType::Ultra);
+	CreateItemInTile(7, 6, ItemType::Red_Devil);
 
 	ItemSetting();
 }

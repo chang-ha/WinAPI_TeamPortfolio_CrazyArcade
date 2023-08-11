@@ -7,6 +7,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/TileMap.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/GameEngineCore.h>
 
 
 #include "BackGround.h"
@@ -26,6 +27,7 @@
 #include "PlayPortrait.h"
 #include "GameStartAnimation.h"
 #include "PlayResultWindow.h"
+#include "GameOverAnimation.h"
 #include "Button.h"
 #include "Item.h"
 
@@ -87,16 +89,45 @@ void PlayLevel::Update(float _Delta)
 		CollisionDebugRenderSwitch();
 	}
 
+	if (true == GameOverCheckValue)
+	{
+		GameOverTime += _Delta;
+
+		if (GameOverTime > GameOverDuration)
+		{
+			GameOverTime = 0.0f;
+
+			std::string MoveLevel = WinCheckValue ? NextLevelName : "RoomLevel";
+			GameEngineCore::ChangeLevel(MoveLevel);
+		}
+	}
+
 	ContentLevel::Update(_Delta);
 
-	if (-1 != CurrentStage)
+	if (-1 != CurrentStage && false == GameOverCheckValue)
 	{
-		if (false == GameOverCheckValue)
+		if (nullptr == Player)
 		{
-			if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+			return;
+		}
+
+		if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+		{
+			WinCheckValue = false;
+
+			StartGameOver();
+		}
+
+		if (true == GameEngineInput::IsPress('6'))
+		{
+			for (int PlayerCount = 0; PlayerCount < GlobalValue::g_ActiveRoomCount; PlayerCount++)
 			{
-				StartGameOver();
+				VecPlayerResult[PlayerCount].PlayerWinValue = true;
 			}
+
+			WinCheckValue = true;
+
+			StartGameOver();
 		}
 	}
 
@@ -179,16 +210,21 @@ void PlayLevel::Update(float _Delta)
 		{
 			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 			{
-				
 				if (nullptr != Items[Y][X])
 				{
 					if (true == ItemDebugValue)
 					{
-						Items[Y][X]->On();
+						if (true == Items[Y][X]->ItemInBlock())
+						{
+							Items[Y][X]->On();
+						}
 					}
 					else
 					{
-						Items[Y][X]->Off();
+						if (true == Items[Y][X]->ItemInBlock())
+						{
+							Items[Y][X]->Off();
+						}
 					}
 				}
 			}
@@ -293,14 +329,14 @@ void PlayLevel::ItemSetting()
 				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2); // 33.3% 확률로 아이템 생성
 				if (0 == RandomNumber)
 				{
-					CreateItem(X, Y);
+					CreateItemInBlock(X, Y);
 				}
 			}
 		}
 	}
 }
 
-void PlayLevel::CreateItem(int _X, int _Y)
+void PlayLevel::CreateItemInBlock(int _X, int _Y)
 {
 	// < 아이템 번호 >
 	// 0 : Bubble
@@ -324,22 +360,40 @@ void PlayLevel::CreateItem(int _X, int _Y)
 
 	ItemActor = CreateActor<Item>(UpdateOrder::Map);
 	ItemActor->SetItemTypeInt(RandomNumber);
-	ItemActor->AddPos({GlobalValue::MapTileSize.X * _X, GlobalValue::MapTileSize.Y * _Y });
-	ItemActor->SetTileIndexInfo(_X, _Y);
-	ItemActor->Off();
+	ItemActor->SetItemPos(_X, _Y);
+	ItemActor->PutIteminBlock();
 	Items[_Y][_X] = ItemActor;
 	ItemActor = nullptr;
 }
 
-void PlayLevel::CheckItemInTile(float _X, float _Y)
+void PlayLevel::CreateItemInTile(int _X, int _Y, ItemType _Type)
+{
+	ItemActor = CreateActor<Item>(UpdateOrder::Map);
+	ItemActor->SetItemType(_Type);
+	ItemActor->SetItemPos(_X, _Y);
+	Items[_Y][_X] = ItemActor;
+	ItemActor = nullptr;
+}
+
+void PlayLevel::CheckItemInTile(int _X, int _Y)
 {
 	if (nullptr != Items[_Y][_X])
 	{
-		Items[_Y][_X] = ItemActor;
-		ItemActor = nullptr;
+		Items[_Y][_X]->Death();
+		Items[_Y][_X] = nullptr;
 	}
 }
 
+void PlayLevel::CheckItemInTile(float _X, float _Y)
+{
+	int X = static_cast<int>(_X);
+	int Y = static_cast<int>(_Y);
+	if (nullptr != Items[Y][X])
+	{
+		Items[Y][X]->Death();
+		Items[Y][X] = nullptr;
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 캐릭터
@@ -527,10 +581,9 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 		TileInfo[NewY][NewX].LerpTimer = 0.0f;
 
 		// Item 수정
+		CheckItemInTile(NewX, NewY);
 		if (nullptr != Items[_Y][_X])
 		{
-			CheckItemInTile(_X, _Y);
-
 			Items[NewY][NewX] = Items[_Y][_X];
 			Items[NewY][NewX]->AddPos(GlobalValue::MapTileSize * ItemMoveDir);
 			Items[_Y][_X] = nullptr;
@@ -546,6 +599,27 @@ TileObjectOrder PlayLevel::GetCurTileType(const float4& _Pos)
 
 	int CurIndexX = ChangeIndex.iX() - 1;
 	int CurIndexY = ChangeIndex.iY() - 1;
+
+	if (true == GroundTile->IsOver(CurIndexX, CurIndexY))
+	{
+		if (CurIndexX < 0)
+		{
+			CurIndexX = 0;
+		}
+		if(CurIndexX >= GlobalValue::MapTileIndex_X)
+		{
+			CurIndexX = GlobalValue::MapTileIndex_X - 1;
+		}
+
+		if (CurIndexY < 0)
+		{
+			CurIndexY = 0;
+		}
+		if (CurIndexY >= GlobalValue::MapTileIndex_Y)
+		{
+			CurIndexY = GlobalValue::MapTileIndex_Y - 1;
+		}
+	}
 
 	GameMapInfo Temp = TileInfo[CurIndexY][CurIndexX];
 
@@ -649,7 +723,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f);
 		}
 
-		CheckItemInTile(Y, X);
+		CheckItemInTile(X, Y);
 	}
 
 	//오른쪽 타일--------------------------------------------------------------
@@ -683,7 +757,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f);
 		}
 
-		CheckItemInTile(Y, X);
+		CheckItemInTile(X, Y);
 	}
 
 	//위쪽 타일--------------------------------------------------------------
@@ -717,7 +791,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f);
 		}
 
-		CheckItemInTile(Y, X);
+		CheckItemInTile(X, Y);
 	}
 
 	//아래쪽 타일--------------------------------------------------------------
@@ -751,7 +825,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f);
 		}
 
-		CheckItemInTile(Y, X);
+		CheckItemInTile(X, Y);
 	}
 }
 
@@ -792,7 +866,7 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 	
 	if (nullptr != Items[_Y][_X])
 	{
-		Items[_Y][_X]->On();
+		Items[_Y][_X]->OutItemInBlock();
 	}
 }
 
@@ -828,6 +902,7 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 void PlayLevel::UILevelStart()
 {
 	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+
 	if (-1 != CurrentStage)
 	{
 		CreateGameStartAnimation();
@@ -916,6 +991,18 @@ void PlayLevel::SetUpResultWindow()
 	m_ResultWindow->initResultWindow();
 
 	VecPlayerResult.resize(GlobalValue::g_ActiveRoomCount);
+}
+
+void PlayLevel::SetUpResultBoardAnimation()
+{
+	GameOverAnimation* GameOverAnimationPtr = CreateActor<GameOverAnimation>(UpdateOrder::UI);
+	if (nullptr == GameOverAnimationPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	GameOverAnimationPtr->initStageResultAnimation(CurrentStage, WinCheckValue);
 }
 
 
@@ -1025,6 +1112,8 @@ void PlayLevel::StartGameOver()
 
 	m_ResultWindow->OnResultWindow(VecPlayerResult);
 
+	SetUpResultBoardAnimation();
+
 	GameOverCheckValue = true;
 }
 
@@ -1036,6 +1125,15 @@ void PlayLevel::UILevelEnd()
 		ReleaseLevelComposition();
 		ReleaseResultWindow();
 	}
+
+	if (Player)
+	{
+		Player->Death();
+		Player = nullptr;
+	}
+
+	GameOverCheckValue = false;
+	GameStartCheckValue = false;
 }
 
 void PlayLevel::ReleaseLevelComposition()

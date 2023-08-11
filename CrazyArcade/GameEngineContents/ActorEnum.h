@@ -30,7 +30,6 @@ enum class MonsterState
 	Move,
 	Ready,
 	Freeze,
-	Melt,
 	Anger,
 	AngerIdle,
 	AngerMove,
