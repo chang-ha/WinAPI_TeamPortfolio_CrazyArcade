@@ -2,6 +2,7 @@
 #include "GlobalUtils.h"
 #include "PlayLevel.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineRenderer.h>
@@ -53,6 +54,10 @@ void BaseMonster::Render(float _Delta)
 	if (true == IsDebugData)
 	{
 		CollisionData Data;
+
+		Data.Pos = GetPos();
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
 		Data.Pos = GetPos() + float4 TOPPOS;
 		Data.Scale = { 3, 3 };
@@ -187,10 +192,47 @@ void BaseMonster::MoveUpdate(float _Delta)
 	{
 		AddPos(MovePos);
 	}
+	
+	// 방향 전환
+	else if (true == CheckTile)
+	{
+		RandomDir();
+	}
 
 	MoveTimer += _Delta;
 }
 
+void BaseMonster::RandomDir()
+{
+	int Random = GameEngineRandom::MainRandom.RandomInt(1, 4);
+
+	ActorDir CurDir = Dir;
+	ActorDir NextDir = Dir;
+
+	switch (Random)
+	{
+	case 1:
+		NextDir = ActorDir::Down;
+		break;
+	case 2:
+		NextDir = ActorDir::Up;
+		break;
+	case 3:
+		NextDir = ActorDir::Left;
+		break;
+	case 4:
+		NextDir = ActorDir::Right;
+		break;
+	default:
+		break;
+	}
+
+	if (CurDir != NextDir)
+	{
+		Dir = NextDir;
+		ChangeAnimationState("Move");
+	}
+}
 
 void BaseMonster::DirCheck()
 {
@@ -199,19 +241,7 @@ void BaseMonster::DirCheck()
 
 	TileObjectOrder TileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
 
-	switch (Dir)
-	{
-	case ActorDir::Left:
-		break;
-	case ActorDir::Right:
-		break;
-	case ActorDir::Up:
-		break;
-	case ActorDir::Down:
-		break;
-	default:
-		break;
-	}
+
 }
 
 void BaseMonster::ChangeAnimationState(const std::string& _StateName) 

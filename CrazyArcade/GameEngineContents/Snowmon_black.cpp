@@ -61,7 +61,7 @@ void Snowmon_black::Start()
 	MainRenderer->CreateAnimation("Snowmon_Black_Freeze",		"Snowmon_Black_Freeze.Bmp", 0, 2, 0.2f, false);
 	MainRenderer->CreateAnimation("Snowmon_Black_Melt",			"Snowmon_Black_Melt.Bmp", 0, 2, 0.2f, false);
 	MainRenderer->CreateAnimation("Snowmon_Black_Anger",		"Snowmon_Black_Anger.Bmp", 0, 8, 0.1f, false);
-
+	
 	MainRenderer->SetRenderPos({0, 20});
 
 	ChangeState(MonsterState::Idle);
