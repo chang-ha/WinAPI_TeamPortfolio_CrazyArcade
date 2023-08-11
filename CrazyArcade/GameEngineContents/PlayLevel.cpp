@@ -7,6 +7,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/TileMap.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/GameEngineCore.h>
 
 
 #include "BackGround.h"
@@ -26,6 +27,8 @@
 #include "PlayPortrait.h"
 #include "GameStartAnimation.h"
 #include "PlayResultWindow.h"
+#include "GameOverAnimation.h"
+#include "StageStartBossBillBoard.h"
 #include "Button.h"
 #include "Item.h"
 
@@ -87,16 +90,45 @@ void PlayLevel::Update(float _Delta)
 		CollisionDebugRenderSwitch();
 	}
 
+	if (true == GameOverCheckValue)
+	{
+		GameOverTime += _Delta;
+
+		if (GameOverTime > GameOverDuration)
+		{
+			GameOverTime = 0.0f;
+
+			std::string MoveLevel = WinCheckValue ? NextLevelName : "RoomLevel";
+			GameEngineCore::ChangeLevel(MoveLevel);
+		}
+	}
+
 	ContentLevel::Update(_Delta);
 
-	if (-1 != CurrentStage)
+	if (-1 != CurrentStage && false == GameOverCheckValue)
 	{
-		if (false == GameOverCheckValue)
+		if (nullptr == Player)
 		{
-			if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+			return;
+		}
+
+		if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+		{
+			WinCheckValue = false;
+
+			StartGameOver();
+		}
+
+		if (true == GameEngineInput::IsPress('6'))
+		{
+			for (int PlayerCount = 0; PlayerCount < GlobalValue::g_ActiveRoomCount; PlayerCount++)
 			{
-				StartGameOver();
+				VecPlayerResult[PlayerCount].PlayerWinValue = true;
 			}
+
+			WinCheckValue = true;
+
+			StartGameOver();
 		}
 	}
 
@@ -871,9 +903,11 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 void PlayLevel::UILevelStart()
 {
 	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+
 	if (-1 != CurrentStage)
 	{
 		CreateGameStartAnimation();
+		CreateBossImage();
 		CreatePortrait();
 		CreateGameResult();
 	}
@@ -892,15 +926,43 @@ void PlayLevel::UILevelStart()
 
 void PlayLevel::CreateGameStartAnimation()
 {
-	GameStartAnimation* GameStartAnimationPtr = CreateActor<GameStartAnimation>(UpdateOrder::UI);
-	if (nullptr == GameStartAnimationPtr)
+	m_GameStartAnimation = CreateActor<GameStartAnimation>(UpdateOrder::UI);
+	if (nullptr == m_GameStartAnimation)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
 		return;
 	}
 
-	GameStartAnimationPtr->initStartAnimation(CurrentStage);
-	GameStartAnimationPtr->setGameStartCallBack(this, &PlayLevel::setGameStartCallBack);
+	m_GameStartAnimation->initStartAnimation(CurrentStage);
+	m_GameStartAnimation->setGameStartCallBack(this, &PlayLevel::setGameStartCallBack);
+
+	if (CurrentStage >= 2 && CurrentStage <= 3)
+	{
+		m_GameStartAnimation->Off();
+	}
+}
+
+void PlayLevel::OnGameStartAnimation()
+{
+	if (m_GameStartAnimation)
+	{
+		m_GameStartAnimation->On();
+	}
+}
+
+void PlayLevel::CreateBossImage()
+{
+	if (1 != CurrentStage)
+	{
+		StageStartBossBillBoard* BossBillbaord = CreateActor<StageStartBossBillBoard>(UpdateOrder::UI);
+		if (nullptr == BossBillbaord)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		BossBillbaord->setCallbackStage<PlayLevel>(this, &PlayLevel::OnGameStartAnimation);
+	}
 }
 
 void PlayLevel::setGameStartCallBack()
@@ -959,6 +1021,18 @@ void PlayLevel::SetUpResultWindow()
 	m_ResultWindow->initResultWindow();
 
 	VecPlayerResult.resize(GlobalValue::g_ActiveRoomCount);
+}
+
+void PlayLevel::SetUpResultBoardAnimation()
+{
+	GameOverAnimation* GameOverAnimationPtr = CreateActor<GameOverAnimation>(UpdateOrder::UI);
+	if (nullptr == GameOverAnimationPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	GameOverAnimationPtr->initStageResultAnimation(CurrentStage, WinCheckValue);
 }
 
 
@@ -1068,6 +1142,8 @@ void PlayLevel::StartGameOver()
 
 	m_ResultWindow->OnResultWindow(VecPlayerResult);
 
+	SetUpResultBoardAnimation();
+
 	GameOverCheckValue = true;
 }
 
@@ -1079,6 +1155,15 @@ void PlayLevel::UILevelEnd()
 		ReleaseLevelComposition();
 		ReleaseResultWindow();
 	}
+
+	if (Player)
+	{
+		Player->Death();
+		Player = nullptr;
+	}
+
+	GameOverCheckValue = false;
+	GameStartCheckValue = false;
 }
 
 void PlayLevel::ReleaseLevelComposition()

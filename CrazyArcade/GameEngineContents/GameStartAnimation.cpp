@@ -10,7 +10,7 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 
 
-#include "StageStartActor.h"
+#include "StringAnimation.h"
 
 
 GameStartAnimation::GameStartAnimation() 
@@ -101,8 +101,8 @@ void GameStartAnimation::initUpperString()
 
 	for (int UpperCount = 0; UpperCount < CONST_UpperStringCount; UpperCount++)
 	{
-		StageStartActor* StageStartActorPtr = CurLevel->CreateActor<StageStartActor>(UpdateOrder::UI);
-		if (nullptr == StageStartActorPtr)
+		StringAnimation* StringAnimationPtr = CurLevel->CreateActor<StringAnimation>(UpdateOrder::UI);
+		if (nullptr == StringAnimationPtr)
 		{
 			MsgBoxAssert("액터를 생성하지 못했습니다.");
 			return;
@@ -113,14 +113,14 @@ void GameStartAnimation::initUpperString()
 		FileName += UpperString[UpperCount];
 		FileName += ".bmp";
 
-		StageStartActorPtr->setTexture(FileName);
+		StringAnimationPtr->setTexture(FileName);
 
 		float4 StringPos = float4{ CONST_UpperStringXStartPos + CONST_vecUpperXPos[UpperCount] , -CONST_UpperStringYStartPos };
-		StageStartActorPtr->SetPos(StringPos);
-		StageStartActorPtr->setSpeed(CONST_StringSpeed);
-		StageStartActorPtr->setStopYPos(CONST_UpperStopYPos);
+		StringAnimationPtr->SetPos(StringPos);
+		StringAnimationPtr->setSpeed(CONST_StringSpeed);
+		StringAnimationPtr->setStopYPos(CONST_UpperStopYPos);
 
-		vecUpperString[UpperCount] = StageStartActorPtr;
+		vecUpperString[UpperCount] = StringAnimationPtr;
 	}
 }
 
@@ -141,8 +141,8 @@ void GameStartAnimation::initLowerString()
 
 	for (int LowerCount = 0; LowerCount < CONST_LowerStringCount; LowerCount++)
 	{
-		StageStartActor* StageStartActorPtr = CurLevel->CreateActor<StageStartActor>(UpdateOrder::UI);
-		if (nullptr == StageStartActorPtr)
+		StringAnimation* StringAnimationPtr = CurLevel->CreateActor<StringAnimation>(UpdateOrder::UI);
+		if (nullptr == StringAnimationPtr)
 		{
 			MsgBoxAssert("액터를 생성하지 못했습니다.");
 			return;
@@ -153,15 +153,15 @@ void GameStartAnimation::initLowerString()
 		FileName += LowerString[LowerCount];
 		FileName += ".bmp";
 
-		StageStartActorPtr->setTexture(FileName);
+		StringAnimationPtr->setTexture(FileName);
 
 		float4 StringPos = float4{ CONST_LowerStringXStartPos + CONST_vecLowerXPos[LowerCount] , CONST_LowerAppearYPos };
-		StageStartActorPtr->SetPos(StringPos);
-		StageStartActorPtr->setSpeed(CONST_StringSpeed);
+		StringAnimationPtr->SetPos(StringPos);
+		StringAnimationPtr->setSpeed(CONST_StringSpeed);
 
-		StageStartActorPtr->Off();
+		StringAnimationPtr->Off();
 
-		vecLowerString[LowerCount] = StageStartActorPtr;
+		vecLowerString[LowerCount] = StringAnimationPtr;
 	}
 }
 
@@ -199,7 +199,7 @@ void GameStartAnimation::UpdateUpperStringDown(float _Delta)
 		}
 		else if (m_MoveNumber <= CONST_UpperStringCount - 1)
 		{
-			StageStartActor* StringActor = vecUpperString[m_MoveNumber];
+			StringAnimation* StringActor = vecUpperString[m_MoveNumber];
 			if (nullptr == StringActor)
 			{
 				MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -223,7 +223,7 @@ void GameStartAnimation::UpdateDownStringAppear(float _Delta)
 	{
 		for (int LowerstringCount = 0; LowerstringCount < CONST_LowerStringCount; LowerstringCount++)
 		{
-			StageStartActor* LowerString = vecLowerString[LowerstringCount];
+			StringAnimation* LowerString = vecLowerString[LowerstringCount];
 			if (nullptr == LowerString)
 			{
 				MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -253,7 +253,7 @@ void GameStartAnimation::setDownStringAppear()
 {
 	for (int UpperstringCount = 0; UpperstringCount < CONST_UpperStringCount; UpperstringCount++)
 	{
-		StageStartActor* UpperString = vecUpperString[UpperstringCount];
+		StringAnimation* UpperString = vecUpperString[UpperstringCount];
 		if (nullptr == UpperString)
 		{
 			MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -265,7 +265,7 @@ void GameStartAnimation::setDownStringAppear()
 
 	for (int LowerstringCount = 0; LowerstringCount < CONST_LowerStringCount; LowerstringCount++)
 	{
-		StageStartActor* LowerString = vecLowerString[LowerstringCount];
+		StringAnimation* LowerString = vecLowerString[LowerstringCount];
 		if (nullptr == LowerString)
 		{
 			MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -302,7 +302,7 @@ void GameStartAnimation::UpdateGameStart(float _Delta)
 		}
 		else if (m_MoveNumber <= CONST_UpperStringCount - 1)
 		{
-			StageStartActor* UpperString= vecUpperString[m_MoveNumber];
+			StringAnimation* UpperString= vecUpperString[m_MoveNumber];
 			if (nullptr == UpperString)
 			{
 				MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -312,7 +312,7 @@ void GameStartAnimation::UpdateGameStart(float _Delta)
 			UpperString->setState(StringAniState::Up);
 
 
-			StageStartActor* LowerString = vecLowerString[m_MoveNumber];
+			StringAnimation* LowerString = vecLowerString[m_MoveNumber];
 			if (nullptr == LowerString)
 			{
 				MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -334,7 +334,7 @@ void GameStartAnimation::ActorRelease()
 {
 	for (int StringCount = 0; StringCount < CONST_UpperStringCount; StringCount++)
 	{
-		StageStartActor* UpperString = vecUpperString[StringCount];
+		StringAnimation* UpperString = vecUpperString[StringCount];
 		if (nullptr == UpperString)
 		{
 			MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -343,7 +343,7 @@ void GameStartAnimation::ActorRelease()
 
 		UpperString->ActorRelease();
 		 
-		StageStartActor* LowerString = vecLowerString[StringCount];
+		StringAnimation* LowerString = vecLowerString[StringCount];
 		if (nullptr == LowerString)
 		{
 			MsgBoxAssert("액터를 불러오지 못했습니다.");

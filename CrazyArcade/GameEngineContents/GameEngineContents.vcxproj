@@ -209,6 +209,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameOverAnimation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameStartAnimation.h">
       <SubType>
       </SubType>
@@ -231,6 +235,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Kephi.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="LoseAnimation.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -278,7 +286,15 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="RoomLevel.h" />
-    <ClInclude Include="StageStartActor.h">
+    <ClInclude Include="StageClearAnimation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StageStartBossBillBoard.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StringAnimation.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -304,6 +320,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UITestStage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UITestStage2.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -367,6 +387,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameOverAnimation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameStartAnimation.cpp">
       <SubType>
       </SubType>
@@ -389,6 +413,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Kephi.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="LoseAnimation.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -436,7 +464,15 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="RoomLevel.cpp" />
-    <ClCompile Include="StageStartActor.cpp">
+    <ClCompile Include="StageClearAnimation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StageStartBossBillBoard.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StringAnimation.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -462,6 +498,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="UITestStage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UITestStage2.cpp">
       <SubType>
       </SubType>
     </ClCompile>

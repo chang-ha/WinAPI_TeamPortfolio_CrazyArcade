@@ -1,20 +1,20 @@
-#include "StageStartActor.h"
+#include "StringAnimation.h"
 #include "ContentsEnum.h"
 
 
 #include <GameEngineCore/GameEngineRenderer.h>
 
 
-StageStartActor::StageStartActor() 
+StringAnimation::StringAnimation() 
 {
 }
 
-StageStartActor::~StageStartActor()
+StringAnimation::~StringAnimation()
 {
 }
 
 
-void StageStartActor::Start()
+void StringAnimation::Start()
 {
 	Renderer = CreateRenderer(RenderOrder::SecondElementUI);
 	if (nullptr == Renderer)
@@ -25,7 +25,7 @@ void StageStartActor::Start()
 }
 
 
-void StageStartActor::setTexture(const std::string& _FileName)
+void StringAnimation::setTexture(const std::string& _FileName)
 {
 	if (nullptr == Renderer)
 	{
@@ -37,12 +37,12 @@ void StageStartActor::setTexture(const std::string& _FileName)
 }
 
 
-void StageStartActor::Update(float _Delta)
+void StringAnimation::Update(float _Delta)
 {
 	updateState(_Delta);
 }
 
-void StageStartActor::updateState(float _Delta)
+void StringAnimation::updateState(float _Delta)
 {
 	switch (m_State)
 	{
@@ -57,7 +57,7 @@ void StageStartActor::updateState(float _Delta)
 	}
 }
 
-void StageStartActor::updateUpState(float _Delta)
+void StringAnimation::updateUpState(float _Delta)
 {
 	AddPos(float4::UP * m_Speed * _Delta);
 	if (GetPos().Y < m_StopYPos)
@@ -67,7 +67,7 @@ void StageStartActor::updateUpState(float _Delta)
 	}
 }
 
-void StageStartActor::updateDownState(float _Delta)
+void StringAnimation::updateDownState(float _Delta)
 {
 	AddPos(float4::DOWN * m_Speed * _Delta);
 	if (GetPos().Y > m_StopYPos)
@@ -78,7 +78,7 @@ void StageStartActor::updateDownState(float _Delta)
 }
 
 
-void StageStartActor::ActorRelease()
+void StringAnimation::ActorRelease()
 {
 	Death();
 	if (Renderer)
