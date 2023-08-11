@@ -53,7 +53,7 @@ protected:
 	class PlayLevel* CurPlayLevel = nullptr;
 	const class TileMap* CurTile = nullptr;
 
-	float Speed = 200.0f;
+	float Speed = 100.0f;
 	MonsterState State = MonsterState::Idle;
 	ActorDir Dir = ActorDir::Down;
 	std::string CurState = "";
@@ -70,6 +70,9 @@ private:
 
 	void MoveStart();
 	void MoveUpdate(float _Delta);
+
+	void FreezeStart();
+	void FreezeUpdate(float _Delta);
 
 	void Start() override;
 	void Update(float _Delta) override;

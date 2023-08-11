@@ -31,7 +31,8 @@ void BaseMonster::Update(float _Delta)
 
 	if (CurTileType == TileObjectOrder::PopRange)
 	{
-		 // Die
+		 // Freeze
+		ChangeState(MonsterState::Freeze);
 	}
 
 	//if (CurTileType == TileObjectOrder::Structure
@@ -85,10 +86,8 @@ void BaseMonster::StateUpdate(float _Delta)
 		return IdleUpdate(_Delta);
 	case MonsterState::Move:
 		return MoveUpdate(_Delta);
-	//case MonsterState::Ready:
-	//	break;
-	//case MonsterState::Freeze:
-	//	break;
+	case MonsterState::Freeze:
+		return FreezeUpdate(_Delta);
 	//case MonsterState::Melt:
 	//	break;
 	//case MonsterState::Anger:
@@ -110,10 +109,9 @@ void BaseMonster::ChangeState(MonsterState _State)
 	case MonsterState::Move:
 		MoveStart();
 		break;
-	//case MonsterState::Ready:
-	//	break;
-	//case MonsterState::Freeze:
-	//	break;
+	case MonsterState::Freeze:
+		FreezeStart();
+		break;
 	//case MonsterState::Melt:
 	//	break;
 	//case MonsterState::Anger:
@@ -200,6 +198,16 @@ void BaseMonster::MoveUpdate(float _Delta)
 	}
 
 	MoveTimer += _Delta;
+}
+
+void BaseMonster::FreezeStart()
+{
+	ChangeAnimationState("Freeze");
+}
+
+void BaseMonster::FreezeUpdate(float _Delta)
+{
+	ChangeState(MonsterState::Freeze);
 }
 
 void BaseMonster::RandomDir()
