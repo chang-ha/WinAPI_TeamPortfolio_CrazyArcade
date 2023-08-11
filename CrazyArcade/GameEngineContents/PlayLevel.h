@@ -18,6 +18,7 @@ class PlayLevel : public ContentLevel
 {
 	friend class Penguin;
 
+	friend class BaseMonster;
 public:
 	static PlayLevel* CurPlayLevel;
 
@@ -32,6 +33,7 @@ public:
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
 	bool CheckTile(const float4& _Pos, float _Delta);
+	bool MonsterCheckTile(const float4& _Pos, float _Delta);
 	bool CheckSidePos(const float4& _Pos);
 	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y);
 	void SetBubble(const float4& _Pos, int _BubblePower);
@@ -143,6 +145,5 @@ private:
 
 private:
 	float LerpTime = 1.0f;
-
 };
 

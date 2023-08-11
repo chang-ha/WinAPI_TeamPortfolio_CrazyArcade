@@ -28,7 +28,7 @@ void Bazzi::Start()
 	GlobalUtils::SpriteFileLoad("Bazzi_Right.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 6, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Up.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 8, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Down.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 8, 1);
-	GlobalUtils::SpriteFileLoad("Bazzi_Bubble.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 13, 1);
+	GlobalUtils::SpriteFileLoad("Bazzi_Bubble.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 14, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_FlashLong.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 4, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_FlashShort.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Live.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 5, 1);
@@ -45,7 +45,9 @@ void Bazzi::Start()
 	MainRenderer->CreateAnimation("Bazzi_Move_Right", "Bazzi_Right.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Move_Up", "Bazzi_Up.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Move_Down", "Bazzi_Down.Bmp");
-	MainRenderer->CreateAnimation("Bazzi_Bubble", "Bazzi_Bubble.Bmp");
+	MainRenderer->CreateAnimation("Bazzi_BubbleHit", "Bazzi_Bubble.Bmp", 0, 2, 0.1f, false);
+	MainRenderer->CreateAnimation("Bazzi_Bubble", "Bazzi_Bubble.Bmp", 3, 11, 0.1f, true);
+	MainRenderer->CreateAnimation("Bazzi_BubbleEnd", "Bazzi_Bubble.Bmp", 12, 13, 0.1f, false);
 	MainRenderer->CreateAnimation("Bazzi_FlashLong", "Bazzi_FlashLong.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_FlashShort", "Bazzi_FlashShort.Bmp");
 	MainRenderer->CreateAnimation("Bazzi_Live", "Bazzi_Live.Bmp");

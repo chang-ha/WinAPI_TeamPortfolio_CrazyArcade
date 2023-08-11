@@ -65,8 +65,14 @@ protected:
 	void JumpStart();
 	void JumpUpdate(float _Delta);
 
+	void BubbleHitStart();
+	void BubbleHitUpdate(float _Delta);
+
 	void BubbleStart();
 	void BubbleUpdate(float _Delta);
+
+	void BubbleEndStart();
+	void BubbleEndUpdate(float _Delta);
 
 	void FlashLongStart();
 	void FlashLongUpdate(float _Delta);

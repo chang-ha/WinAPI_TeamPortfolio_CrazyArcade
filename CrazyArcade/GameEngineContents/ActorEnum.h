@@ -7,7 +7,9 @@ enum class CharacterState
 	Ready,
 	FlashLong,
 	FlashShort,
+	BubbleHit,
 	Bubble,
+	BubbleEnd,
 	Live,
 	Die,
 	Jump,
@@ -30,6 +32,8 @@ enum class MonsterState
 	Freeze,
 	Melt,
 	Anger,
+	AngerIdle,
+	AngerMove,
 	Die,
 	// Boss State
 	Hitten,
