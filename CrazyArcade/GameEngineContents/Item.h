@@ -47,10 +47,22 @@ public:
 		TileInfo = _Info;
 	}
 
+	inline void SetTileIndexInfo(float4 _Index)
+	{
+		TileIndex = _Index;
+	}
+
+	inline void SetTileIndexInfo(float _X, float _Y)
+	{
+		TileIndex.X = _X;
+		TileIndex.Y = _Y;
+	}
+
 	inline void ItemPosInit()
 	{
 		SetPos(GlobalValue::ItemPosNormalize + GlobalValue::TileStartPos);
 	}
+	
 
 protected:
 
@@ -64,7 +76,7 @@ private:
 	// Item 상태변수
 	ItemType Type;
 	TileObjectOrder TileInfo = TileObjectOrder::Empty;
-
+	float4 TileIndex = float4::ZERO;
 
 	// Item 물리변수
 	float Speed = 3.5f;

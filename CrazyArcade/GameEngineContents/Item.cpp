@@ -3,8 +3,10 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <cmath>
+
 #include "GlobalLoad.h"
 #include "GlobalValue.h"
+#include "PlayLevel.h"
 
 Item::Item()
 {
@@ -43,6 +45,9 @@ void Item::Update(float _Delta)
 		CollisionType::Rect,
 		CollisionType::Rect))
 	{
+		PlayLevel* Level = dynamic_cast<PlayLevel*>(GetLevel());
+
+		Level->CheckItemInTile(TileIndex.X, TileIndex.Y);
 		Death();
 		return;
 	}

@@ -40,6 +40,8 @@ public:
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
 
+	void CheckItemInTile(float _X, float _Y);
+
 	class TileMap* GetGroundTile()
 	{
 		return GroundTile;
@@ -58,6 +60,7 @@ protected:
 	// Item
 	void ItemSetting();
 	void CreateItem(int _X, int _Y);
+
 	bool ItemDebugValue = false;
 
 	std::vector<std::vector<class Item*>> Items;
