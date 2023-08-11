@@ -24,6 +24,8 @@
 //#define LEFTBOTCHECKPOS { -16.0f, 25.0f }
 //#define RIGHTBOTCHECKPOS { 16.0f, 25.0f }
 
+#define SHADOWPOS { 0.0f, 30.0f }
+
 // Ό³Έν :
 class BaseMonster : public GameEngineActor
 {

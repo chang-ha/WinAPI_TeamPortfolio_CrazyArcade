@@ -18,9 +18,7 @@ BaseMonster::~BaseMonster()
 
 void BaseMonster::Start() 
 {
-	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
-	ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
-	ShadowRenderer->SetRenderPos(BOTPOS);
+
 }
 
 void BaseMonster::Update(float _Delta)
@@ -155,6 +153,8 @@ void BaseMonster::MoveUpdate(float _Delta)
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 
+	TileObjectOrder TileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+
 	if (Dir == ActorDir::Down)
 	{
 		MovePos = { 0.0f, Speed * _Delta };
@@ -195,6 +195,23 @@ void BaseMonster::MoveUpdate(float _Delta)
 void BaseMonster::DirCheck()
 {
 	ActorDir CheckDir = Dir;
+	bool IsDirCheck[4] = { true, true, true, true };
+
+	TileObjectOrder TileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+
+	switch (Dir)
+	{
+	case ActorDir::Left:
+		break;
+	case ActorDir::Right:
+		break;
+	case ActorDir::Up:
+		break;
+	case ActorDir::Down:
+		break;
+	default:
+		break;
+	}
 }
 
 void BaseMonster::ChangeAnimationState(const std::string& _StateName) 
