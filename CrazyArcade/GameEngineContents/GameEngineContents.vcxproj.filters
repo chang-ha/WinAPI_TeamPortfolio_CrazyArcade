@@ -148,6 +148,9 @@
     <ClCompile Include="UITestStage2.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="StageStartBossBillBoard.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -296,6 +299,9 @@
     </ClInclude>
     <ClInclude Include="UITestStage2.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="StageStartBossBillBoard.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

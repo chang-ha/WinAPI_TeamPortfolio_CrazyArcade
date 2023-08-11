@@ -28,6 +28,7 @@
 #include "GameStartAnimation.h"
 #include "PlayResultWindow.h"
 #include "GameOverAnimation.h"
+#include "StageStartBossBillBoard.h"
 #include "Button.h"
 #include "Item.h"
 
@@ -906,6 +907,7 @@ void PlayLevel::UILevelStart()
 	if (-1 != CurrentStage)
 	{
 		CreateGameStartAnimation();
+		CreateBossImage();
 		CreatePortrait();
 		CreateGameResult();
 	}
@@ -924,15 +926,43 @@ void PlayLevel::UILevelStart()
 
 void PlayLevel::CreateGameStartAnimation()
 {
-	GameStartAnimation* GameStartAnimationPtr = CreateActor<GameStartAnimation>(UpdateOrder::UI);
-	if (nullptr == GameStartAnimationPtr)
+	m_GameStartAnimation = CreateActor<GameStartAnimation>(UpdateOrder::UI);
+	if (nullptr == m_GameStartAnimation)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
 		return;
 	}
 
-	GameStartAnimationPtr->initStartAnimation(CurrentStage);
-	GameStartAnimationPtr->setGameStartCallBack(this, &PlayLevel::setGameStartCallBack);
+	m_GameStartAnimation->initStartAnimation(CurrentStage);
+	m_GameStartAnimation->setGameStartCallBack(this, &PlayLevel::setGameStartCallBack);
+
+	if (CurrentStage >= 2 && CurrentStage <= 3)
+	{
+		m_GameStartAnimation->Off();
+	}
+}
+
+void PlayLevel::OnGameStartAnimation()
+{
+	if (m_GameStartAnimation)
+	{
+		m_GameStartAnimation->On();
+	}
+}
+
+void PlayLevel::CreateBossImage()
+{
+	if (1 != CurrentStage)
+	{
+		StageStartBossBillBoard* BossBillbaord = CreateActor<StageStartBossBillBoard>(UpdateOrder::UI);
+		if (nullptr == BossBillbaord)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		BossBillbaord->setCallbackStage<PlayLevel>(this, &PlayLevel::OnGameStartAnimation);
+	}
 }
 
 void PlayLevel::setGameStartCallBack()

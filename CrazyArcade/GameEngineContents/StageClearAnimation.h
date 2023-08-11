@@ -75,11 +75,11 @@ private:
 	const std::vector<float> CONST_vecLowerXPos =
 	{
 		32.0f,
-		85.0f,
-		139.0f,
-		212.0f,
-		279.0f,
-		339.0f
+		97.0f,
+		161.0f,
+		232.0f,
+		304.0f,
+		367.0f
 	};
 
 
