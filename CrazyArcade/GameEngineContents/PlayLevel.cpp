@@ -540,6 +540,27 @@ TileObjectOrder PlayLevel::GetCurTileType(const float4& _Pos)
 	int CurIndexX = ChangeIndex.iX() - 1;
 	int CurIndexY = ChangeIndex.iY() - 1;
 
+	if (true == GroundTile->IsOver(CurIndexX, CurIndexY))
+	{
+		if (CurIndexX < 0)
+		{
+			CurIndexX = 0;
+		}
+		if(CurIndexX >= GlobalValue::MapTileIndex_X)
+		{
+			CurIndexX = GlobalValue::MapTileIndex_X - 1;
+		}
+
+		if (CurIndexY < 0)
+		{
+			CurIndexY = 0;
+		}
+		if (CurIndexY >= GlobalValue::MapTileIndex_Y)
+		{
+			CurIndexY = GlobalValue::MapTileIndex_Y - 1;
+		}
+	}
+
 	GameMapInfo Temp = TileInfo[CurIndexY][CurIndexX];
 
 	TileObjectOrder Result = Temp.MapInfo;
