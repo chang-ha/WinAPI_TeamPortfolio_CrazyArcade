@@ -130,6 +130,12 @@
     <ClCompile Include="Item.cpp">
       <Filter>Actor\Item</Filter>
     </ClCompile>
+    <ClCompile Include="PlayResultLine.cpp">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayResultWindow.cpp">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -261,6 +267,12 @@
     <ClInclude Include="Item.h">
       <Filter>Actor\Item</Filter>
     </ClInclude>
+    <ClInclude Include="PlayResultWindow.h">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayResultLine.h">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -301,6 +313,9 @@
     </Filter>
     <Filter Include="Actor\Item">
       <UniqueIdentifier>{0c224388-2290-4826-92d7-29bd8c88cafe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI\PlayLevel\ResultWindow">
+      <UniqueIdentifier>{fac2f30e-f566-4765-9d85-434df3a637b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

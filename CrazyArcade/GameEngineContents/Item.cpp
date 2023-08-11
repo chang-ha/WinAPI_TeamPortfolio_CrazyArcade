@@ -1,6 +1,7 @@
 #include "Item.h"
 
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include <cmath>
 #include "GlobalLoad.h"
 #include "GlobalValue.h"
@@ -17,23 +18,36 @@ void Item::Start()
 {
 	GlobalLoad::ItemTextureLoad();
 	
+	// Item MainRenderer
 	ItemRenderer = CreateRenderer(RenderOrder::MapObject);
+	ItemRenderer->SetRenderPos(StartPos);
+
+	// Item Shadow Renderer
 	ShadowRenderer = CreateRenderer(RenderOrder::Shadow);
 	ShadowRenderer->SetTexture("ItemShadow2.bmp");
-
-	ItemRenderer->SetRenderPos(StartPos);
 	ShadowRenderer->SetRenderPos({0, 20});
+	ShadowRenderer->SetAlpha(static_cast<unsigned char>(AlphaValue));
 
-	SetPos(GlobalValue::ItemPosNormalize + GlobalValue::TileStartPos);
+	// Item Collision
+	ItemCollision = CreateCollision(CollisionOrder::Item);
+	ItemCollision->SetCollisionType(CollisionType::Rect);
+	ItemCollision->SetCollisionScale({1, 1});
+	ItemPosInit();
 }
 
 void Item::Update(float _Delta)
 {
-	
-	Levitation(_Delta);
+	std::vector<GameEngineCollision*> Col;
+	if (true == ItemCollision->Collision(CollisionOrder::PlayerBody,
+		Col,
+		CollisionType::Rect,
+		CollisionType::Rect))
+	{
+		Death();
+		return;
+	}
 
-	//AlphaValue -= 100 * _Delta;
-	ShadowRenderer->SetAlpha(static_cast<unsigned char>(AlphaValue));
+	Levitation(_Delta);
 }
 
 void Item::Levitation(float _Delta)
@@ -66,11 +80,11 @@ void Item::SetTexture(ItemType _Type)
 	case ItemType::Fluid:
 		ItemRenderer->SetTexture("Item_Fluid.bmp");
 		break;
-	case ItemType::Ultra:
-		ItemRenderer->SetTexture("Item_Ultra.bmp");
-		break;
 	case ItemType::Roller:
 		ItemRenderer->SetTexture("Item_Roller.bmp");
+		break;
+	case ItemType::Ultra:
+		ItemRenderer->SetTexture("Item_Ultra.bmp");
 		break;
 	case ItemType::Red_Devil:
 		ItemRenderer->SetTexture("Item_Red_Devil.bmp");
