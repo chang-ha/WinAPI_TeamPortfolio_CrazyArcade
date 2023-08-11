@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseMonster.h"
 
+#define SHADOWPOS { 0.0f, 30.0f }
+
 // Ό³Έν :
 class Snowmon_black : public BaseMonster
 {
@@ -25,5 +27,6 @@ protected:
 
 private:
 	void Start() override;
+	float4 ShadowPos = { 0.0f, 30.0f };
 };
 

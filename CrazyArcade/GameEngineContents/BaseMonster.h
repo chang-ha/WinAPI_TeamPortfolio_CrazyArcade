@@ -11,7 +11,7 @@
 #define LEFTPOS { -20.0f, 20.0f }
 #define RIGHTPOS { 20.0f, 20.0f }
 #define BOTPOS { 0.0f, 40.0f }
-#define SHADOWPOS { 0.0f, 30.0f }
+
 
 // Ό³Έν :
 class BaseMonster : public GameEngineActor
@@ -40,7 +40,7 @@ protected:
 	class PlayLevel* CurPlayLevel = nullptr;
 	const class TileMap* CurTile = nullptr;
 
-	float Speed = 100.0f;
+	float Speed = 50.0f;
 	MonsterState State = MonsterState::Idle;
 	ActorDir Dir = ActorDir::Down;
 	std::string CurState = "";
