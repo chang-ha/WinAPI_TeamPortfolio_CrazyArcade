@@ -40,6 +40,7 @@ public:
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
 
+	void CheckItemInTile(int _X, int _Y);
 	void CheckItemInTile(float _X, float _Y);
 
 	class TileMap* GetGroundTile()

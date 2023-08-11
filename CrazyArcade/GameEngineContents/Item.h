@@ -52,6 +52,12 @@ public:
 		TileIndex = _Index;
 	}
 
+	inline void SetTileIndexInfo(int _X, int _Y)
+	{
+		TileIndex.X = static_cast<float>(_X);
+		TileIndex.Y = static_cast<float>(_Y);
+	}
+
 	inline void SetTileIndexInfo(float _X, float _Y)
 	{
 		TileIndex.X = _X;

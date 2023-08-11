@@ -48,7 +48,6 @@ void Item::Update(float _Delta)
 		PlayLevel* Level = dynamic_cast<PlayLevel*>(GetLevel());
 
 		Level->CheckItemInTile(TileIndex.X, TileIndex.Y);
-		Death();
 		return;
 	}
 

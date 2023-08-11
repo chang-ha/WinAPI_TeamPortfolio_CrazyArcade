@@ -179,7 +179,6 @@ void PlayLevel::Update(float _Delta)
 		{
 			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 			{
-				
 				if (nullptr != Items[Y][X])
 				{
 					if (true == ItemDebugValue)
@@ -331,15 +330,25 @@ void PlayLevel::CreateItem(int _X, int _Y)
 	ItemActor = nullptr;
 }
 
-void PlayLevel::CheckItemInTile(float _X, float _Y)
+void PlayLevel::CheckItemInTile(int _X, int _Y)
 {
 	if (nullptr != Items[_Y][_X])
 	{
-		Items[_Y][_X] = ItemActor;
-		ItemActor = nullptr;
+		Items[_Y][_X]->Death();
+		Items[_Y][_X] = nullptr;
 	}
 }
 
+void PlayLevel::CheckItemInTile(float _X, float _Y)
+{
+	int X = static_cast<int>(_X);
+	int Y = static_cast<int>(_Y);
+	if (nullptr != Items[Y][X])
+	{
+		Items[Y][X]->Death();
+		Items[_Y][_X] = nullptr;
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 캐릭터
@@ -525,10 +534,9 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 		TileInfo[NewY][NewX].LerpTimer = 0.0f;
 
 		// Item 수정
+		CheckItemInTile(NewX, NewY);
 		if (nullptr != Items[_Y][_X])
 		{
-			CheckItemInTile(_X, _Y);
-
 			Items[NewY][NewX] = Items[_Y][_X];
 			Items[NewY][NewX]->AddPos(GlobalValue::MapTileSize * ItemMoveDir);
 			Items[_Y][_X] = nullptr;
@@ -651,7 +659,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f);
 		}
 
-		CheckItemInTile(Y, X);
+		CheckItemInTile(X, Y);
 	}
 
 	//오른쪽 타일--------------------------------------------------------------
@@ -685,7 +693,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f);
 		}
 
-		CheckItemInTile(Y, X);
+		CheckItemInTile(X, Y);
 	}
 
 	//위쪽 타일--------------------------------------------------------------
@@ -719,7 +727,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f);
 		}
 
-		CheckItemInTile(Y, X);
+		CheckItemInTile(X, Y);
 	}
 
 	//아래쪽 타일--------------------------------------------------------------
@@ -753,7 +761,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f);
 		}
 
-		CheckItemInTile(Y, X);
+		CheckItemInTile(X, Y);
 	}
 }
 
