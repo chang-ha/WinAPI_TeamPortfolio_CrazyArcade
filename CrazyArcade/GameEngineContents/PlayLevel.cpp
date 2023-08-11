@@ -1055,7 +1055,6 @@ void PlayLevel::ReleaseResultWindow()
 	}
 
 }
-}
 
 
 
