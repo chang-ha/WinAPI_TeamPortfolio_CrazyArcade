@@ -88,12 +88,10 @@ void BaseMonster::StateUpdate(float _Delta)
 		return MoveUpdate(_Delta);
 	case MonsterState::Freeze:
 		return FreezeUpdate(_Delta);
-	//case MonsterState::Melt:
-	//	break;
-	//case MonsterState::Anger:
-	//	break;
-	//case MonsterState::Die:
-	//	break;
+	case MonsterState::Anger:
+		return AngerUpdate(_Delta);
+	case MonsterState::Die:
+		return DieUpdate(_Delta);
 	default:
 		break;
 	}
@@ -112,12 +110,12 @@ void BaseMonster::ChangeState(MonsterState _State)
 	case MonsterState::Freeze:
 		FreezeStart();
 		break;
-	//case MonsterState::Melt:
-	//	break;
-	//case MonsterState::Anger:
-	//	break;
-	//case MonsterState::Die:
-	//	break;
+	case MonsterState::Anger:
+		AngerStart();
+		break;
+	case MonsterState::Die:
+		DieStart();
+		break;
 	default:
 		break;
 	}
@@ -155,8 +153,7 @@ void BaseMonster::MoveUpdate(float _Delta)
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
-
-	TileObjectOrder TileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+	
 
 	if (Dir == ActorDir::Down)
 	{
@@ -208,6 +205,37 @@ void BaseMonster::FreezeStart()
 void BaseMonster::FreezeUpdate(float _Delta)
 {
 	ChangeState(MonsterState::Freeze);
+
+	static float FreezeTimer = 0.0f;
+
+	if (FreezeTimer > 5.0f)
+	{
+		FreezeTimer = 0.0f;
+		ChangeState(MonsterState::Anger);
+		return;
+	}
+
+	FreezeTimer += _Delta;
+}
+
+void BaseMonster::AngerStart()
+{
+
+}
+
+void BaseMonster::AngerUpdate(float _Delta)
+{
+
+}
+
+void BaseMonster::DieStart()
+{
+	ChangeAnimationState("Die");
+}
+
+void BaseMonster::DieUpdate(float _Delta)
+{
+	ChangeState(MonsterState::Die);
 }
 
 void BaseMonster::RandomDir()

@@ -8,22 +8,9 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 #define TOPPOS { 0.0f, 0.0f }
-//#define LEFTTOPCHECKPOS { -16.0f, -15.0f }
-//#define RIGHTTOPCHECKPOS { 16.0f, -15.0f }
-
-
 #define LEFTPOS { -20.0f, 20.0f }
-//#define LEFTMOVETOPCHECKPOS { -20.0f, -13.0f }
-//#define LEFTMOVEBOTCHECKPOS { -20.0f, 23.0f }
-
 #define RIGHTPOS { 20.0f, 20.0f }
-//#define RIGHTMOVETOPCHECKPOS { 20.0f, -13.0f }
-//#define RIGHTMOVEBOTCHECKPOS { 20.0f, 23.0f }
-
 #define BOTPOS { 0.0f, 40.0f }
-//#define LEFTBOTCHECKPOS { -16.0f, 25.0f }
-//#define RIGHTBOTCHECKPOS { 16.0f, 25.0f }
-
 #define SHADOWPOS { 0.0f, 30.0f }
 
 // Ό³Έν :
@@ -73,6 +60,12 @@ private:
 
 	void FreezeStart();
 	void FreezeUpdate(float _Delta);
+
+	void DieStart();
+	void DieUpdate(float _Delta);
+
+	void AngerStart();
+	void AngerUpdate(float _Delta);
 
 	void Start() override;
 	void Update(float _Delta) override;

@@ -21,12 +21,11 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 	FadeObject::CallFadeIn(this, 0.4f);
 
 	//Player->SetPos(GroundTile->IndexToPos(6,4));
-
 	Player->SetPos(GroundTile->IndexToPos(15, 10));
 
 
-	//Snowmon = CreateActor<Snowmon_black>();
-	//Snowmon->SetPos(GroundTile->IndexToPos(1, 6));
+	Snowmon = CreateActor<Snowmon_black>();
+	Snowmon->SetPos(GroundTile->IndexToPos(1, 6));
 
 	//Snowmon = CreateActor<Snowmon_black>();
 	//Snowmon->SetPos(GroundTile->IndexToPos(15, 6));
@@ -34,8 +33,8 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 	//Snowmon = CreateActor<Snowmon_black>();
 	//Snowmon->SetPos(GroundTile->IndexToPos(1, 8));
 
-	Snowmon = CreateActor<Snowmon_black>();
-	Snowmon->SetPos(GroundTile->IndexToPos(15, 8));
+	//Snowmon = CreateActor<Snowmon_black>();
+	//Snowmon->SetPos(GroundTile->IndexToPos(15, 8));
 }
 
 void Penguin_Stage1::LevelEnd(GameEngineLevel* _NextLevel)
