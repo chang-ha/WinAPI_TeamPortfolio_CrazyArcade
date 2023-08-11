@@ -74,7 +74,7 @@ void PlayLevel::Start()
 	Items.assign(GlobalValue::MapTileIndex_Y, (std::vector<Item*>(GlobalValue::MapTileIndex_X, nullptr)));
 
 	// Create Character 
-	Player = CreateActor<Bazzi>(UpdateOrder::Character);
+	Player = CreateActor<Dao>(UpdateOrder::Character);
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	GetMainCamera()->SetYSort(RenderOrder::MapObject, true);
@@ -179,16 +179,21 @@ void PlayLevel::Update(float _Delta)
 		{
 			for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 			{
-				
 				if (nullptr != Items[Y][X])
 				{
 					if (true == ItemDebugValue)
 					{
-						Items[Y][X]->On();
+						if (true == Items[Y][X]->ItemInBlock())
+						{
+							Items[Y][X]->On();
+						}
 					}
 					else
 					{
-						Items[Y][X]->Off();
+						if (true == Items[Y][X]->ItemInBlock())
+						{
+							Items[Y][X]->Off();
+						}
 					}
 				}
 			}
@@ -293,14 +298,14 @@ void PlayLevel::ItemSetting()
 				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2); // 33.3% 확률로 아이템 생성
 				if (0 == RandomNumber)
 				{
-					CreateItem(X, Y);
+					CreateItemInBlock(X, Y);
 				}
 			}
 		}
 	}
 }
 
-void PlayLevel::CreateItem(int _X, int _Y)
+void PlayLevel::CreateItemInBlock(int _X, int _Y)
 {
 	// < 아이템 번호 >
 	// 0 : Bubble
@@ -324,13 +329,40 @@ void PlayLevel::CreateItem(int _X, int _Y)
 
 	ItemActor = CreateActor<Item>(UpdateOrder::Map);
 	ItemActor->SetItemTypeInt(RandomNumber);
-	ItemActor->AddPos({GlobalValue::MapTileSize.X * _X, GlobalValue::MapTileSize.Y * _Y });
-	ItemActor->Off();
+	ItemActor->SetItemPos(_X, _Y);
+	ItemActor->PutIteminBlock();
 	Items[_Y][_X] = ItemActor;
 	ItemActor = nullptr;
 }
 
+void PlayLevel::CreateItemInTile(int _X, int _Y, ItemType _Type)
+{
+	ItemActor = CreateActor<Item>(UpdateOrder::Map);
+	ItemActor->SetItemType(_Type);
+	ItemActor->SetItemPos(_X, _Y);
+	Items[_Y][_X] = ItemActor;
+	ItemActor = nullptr;
+}
 
+void PlayLevel::CheckItemInTile(int _X, int _Y)
+{
+	if (nullptr != Items[_Y][_X])
+	{
+		Items[_Y][_X]->Death();
+		Items[_Y][_X] = nullptr;
+	}
+}
+
+void PlayLevel::CheckItemInTile(float _X, float _Y)
+{
+	int X = static_cast<int>(_X);
+	int Y = static_cast<int>(_Y);
+	if (nullptr != Items[Y][X])
+	{
+		Items[Y][X]->Death();
+		Items[Y][X] = nullptr;
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 캐릭터
@@ -369,7 +401,8 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 			}
 		}
 
-		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
+		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo
+			|| TileObjectOrder::PopRange == TileInfo[CheckY][CheckX].MapInfo)
 		{
 			return false;
 		}
@@ -433,7 +466,8 @@ bool PlayLevel::CheckSidePos(const float4& _Pos)
 	}
 	else
 	{
-		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo)
+		if (TileObjectOrder::Empty == TileInfo[CheckY][CheckX].MapInfo
+			|| TileObjectOrder::PopRange == TileInfo[CheckY][CheckX].MapInfo)
 		{
 			return false;
 		}
@@ -516,14 +550,9 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
 		TileInfo[NewY][NewX].LerpTimer = 0.0f;
 
 		// Item 수정
+		CheckItemInTile(NewX, NewY);
 		if (nullptr != Items[_Y][_X])
 		{
-			if (nullptr != Items[NewY][NewX])
-			{
-				Items[NewY][NewX]->Death();
-				Items[NewY][NewX] = nullptr;
-			}
-
 			Items[NewY][NewX] = Items[_Y][_X];
 			Items[NewY][NewX]->AddPos(GlobalValue::MapTileSize * ItemMoveDir);
 			Items[_Y][_X] = nullptr;
@@ -663,11 +692,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f);
 		}
 
-		if (nullptr != Items[Y][X])
-		{
-			Items[Y][X]->Death();
-			Items[Y][X] = nullptr;
-		}
+		CheckItemInTile(X, Y);
 	}
 
 	//오른쪽 타일--------------------------------------------------------------
@@ -701,11 +726,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f);
 		}
 
-		if (nullptr != Items[Y][X])
-		{
-			Items[Y][X]->Death();
-			Items[Y][X] = nullptr;
-		}
+		CheckItemInTile(X, Y);
 	}
 
 	//위쪽 타일--------------------------------------------------------------
@@ -739,11 +760,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f);
 		}
 
-		if (nullptr != Items[Y][X])
-		{
-			Items[Y][X]->Death();
-			Items[Y][X] = nullptr;
-		}
+		CheckItemInTile(X, Y);
 	}
 
 	//아래쪽 타일--------------------------------------------------------------
@@ -777,11 +794,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			SideBubblePop(X, Y, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f);
 		}
 
-		if (nullptr != Items[Y][X])
-		{
-			Items[Y][X]->Death();
-			Items[Y][X] = nullptr;
-		}
+		CheckItemInTile(X, Y);
 	}
 }
 
@@ -813,12 +826,16 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 	{
 		TileRenderer->CreateAnimation("Pop_Tile", "Pop_Tile.Bmp", 0, 3, 0.1f, false);
 	}
+
+	TileInfo[_Y][_X].MapInfo = TileObjectOrder::Empty;
+
 	TileRenderer->ChangeAnimation("Pop_Tile");
+
 	AllBubbleDeathIndex.push_back({ _X, _Y });
 	
 	if (nullptr != Items[_Y][_X])
 	{
-		Items[_Y][_X]->On();
+		Items[_Y][_X]->OutItemInBlock();
 	}
 }
 

@@ -3,8 +3,10 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <cmath>
+
 #include "GlobalLoad.h"
 #include "GlobalValue.h"
+#include "PlayLevel.h"
 
 Item::Item()
 {
@@ -13,6 +15,7 @@ Item::Item()
 Item::~Item()
 {
 }
+
 
 void Item::Start()
 {
@@ -32,8 +35,11 @@ void Item::Start()
 	ItemCollision = CreateCollision(CollisionOrder::Item);
 	ItemCollision->SetCollisionType(CollisionType::Rect);
 	ItemCollision->SetCollisionScale({1, 1});
-	ItemPosInit();
+
+	// Position Initialize
+	SetItemPos(TileIndexX, TileIndexY);
 }
+
 
 void Item::Update(float _Delta)
 {
@@ -43,12 +49,24 @@ void Item::Update(float _Delta)
 		CollisionType::Rect,
 		CollisionType::Rect))
 	{
-		Death();
+		PlayLevel* Level = dynamic_cast<PlayLevel*>(GetLevel());
+		Level->CheckItemInTile(TileIndexX, TileIndexY);
 		return;
 	}
 
 	Levitation(_Delta);
 }
+
+
+void Item::SetItemPos(int _X, int _Y)
+{
+	float4 Pos = { GlobalValue::MapTileSize.X * _X, GlobalValue::MapTileSize.Y * _Y };
+	SetPos(GlobalValue::ItemPosNormalize + GlobalValue::TileStartPos + Pos);
+
+	TileIndexX = _X;
+	TileIndexY = _Y;
+}
+
 
 void Item::Levitation(float _Delta)
 {

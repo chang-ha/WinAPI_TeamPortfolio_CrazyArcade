@@ -47,10 +47,24 @@ public:
 		TileInfo = _Info;
 	}
 
-	inline void ItemPosInit()
+	inline void PutIteminBlock()
 	{
-		SetPos(GlobalValue::ItemPosNormalize + GlobalValue::TileStartPos);
+		InBlock = true;
+		Off();
 	}
+
+	inline bool ItemInBlock() const
+	{
+		return InBlock;
+	}
+
+	inline void OutItemInBlock()
+	{
+		InBlock = false;
+		On();
+	}
+
+	void SetItemPos(int _X, int _Y);
 
 protected:
 
@@ -64,7 +78,9 @@ private:
 	// Item 상태변수
 	ItemType Type;
 	TileObjectOrder TileInfo = TileObjectOrder::Empty;
-
+	int TileIndexX = 0;
+	int TileIndexY = 0;
+	bool InBlock = false;
 
 	// Item 물리변수
 	float Speed = 3.5f;

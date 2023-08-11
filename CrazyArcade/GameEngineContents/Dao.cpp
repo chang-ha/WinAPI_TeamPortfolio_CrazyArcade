@@ -28,7 +28,7 @@ void Dao::Start()
 	GlobalUtils::SpriteFileLoad("Dao_Right.Bmp", "Resources\\Textures\\Character\\Dao\\", 6, 1);
 	GlobalUtils::SpriteFileLoad("Dao_Up.Bmp", "Resources\\Textures\\Character\\Dao\\", 8, 1);
 	GlobalUtils::SpriteFileLoad("Dao_Down.Bmp", "Resources\\Textures\\Character\\Dao\\", 8, 1);
-	GlobalUtils::SpriteFileLoad("Dao_Bubble.Bmp", "Resources\\Textures\\Character\\Dao\\", 4, 1);
+	GlobalUtils::SpriteFileLoad("Dao_Bubble.Bmp", "Resources\\Textures\\Character\\Dao\\", 14, 1);
 	GlobalUtils::SpriteFileLoad("Dao_FlashLong.Bmp", "Resources\\Textures\\Character\\Dao\\", 4, 1);
 	GlobalUtils::SpriteFileLoad("Dao_FlashShort.Bmp", "Resources\\Textures\\Character\\Dao\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Dao_Live.Bmp", "Resources\\Textures\\Character\\Dao\\", 5, 1);
@@ -45,7 +45,9 @@ void Dao::Start()
 	MainRenderer->CreateAnimation("Dao_Move_Right", "Dao_Right.Bmp");
 	MainRenderer->CreateAnimation("Dao_Move_Up", "Dao_Up.Bmp");
 	MainRenderer->CreateAnimation("Dao_Move_Down", "Dao_Down.Bmp");
-	MainRenderer->CreateAnimation("Dao_Bubble", "Dao_Bubble.Bmp");
+	MainRenderer->CreateAnimation("Dao_BubbleHit", "Dao_Bubble.Bmp", 0, 2, 0.1f, false);
+	MainRenderer->CreateAnimation("Dao_Bubble", "Dao_Bubble.Bmp", 3, 11, 0.1f, true);
+	MainRenderer->CreateAnimation("Dao_BubbleEnd", "Dao_Bubble.Bmp", 12, 13, 0.1f, false);
 	MainRenderer->CreateAnimation("Dao_FlashLong", "Dao_FlashLong.Bmp");
 	MainRenderer->CreateAnimation("Dao_FlashShort", "Dao_FlashShort.Bmp");
 	MainRenderer->CreateAnimation("Dao_Live", "Dao_Live.Bmp");

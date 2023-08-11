@@ -28,12 +28,12 @@ void Kephi::Start()
 	GlobalUtils::SpriteFileLoad("Kephi_Right.Bmp", "Resources\\Textures\\Character\\Kephi\\", 6, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Up.Bmp", "Resources\\Textures\\Character\\Kephi\\", 8, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Down.Bmp", "Resources\\Textures\\Character\\Kephi\\", 8, 1);
-	GlobalUtils::SpriteFileLoad("Kephi_Bubble.Bmp", "Resources\\Textures\\Character\\Kephi\\", 4, 1);
+	GlobalUtils::SpriteFileLoad("Kephi_Bubble.Bmp", "Resources\\Textures\\Character\\Kephi\\", 14, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_FlashLong.Bmp", "Resources\\Textures\\Character\\Kephi\\", 4, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_FlashShort.Bmp", "Resources\\Textures\\Character\\Kephi\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Live.Bmp", "Resources\\Textures\\Character\\Kephi\\", 5, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Die.Bmp", "Resources\\Textures\\Character\\Kephi\\", 13, 1);
-	GlobalUtils::SpriteFileLoad("Kephi_Jump.Bmp", "Resources\\Textures\\Character\\Kephi\\", 8, 1);
+	GlobalUtils::SpriteFileLoad("Kephi_Jump.Bmp", "Resources\\Textures\\Character\\Kephi\\", 2, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 	MainRenderer->CreateAnimation("Kephi_Ready", "Kephi_Ready.Bmp");
@@ -45,7 +45,9 @@ void Kephi::Start()
 	MainRenderer->CreateAnimation("Kephi_Move_Right", "Kephi_Right.Bmp");
 	MainRenderer->CreateAnimation("Kephi_Move_Up", "Kephi_Up.Bmp");
 	MainRenderer->CreateAnimation("Kephi_Move_Down", "Kephi_Down.Bmp");
-	MainRenderer->CreateAnimation("Kephi_Bubble", "Kephi_Bubble.Bmp");
+	MainRenderer->CreateAnimation("Kephi_BubbleHit", "Kephi_Bubble.Bmp", 0, 2, 0.1f, false);
+	MainRenderer->CreateAnimation("Kephi_Bubble", "Kephi_Bubble.Bmp", 3, 11, 0.1f, true);
+	MainRenderer->CreateAnimation("Kephi_BubbleEnd", "Kephi_Bubble.Bmp", 12, 13, 0.1f, false);
 	MainRenderer->CreateAnimation("Kephi_FlashLong", "Kephi_FlashLong.Bmp");
 	MainRenderer->CreateAnimation("Kephi_FlashShort", "Kephi_FlashShort.Bmp");
 	MainRenderer->CreateAnimation("Kephi_Live", "Kephi_Live.Bmp");
