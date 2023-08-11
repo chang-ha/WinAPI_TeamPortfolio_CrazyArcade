@@ -2,7 +2,11 @@
 #include "GlobalUtils.h"
 #include "PlayLevel.h"
 
+#include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/TileMap.h>
 
 BaseMonster::BaseMonster()
 {
@@ -15,7 +19,6 @@ BaseMonster::~BaseMonster()
 void BaseMonster::Start() 
 {
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
-
 	ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(BOTCHECKPOS);
 }
@@ -24,24 +27,51 @@ void BaseMonster::Update(float _Delta)
 {
 	StateUpdate(_Delta);
 
-	CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
+	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
 
-	if (CurTile == TileObjectOrder::PopRange)
+	if (CurTileType == TileObjectOrder::PopRange)
 	{
-		// Die
+		 // Die
 	}
 
-	//if (CurTile == TileObjectOrder::Structure
-	//	|| CurTile == TileObjectOrder::MovableBlock
-	//	|| CurTile == TileObjectOrder::ImmovableBlock)
+	//if (CurTileType == TileObjectOrder::Structure
+	//	|| CurTileType == TileObjectOrder::MovableBlock
+	//	|| CurTileType == TileObjectOrder::ImmovableBlock)
 	//{
 	//	// DirChange
 	//}
+
+	if (true == GameEngineInput::IsDown('J'))
+	{
+		SwitchDebugData();
+	}
 }
 
 void BaseMonster::Render(float _Delta)
 {
+	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 
+	if (true == IsDebugData)
+	{
+		CollisionData Data;
+
+		Data.Pos = GetPos() + float4 TOPCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 BOTCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 LEFTCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 RIGHTCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	}
 }
 
 void BaseMonster::StateUpdate(float _Delta)
@@ -90,6 +120,8 @@ void BaseMonster::ChangeState(MonsterState _State)
 	default:
 		break;
 	}
+
+	State = _State;
 }
 
 void BaseMonster::IdleStart()
@@ -123,25 +155,46 @@ void BaseMonster::MoveUpdate(float _Delta)
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 
-	// 왼쪽 이동
 	if (Dir == ActorDir::Down)
+	{
+		MovePos = { 0.0f, Speed * _Delta };
+		CheckPos = BOTCHECKPOS;
+	}
+
+	if (Dir == ActorDir::Up)
+	{
+		MovePos = { 0.0f, -Speed * _Delta };
+		CheckPos = TOPCHECKPOS;
+	}
+
+	if (Dir == ActorDir::Left)
 	{
 		MovePos = { -Speed * _Delta, 0.0f };
 		CheckPos = LEFTCHECKPOS;
 	}
 
+	if (Dir == ActorDir::Right)
+	{
+		MovePos = { Speed * _Delta, 0.0f };
+		CheckPos = RIGHTCHECKPOS;
+	}
+
+	CheckPos += GetPos();
+
+	bool CheckTile = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos, _Delta);
+
+	if (false == CheckTile)
+	{
+		AddPos(MovePos);
+	}
+
 	MoveTimer += _Delta;
-
-	// ObjectTile에 닿으면 방향 전환
-
 }
 
 
 void BaseMonster::DirCheck()
 {
 	ActorDir CheckDir = Dir;
-
-	
 }
 
 void BaseMonster::ChangeAnimationState(const std::string& _StateName) 

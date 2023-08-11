@@ -28,7 +28,7 @@ void Bazzi::Start()
 	GlobalUtils::SpriteFileLoad("Bazzi_Right.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 6, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Up.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 8, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Down.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 8, 1);
-	GlobalUtils::SpriteFileLoad("Bazzi_Bubble.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 13, 1);
+	GlobalUtils::SpriteFileLoad("Bazzi_Bubble.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 14, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_FlashLong.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 4, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_FlashShort.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Live.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 5, 1);

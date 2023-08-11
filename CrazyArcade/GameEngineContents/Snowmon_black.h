@@ -19,6 +19,11 @@ public:
 protected:
 	void ChangeAnimationState(const std::string& _StateName) override;
 
+	class PlayLevel* CurPlayLevel = nullptr;
+	class TileMap* CurTile = nullptr;
+
+	TileObjectOrder CurTileType = TileObjectOrder::Empty;
+
 private:
 	void Start() override;
 };
