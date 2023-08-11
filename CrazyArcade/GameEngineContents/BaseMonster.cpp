@@ -34,13 +34,6 @@ void BaseMonster::Update(float _Delta)
 		ChangeState(MonsterState::Freeze);
 	}
 
-	//if (CurTileType == TileObjectOrder::Structure
-	//	|| CurTileType == TileObjectOrder::MovableBlock
-	//	|| CurTileType == TileObjectOrder::ImmovableBlock)
-	//{
-	//	// DirChange
-	//}
-
 	if (true == GameEngineInput::IsDown('J'))
 	{
 		SwitchDebugData();
@@ -353,14 +346,6 @@ void BaseMonster::RandomDir(const std::string& _StateName)
 		ChangeAnimationState(_StateName);
 	}
 }
-
-//void BaseMonster::DirCheck()
-//{
-//	ActorDir CheckDir = Dir;
-//	bool IsDirCheck[4] = { true, true, true, true };
-//
-//	TileObjectOrder TileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
-//}
 
 void BaseMonster::ChangeAnimationState(const std::string& _StateName) 
 {
