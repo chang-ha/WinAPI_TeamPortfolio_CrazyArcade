@@ -14,6 +14,7 @@
 #include "ContentsEnum.h"
 #include "PlayLevel.h"
 #include "GameMapInfo.h"
+#include "BaseCharacter.h"
 
 // Debug
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -49,6 +50,7 @@ void Penguin::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet("Summon_Penguin", FilePath.PlusFilePath("Summon_Penguin.bmp"), 20, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die_Ready", FilePath.PlusFilePath("Die_Ready_Penguin.bmp"), 3, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die_Bubble", FilePath.PlusFilePath("Die_Bubble_Penguin.bmp"), 8, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Die", FilePath.PlusFilePath("Die_Penguin.bmp"), 12, 1);
 	}
 
 	{
@@ -65,6 +67,7 @@ void Penguin::Start()
 		// Death
 		MainRenderer->CreateAnimation("Die_Ready", "Die_Ready", 0, 2, BUBBLE_ANI_SPEED, false);
 		MainRenderer->CreateAnimation("Die_Bubble", "Die_Bubble", 0, 7, BUBBLE_ANI_SPEED);
+		MainRenderer->CreateAnimation("Die", "Die", 0, 11, BUBBLE_ANI_SPEED, false);
 	}
 
 	MainRenderer->ChangeAnimation("Down_Idle");
@@ -232,18 +235,39 @@ void Penguin::DieBubbleStart()
 
 void Penguin::DieBubbleUpdate(float _Delta)
 {
+	float4 PlayerPos = CurPlayLevel->Player->GetPos();
+	float4 Index = CurPlayLevel->GetGroundTile()->PosToIndex(PlayerPos - GlobalValue::TileStartPos);
 
+	for (int Y = 0; Y < BossTile.size(); Y++)
+	{
+		for (int X = 0; X < BossTile[Y].size(); X++)
+		{
+			if (BossTile[Y][X].iX() == Index.iX() && BossTile[Y][X].iY() == Index.iY())
+			{
+				ChangeState(MonsterState::Die);
+			}
+		}
+	}
 }
 
 
 void Penguin::DieStart()
 {
-
+	MainRenderer->ChangeAnimation("Die");
 }
 
 void Penguin::DieUpdate(float _Delta)
 {
-	ChangeState(MonsterState::Idle);
+	if (0 >= DieAlpha)
+	{
+		Death();
+	}
+
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		DieAlpha -= _Delta * 255;
+		MainRenderer->SetAlpha(static_cast<unsigned char>(DieAlpha));
+	}
 }
 
 void Penguin::HitJudgement()
