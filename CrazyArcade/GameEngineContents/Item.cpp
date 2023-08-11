@@ -1,4 +1,5 @@
 #include "Item.h"
+#include "BaseCharacter.h"
 
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
@@ -48,6 +49,11 @@ void Item::Update(float _Delta)
 		PlayLevel* Level = dynamic_cast<PlayLevel*>(GetLevel());
 
 		Level->CheckItemInTile(TileIndex.X, TileIndex.Y);
+
+		GameEngineActor* CollisionActor = Col[Col.size() - 1]->GetActor();
+		BaseCharacter* CollisionCaracter = dynamic_cast<BaseCharacter*>(CollisionActor);
+		CollisionCaracter->GetItem(GetItemType());
+
 		Death();
 		return;
 	}

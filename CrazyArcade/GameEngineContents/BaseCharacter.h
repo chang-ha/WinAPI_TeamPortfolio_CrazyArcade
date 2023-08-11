@@ -48,6 +48,8 @@ public:
 		return Dir;
 	}
 
+	void GetItem(ItemType _ItemType);
+
 protected:
 	void StateUpdate(float _Delta);
 	void ChangeState(CharacterState _State);

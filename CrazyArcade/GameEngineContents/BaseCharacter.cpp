@@ -149,6 +149,27 @@ void BaseCharacter::Render(float _Delta)
 	}
 }
 
+void BaseCharacter::GetItem(ItemType _ItemType)
+{
+	switch (_ItemType)
+	{
+	case ItemType::Bubble:
+		break;
+	case ItemType::Fluid:
+		break;
+	case ItemType::Roller:
+		break;
+	case ItemType::Ultra:
+		break;
+	case ItemType::Red_Devil:
+		break;
+	case ItemType::Needle:
+		break;
+	default:
+		break;
+	}
+}
+
 // 캐릭터 방향 변경 함수
 void BaseCharacter::DirCheck()
 {
