@@ -110,9 +110,9 @@ protected:
 		return Speed;
 	}
 
-	virtual int GetBubblePower()
+	virtual int GetBombPower()
 	{
-		return BubblePower;
+		return BombPower;
 	}
 
 	virtual int GetBombCount()
@@ -120,15 +120,14 @@ protected:
 		return BombCount;
 	}
 
-	virtual void BombCountPlus()
-	{
-		++BombCount;
-	}
+	virtual void BombCountPlus() {}
+	virtual void BombCountMinus() {}
 
-	virtual void BombCountMinus()
-	{
-		--BombCount;
-	}
+	virtual void BombPowerPlus() {}
+	virtual void ChangeMaxBombPower() {}
+
+	virtual void SpeedUp() {}
+	virtual void ChangeMaxSpeed() {}
 
 	virtual bool GetPlayerDeath()
 	{
@@ -138,7 +137,7 @@ protected:
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
-	int BubblePower = 1;
+	int BombPower = 1;
 	int BombCount = 1;
 
 	TileObjectOrder CurTile = TileObjectOrder::Empty;

@@ -54,7 +54,7 @@ void BaseCharacter::Update(float _Delta)
 	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle" && GetBombCount() > 0
 		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
 	{
-		PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f}, GetBubblePower());
+		PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f}, GetBombPower());
 	}
 
 	if (true == GameEngineInput::IsDown('J'))
@@ -84,10 +84,20 @@ void BaseCharacter::Render(float _Delta)
 		BombCountText += std::to_string(GetBombCount());
 		TextOutA(dc, 2, 57, BombCountText.c_str(), static_cast<int>(BombCountText.size()));
 
-		std::string CurTileText = "";
+		std::string BombPowerText = "";
+		BombPowerText += "폭탄 파워 : ";
+		BombPowerText += std::to_string(GetBombPower());
+		TextOutA(dc, 2, 84, BombPowerText.c_str(), static_cast<int>(BombPowerText.size()));
+
+		std::string SpeedText = "";
+		SpeedText += "속도 : ";
+		SpeedText += std::to_string(GetSpeed());
+		TextOutA(dc, 2, 101, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
+
+		/*std::string CurTileText = "";
 		CurTileText += "밟고있는 타일 번호 : ";
 		CurTileText += std::to_string(static_cast<int>(CurTile));
-		TextOutA(dc, 2, 84, CurTileText.c_str(), static_cast<int>(CurTileText.size()));
+		TextOutA(dc, 2, 84, CurTileText.c_str(), static_cast<int>(CurTileText.size()));*/
 
 		CollisionData Data;
 
@@ -154,14 +164,19 @@ void BaseCharacter::GetItem(ItemType _ItemType)
 	switch (_ItemType)
 	{
 	case ItemType::Bubble:
+		BombCountPlus();
 		break;
 	case ItemType::Fluid:
+		BombPowerPlus();
 		break;
 	case ItemType::Roller:
+		SpeedUp();
 		break;
 	case ItemType::Ultra:
+		ChangeMaxBombPower();
 		break;
 	case ItemType::Red_Devil:
+		ChangeMaxSpeed();
 		break;
 	case ItemType::Needle:
 		break;

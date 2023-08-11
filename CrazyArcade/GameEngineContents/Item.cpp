@@ -51,6 +51,11 @@ void Item::Update(float _Delta)
 		CollisionType::Rect))
 	{
 		PlayLevel* Level = dynamic_cast<PlayLevel*>(GetLevel());
+
+		GameEngineActor* ColActor = Col[Col.size() - 1]->GetActor();
+		BaseCharacter* ColCharacter = dynamic_cast<BaseCharacter*>(ColActor);
+		ColCharacter->GetItem(GetItemType());
+
 		Level->CheckItemInTile(TileIndexX, TileIndexY);
 		return;
 	}
