@@ -91,6 +91,8 @@ void BaseMonster::StateUpdate(float _Delta)
 		return AngerUpdate(_Delta);
 	case MonsterState::AngerIdle:
 		return AngerIdleUpdate(_Delta);
+	case MonsterState::AngerMove:
+		return AngerMoveUpdate(_Delta);
 	case MonsterState::Die:
 		return DieUpdate(_Delta);
 	default:
@@ -116,6 +118,9 @@ void BaseMonster::ChangeState(MonsterState _State)
 		break;
 	case MonsterState::AngerIdle:
 		AngerIdleStart();
+		break;
+	case MonsterState::AngerMove:
+		AngerMoveStart();
 		break;
 	case MonsterState::Die:
 		DieStart();
@@ -195,7 +200,7 @@ void BaseMonster::MoveUpdate(float _Delta)
 	// 방향 전환
 	else if (true == CheckTile)
 	{
-		RandomDir();
+		RandomDir("Move");
 	}
 
 	MoveTimer += _Delta;
@@ -229,20 +234,10 @@ void BaseMonster::AngerStart()
 
 void BaseMonster::AngerUpdate(float _Delta)
 {
-	//static float AngerIdleTimer = 0.0f;
-
-	//if (AngerIdleTimer > 1.0f)
-	//{
-	//	AngerIdleTimer = 0.0f;
-	//	//ChangeState(MonsterState::AngerMove);
-	//	return;
-	//}
-
-	//AngerIdleTimer += _Delta;
-
-	//true == PopRenderer->IsAnimationEnd()
-
-	//ChangeState(MonsterState::AngerIdle);
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(MonsterState::AngerIdle);
+	}
 }
 
 void BaseMonster::AngerIdleStart()
@@ -252,7 +247,69 @@ void BaseMonster::AngerIdleStart()
 
 void BaseMonster::AngerIdleUpdate(float _Delta)
 {
+	static float AngerIdleTimer = 0.0f;
 
+	if (AngerIdleTimer > 1.0f)
+	{
+		AngerIdleTimer = 0.0f;
+		ChangeState(MonsterState::AngerMove);
+		return;
+	}
+
+	AngerIdleTimer += _Delta;
+}
+
+void BaseMonster::AngerMoveStart()
+{
+	ChangeAnimationState("AngerMove");
+}
+
+void BaseMonster::AngerMoveUpdate(float _Delta)
+{
+	static float MoveTimer = 0.0f;
+
+	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
+
+	if (Dir == ActorDir::Down)
+	{
+		MovePos = { 0.0f, Speed * _Delta };
+		CheckPos = BOTPOS;
+	}
+
+	if (Dir == ActorDir::Up)
+	{
+		MovePos = { 0.0f, -Speed * _Delta };
+		CheckPos = TOPPOS;
+	}
+
+	if (Dir == ActorDir::Left)
+	{
+		MovePos = { -Speed * _Delta, 0.0f };
+		CheckPos = LEFTPOS;
+	}
+
+	if (Dir == ActorDir::Right)
+	{
+		MovePos = { Speed * _Delta, 0.0f };
+		CheckPos = RIGHTPOS;
+	}
+
+	CheckPos += GetPos();
+
+	bool CheckTile = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos, _Delta);
+
+	if (false == CheckTile)
+	{
+		AddPos(MovePos);
+	}
+
+	else if (true == CheckTile)
+	{
+		RandomDir("AngerMove");
+	}
+
+	MoveTimer += _Delta;
 }
 
 void BaseMonster::DieStart()
@@ -265,7 +322,7 @@ void BaseMonster::DieUpdate(float _Delta)
 	ChangeState(MonsterState::Die);
 }
 
-void BaseMonster::RandomDir()
+void BaseMonster::RandomDir(const std::string& _StateName)
 {
 	int Random = GameEngineRandom::MainRandom.RandomInt(1, 4);
 
@@ -293,19 +350,17 @@ void BaseMonster::RandomDir()
 	if (CurDir != NextDir)
 	{
 		Dir = NextDir;
-		ChangeAnimationState("Move");
+		ChangeAnimationState(_StateName);
 	}
 }
 
-void BaseMonster::DirCheck()
-{
-	ActorDir CheckDir = Dir;
-	bool IsDirCheck[4] = { true, true, true, true };
-
-	TileObjectOrder TileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
-
-
-}
+//void BaseMonster::DirCheck()
+//{
+//	ActorDir CheckDir = Dir;
+//	bool IsDirCheck[4] = { true, true, true, true };
+//
+//	TileObjectOrder TileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+//}
 
 void BaseMonster::ChangeAnimationState(const std::string& _StateName) 
 {

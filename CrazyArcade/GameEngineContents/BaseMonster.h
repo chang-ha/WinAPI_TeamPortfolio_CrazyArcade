@@ -28,7 +28,7 @@ public:
 	BaseMonster& operator=(const BaseMonster& _Other) = delete;
 	BaseMonster& operator=(BaseMonster&& _Other) noexcept = delete;
 
-	void RandomDir();
+	void RandomDir(const std::string& _StateName);
 
 protected:
 	virtual void StateUpdate(float _Delta);
@@ -70,6 +70,8 @@ private:
 	void AngerIdleStart();
 	void AngerIdleUpdate(float _Delta);
 
+	void AngerMoveStart();
+	void AngerMoveUpdate(float _Delta);
 
 	void Start() override;
 	void Update(float _Delta) override;
