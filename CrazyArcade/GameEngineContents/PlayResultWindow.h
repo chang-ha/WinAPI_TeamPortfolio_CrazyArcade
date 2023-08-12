@@ -34,6 +34,8 @@ private:
 	void Start() override;
 	void Update(float _Delta) override;
 
+	// GameEngineActor »ó¼Ó
+	void LevelEnd() override;
 
 	// this
 	int m_ActiveRoomCount = 0;
