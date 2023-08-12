@@ -90,7 +90,9 @@ void ExpAcquisition::setScoreRender(int _Score)
 		}
 	}
 
-	for (int NumberCount = LoopCount - 1; NumberCount < CONST_ScoreNumberCount; NumberCount++)
+	LoopCount = CONST_ScoreNumberCount - LoopCount;
+
+	for (int NumberCount = LoopCount; NumberCount < CONST_ScoreNumberCount; NumberCount++)
 	{
 		CommonTexture* Number = vecScore[NumberCount];
 		if (nullptr == Number)

@@ -541,7 +541,6 @@ void PlayResultLine::updateEXP()
 
 		int EXPIncreseAmount = m_GameMatchWinValue ? CONST_WinEXPIncreaseAmount : 0;
 		EXPIncreseAmount += m_killNumber* CONST_KillEXPAmount + m_SaveNumber * CONST_SaveEXPAmount;
-		EXPIncreseAmount += 421;
 
 		if (ResultLine.ExpAcquisition)
 		{
