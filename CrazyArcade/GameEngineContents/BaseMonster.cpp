@@ -19,7 +19,12 @@ BaseMonster::~BaseMonster()
 
 void BaseMonster::Start() 
 {
-
+	{
+		MonsterCollision = CreateCollision(CollisionOrder::MonsterBody);
+		MonsterCollision->SetCollisionPos({ GetPos().X, GetPos().Y + 20.0f });
+		MonsterCollision->SetCollisionScale(MONSTERCOLLISIONSCALE);
+		MonsterCollision->SetCollisionType(CollisionType::Rect);
+	}
 }
 
 void BaseMonster::Update(float _Delta)
@@ -44,6 +49,19 @@ void BaseMonster::Update(float _Delta)
 		ChangeState(MonsterState::Freeze);
 		return;
 	}
+
+	////
+	//std::vector<GameEngineCollision*> Col;
+
+	//if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody,
+	//	Col,
+	//	CollisionType::Rect,
+	//	CollisionType::Rect))
+	//{
+	//	
+	//	return;
+	//}
+
 }
 
 void BaseMonster::Render(float _Delta)

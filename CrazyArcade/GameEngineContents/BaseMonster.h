@@ -12,6 +12,7 @@
 #define RIGHTPOS { 20.0f, 20.0f }
 #define BOTPOS { 0.0f, 40.0f }
 
+#define MONSTERCOLLISIONSCALE { 30.0f, 30.0f }
 
 // Ό³Έν :
 class BaseMonster : public GameEngineActor
@@ -37,6 +38,9 @@ protected:
 
 	class GameEngineRenderer* MainRenderer = nullptr;
 	class GameEngineRenderer* ShadowRenderer = nullptr;
+
+	class GameEngineCollision* MonsterCollision = nullptr;
+
 	class PlayLevel* CurPlayLevel = nullptr;
 	const class TileMap* CurTile = nullptr;
 
@@ -49,6 +53,9 @@ protected:
 	{
 		IsDebugData = !IsDebugData;
 	}
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 
 private:
 	void IdleStart();
@@ -84,9 +91,6 @@ private:
 	void EggDeathStart();
 	void EggDeathUpdate(float _Delta);
 
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
 
 	bool IsDebugData = false;
 

@@ -21,6 +21,7 @@ Snowmon_black::~Snowmon_black()
 
 void Snowmon_black::Start()
 {
+	BaseMonster::Start();
 	// Egg
 	GlobalUtils::SpriteFileLoad("Snowmon_Black_EggIdle_Down.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Black\\Egg\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Black_EggIdle_Up.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Black\\Egg\\", 1, 1);
