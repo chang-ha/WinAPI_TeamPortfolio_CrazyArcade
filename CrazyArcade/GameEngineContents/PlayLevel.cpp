@@ -171,7 +171,8 @@ void PlayLevel::Update(float _Delta)
 				++StartIter;
 			}
 		}
-		PlayBubblePopEffectSound = false;
+		BubblePopPlayCount = 0;
+		//PlayBubblePopEffectSound = false;
 	}
 
 	// Item Debug
@@ -1076,9 +1077,10 @@ void PlayLevel::CreateUIElements()
 
 void PlayLevel::BubblePopPlay()
 {
-	if (false == PlayBubblePopEffectSound)
+	if (1 >= BubblePopPlayCount)
 	{
-		PlayBubblePopEffectSound = true;
+		BubblePopPlayCount++;
+		//PlayBubblePopEffectSound = true;
 		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Pop.wav");
 		EffectPlayer.SetVolume(1.0f);
 	}
