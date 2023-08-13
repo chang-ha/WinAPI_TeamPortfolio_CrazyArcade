@@ -41,6 +41,7 @@ void TestStage::Start()
 	// Sound
 	GlobalUtils::SoundFileLoad("PenguinStageBGM.wav", "Resources\\Sounds\\BGM");
 	BGMVolume = 0.5f;
+
 	// 몬스터 테스트
 	Monster = CreateActor<Snowmon_black>();
 	Monster->SetPos({ GlobalValue::WinScale.Half().X + 200, GlobalValue::WinScale.Half().Y });

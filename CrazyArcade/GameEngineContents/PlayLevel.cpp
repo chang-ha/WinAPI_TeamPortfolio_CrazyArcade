@@ -91,31 +91,6 @@ void PlayLevel::Update(float _Delta)
 		CollisionDebugRenderSwitch();
 	}
 
-	// GlobalVolume
-	if (true == GameEngineInput::IsDown('N'))
-	{
-		GlobalVolume += 0.2f;
-		if (2.0f < GlobalVolume)
-		{
-			GlobalVolume = 2.0f;
-		}
-
-		GameEngineSound::SetGlobalVolume(GlobalVolume);
-		BGMPlayer.SetVolume(BGMVolume);
-	}
-
-	if (true == GameEngineInput::IsDown('M'))
-	{
-		GlobalVolume -= 0.2f;
-		if (0.0f > GlobalVolume)
-		{
-			GlobalVolume = 0.0f;
-		}
-
-		GameEngineSound::SetGlobalVolume(GlobalVolume);
-		BGMPlayer.SetVolume(BGMVolume);
-	}
-
 	updateGameOverResult(_Delta);
 
 	ContentLevel::Update(_Delta);

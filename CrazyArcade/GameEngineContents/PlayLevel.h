@@ -110,10 +110,6 @@ protected:
 
 	void CreateUIElements();
 	
-	// Sound
-	GameEngineSoundPlayer BGMPlayer;
-	float BGMVolume = 1.0f;
-	float GlobalVolume = 1.0f;
 private:
 	void UILevelStart();
 

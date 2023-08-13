@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 
 class BackGround;
 class ContentLevel : public GameEngineLevel
@@ -24,6 +25,11 @@ protected:
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 	void Start() override;
 	void Update(float _Delta) override;
+
+	// Sound
+	GameEngineSoundPlayer BGMPlayer;
+	float BGMVolume = 1.0f;
+	static float GlobalVolume;
 
 private:
 	class UIMouseObject* MouseObject = nullptr;
