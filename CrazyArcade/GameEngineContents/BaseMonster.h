@@ -11,7 +11,8 @@
 #define LEFTPOS { -20.0f, 20.0f }
 #define RIGHTPOS { 20.0f, 20.0f }
 #define BOTPOS { 0.0f, 40.0f }
-#define SHADOWPOS { 0.0f, 30.0f }
+
+#define MONSTERCOLLISIONSCALE { 30.0f, 30.0f }
 
 // Ό³Έν :
 class BaseMonster : public GameEngineActor
@@ -37,10 +38,12 @@ protected:
 
 	class GameEngineRenderer* MainRenderer = nullptr;
 	class GameEngineRenderer* ShadowRenderer = nullptr;
+
+	class GameEngineCollision* MonsterCollision = nullptr;
+
 	class PlayLevel* CurPlayLevel = nullptr;
 	const class TileMap* CurTile = nullptr;
 
-	float Speed = 100.0f;
 	MonsterState State = MonsterState::Idle;
 	ActorDir Dir = ActorDir::Down;
 	std::string CurState = "";
@@ -50,6 +53,9 @@ protected:
 	{
 		IsDebugData = !IsDebugData;
 	}
+	void Start() override;
+	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 
 private:
 	void IdleStart();
@@ -73,12 +79,27 @@ private:
 	void AngerMoveStart();
 	void AngerMoveUpdate(float _Delta);
 
-	void Start() override;
-	void Update(float _Delta) override;
-	void Render(float _Delta) override;
+	void EggIdleStart();
+	void EggIdleUpdate(float _Delta);
 
-	void DirCheck();
+	void EggMoveStart();
+	void EggMoveUpdate(float _Delta);
+
+	void EggSummonStart();
+	void EggSummonUpdate(float _Delta);
+
+	void EggDeathStart();
+	void EggDeathUpdate(float _Delta);
+
 
 	bool IsDebugData = false;
+
+	float Speed = 50.0f;
+	float AngerSpeed = 100.0f;
+
+	float IdleTimer = 0.0f;
+	float MoveTimer = 0.0f;
+	float FreezeTimer = 0.0f;
+	float AngerIdleTimer = 0.0f;
 };
 

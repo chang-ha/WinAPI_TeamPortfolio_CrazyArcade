@@ -22,6 +22,7 @@ protected:
 	void Render(float _Delta) override;
 
 private:
-
+	class Snowmon_black* Snowmon_Black = nullptr;
+	class Snowmon_red* Snowmon_Red = nullptr;
 };
 

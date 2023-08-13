@@ -290,6 +290,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="StageStartBossBillBoard.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="StringAnimation.h">
       <SubType>
       </SubType>
@@ -338,6 +342,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BaseMonster_State.cpp" />
     <ClCompile Include="Button.cpp">
       <SubType>
       </SubType>
@@ -461,6 +466,10 @@
     </ClCompile>
     <ClCompile Include="RoomLevel.cpp" />
     <ClCompile Include="StageClearAnimation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StageStartBossBillBoard.cpp">
       <SubType>
       </SubType>
     </ClCompile>

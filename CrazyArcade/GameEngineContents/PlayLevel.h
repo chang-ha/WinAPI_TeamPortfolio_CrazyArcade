@@ -102,7 +102,12 @@ protected:
 private:
 	void UILevelStart();
 
+	void CreateBossImage();
+	void CreateGameStartPlayerSignal();
+
 	void CreateGameStartAnimation();
+	class GameStartAnimation* m_GameStartAnimation = nullptr;
+	void OnGameStartAnimation();
 	void setGameStartCallBack();
 	bool GameStartCheckValue = false;
 
