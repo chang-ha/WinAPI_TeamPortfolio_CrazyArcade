@@ -1,6 +1,7 @@
 #include "BaseMonster.h"
 #include "GlobalUtils.h"
 #include "PlayLevel.h"
+#include "BaseCharacter.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -50,18 +51,10 @@ void BaseMonster::Update(float _Delta)
 		return;
 	}
 
-	////
-	//std::vector<GameEngineCollision*> Col;
-
-	//if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody,
-	//	Col,
-	//	CollisionType::Rect,
-	//	CollisionType::Rect))
-	//{
-	//	
-	//	return;
-	//}
-
+	if (State != MonsterState::Freeze)
+	{
+		CheckCollision();
+	}
 }
 
 void BaseMonster::Render(float _Delta)
@@ -198,6 +191,26 @@ void BaseMonster::RandomDir(const std::string& _StateName)
 	{
 		Dir = NextDir;
 		ChangeAnimationState(_StateName);
+	}
+}
+
+void BaseMonster::CheckCollision()
+{
+	std::vector<GameEngineCollision*> Col;
+	if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect))
+	{
+		for (GameEngineCollision* _Col : Col)
+		{
+			BaseCharacter* ColPlayer = dynamic_cast<BaseCharacter*>(_Col->GetActor());
+
+			if (true == ColPlayer->GetPlayerDeath())
+			{
+				continue;
+			}
+
+			ColPlayer->ChangeState(CharacterState::Die);
+		}
+		return;
 	}
 }
 

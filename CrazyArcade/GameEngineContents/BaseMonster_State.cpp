@@ -2,6 +2,7 @@
 #include "PlayLevel.h"
 
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 void BaseMonster::IdleStart()
 {
@@ -82,12 +83,18 @@ void BaseMonster::FreezeStart()
 
 void BaseMonster::FreezeUpdate(float _Delta)
 {
-	//ChangeState(MonsterState::Freeze);
-
 	if (FreezeTimer > 3.0f)
 	{
 		FreezeTimer = 0.0f;
 		ChangeState(MonsterState::Anger);
+		return;
+	}
+
+	std::vector<GameEngineCollision*> Col;
+	if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect))
+	{
+		ChangeState(MonsterState::Die);
+		MonsterCollision->Off();
 		return;
 	}
 
@@ -115,7 +122,7 @@ void BaseMonster::AngerIdleStart()
 
 void BaseMonster::AngerIdleUpdate(float _Delta)
 {
-	if (AngerIdleTimer > 1.0f)
+	if (AngerIdleTimer > 0.05f)
 	{
 		ChangeState(MonsterState::AngerMove);
 		return;
@@ -224,5 +231,9 @@ void BaseMonster::DieStart()
 
 void BaseMonster::DieUpdate(float _Delta)
 {
-	ChangeState(MonsterState::Die);
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		Death();
+		return;
+	}
 }

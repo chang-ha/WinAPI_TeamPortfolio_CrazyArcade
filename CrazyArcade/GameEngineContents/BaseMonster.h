@@ -40,6 +40,7 @@ protected:
 	class GameEngineRenderer* ShadowRenderer = nullptr;
 
 	class GameEngineCollision* MonsterCollision = nullptr;
+	class GameEngineCollision* IceCollision = nullptr;
 
 	class PlayLevel* CurPlayLevel = nullptr;
 	const class TileMap* CurTile = nullptr;
@@ -91,6 +92,7 @@ private:
 	void EggDeathStart();
 	void EggDeathUpdate(float _Delta);
 
+	void CheckCollision();
 
 	bool IsDebugData = false;
 

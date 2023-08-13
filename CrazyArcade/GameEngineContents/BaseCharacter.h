@@ -34,6 +34,7 @@ class GameEngineRenderer;
 class BaseCharacter : public GameEngineActor
 {
 	friend class PlayLevel;
+	friend class BaseMonster;
 public:
 	// constrcuter destructer
 	BaseCharacter();
