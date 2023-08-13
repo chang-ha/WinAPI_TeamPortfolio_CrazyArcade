@@ -19,6 +19,7 @@
 #include "GlobalValue.h"
 #include "GlobalUtils.h"
 #include "GlobalLoad.h"
+#include "GlobalSound.h"
 #include "GameMapInfo.h"
 #include "FadeObject.h"
 #include "FadeScreen.h"
@@ -57,6 +58,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	UILevelEnd();
+
+
 }
 
 void PlayLevel::Start()
@@ -88,6 +91,16 @@ void PlayLevel::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('H'))
 	{
 		CollisionDebugRenderSwitch();
+	}
+
+	// Sound
+	if (true == GameEngineInput::IsPress('N'))
+	{
+		GlobalSound::GlobalVolumeUp(_Delta);
+	}
+	if (true == GameEngineInput::IsPress('M'))
+	{
+		GlobalSound::GlobalVolumeDown(_Delta);
 	}
 
 	updateGameOverResult(_Delta);

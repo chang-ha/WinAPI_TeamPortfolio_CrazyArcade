@@ -1,6 +1,10 @@
 #include "TestStage.h"
 
+#include <GameEnginePlatform/GameEngineInput.h>
+
 #include "GlobalValue.h"
+#include "GlobalUtils.h"
+#include "GlobalSound.h"
 #include "GameMapInfo.h"
 #include "FadeObject.h"
 
@@ -18,6 +22,11 @@ TestStage::~TestStage()
 void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	PlayLevel::LevelStart(_PrevLevel);
+
+
+	// Sound
+	GlobalUtils::SoundFileLoad("PenguinStageBGM.wav", "Resources\\Sounds\\BGM");
+	BGMPlayer = GlobalSound::CreateSoundPlayer("PenguinStageBGM.wav", 100, 0.5f);
 }
 
 void TestStage::LevelEnd(GameEngineLevel* _NextLevel)

@@ -157,6 +157,9 @@
     <ClCompile Include="ExpAcquisition.cpp">
       <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalSound.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -314,6 +317,9 @@
     </ClInclude>
     <ClInclude Include="ExpAcquisition.h">
       <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalSound.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
