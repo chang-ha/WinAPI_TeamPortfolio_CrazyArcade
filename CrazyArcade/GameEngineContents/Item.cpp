@@ -6,6 +6,7 @@
 #include <cmath>
 
 #include "GlobalLoad.h"
+#include "GlobalUtils.h"
 #include "GlobalValue.h"
 #include "PlayLevel.h"
 
@@ -22,6 +23,9 @@ void Item::Start()
 {
 	GlobalLoad::ItemTextureLoad();
 	
+	// Item Sound
+	GlobalUtils::SoundFileLoad("Get_Item.wav", "Resources\\Sounds\\Character\\");
+
 	// Item MainRenderer
 	ItemRenderer = CreateRenderer(RenderOrder::MapObject);
 	ItemRenderer->SetRenderPos(StartPos);
@@ -50,6 +54,9 @@ void Item::Update(float _Delta)
 		CollisionType::Rect,
 		CollisionType::Rect))
 	{
+		EffectPlayer = GameEngineSound::SoundPlay("Get_Item.wav");
+		EffectPlayer.SetVolume(0.5f);
+
 		PlayLevel* Level = dynamic_cast<PlayLevel*>(GetLevel());
 
 		GameEngineActor* ColActor = Col[Col.size() - 1]->GetActor();
