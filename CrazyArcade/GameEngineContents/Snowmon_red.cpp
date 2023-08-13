@@ -18,6 +18,8 @@ Snowmon_red::~Snowmon_red()
 
 void Snowmon_red::Start()
 {
+	BaseMonster::Start();
+
 	// Egg
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggIdle_Down.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggIdle_Up.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 1, 1);
@@ -49,7 +51,7 @@ void Snowmon_red::Start()
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_AngerMove_Left.Bmp",	"Resources\\Textures\\Monster\\Snowmon\\Red\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_Freeze.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Red\\", 3, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_Die.Bmp",				"Resources\\Textures\\Monster\\Snowmon\\Red\\", 3, 1);
-	GlobalUtils::SpriteFileLoad("Snowmon_Red_Anger.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Red\\", 9, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_Anger.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Red\\", 9, 1); // 임시 리소스
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 
@@ -84,7 +86,7 @@ void Snowmon_red::Start()
 	MainRenderer->CreateAnimation("Snowmon_Red_AngerMove_Left",		"Snowmon_Red_AngerMove_Left.Bmp", 0, 1, 0.2f, true);
 	MainRenderer->CreateAnimation("Snowmon_Red_Freeze",		"Snowmon_Red_Freeze.Bmp", 0, 2, 0.2f, false);
 	MainRenderer->CreateAnimation("Snowmon_Red_Die",		"Snowmon_Red_Die.Bmp", 0, 2, 0.2f, false);
-	MainRenderer->CreateAnimation("Snowmon_Red_Anger",		"Snowmon_Red_Anger.Bmp", 0, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Snowmon_Red_Anger",		"Snowmon_Red_Anger.Bmp", 0, 8, 0.1f, false); // 임시 리소스
 
 	MainRenderer->SetRenderPos({ 0, 20 });
 
