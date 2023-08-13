@@ -28,6 +28,7 @@ protected:
 
 	// Sound
 	GameEngineSoundPlayer BGMPlayer;
+	GameEngineSoundPlayer EffectPlayer;
 	float BGMVolume = 1.0f;
 	static float GlobalVolume;
 

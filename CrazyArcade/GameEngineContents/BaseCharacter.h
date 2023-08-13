@@ -29,6 +29,7 @@
 
 #include <string>
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 
 class GameEngineRenderer;
 class BaseCharacter : public GameEngineActor
@@ -148,6 +149,8 @@ protected:
 	void DirCheck();
 
 	std::vector<GameEngineCollision*> Col;
+
+	GameEngineSoundPlayer EffectPlayer;
 private:
 	bool IsDebugData = false;
 	bool PlayerDeath = false;

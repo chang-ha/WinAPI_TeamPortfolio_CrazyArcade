@@ -72,6 +72,10 @@ void PlayLevel::Start()
 	Back->Init("PlayPanel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
+	// Sound Load
+	GlobalUtils::SoundFileLoad("Bubble_Install.wav", "Resources\\Sounds\\Character\\");
+	GlobalUtils::SoundFileLoad("Bubble_Pop.wav", "Resources\\Sounds\\Character\\");
+	
 	// Object Texture Load
 	GlobalLoad::TileTextureLoad();
 
@@ -167,6 +171,7 @@ void PlayLevel::Update(float _Delta)
 				++StartIter;
 			}
 		}
+		PlayBubblePopEffectSound = false;
 	}
 
 	// Item Debug
@@ -680,6 +685,8 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower)
 		}
 		BubbleRenderer->ChangeAnimation("Bubble_Idle");
 
+		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Install.wav");
+		EffectPlayer.SetVolume(1.0f);
 		return;
 	}
 
@@ -844,6 +851,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 
 		CheckItemInTile(X, Y);
 	}
+	BubblePopPlay();
 }
 
 void PlayLevel::SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
@@ -909,6 +917,7 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 	TileRenderer->ChangeAnimation(_AnimationName);
 
 	AllBubbleDeathIndex.push_back({ _X, _Y });
+
 }
 
 
@@ -1063,6 +1072,16 @@ void PlayLevel::CreateUIElements()
 	}
 
 	SetUpUIStart();
+}
+
+void PlayLevel::BubblePopPlay()
+{
+	if (false == PlayBubblePopEffectSound)
+	{
+		PlayBubblePopEffectSound = true;
+		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Pop.wav");
+		EffectPlayer.SetVolume(1.0f);
+	}
 }
 
 void PlayLevel::SetUpUIStart()

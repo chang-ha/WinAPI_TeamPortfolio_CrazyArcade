@@ -110,6 +110,10 @@ protected:
 
 	void CreateUIElements();
 	
+	// Sound
+	void BubblePopPlay();
+	bool PlayBubblePopEffectSound = false;
+
 private:
 	void UILevelStart();
 

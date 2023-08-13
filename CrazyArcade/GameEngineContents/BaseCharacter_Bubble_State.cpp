@@ -22,6 +22,8 @@ void BaseCharacter::BubbleHitUpdate(float _Delta)
 void BaseCharacter::BubbleStart()
 {
 	ChangeAnimationState("Bubble");
+	EffectPlayer = GameEngineSound::SoundPlay("Locked_In_Bubble2.wav");
+	EffectPlayer.SetVolume(1.0f);
 }
 void BaseCharacter::BubbleUpdate(float _Delta)
 {
@@ -48,6 +50,8 @@ void BaseCharacter::BubbleUpdate(float _Delta)
 void BaseCharacter::BubbleEndStart()
 {
 	ChangeAnimationState("BubbleEnd");
+	EffectPlayer = GameEngineSound::SoundPlay("Character_Death.wav");
+	EffectPlayer.SetVolume(1.0f);
 }
 void BaseCharacter::BubbleEndUpdate(float _Delta)
 {
@@ -115,6 +119,8 @@ void BaseCharacter::DieStart()
 {
 	BodyCollision->Off();
 	ChangeAnimationState("Die");
+	EffectPlayer = GameEngineSound::SoundPlay("Character_Death.wav");
+	EffectPlayer.SetVolume(1.0f);
 }
 void BaseCharacter::DieUpdate(float _Delta)
 {
