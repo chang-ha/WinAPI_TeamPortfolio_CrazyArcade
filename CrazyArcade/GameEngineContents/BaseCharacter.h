@@ -146,6 +146,7 @@ protected:
 
 	void DirCheck();
 
+	std::vector<GameEngineCollision*> Col;
 private:
 	bool IsDebugData = false;
 	bool PlayerDeath = false;

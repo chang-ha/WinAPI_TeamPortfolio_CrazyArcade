@@ -43,9 +43,10 @@ void BaseCharacter::Update(float _Delta)
 		ChangeState(CharacterState::Bubble);
 	}
 
-	if (true == GameEngineInput::IsDown('K'))
+	if (true == BodyCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
 	{
-		ChangeState(CharacterState::Jump);
+		ChangeState(CharacterState::Die);
+		return;
 	}
 
 	StateUpdate(_Delta);
