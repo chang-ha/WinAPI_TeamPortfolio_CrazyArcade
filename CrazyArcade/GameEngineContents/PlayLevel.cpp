@@ -25,6 +25,7 @@
 #include "CommonTexture.h"
 #include "PlayTimer.h"
 #include "PlayPortrait.h"
+#include "PlayCharacterPortrait.h"
 #include "GameStartAnimation.h"
 #include "PlayResultWindow.h"
 #include "GameOverAnimation.h"
@@ -90,48 +91,13 @@ void PlayLevel::Update(float _Delta)
 		CollisionDebugRenderSwitch();
 	}
 
-	if (true == GameOverCheckValue)
-	{
-		GameOverTime += _Delta;
-
-		if (GameOverTime > GameOverDuration)
-		{
-			GameOverTime = 0.0f;
-
-			std::string MoveLevel = WinCheckValue ? NextLevelName : "RoomLevel";
-			GameEngineCore::ChangeLevel(MoveLevel);
-		}
-	}
+	updateGameOverResult(_Delta);
 
 	ContentLevel::Update(_Delta);
 
-	if (-1 != CurrentStage && false == GameOverCheckValue)
-	{
-		if (nullptr == Player)
-		{
-			return;
-		}
+	updateVictoryRoll();
 
-		if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
-		{
-			WinCheckValue = false;
-
-			StartGameOver();
-		}
-
-		if (true == GameEngineInput::IsPress('6'))
-		{
-			for (int PlayerCount = 0; PlayerCount < GlobalValue::g_ActiveRoomCount; PlayerCount++)
-			{
-				VecPlayerResult[PlayerCount].PlayerWinValue = true;
-			}
-
-			WinCheckValue = true;
-
-			StartGameOver();
-		}
-	}
-
+	updateCharacterPortrait();
 
 	// 물폭탄의 타이머를 위한 for문
 	if (AllBubbleIndex.size() > 0)
@@ -904,6 +870,8 @@ void PlayLevel::UILevelStart()
 {
 	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
 
+	vecCharacterState.resize(GlobalValue::g_ActiveRoomCount);
+
 	if (-1 != CurrentStage)
 	{
 		CreateGameStartAnimation();
@@ -1147,6 +1115,88 @@ void PlayLevel::StartGameOver()
 	GameOverCheckValue = true;
 }
 
+void PlayLevel::updateGameOverResult(float _Delta)
+{
+	if (true == GameOverCheckValue)
+	{
+		GameOverTime += _Delta;
+
+		if (GameOverTime > GameOverDuration)
+		{
+			GameOverTime = 0.0f;
+
+			std::string MoveLevel = WinCheckValue ? NextLevelName : "RoomLevel";
+			GameEngineCore::ChangeLevel(MoveLevel);
+		}
+	}
+}
+
+
+void PlayLevel::updateVictoryRoll()
+{
+	if (-1 != CurrentStage && false == GameOverCheckValue)
+	{
+		if (nullptr == Player)
+		{
+			return;
+		}
+
+		if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+		{
+			WinCheckValue = false;
+	
+			StartGameOver();
+		}
+
+		if (true == GameEngineInput::IsPress('6'))
+		{
+			for (int PlayerCount = 0; PlayerCount < GlobalValue::g_ActiveRoomCount; PlayerCount++)
+			{
+				VecPlayerResult[PlayerCount].PlayerWinValue = true;
+			}
+
+			WinCheckValue = true;
+
+			StartGameOver();
+		}
+	}
+}
+
+void PlayLevel::updateCharacterPortrait()
+{
+	if (CurrentStage < 1 || CurrentStage > 3)
+	{
+		return;
+	}
+	
+	if (nullptr == Player)
+	{
+		return;
+	}
+
+	// 플레이어가 죽었는데 초상화가 업데이트 되지 않았다면 초상화를 바꿔줍니다.
+	if (Player->GetPlayerDeath() && true == vecCharacterState[0].AliveState)
+	{
+		PlayPortrait* Portrait = vec_PlayPortrait[0];
+		if (nullptr == Portrait)
+		{
+			MsgBoxAssert("액터를 불러오지 못했습니다.");
+			return;
+		}
+
+		PlayCharacterPortrait* CharacterPortrait = Portrait->getPortrait();
+		if (nullptr == CharacterPortrait)
+		{
+			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
+			return;
+		}
+
+		CharacterPortrait->changeState(PlayPortraitState::Lose);
+
+		vecCharacterState[0].AliveState = false;
+	}
+}
+
 
 void PlayLevel::UILevelEnd()
 {
@@ -1164,6 +1214,9 @@ void PlayLevel::UILevelEnd()
 
 	GameOverCheckValue = false;
 	GameStartCheckValue = false;
+
+	vecCharacterState.clear();
+	VecPlayerResult.clear();
 }
 
 void PlayLevel::ReleaseLevelComposition()
@@ -1187,11 +1240,7 @@ void PlayLevel::ReleaseResultWindow()
 		m_ResultWindow->ActorRelease();
 		m_ResultWindow = nullptr;
 	}
-
 }
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 몬스터

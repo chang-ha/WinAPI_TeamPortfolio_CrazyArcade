@@ -28,6 +28,8 @@ public:
 		{
 			return m_PortraitInfo.Portrait;
 		}
+
+		return nullptr;
 	}
 
 	void ActorRelease();

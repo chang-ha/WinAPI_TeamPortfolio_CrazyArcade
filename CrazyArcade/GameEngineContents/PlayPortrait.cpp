@@ -125,18 +125,7 @@ void PlayPortrait::CreatePlayPortrait(int _PortraitNumber)
 
 	int Rank = 0;
 
-	switch (_PortraitNumber)
-	{
-	case 0:
-		Rank += static_cast<int>(GlobalValue::g_Player1Level);
-		break;
-	case 1:
-		Rank += static_cast<int>(GlobalValue::g_Player2Level);
-		break;
-	default:
-		break;
-	}
-
+	Rank = GlobalValue::g_vecPlayerInfo[_PortraitNumber].PlayerLevel;
 
 	CharacterRank->setRendererCopyPos(0, Rank - 1);
 

@@ -197,6 +197,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ExpAcquisition.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ExpUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FadeObject.h">
       <SubType>
       </SubType>
@@ -373,6 +381,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CrazyArcadeCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ExpAcquisition.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ExpUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>
