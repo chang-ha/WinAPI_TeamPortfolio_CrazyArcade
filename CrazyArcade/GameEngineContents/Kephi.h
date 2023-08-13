@@ -20,12 +20,12 @@ protected:
 
 	float GetSpeed() override
 	{
-		return Speed;
+		return Speed * SPEEDREFERENCEVALUE;
 	}
 
-	int GetBubblePower() override
+	int GetBombPower() override
 	{
-		return BubblePower;
+		return BombPower;
 	}
 
 	int GetBombCount() override
@@ -35,7 +35,15 @@ protected:
 
 	void BombCountPlus() override
 	{
-		++BombCount;
+		if (BombCount < MaxBombCount)
+		{
+			++BombCount;
+			return;
+		}
+		else
+		{
+			return;
+		}
 	}
 
 	void BombCountMinus() override
@@ -43,13 +51,54 @@ protected:
 		--BombCount;
 	}
 
+	void BombPowerPlus() override
+	{
+		if (BombPower < MaxBombPower)
+		{
+			++BombPower;
+			return;
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	void ChangeMaxBombPower() override
+	{
+		BombPower = MaxBombPower;
+	}
+
+	void SpeedUp() override
+	{
+		if (Speed < MaxSpeed)
+		{
+			++Speed;
+			return;
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	void ChangeMaxSpeed() override
+	{
+		Speed = MaxSpeed;
+	}
+
 private:
-	float Speed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MinSpeed * SPEEDREFERENCEVALUE;
-	float MaxSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MaxSpeed * SPEEDREFERENCEVALUE;
-	int BubblePower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MinBombPower;
-	int MaxBubblePower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MaxBombPower;
-	int BombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MinWaterBombs;
+	int MinSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MinSpeed;
+	int MaxSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MaxSpeed;
+	int Speed = MinSpeed;
+
+	int MinBombPower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MinBombPower;
+	int MaxBombPower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MaxBombPower;
+	int BombPower = MinBombPower;
+
+	int MinBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MinWaterBombs;
 	int MaxBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MaxWaterBombs;
+	int BombCount = MinBombCount;
 
 	void Start() override;
 };

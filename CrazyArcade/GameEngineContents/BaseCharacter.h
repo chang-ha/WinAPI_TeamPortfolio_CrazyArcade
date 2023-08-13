@@ -13,9 +13,11 @@
 #define RIGHTMOVETOPCHECKPOS { 20.0f, -13.0f }
 #define RIGHTMOVEBOTCHECKPOS { 20.0f, 23.0f }
 
-#define BOTCHECKPOS { 0.0f, 25.0f }
-#define LEFTBOTCHECKPOS { -16.0f, 25.0f }
-#define RIGHTBOTCHECKPOS { 16.0f, 25.0f }
+#define BOTCHECKPOS { 0.0f, 30.0f }
+#define LEFTBOTCHECKPOS { -16.0f, 30.0f }
+#define RIGHTBOTCHECKPOS { 16.0f, 30.0f }
+
+#define CHARACTERSHADOWPOS { 0.0f, 15.0f }
 
 #define SPEEDREFERENCEVALUE 40.0f
 
@@ -48,6 +50,8 @@ public:
 	{
 		return Dir;
 	}
+
+	void GetItem(const ItemType& _ItemType);
 
 protected:
 	void StateUpdate(float _Delta);
@@ -109,9 +113,9 @@ protected:
 		return Speed;
 	}
 
-	virtual int GetBubblePower()
+	virtual int GetBombPower()
 	{
-		return BubblePower;
+		return BombPower;
 	}
 
 	virtual int GetBombCount()
@@ -119,15 +123,14 @@ protected:
 		return BombCount;
 	}
 
-	virtual void BombCountPlus()
-	{
-		++BombCount;
-	}
+	virtual void BombCountPlus() {}
+	virtual void BombCountMinus() {}
 
-	virtual void BombCountMinus()
-	{
-		--BombCount;
-	}
+	virtual void BombPowerPlus() {}
+	virtual void ChangeMaxBombPower() {}
+
+	virtual void SpeedUp() {}
+	virtual void ChangeMaxSpeed() {}
 
 	virtual bool GetPlayerDeath()
 	{
@@ -137,13 +140,14 @@ protected:
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
-	int BubblePower = 1;
+	int BombPower = 1;
 	int BombCount = 1;
 
 	TileObjectOrder CurTile = TileObjectOrder::Empty;
 
 	void DirCheck();
 
+	std::vector<GameEngineCollision*> Col;
 private:
 	bool IsDebugData = false;
 	bool PlayerDeath = false;
