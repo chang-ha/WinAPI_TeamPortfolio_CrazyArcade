@@ -19,7 +19,6 @@
 #include "GlobalValue.h"
 #include "GlobalUtils.h"
 #include "GlobalLoad.h"
-#include "GlobalSound.h"
 #include "GameMapInfo.h"
 #include "FadeObject.h"
 #include "FadeScreen.h"
@@ -53,12 +52,12 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	UILevelStart();
+
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	UILevelEnd();
-	BGMPlayer.Stop();
 }
 
 void PlayLevel::Start()
@@ -92,14 +91,29 @@ void PlayLevel::Update(float _Delta)
 		CollisionDebugRenderSwitch();
 	}
 
-	// Sound
+	// GlobalVolume
 	if (true == GameEngineInput::IsDown('N'))
 	{
-		GlobalSound::GlobalVolumeUp();
+		GlobalVolume += 0.2f;
+		if (2.0f < GlobalVolume)
+		{
+			GlobalVolume = 2.0f;
+		}
+
+		GameEngineSound::SetGlobalVolume(GlobalVolume);
+		BGMPlayer.SetVolume(BGMVolume);
 	}
+
 	if (true == GameEngineInput::IsDown('M'))
 	{
-		GlobalSound::GlobalVolumeDown();
+		GlobalVolume -= 0.2f;
+		if (0.0f > GlobalVolume)
+		{
+			GlobalVolume = 0.0f;
+		}
+
+		GameEngineSound::SetGlobalVolume(GlobalVolume);
+		BGMPlayer.SetVolume(BGMVolume);
 	}
 
 	updateGameOverResult(_Delta);

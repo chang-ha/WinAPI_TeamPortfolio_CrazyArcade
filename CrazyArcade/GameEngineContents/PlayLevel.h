@@ -1,7 +1,8 @@
 #pragma once
 #include "ContentLevel.h"
 #include "ContentsEnum.h"
-#include "GlobalSound.h"
+
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <vector>
 #include <list>
 
@@ -110,8 +111,9 @@ protected:
 	void CreateUIElements();
 	
 	// Sound
-	class GlobalSound BGMPlayer;
-
+	GameEngineSoundPlayer BGMPlayer;
+	float BGMVolume = 1.0f;
+	float GlobalVolume = 1.0f;
 private:
 	void UILevelStart();
 

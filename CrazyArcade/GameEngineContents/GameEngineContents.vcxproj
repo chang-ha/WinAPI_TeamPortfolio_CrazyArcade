@@ -226,10 +226,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GlobalLoad.h" />
-    <ClInclude Include="GlobalSound.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="GlobalUtils.h">
       <SubType>
       </SubType>
@@ -416,10 +412,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GlobalLoad.cpp" />
-    <ClCompile Include="GlobalSound.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
       <SubType>
       </SubType>

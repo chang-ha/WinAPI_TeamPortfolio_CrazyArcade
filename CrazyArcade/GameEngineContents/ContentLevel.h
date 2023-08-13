@@ -28,6 +28,4 @@ protected:
 private:
 	class UIMouseObject* MouseObject = nullptr;
 
-
 };
-
