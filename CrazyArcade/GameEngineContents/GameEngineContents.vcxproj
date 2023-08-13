@@ -342,6 +342,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BaseMonster_State.cpp" />
     <ClCompile Include="Button.cpp">
       <SubType>
       </SubType>

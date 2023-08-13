@@ -151,6 +151,9 @@
     <ClCompile Include="StageStartBossBillBoard.cpp">
       <Filter>Actor\UI\PlayLevel</Filter>
     </ClCompile>
+    <ClCompile Include="BaseMonster_State.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
