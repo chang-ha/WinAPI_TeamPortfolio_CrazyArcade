@@ -197,6 +197,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ExpAcquisition.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ExpUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FadeObject.h">
       <SubType>
       </SubType>
@@ -290,6 +298,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="StageStartBossBillBoard.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="StringAnimation.h">
       <SubType>
       </SubType>
@@ -368,6 +380,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="CrazyArcadeCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ExpAcquisition.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ExpUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -461,6 +481,10 @@
     </ClCompile>
     <ClCompile Include="RoomLevel.cpp" />
     <ClCompile Include="StageClearAnimation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StageStartBossBillBoard.cpp">
       <SubType>
       </SubType>
     </ClCompile>

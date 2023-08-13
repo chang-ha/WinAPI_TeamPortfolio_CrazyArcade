@@ -5,6 +5,12 @@
 #include <list>
 
 
+struct CharacterStatus
+{
+public:
+	bool AliveState = true;
+};
+
 struct PlayerResult
 {
 public:
@@ -102,7 +108,12 @@ protected:
 private:
 	void UILevelStart();
 
+	void CreateBossImage();
+	void CreateGameStartPlayerSignal();
+
 	void CreateGameStartAnimation();
+	class GameStartAnimation* m_GameStartAnimation = nullptr;
+	void OnGameStartAnimation();
 	void setGameStartCallBack();
 	bool GameStartCheckValue = false;
 
@@ -125,8 +136,6 @@ private:
 	void SetUpFadeScreen();
 	class FadeScreen* m_FadeScreen = nullptr;
 
-
-
 	void SetUpTimer();
 	class PlayTimer* m_PlayTimer = nullptr;
 	const float4 CONST_TimerLocation = float4{ 711.0f , 78.0f };
@@ -147,6 +156,13 @@ private:
 	void SetUpResultBoardAnimation();
 
 private:
+	void updateGameOverResult(float _Delta);
+	void updateVictoryRoll();
+
+	void updateCharacterPortrait();
+	std::vector<CharacterStatus> vecCharacterState;
+
+private:
 	bool GameOverCheckValue = false;
 	bool WinCheckValue = false;
 
@@ -154,6 +170,7 @@ private:
 	const float GameOverDuration = 10.0f;
 
 	void StartGameOver();
+
 
 
 private:

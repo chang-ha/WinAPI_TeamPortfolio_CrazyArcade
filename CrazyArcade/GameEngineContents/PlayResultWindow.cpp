@@ -155,11 +155,11 @@ void PlayResultWindow::OnResultWindow(const std::vector<PlayerResult>& _VecResul
 			return;
 		}
 
-		LinePtr->onResultLine();
-		
 		LinePtr->changePlayerMatchValue(_VecResult[vecCount].PlayerWinValue);
 		LinePtr->changeKillNumber(_VecResult[vecCount].KillNUmber);
 		LinePtr->changeSaveNumber(_VecResult[vecCount].SaveNUmber);
+
+		LinePtr->onResultLine();
 	}
 }
 
@@ -194,4 +194,12 @@ void PlayResultWindow::ActorRelease()
 	}
 
 	vecPlayResultLine.clear();
+
+	Death();
+}
+
+
+void PlayResultWindow::LevelEnd()
+{
+	ActorRelease();
 }

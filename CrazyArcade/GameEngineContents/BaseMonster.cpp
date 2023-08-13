@@ -38,6 +38,12 @@ void BaseMonster::Update(float _Delta)
 	{
 		SwitchDebugData();
 	}
+
+	if (true == GameEngineInput::IsDown('F'))
+	{
+		ChangeState(MonsterState::Freeze);
+		return;
+	}
 }
 
 void BaseMonster::Render(float _Delta)
@@ -128,15 +134,13 @@ void BaseMonster::ChangeState(MonsterState _State)
 void BaseMonster::IdleStart()
 {
 	ChangeAnimationState("Idle");
+	IdleTimer = 0.0f;
 }
 
 void BaseMonster::IdleUpdate(float _Delta)
 {
-	static float IdleTimer = 0.0f;
-
 	if (IdleTimer > 2.0f)
 	{
-		IdleTimer = 0.0f;
 		ChangeState(MonsterState::Move);
 		return;
 	}
@@ -147,12 +151,11 @@ void BaseMonster::IdleUpdate(float _Delta)
 void BaseMonster::MoveStart()
 {
 	ChangeAnimationState("Move");
+	MoveTimer = 0.0f;
 }
 
 void BaseMonster::MoveUpdate(float _Delta)
 {
-	static float MoveTimer = 0.0f;
-
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 	
@@ -202,15 +205,14 @@ void BaseMonster::MoveUpdate(float _Delta)
 void BaseMonster::FreezeStart()
 {
 	ChangeAnimationState("Freeze");
+	FreezeTimer = 0.0f;
 }
 
 void BaseMonster::FreezeUpdate(float _Delta)
 {
-	ChangeState(MonsterState::Freeze);
+	//ChangeState(MonsterState::Freeze);
 
-	static float FreezeTimer = 0.0f;
-
-	if (FreezeTimer > 5.0f)
+	if (FreezeTimer > 3.0f)
 	{
 		FreezeTimer = 0.0f;
 		ChangeState(MonsterState::Anger);
@@ -236,15 +238,13 @@ void BaseMonster::AngerUpdate(float _Delta)
 void BaseMonster::AngerIdleStart()
 {
 	ChangeAnimationState("AngerIdle");
+	AngerIdleTimer = 0.0f;
 }
 
 void BaseMonster::AngerIdleUpdate(float _Delta)
 {
-	static float AngerIdleTimer = 0.0f;
-
 	if (AngerIdleTimer > 1.0f)
 	{
-		AngerIdleTimer = 0.0f;
 		ChangeState(MonsterState::AngerMove);
 		return;
 	}

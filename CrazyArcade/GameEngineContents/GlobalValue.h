@@ -3,6 +3,10 @@
 #include <vector>
 
 
+#define MAX_PLAYER_COUNT 2
+#define MAX_PLAYER_LEVEL 4
+
+
 enum class MapType
 {
 	Seal1,
@@ -52,6 +56,14 @@ public:
 	int MaxSpeed = 0;
 };
 
+struct PlayerInfo
+{
+public:
+	int PlayerLevel = 1;
+	int CurrentExp = 0;
+};
+
+
 
 class GlobalValue
 {
@@ -98,11 +110,14 @@ public:
 	static AvailableCharacterList g_SelectAvailableCharacter1;
 	static AvailableCharacterList g_SelectAvailableCharacter2;
 
-	static int g_Player1Level;
-	static int g_Player2Level;
+	//static int g_Player1Level;
+	//static int g_Player2Level;
 
 	static float g_ChangeLevelFadeSpeed;
 	static const int g_FadeScreenAlphaValue = 70;
+
+	static std::vector<PlayerInfo> g_vecPlayerInfo;
+	static const std::vector<int> g_ExpArr;
 
 	static void Init();
 protected:

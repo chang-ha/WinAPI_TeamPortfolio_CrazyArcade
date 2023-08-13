@@ -80,5 +80,10 @@ private:
 	void DirCheck();
 
 	bool IsDebugData = false;
+
+	float IdleTimer = 0.0f;
+	float MoveTimer = 0.0f;
+	float FreezeTimer = 0.0f;
+	float AngerIdleTimer = 0.0f;
 };
 
