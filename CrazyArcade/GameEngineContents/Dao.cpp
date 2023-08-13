@@ -32,7 +32,7 @@ void Dao::Start()
 	GlobalUtils::SpriteFileLoad("Dao_FlashLong.Bmp", "Resources\\Textures\\Character\\Dao\\", 4, 1);
 	GlobalUtils::SpriteFileLoad("Dao_FlashShort.Bmp", "Resources\\Textures\\Character\\Dao\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Dao_Live.Bmp", "Resources\\Textures\\Character\\Dao\\", 5, 1);
-	GlobalUtils::SpriteFileLoad("Dao_Die.Bmp", "Resources\\Textures\\Character\\Dao\\", 13, 1);
+	GlobalUtils::SpriteFileLoad("Dao_Die.Bmp", "Resources\\Textures\\Character\\Dao\\", 11, 1);
 	GlobalUtils::SpriteFileLoad("Dao_Jump.Bmp", "Resources\\Textures\\Character\\Dao\\", 8, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);

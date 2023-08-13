@@ -43,12 +43,6 @@ void BaseCharacter::Update(float _Delta)
 		ChangeState(CharacterState::Bubble);
 	}
 
-	if (true == BodyCollision->Collision(CollisionOrder::MonsterBody, Col, CollisionType::Rect, CollisionType::Rect))
-	{
-		ChangeState(CharacterState::Die);
-		return;
-	}
-
 	StateUpdate(_Delta);
 
 	// 물풍선 설치
