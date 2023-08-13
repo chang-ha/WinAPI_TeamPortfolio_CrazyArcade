@@ -23,7 +23,6 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 	PlayLevel::LevelStart(_PrevLevel);
 
 	BGMPlayer = GameEngineSound::SoundPlay("PenguinStageBGM.wav", 10000);
-	BGMPlayer.SetVolume(BGMVolume);
 }
 
 void TestStage::LevelEnd(GameEngineLevel* _NextLevel)
