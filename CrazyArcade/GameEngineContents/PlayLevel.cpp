@@ -260,7 +260,7 @@ void PlayLevel::CharacterSetting()
 	{
 		Player = CreateActor<Marid>(UpdateOrder::Character);
 	}
-	else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Random)
+	/*else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Random)
 	{
 		int CharacterNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
 
@@ -268,17 +268,21 @@ void PlayLevel::CharacterSetting()
 		{
 		case 1:
 			Player = CreateActor<Bazzi>(UpdateOrder::Character);
+			break;
 		case 2:
 			Player = CreateActor<Dao>(UpdateOrder::Character);
+			break;
 		case 3:
 			Player = CreateActor<Kephi>(UpdateOrder::Character);
+			break;
 		case 4:
 			Player = CreateActor<Marid>(UpdateOrder::Character);
+			break;
 		default:
 			MsgBoxAssert("랜덤으로 캐릭터 생성에서 오류가 발생했습니다.");
 			break;
 		}
-	}
+	}*/
 	
 }
 
