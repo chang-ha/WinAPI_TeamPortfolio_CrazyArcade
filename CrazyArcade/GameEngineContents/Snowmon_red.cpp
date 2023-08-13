@@ -18,6 +18,18 @@ Snowmon_red::~Snowmon_red()
 
 void Snowmon_red::Start()
 {
+	// Egg
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggIdle_Down.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggIdle_Up.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggIdle_Left.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggIdle_Right.Bmp",	"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggMove_Down.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggMove_Up.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggMove_Right.Bmp",	"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggMove_Left.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_Egg_Summon.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 5, 1);
+
+	// Snowmon
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_Idle_Down.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_Idle_Up.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Red\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_Idle_Left.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\", 1, 1);
