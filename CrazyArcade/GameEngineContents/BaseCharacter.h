@@ -50,7 +50,7 @@ public:
 		return Dir;
 	}
 
-	void GetItem(ItemType _ItemType);
+	void GetItem(const ItemType& _ItemType);
 
 protected:
 	void StateUpdate(float _Delta);

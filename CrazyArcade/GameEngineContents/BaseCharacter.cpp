@@ -159,7 +159,7 @@ void BaseCharacter::Render(float _Delta)
 	}
 }
 
-void BaseCharacter::GetItem(ItemType _ItemType)
+void BaseCharacter::GetItem(const ItemType& _ItemType)
 {
 	switch (_ItemType)
 	{
