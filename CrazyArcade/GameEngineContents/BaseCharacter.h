@@ -13,9 +13,11 @@
 #define RIGHTMOVETOPCHECKPOS { 20.0f, -13.0f }
 #define RIGHTMOVEBOTCHECKPOS { 20.0f, 23.0f }
 
-#define BOTCHECKPOS { 0.0f, 25.0f }
-#define LEFTBOTCHECKPOS { -16.0f, 25.0f }
-#define RIGHTBOTCHECKPOS { 16.0f, 25.0f }
+#define BOTCHECKPOS { 0.0f, 30.0f }
+#define LEFTBOTCHECKPOS { -16.0f, 30.0f }
+#define RIGHTBOTCHECKPOS { 16.0f, 30.0f }
+
+#define CHARACTERSHADOWPOS { 0.0f, 15.0f }
 
 #define SPEEDREFERENCEVALUE 40.0f
 
@@ -48,7 +50,7 @@ public:
 		return Dir;
 	}
 
-	void GetItem(ItemType _ItemType);
+	void GetItem(const ItemType& _ItemType);
 
 protected:
 	void StateUpdate(float _Delta);

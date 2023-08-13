@@ -24,7 +24,7 @@ void BaseCharacter::Start()
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Character\\", 1, 1);
 
 	ShadowRenderer = CreateRenderer("Shadow.Bmp", RenderOrder::Shadow);
-	ShadowRenderer->SetRenderPos(BOTCHECKPOS);
+	ShadowRenderer->SetRenderPos(CHARACTERSHADOWPOS);
 
 	{
 		BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
@@ -159,7 +159,7 @@ void BaseCharacter::Render(float _Delta)
 	}
 }
 
-void BaseCharacter::GetItem(ItemType _ItemType)
+void BaseCharacter::GetItem(const ItemType& _ItemType)
 {
 	switch (_ItemType)
 	{
