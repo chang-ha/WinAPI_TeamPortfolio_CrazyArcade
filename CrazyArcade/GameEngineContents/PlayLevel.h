@@ -110,6 +110,9 @@ protected:
 
 	void CreateUIElements();
 	
+	// ∫∏Ω∫ ∏  ∆–≈œ
+	void BubblePattern(const int BossIndex_X, const int BossIndex_Y, const int _Range);
+
 	// Sound
 	void BubblePopPlay();
 	int BubblePopPlayCount = 0;
@@ -180,7 +183,9 @@ private:
 
 	void StartGameOver();
 
-
+private:
+	class TileMap* BossBubbleTile = nullptr;
+	void ClearBossPattern();
 
 private:
 	float LerpTime = 1.0f;

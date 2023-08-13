@@ -93,6 +93,11 @@ void Penguin::Update(float _Delta)
 		ChangeState(MonsterState::Summon);
 	}
 
+	if (true == GameEngineInput::IsDown('B'))
+	{
+		CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Pattern);
+		++Pattern;
+	}
 	// BossTile Update
 	CurLevelTile = CurPlayLevel->GetGroundTile();
 	float4 CurPos = GetPos() - GlobalValue::TileStartPos;

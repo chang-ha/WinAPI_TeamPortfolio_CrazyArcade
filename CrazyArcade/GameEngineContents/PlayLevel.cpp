@@ -103,6 +103,8 @@ void PlayLevel::Update(float _Delta)
 
 	updateCharacterPortrait();
 
+	ClearBossPattern();
+
 	// 물폭탄의 타이머를 위한 for문
 	if (AllBubbleIndex.size() > 0)
 	{
@@ -1361,3 +1363,94 @@ bool PlayLevel::MonsterCheckTile(const float4& _Pos, float _Delta)
 		return false;
 	}
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 보스 맵 패턴
+void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range)
+{
+	if (nullptr == BossBubbleTile)
+	{
+		BossBubbleTile = CreateActor<TileMap>();
+		if (nullptr == BossBubbleTile)
+		{
+			MsgBoxAssert("타일을 생성에 실패하였습니다.");
+			return;
+		}
+
+		BossBubbleTile->CreateTileMap("Boss_Pop.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::MapObject);
+	}
+
+	for (int Y = BossIndex_Y - _Range; Y <= BossIndex_Y + _Range; Y++)
+	{
+		for (int X = BossIndex_X - _Range; X <= BossIndex_X + _Range; X++)
+		{
+			if (BossBubbleTile->IsOver(X, Y))
+			{
+				continue;
+			}
+
+
+			// if (i == 1 || i == n || j == 1 || j == n)
+			if (X != BossIndex_X - _Range && X != BossIndex_X + _Range && Y != BossIndex_Y - _Range && Y != BossIndex_Y + _Range)
+			{
+				continue;
+			}
+
+			GameEngineRenderer* PopRenderer = nullptr;
+			if (TileObjectOrder::Empty == CurPlayLevel->TileInfo[Y][X].MapInfo)
+			{
+				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::PopRange;
+				PopRenderer = CurPlayLevel->BossBubbleTile->GetTile(X, Y);
+			}
+			else if (TileObjectOrder::ImmovableBlock == TileInfo[Y][X].MapInfo || TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
+			{
+				PopTile(X, Y);
+			}
+			else
+			{
+				continue;
+			}
+
+
+			if (nullptr == PopRenderer)
+			{
+				PopRenderer = CurPlayLevel->BossBubbleTile->SetTile(X, Y, 0, GlobalValue::TileStartPos, true);
+			}
+
+			if (nullptr == PopRenderer->FindAnimation("Bubble_Pop"))
+			{
+				PopRenderer->CreateAnimation("Bubble_Pop", "Pop.bmp", 0, 5, 0.1f, true);
+			}
+			PopRenderer->ChangeAnimation("Bubble_Pop");
+		}
+	}
+}
+
+void PlayLevel::ClearBossPattern()
+{
+	if (nullptr == BossBubbleTile)
+	{
+		return;
+	}
+
+	for (int Y = 0; Y < BossBubbleTile->GetTileSize().iY(); Y++)
+	{
+		for (int X = 0; X < BossBubbleTile->GetTileSize().iX(); X++)
+		{
+			GameEngineRenderer* PopRenderer = CurPlayLevel->BossBubbleTile->GetTile(X, Y);
+
+			if (nullptr == PopRenderer)
+			{
+				continue;
+			}
+
+			if (true == PopRenderer->IsAnimationEnd())
+			{
+				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::Empty;
+				BossBubbleTile->DeathTile(X, Y);
+			}
+		}
+	}
+}
+
