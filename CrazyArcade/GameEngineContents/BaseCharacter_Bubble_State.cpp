@@ -50,8 +50,6 @@ void BaseCharacter::BubbleUpdate(float _Delta)
 void BaseCharacter::BubbleEndStart()
 {
 	ChangeAnimationState("BubbleEnd");
-	EffectPlayer = GameEngineSound::SoundPlay("Character_Death.wav");
-	EffectPlayer.SetVolume(1.0f);
 }
 void BaseCharacter::BubbleEndUpdate(float _Delta)
 {
