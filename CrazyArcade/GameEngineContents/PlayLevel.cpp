@@ -1077,6 +1077,7 @@ void PlayLevel::CreateUIElements()
 
 void PlayLevel::BubblePopPlay()
 {
+	// 물풍선 터지는 효과음 2번 이상 중첩 방지
 	if (1 >= BubblePopPlayCount)
 	{
 		BubblePopPlayCount++;
