@@ -92,12 +92,12 @@ void BaseCharacter::Render(float _Delta)
 		std::string SpeedText = "";
 		SpeedText += "속도 : ";
 		SpeedText += std::to_string(GetSpeed());
-		TextOutA(dc, 2, 101, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
+		TextOutA(dc, 2, 111, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
 
-		/*std::string CurTileText = "";
+		std::string CurTileText = "";
 		CurTileText += "밟고있는 타일 번호 : ";
 		CurTileText += std::to_string(static_cast<int>(CurTile));
-		TextOutA(dc, 2, 84, CurTileText.c_str(), static_cast<int>(CurTileText.size()));*/
+		TextOutA(dc, 2, 138, CurTileText.c_str(), static_cast<int>(CurTileText.size()));
 
 		CollisionData Data;
 
