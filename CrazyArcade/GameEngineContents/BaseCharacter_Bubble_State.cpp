@@ -124,6 +124,7 @@ void BaseCharacter::DieUpdate(float _Delta)
 		if (true == GameEngineInput::IsDown('R'))
 		{
 			ShadowRenderer->On();
+			PlayerDeath = false;
 			ChangeState(CharacterState::Ready);
 			return;
 		}
