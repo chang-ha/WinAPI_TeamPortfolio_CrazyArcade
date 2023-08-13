@@ -72,6 +72,8 @@ protected:
 	void MapFileLoad(const std::string& _FileName);
 	void TileSetting();
 
+	void CharacterSetting();
+
 	// Item
 	void ItemSetting();
 	void CreateItemInBlock(int _X, int _Y);
@@ -83,6 +85,7 @@ protected:
 	class Item* ItemActor = nullptr;
 
 	BaseCharacter* Player = nullptr;
+	BaseCharacter* Player2 = nullptr;
 
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
 	class TileMap* GroundTile = nullptr;

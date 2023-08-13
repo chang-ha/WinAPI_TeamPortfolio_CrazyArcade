@@ -32,7 +32,7 @@ void Kephi::Start()
 	GlobalUtils::SpriteFileLoad("Kephi_FlashLong.Bmp", "Resources\\Textures\\Character\\Kephi\\", 4, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_FlashShort.Bmp", "Resources\\Textures\\Character\\Kephi\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Live.Bmp", "Resources\\Textures\\Character\\Kephi\\", 5, 1);
-	GlobalUtils::SpriteFileLoad("Kephi_Die.Bmp", "Resources\\Textures\\Character\\Kephi\\", 13, 1);
+	GlobalUtils::SpriteFileLoad("Kephi_Die.Bmp", "Resources\\Textures\\Character\\Kephi\\", 11, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Jump.Bmp", "Resources\\Textures\\Character\\Kephi\\", 2, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);

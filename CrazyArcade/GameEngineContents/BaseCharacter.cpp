@@ -24,7 +24,7 @@ void BaseCharacter::Start()
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Character\\", 1, 1);
 
 	ShadowRenderer = CreateRenderer("Shadow.Bmp", RenderOrder::Shadow);
-	ShadowRenderer->SetRenderPos(BOTCHECKPOS);
+	ShadowRenderer->SetRenderPos(CHARACTERSHADOWPOS);
 
 	{
 		BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
@@ -43,18 +43,13 @@ void BaseCharacter::Update(float _Delta)
 		ChangeState(CharacterState::Bubble);
 	}
 
-	if (true == GameEngineInput::IsDown('K'))
-	{
-		ChangeState(CharacterState::Jump);
-	}
-
 	StateUpdate(_Delta);
 
 	// 물풍선 설치
 	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle" && GetBombCount() > 0
 		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
 	{
-		PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f}, GetBubblePower());
+		PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f}, GetBombPower());
 	}
 
 	if (true == GameEngineInput::IsDown('J'))
@@ -84,10 +79,20 @@ void BaseCharacter::Render(float _Delta)
 		BombCountText += std::to_string(GetBombCount());
 		TextOutA(dc, 2, 57, BombCountText.c_str(), static_cast<int>(BombCountText.size()));
 
+		std::string BombPowerText = "";
+		BombPowerText += "폭탄 파워 : ";
+		BombPowerText += std::to_string(GetBombPower());
+		TextOutA(dc, 2, 84, BombPowerText.c_str(), static_cast<int>(BombPowerText.size()));
+
+		std::string SpeedText = "";
+		SpeedText += "속도 : ";
+		SpeedText += std::to_string(GetSpeed());
+		TextOutA(dc, 2, 111, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
+
 		std::string CurTileText = "";
 		CurTileText += "밟고있는 타일 번호 : ";
 		CurTileText += std::to_string(static_cast<int>(CurTile));
-		TextOutA(dc, 2, 84, CurTileText.c_str(), static_cast<int>(CurTileText.size()));
+		TextOutA(dc, 2, 138, CurTileText.c_str(), static_cast<int>(CurTileText.size()));
 
 		CollisionData Data;
 
@@ -146,6 +151,32 @@ void BaseCharacter::Render(float _Delta)
 		Data.Pos = GetPos() + float4 RIGHTBOTCHECKPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	}
+}
+
+void BaseCharacter::GetItem(const ItemType& _ItemType)
+{
+	switch (_ItemType)
+	{
+	case ItemType::Bubble:
+		BombCountPlus();
+		break;
+	case ItemType::Fluid:
+		BombPowerPlus();
+		break;
+	case ItemType::Roller:
+		SpeedUp();
+		break;
+	case ItemType::Ultra:
+		ChangeMaxBombPower();
+		break;
+	case ItemType::Red_Devil:
+		ChangeMaxSpeed();
+		break;
+	case ItemType::Needle:
+		break;
+	default:
+		break;
 	}
 }
 

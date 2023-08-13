@@ -32,7 +32,7 @@ void Marid::Start()
 	GlobalUtils::SpriteFileLoad("Marid_FlashLong.Bmp", "Resources\\Textures\\Character\\Marid\\", 4, 1);
 	GlobalUtils::SpriteFileLoad("Marid_FlashShort.Bmp", "Resources\\Textures\\Character\\Marid\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Marid_Live.Bmp", "Resources\\Textures\\Character\\Marid\\", 5, 1);
-	GlobalUtils::SpriteFileLoad("Marid_Die.Bmp", "Resources\\Textures\\Character\\Marid\\", 13, 1);
+	GlobalUtils::SpriteFileLoad("Marid_Die.Bmp", "Resources\\Textures\\Character\\Marid\\", 11, 1);
 	GlobalUtils::SpriteFileLoad("Marid_Jump.Bmp", "Resources\\Textures\\Character\\Marid\\", 8, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
