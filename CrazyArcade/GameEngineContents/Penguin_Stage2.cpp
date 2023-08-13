@@ -24,7 +24,7 @@ void Penguin_Stage2::LevelStart(GameEngineLevel* _PrevLevel)
 	Player->SetPos(GroundTile->IndexToPos(2, 2));
 
 	// Snowmon Black
-	Snowmon_Black = CreateActor<Snowmon_black>();
+	Snowmon_black* Snowmon_Black = CreateActor<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(5, 1));
 
 	Snowmon_Black = CreateActor<Snowmon_black>();
@@ -49,7 +49,7 @@ void Penguin_Stage2::LevelStart(GameEngineLevel* _PrevLevel)
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(11, 13));
 
 	// Snowmon Red
-	Snowmon_Red = CreateActor<Snowmon_red>();
+	Snowmon_red* Snowmon_Red = CreateActor<Snowmon_red>();
 	Snowmon_Red->SetPos(GroundTile->IndexToPos(7, 6));
 
 	Snowmon_Red = CreateActor<Snowmon_red>();
