@@ -1,5 +1,7 @@
 #pragma once
 #include <GameEnginePlatform/GameEngineSound.h>
+
+#include <vector>
 class GlobalSound
 {
 public:
@@ -13,14 +15,30 @@ public:
 	GlobalSound& operator=(const GlobalSound& _Other) = delete;
 	GlobalSound& operator=(GlobalSound&& _Other) noexcept = delete;
 
-	static GameEngineSoundPlayer* CreateSoundPlayer(const std::string& FileName, int Loop, float Volume);
-	static void AllSetVolume();
-	static void GlobalVolumeDown(float _Delta);
-	static void GlobalVolumeUp(float _Delta);
+	void CreateSoundPlayer(const std::string& _FileName, int _Loop, float _Volume);
+
+	inline void Stop()
+	{
+		SoundPlayer.Stop();
+	}
+
+	inline void SetVolume(float _Volume)
+	{
+		Volume = _Volume;
+		SoundPlayer.SetVolume(Volume);
+	}
+
+	static void GlobalVolumeDown();
+	static void GlobalVolumeUp();
+	
 protected:
 
 private:
+	static void AllSetVolume();
+
 	static float GlobalVolume;
-	static std::vector<GameEngineSoundPlayer*> SoundPlayers;
-	static std::vector<float> SoundPlayersVolume;
+	static std::vector<GlobalSound*> AllSoundPlayer;
+	
+	GameEngineSoundPlayer SoundPlayer;
+	float Volume = 1.0f;
 };

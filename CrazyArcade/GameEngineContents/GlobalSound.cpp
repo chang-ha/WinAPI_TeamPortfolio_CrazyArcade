@@ -1,8 +1,7 @@
 #include "GlobalSound.h"
 
 float GlobalSound::GlobalVolume = 1.0f;
-std::vector<GameEngineSoundPlayer*> GlobalSound::SoundPlayers;
-std::vector<float> GlobalSound::SoundPlayersVolume;
+std::vector<GlobalSound*> GlobalSound::AllSoundPlayer;
 
 GlobalSound::GlobalSound()
 {
@@ -10,44 +9,29 @@ GlobalSound::GlobalSound()
 
 GlobalSound::~GlobalSound()
 {
-	size_t PlayersNum = SoundPlayers.size();
-	for (size_t i = 0; i < PlayersNum; i++)
-	{
-		if (nullptr != SoundPlayers[i])
-		{
-			delete SoundPlayers[i];
-		}
-	}
 }
 
-GameEngineSoundPlayer* GlobalSound::CreateSoundPlayer(const std::string& FileName, int Loop, float Volume)
+void GlobalSound::CreateSoundPlayer(const std::string& _FileName, int _Loop, float _Volume)
 {
-	GameEngineSoundPlayer* SoundPlayer = new GameEngineSoundPlayer;
-	*SoundPlayer = GameEngineSound::SoundPlay(FileName);
-	SoundPlayer->SetLoop(Loop);
-	SoundPlayer->SetVolume(Volume);
+	SoundPlayer = GameEngineSound::SoundPlay(_FileName, _Loop);
+	SoundPlayer.SetVolume(_Volume);
 
-	SoundPlayers.push_back(SoundPlayer);
-	SoundPlayersVolume.push_back(Volume);
-	return SoundPlayer;
+	AllSoundPlayer.push_back(this);
+	Volume = _Volume;
 }
 
 void GlobalSound::AllSetVolume()
 {
-	size_t PlayersNum = SoundPlayers.size();
+	size_t PlayersNum = AllSoundPlayer.size();
 	for (size_t i = 0; i < PlayersNum; i++)
 	{
-		if (nullptr == SoundPlayers[i])
-		{
-			return;
-		}
-		SoundPlayers[i]->SetVolume(SoundPlayersVolume[i]);
+		AllSoundPlayer[i]->SoundPlayer.SetVolume(AllSoundPlayer[i]->Volume);
 	}
 }
 
-void GlobalSound::GlobalVolumeDown(float _Delta)
+void GlobalSound::GlobalVolumeDown()
 {
-	GlobalVolume -= _Delta;
+	GlobalVolume -= 0.2f;
 	if (0.0f > GlobalVolume)
 	{
 		GlobalVolume = 0.0f;
@@ -56,12 +40,12 @@ void GlobalSound::GlobalVolumeDown(float _Delta)
 	AllSetVolume();
 }
 
-void GlobalSound::GlobalVolumeUp(float _Delta)
+void GlobalSound::GlobalVolumeUp()
 {
-	GlobalVolume += _Delta;
-	if (3.0f < GlobalVolume)
+	GlobalVolume += 0.2f;
+	if (2.0f < GlobalVolume)
 	{
-		GlobalVolume = 3.0f;
+		GlobalVolume = 2.0f;
 	}
 	GameEngineSound::SetGlobalVolume(GlobalVolume);
 	AllSetVolume();

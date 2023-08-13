@@ -26,12 +26,12 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 
 	// Sound
 	GlobalUtils::SoundFileLoad("PenguinStageBGM.wav", "Resources\\Sounds\\BGM");
-	BGMPlayer = GlobalSound::CreateSoundPlayer("PenguinStageBGM.wav", 100, 0.5f);
+	BGMPlayer.CreateSoundPlayer("PenguinStageBGM.wav", 10000, 1.0f);
 }
 
 void TestStage::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	PlayLevel::LevelEnd(_NextLevel);
 }
 
 void TestStage::Start()

@@ -58,8 +58,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	UILevelEnd();
-
-
+	BGMPlayer.Stop();
 }
 
 void PlayLevel::Start()
@@ -94,13 +93,13 @@ void PlayLevel::Update(float _Delta)
 	}
 
 	// Sound
-	if (true == GameEngineInput::IsPress('N'))
+	if (true == GameEngineInput::IsDown('N'))
 	{
-		GlobalSound::GlobalVolumeUp(_Delta);
+		GlobalSound::GlobalVolumeUp();
 	}
-	if (true == GameEngineInput::IsPress('M'))
+	if (true == GameEngineInput::IsDown('M'))
 	{
-		GlobalSound::GlobalVolumeDown(_Delta);
+		GlobalSound::GlobalVolumeDown();
 	}
 
 	updateGameOverResult(_Delta);

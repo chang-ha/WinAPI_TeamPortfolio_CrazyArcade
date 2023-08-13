@@ -1,7 +1,7 @@
 #pragma once
 #include "ContentLevel.h"
 #include "ContentsEnum.h"
-#include <GameEnginePlatform/GameEngineSound.h>
+#include "GlobalSound.h"
 #include <vector>
 #include <list>
 
@@ -110,7 +110,7 @@ protected:
 	void CreateUIElements();
 	
 	// Sound
-	GameEngineSoundPlayer* BGMPlayer;
+	class GlobalSound BGMPlayer;
 
 private:
 	void UILevelStart();
