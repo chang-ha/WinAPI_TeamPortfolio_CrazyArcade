@@ -157,6 +157,15 @@
     <ClCompile Include="ExpAcquisition.cpp">
       <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
     </ClCompile>
+    <ClCompile Include="BaseMonster_State.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpUI.cpp">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpAcquisition.cpp">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">

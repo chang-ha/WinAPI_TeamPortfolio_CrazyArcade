@@ -3,6 +3,7 @@
 
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 // 물풍선에 맞았을 경우
 void BaseCharacter::BubbleHitStart()
@@ -112,6 +113,7 @@ void BaseCharacter::LiveUpdate(float _Delta)
 
 void BaseCharacter::DieStart()
 {
+	BodyCollision->Off();
 	ChangeAnimationState("Die");
 }
 void BaseCharacter::DieUpdate(float _Delta)
@@ -124,6 +126,8 @@ void BaseCharacter::DieUpdate(float _Delta)
 		if (true == GameEngineInput::IsDown('R'))
 		{
 			ShadowRenderer->On();
+			BodyCollision->On();
+			PlayerDeath = false;
 			ChangeState(CharacterState::Ready);
 			return;
 		}

@@ -34,6 +34,7 @@ class GameEngineRenderer;
 class BaseCharacter : public GameEngineActor
 {
 	friend class PlayLevel;
+	friend class BaseMonster;
 public:
 	// constrcuter destructer
 	BaseCharacter();
@@ -146,6 +147,7 @@ protected:
 
 	void DirCheck();
 
+	std::vector<GameEngineCollision*> Col;
 private:
 	bool IsDebugData = false;
 	bool PlayerDeath = false;

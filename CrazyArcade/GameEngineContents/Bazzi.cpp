@@ -32,7 +32,7 @@ void Bazzi::Start()
 	GlobalUtils::SpriteFileLoad("Bazzi_FlashLong.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 4, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_FlashShort.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Live.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 5, 1);
-	GlobalUtils::SpriteFileLoad("Bazzi_Die.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 13, 1);
+	GlobalUtils::SpriteFileLoad("Bazzi_Die.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 11, 1);
 	GlobalUtils::SpriteFileLoad("Bazzi_Jump.Bmp", "Resources\\Textures\\Character\\Bazzi\\", 8, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);

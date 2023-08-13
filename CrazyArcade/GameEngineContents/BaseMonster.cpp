@@ -1,6 +1,7 @@
 #include "BaseMonster.h"
 #include "GlobalUtils.h"
 #include "PlayLevel.h"
+#include "BaseCharacter.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -19,7 +20,12 @@ BaseMonster::~BaseMonster()
 
 void BaseMonster::Start() 
 {
-
+	{
+		MonsterCollision = CreateCollision(CollisionOrder::MonsterBody);
+		MonsterCollision->SetCollisionPos({ GetPos().X, GetPos().Y + 20.0f });
+		MonsterCollision->SetCollisionScale(MONSTERCOLLISIONSCALE);
+		MonsterCollision->SetCollisionType(CollisionType::Rect);
+	}
 }
 
 void BaseMonster::Update(float _Delta)
@@ -43,6 +49,11 @@ void BaseMonster::Update(float _Delta)
 	{
 		ChangeState(MonsterState::Freeze);
 		return;
+	}
+
+	if (State != MonsterState::Freeze)
+	{
+		CheckCollision();
 	}
 }
 
@@ -92,6 +103,14 @@ void BaseMonster::StateUpdate(float _Delta)
 		return AngerIdleUpdate(_Delta);
 	case MonsterState::AngerMove:
 		return AngerMoveUpdate(_Delta);
+	case MonsterState::EggIdle:
+		return EggIdleUpdate(_Delta);
+	case MonsterState::EggMove:
+		return EggMoveUpdate(_Delta);
+	case MonsterState::EggSummon:
+		return EggSummonUpdate(_Delta);
+	case MonsterState::EggDeath:
+		return EggDeathUpdate(_Delta);
 	case MonsterState::Die:
 		return DieUpdate(_Delta);
 	default:
@@ -121,6 +140,18 @@ void BaseMonster::ChangeState(MonsterState _State)
 	case MonsterState::AngerMove:
 		AngerMoveStart();
 		break;
+	case MonsterState::EggIdle:
+		EggIdleStart();
+		break;
+	case MonsterState::EggMove:
+		EggMoveStart();
+		break;
+	case MonsterState::EggSummon:
+		EggSummonStart();
+		break;
+	case MonsterState::EggDeath:
+		EggDeathStart();
+		break;
 	case MonsterState::Die:
 		DieStart();
 		break;
@@ -129,190 +160,6 @@ void BaseMonster::ChangeState(MonsterState _State)
 	}
 
 	State = _State;
-}
-
-void BaseMonster::IdleStart()
-{
-	ChangeAnimationState("Idle");
-	IdleTimer = 0.0f;
-}
-
-void BaseMonster::IdleUpdate(float _Delta)
-{
-	if (IdleTimer > 2.0f)
-	{
-		ChangeState(MonsterState::Move);
-		return;
-	}
-
-	IdleTimer += _Delta;
-}
-
-void BaseMonster::MoveStart()
-{
-	ChangeAnimationState("Move");
-	MoveTimer = 0.0f;
-}
-
-void BaseMonster::MoveUpdate(float _Delta)
-{
-	float4 MovePos = float4::ZERO;
-	float4 CheckPos = float4::ZERO;
-	
-
-	if (Dir == ActorDir::Down)
-	{
-		MovePos = { 0.0f, Speed * _Delta };
-		CheckPos = BOTPOS;
-	}
-
-	if (Dir == ActorDir::Up)
-	{
-		MovePos = { 0.0f, -Speed * _Delta };
-		CheckPos = TOPPOS;
-	}
-
-	if (Dir == ActorDir::Left)
-	{
-		MovePos = { -Speed * _Delta, 0.0f };
-		CheckPos = LEFTPOS;
-	}
-
-	if (Dir == ActorDir::Right)
-	{
-		MovePos = { Speed * _Delta, 0.0f };
-		CheckPos = RIGHTPOS;
-	}
-
-	CheckPos += GetPos();
-
-	bool CheckTile = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos, _Delta);
-
-	if (false == CheckTile)
-	{
-		AddPos(MovePos);
-	}
-	
-	// 방향 전환
-	else if (true == CheckTile)
-	{
-		RandomDir("Move");
-	}
-
-	MoveTimer += _Delta;
-}
-
-void BaseMonster::FreezeStart()
-{
-	ChangeAnimationState("Freeze");
-	FreezeTimer = 0.0f;
-}
-
-void BaseMonster::FreezeUpdate(float _Delta)
-{
-	//ChangeState(MonsterState::Freeze);
-
-	if (FreezeTimer > 3.0f)
-	{
-		FreezeTimer = 0.0f;
-		ChangeState(MonsterState::Anger);
-		return;
-	}
-
-	FreezeTimer += _Delta;
-}
-
-void BaseMonster::AngerStart()
-{
-	ChangeAnimationState("Anger");
-}
-
-void BaseMonster::AngerUpdate(float _Delta)
-{
-	if (true == MainRenderer->IsAnimationEnd())
-	{
-		ChangeState(MonsterState::AngerIdle);
-	}
-}
-
-void BaseMonster::AngerIdleStart()
-{
-	ChangeAnimationState("AngerIdle");
-	AngerIdleTimer = 0.0f;
-}
-
-void BaseMonster::AngerIdleUpdate(float _Delta)
-{
-	if (AngerIdleTimer > 1.0f)
-	{
-		ChangeState(MonsterState::AngerMove);
-		return;
-	}
-
-	AngerIdleTimer += _Delta;
-}
-
-void BaseMonster::AngerMoveStart()
-{
-	ChangeAnimationState("AngerMove");
-}
-
-void BaseMonster::AngerMoveUpdate(float _Delta)
-{
-	static float MoveTimer = 0.0f;
-
-	float4 MovePos = float4::ZERO;
-	float4 CheckPos = float4::ZERO;
-
-	if (Dir == ActorDir::Down)
-	{
-		MovePos = { 0.0f, Speed * _Delta };
-		CheckPos = BOTPOS;
-	}
-
-	if (Dir == ActorDir::Up)
-	{
-		MovePos = { 0.0f, -Speed * _Delta };
-		CheckPos = TOPPOS;
-	}
-
-	if (Dir == ActorDir::Left)
-	{
-		MovePos = { -Speed * _Delta, 0.0f };
-		CheckPos = LEFTPOS;
-	}
-
-	if (Dir == ActorDir::Right)
-	{
-		MovePos = { Speed * _Delta, 0.0f };
-		CheckPos = RIGHTPOS;
-	}
-
-	CheckPos += GetPos();
-
-	bool CheckTile = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos, _Delta);
-
-	if (false == CheckTile)
-	{
-		AddPos(MovePos);
-	}
-
-	else if (true == CheckTile)
-	{
-		RandomDir("AngerMove");
-	}
-
-	MoveTimer += _Delta;
-}
-
-void BaseMonster::DieStart()
-{
-	ChangeAnimationState("Die");
-}
-
-void BaseMonster::DieUpdate(float _Delta)
-{
-	ChangeState(MonsterState::Die);
 }
 
 void BaseMonster::RandomDir(const std::string& _StateName)
@@ -344,6 +191,26 @@ void BaseMonster::RandomDir(const std::string& _StateName)
 	{
 		Dir = NextDir;
 		ChangeAnimationState(_StateName);
+	}
+}
+
+void BaseMonster::CheckCollision()
+{
+	std::vector<GameEngineCollision*> Col;
+	if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect))
+	{
+		for (GameEngineCollision* _Col : Col)
+		{
+			BaseCharacter* ColPlayer = dynamic_cast<BaseCharacter*>(_Col->GetActor());
+
+			if (true == ColPlayer->GetPlayerDeath())
+			{
+				continue;
+			}
+
+			ColPlayer->ChangeState(CharacterState::Die);
+		}
+		return;
 	}
 }
 

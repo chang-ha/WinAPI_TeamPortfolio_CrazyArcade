@@ -43,11 +43,6 @@ void BaseCharacter::Update(float _Delta)
 		ChangeState(CharacterState::Bubble);
 	}
 
-	if (true == GameEngineInput::IsDown('K'))
-	{
-		ChangeState(CharacterState::Jump);
-	}
-
 	StateUpdate(_Delta);
 
 	// 물풍선 설치
