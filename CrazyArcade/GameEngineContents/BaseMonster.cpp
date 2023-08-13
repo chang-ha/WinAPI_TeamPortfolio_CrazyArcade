@@ -92,6 +92,14 @@ void BaseMonster::StateUpdate(float _Delta)
 		return AngerIdleUpdate(_Delta);
 	case MonsterState::AngerMove:
 		return AngerMoveUpdate(_Delta);
+	case MonsterState::EggIdle:
+		return EggIdleUpdate(_Delta);
+	case MonsterState::EggMove:
+		return EggMoveUpdate(_Delta);
+	case MonsterState::EggSummon:
+		return EggSummonUpdate(_Delta);
+	case MonsterState::EggDeath:
+		return EggDeathUpdate(_Delta);
 	case MonsterState::Die:
 		return DieUpdate(_Delta);
 	default:
@@ -120,6 +128,18 @@ void BaseMonster::ChangeState(MonsterState _State)
 		break;
 	case MonsterState::AngerMove:
 		AngerMoveStart();
+		break;
+	case MonsterState::EggIdle:
+		EggIdleStart();
+		break;
+	case MonsterState::EggMove:
+		EggMoveStart();
+		break;
+	case MonsterState::EggSummon:
+		EggSummonStart();
+		break;
+	case MonsterState::EggDeath:
+		EggDeathStart();
 		break;
 	case MonsterState::Die:
 		DieStart();
@@ -266,25 +286,25 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 
 	if (Dir == ActorDir::Down)
 	{
-		MovePos = { 0.0f, Speed * _Delta };
+		MovePos = { 0.0f, AngerSpeed * _Delta };
 		CheckPos = BOTPOS;
 	}
 
 	if (Dir == ActorDir::Up)
 	{
-		MovePos = { 0.0f, -Speed * _Delta };
+		MovePos = { 0.0f, -AngerSpeed * _Delta };
 		CheckPos = TOPPOS;
 	}
 
 	if (Dir == ActorDir::Left)
 	{
-		MovePos = { -Speed * _Delta, 0.0f };
+		MovePos = { -AngerSpeed * _Delta, 0.0f };
 		CheckPos = LEFTPOS;
 	}
 
 	if (Dir == ActorDir::Right)
 	{
-		MovePos = { Speed * _Delta, 0.0f };
+		MovePos = { AngerSpeed * _Delta, 0.0f };
 		CheckPos = RIGHTPOS;
 	}
 
@@ -303,6 +323,46 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 	}
 
 	MoveTimer += _Delta;
+}
+
+void BaseMonster::EggIdleStart()
+{
+	ChangeAnimationState("EggIdle");
+}
+
+void BaseMonster::EggIdleUpdate(float _Delta)
+{
+
+}
+
+void BaseMonster::EggMoveStart()
+{
+	ChangeAnimationState("EggMove");
+}
+
+void BaseMonster::EggMoveUpdate(float _Delta)
+{
+
+}
+
+void BaseMonster::EggSummonStart()
+{
+	ChangeAnimationState("EggSummon");
+}
+
+void BaseMonster::EggSummonUpdate(float _Delta)
+{
+
+}
+
+void BaseMonster::EggDeathStart()
+{
+	ChangeAnimationState("EggDeath");
+}
+
+void BaseMonster::EggDeathUpdate(float _Delta)
+{
+
 }
 
 void BaseMonster::DieStart()

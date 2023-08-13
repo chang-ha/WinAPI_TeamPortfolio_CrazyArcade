@@ -40,7 +40,6 @@ protected:
 	class PlayLevel* CurPlayLevel = nullptr;
 	const class TileMap* CurTile = nullptr;
 
-	float Speed = 50.0f;
 	MonsterState State = MonsterState::Idle;
 	ActorDir Dir = ActorDir::Down;
 	std::string CurState = "";
@@ -73,13 +72,26 @@ private:
 	void AngerMoveStart();
 	void AngerMoveUpdate(float _Delta);
 
+	void EggIdleStart();
+	void EggIdleUpdate(float _Delta);
+
+	void EggMoveStart();
+	void EggMoveUpdate(float _Delta);
+
+	void EggSummonStart();
+	void EggSummonUpdate(float _Delta);
+
+	void EggDeathStart();
+	void EggDeathUpdate(float _Delta);
+
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
-	void DirCheck();
-
 	bool IsDebugData = false;
+
+	float Speed = 50.0f;
+	float AngerSpeed = 100.0f;
 
 	float IdleTimer = 0.0f;
 	float MoveTimer = 0.0f;

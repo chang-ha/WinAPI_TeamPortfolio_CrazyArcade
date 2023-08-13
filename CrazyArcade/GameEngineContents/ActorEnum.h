@@ -33,6 +33,10 @@ enum class MonsterState
 	Anger,
 	AngerIdle,
 	AngerMove,
+	EggIdle,
+	EggMove,
+	EggSummon,
+	EggDeath,
 	Die,
 	// Boss State
 	Hitten,
