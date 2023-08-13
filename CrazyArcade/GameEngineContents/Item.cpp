@@ -55,7 +55,7 @@ void Item::Update(float _Delta)
 		CollisionType::Rect))
 	{
 		EffectPlayer = GameEngineSound::SoundPlay("Get_Item.wav");
-		EffectPlayer.SetVolume(0.5f);
+		EffectPlayer.SetVolume(0.3f);
 
 		PlayLevel* Level = dynamic_cast<PlayLevel*>(GetLevel());
 
