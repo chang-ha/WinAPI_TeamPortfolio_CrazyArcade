@@ -1,0 +1,9 @@
+<Monster>
+
+IceMonster_Angry -> 아이스몬스터 화난 효과음
+
+IceMonster_Death -> 아이스몬스터 죽는 효과음
+
+Monster_Freeze -> 아이스몬스터 어는 효과음
+
+Pirate_Monster_Death -> 해적몬스터, 알 몬스터 죽는 효과음

@@ -5,6 +5,4 @@ Boss_2_Phase_BGM -> 보스 2페이즈 BGM (화날때)
 
 Lobby_BGM -> 로비 BGM
 
-Penguin_Boss_Stage_BGM -> 보스 1페이즈 BGM
-
 Penguin_Stage_BGM -> 레벨 1, 2 BGM

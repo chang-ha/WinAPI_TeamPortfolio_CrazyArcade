@@ -1,0 +1,10 @@
+<Boss>
+Sommoning_Eggs -> 알 소환 효과음
+
+Hit_Boss -> 보스 피격 효과음
+
+Hatching_Egg -> 알 부화 효과음
+
+Boss_Move -> 보스 움직임( 반복하면 됨 )
+
+Boss_Death -> 물감옥에 있는 보스 터지는 효과음 (보스 죽는 소리)
