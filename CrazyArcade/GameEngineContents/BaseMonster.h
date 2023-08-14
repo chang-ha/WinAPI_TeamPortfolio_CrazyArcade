@@ -58,6 +58,8 @@ protected:
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
+	void CheckCollision();
+
 private:
 	void IdleStart();
 	void IdleUpdate(float _Delta);
@@ -91,8 +93,6 @@ private:
 
 	void EggDeathStart();
 	void EggDeathUpdate(float _Delta);
-
-	void CheckCollision();
 
 	bool IsDebugData = false;
 

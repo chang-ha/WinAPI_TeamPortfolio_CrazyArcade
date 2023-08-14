@@ -95,6 +95,19 @@ void PlayLevel::Update(float _Delta)
 		CollisionDebugRenderSwitch();
 	}
 
+	if (true == GameEngineInput::IsDown(VK_F5))
+	{
+		GameEngineCore::ChangeLevel("Penguin_Stage1");
+	}
+	if (true == GameEngineInput::IsDown(VK_F6))
+	{
+		GameEngineCore::ChangeLevel("Penguin_Stage2");
+	}
+	if (true == GameEngineInput::IsDown(VK_F7))
+	{
+		GameEngineCore::ChangeLevel("Penguin_Stage3");
+	}
+
 	updateGameOverResult(_Delta);
 
 	ContentLevel::Update(_Delta);
@@ -173,8 +186,7 @@ void PlayLevel::Update(float _Delta)
 				++StartIter;
 			}
 		}
-		BubblePopPlayCount = 0;
-		//PlayBubblePopEffectSound = false;
+		PlayBubblePopEffectSound = false;
 	}
 
 	// Item Debug
@@ -236,6 +248,7 @@ void PlayLevel::CharacterSetting()
 	{
 		Player = CreateActor<Marid>(UpdateOrder::Character);
 	}
+
 	/*else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Random)
 	{
 		int CharacterNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
@@ -259,7 +272,52 @@ void PlayLevel::CharacterSetting()
 			break;
 		}
 	}*/
-	
+
+	if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Max)
+	{
+		return;
+	}
+	else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Bazzi)
+	{
+		Player2 = CreateActor<Bazzi>(UpdateOrder::Character);
+	}
+	else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Dao)
+	{
+		Player2 = CreateActor<Dao>(UpdateOrder::Character);
+	}
+	else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Kephi)
+	{
+		Player2 = CreateActor<Kephi>(UpdateOrder::Character);
+	}
+	else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Marid)
+	{
+		Player2 = CreateActor<Marid>(UpdateOrder::Character);
+	}
+
+	/*else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Random)
+	{
+		int CharacterNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
+
+		switch (CharacterNumber)
+		{
+		case 1:
+			Player2 = CreateActor<Bazzi>(UpdateOrder::Character);
+			break;
+		case 2:
+			Player2 = CreateActor<Dao>(UpdateOrder::Character);
+			break;
+		case 3:
+			Player2 = CreateActor<Kephi>(UpdateOrder::Character);
+			break;
+		case 4:
+			Player2 = CreateActor<Marid>(UpdateOrder::Character);
+			break;
+		default:
+			MsgBoxAssert("랜덤으로 캐릭터 생성에서 오류가 발생했습니다.");
+			break;
+		}
+	}*/
+	Player2->SetPlayer2();
 }
 
 void PlayLevel::MapFileLoad(const std::string& _FileName)
@@ -1089,11 +1147,10 @@ void PlayLevel::CreateUIElements()
 
 void PlayLevel::BubblePopPlay()
 {
-	// 물풍선 터지는 효과음 2번 이상 중첩 방지
-	if (1 >= BubblePopPlayCount)
+	// 물풍선 터지는 효과음 중첩 방지
+	if (false == PlayBubblePopEffectSound)
 	{
-		BubblePopPlayCount++;
-		//PlayBubblePopEffectSound = true;
+		PlayBubblePopEffectSound = true;
 		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Pop.wav");
 		EffectPlayer.SetVolume(1.0f);
 	}
@@ -1466,22 +1523,24 @@ void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range
 				continue;
 			}
 
-
-			// if (i == 1 || i == n || j == 1 || j == n)
 			if (X != BossIndex_X - _Range && X != BossIndex_X + _Range && Y != BossIndex_Y - _Range && Y != BossIndex_Y + _Range)
 			{
 				continue;
 			}
 
 			GameEngineRenderer* PopRenderer = nullptr;
-			if (TileObjectOrder::Empty == CurPlayLevel->TileInfo[Y][X].MapInfo)
+			if (TileObjectOrder::Bubble == TileInfo[Y][X].MapInfo)
 			{
-				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::PopRange;
-				PopRenderer = CurPlayLevel->BossBubbleTile->GetTile(X, Y);
+				TileInfo[Y][X].Timer = 2.0f;
 			}
 			else if (TileObjectOrder::ImmovableBlock == TileInfo[Y][X].MapInfo || TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
 			{
 				PopTile(X, Y);
+			}
+			else if (TileObjectOrder::Empty == CurPlayLevel->TileInfo[Y][X].MapInfo)
+			{
+				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::PopRange;
+				PopRenderer = CurPlayLevel->BossBubbleTile->GetTile(X, Y);
 			}
 			else
 			{
@@ -1494,9 +1553,10 @@ void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range
 				PopRenderer = CurPlayLevel->BossBubbleTile->SetTile(X, Y, 0, GlobalValue::TileStartPos, true);
 			}
 
+			// Temp Ani
 			if (nullptr == PopRenderer->FindAnimation("Bubble_Pop"))
 			{
-				PopRenderer->CreateAnimation("Bubble_Pop", "Pop.bmp", 0, 5, 0.1f, true);
+				PopRenderer->CreateAnimation("Bubble_Pop", "Pop.bmp", 0, 5, 0.1f, true);	
 			}
 			PopRenderer->ChangeAnimation("Bubble_Pop");
 		}
@@ -1520,13 +1580,21 @@ void PlayLevel::ClearBossPattern()
 			{
 				continue;
 			}
+			All_Null = false;
 
 			if (true == PopRenderer->IsAnimationEnd())
 			{
 				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::Empty;
 				BossBubbleTile->DeathTile(X, Y);
+				PatternAnimationEnd = true;
 			}
 		}
 	}
+
+	if (true == All_Null)
+	{
+		PatternAnimationEnd = true;
+	}
+	All_Null = true;
 }
 

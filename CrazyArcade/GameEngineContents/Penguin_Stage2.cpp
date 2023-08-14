@@ -22,6 +22,7 @@ void Penguin_Stage2::LevelStart(GameEngineLevel* _PrevLevel)
 
 	// Player
 	Player->SetPos(GroundTile->IndexToPos(2, 2));
+	Player2->SetPos(GroundTile->IndexToPos(12, 2));
 
 	// Snowmon Black
 	Snowmon_black* Snowmon_Black = CreateActor<Snowmon_black>();
