@@ -32,14 +32,6 @@ void BaseMonster::Update(float _Delta)
 {
 	StateUpdate(_Delta);
 
-	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
-	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
-
-	if (CurTileType == TileObjectOrder::PopRange)
-	{
-		ChangeState(MonsterState::Freeze);
-	}
-
 	if (true == GameEngineInput::IsDown('J'))
 	{
 		SwitchDebugData();
@@ -103,12 +95,14 @@ void BaseMonster::StateUpdate(float _Delta)
 		return AngerIdleUpdate(_Delta);
 	case MonsterState::AngerMove:
 		return AngerMoveUpdate(_Delta);
+	case MonsterState::EggSummon:
+		return EggSummonUpdate(_Delta);
 	case MonsterState::EggIdle:
 		return EggIdleUpdate(_Delta);
 	case MonsterState::EggMove:
 		return EggMoveUpdate(_Delta);
-	case MonsterState::EggSummon:
-		return EggSummonUpdate(_Delta);
+	case MonsterState::EggHatch:
+		return EggHatchUpdate(_Delta);
 	case MonsterState::EggDeath:
 		return EggDeathUpdate(_Delta);
 	case MonsterState::Die:
@@ -140,14 +134,17 @@ void BaseMonster::ChangeState(MonsterState _State)
 	case MonsterState::AngerMove:
 		AngerMoveStart();
 		break;
+	case MonsterState::EggSummon:
+		EggSummonStart();
+		break;
 	case MonsterState::EggIdle:
 		EggIdleStart();
 		break;
 	case MonsterState::EggMove:
 		EggMoveStart();
 		break;
-	case MonsterState::EggSummon:
-		EggSummonStart();
+	case MonsterState::EggHatch:
+		EggHatchStart();
 		break;
 	case MonsterState::EggDeath:
 		EggDeathStart();
@@ -211,6 +208,23 @@ void BaseMonster::CheckCollision()
 			ColPlayer->ChangeState(CharacterState::Die);
 		}
 		return;
+	}
+}
+
+void BaseMonster::CheckDeath()
+{
+	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
+	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+
+	if (CurTileType == TileObjectOrder::PopRange
+		&& State == MonsterState::EggMove)
+	{
+		ChangeState(MonsterState::EggDeath);
+	}
+
+	else if (CurTileType == TileObjectOrder::PopRange)
+	{
+		ChangeState(MonsterState::Freeze);
 	}
 }
 

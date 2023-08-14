@@ -27,6 +27,7 @@ void Penguin_Stage2::LevelStart(GameEngineLevel* _PrevLevel)
 	// Snowmon Black
 	Snowmon_black* Snowmon_Black = CreateActor<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(5, 1));
+	Snowmon_Black->SetState(MonsterState::EggSummon);
 
 	Snowmon_Black = CreateActor<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(2, 5));

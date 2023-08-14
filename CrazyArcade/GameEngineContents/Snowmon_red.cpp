@@ -21,6 +21,7 @@ void Snowmon_red::Start()
 	BaseMonster::Start();
 
 	// Egg
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_Egg_Summon.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 4, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggIdle_Down.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggIdle_Up.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggIdle_Left.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 1, 1);
@@ -29,7 +30,7 @@ void Snowmon_red::Start()
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggMove_Up.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggMove_Right.Bmp",	"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_EggMove_Left.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Snowmon_Red_Egg_Summon.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 5, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_Egg_Hatch.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 5, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_Egg_Death.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Red\\Egg\\", 6, 1);
 
 	// Snowmon
@@ -56,15 +57,16 @@ void Snowmon_red::Start()
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 
 	// Egg
+	MainRenderer->CreateAnimation("Snowmon_Red_EggSummon",		"Snowmon_Red_Egg_Summon.Bmp", 0, 3, 0.2f, true);
 	MainRenderer->CreateAnimation("Snowmon_Red_EggIdle_Down",	"Snowmon_Red_EggIdle_Down.Bmp");
 	MainRenderer->CreateAnimation("Snowmon_Red_EggIdle_Up",		"Snowmon_Red_EggIdle_Up.Bmp");
 	MainRenderer->CreateAnimation("Snowmon_Red_EggIdle_Left",	"Snowmon_Red_EggIdle_Left.Bmp");
 	MainRenderer->CreateAnimation("Snowmon_Red_EggIdle_Right",	"Snowmon_Red_EggIdle_Right.Bmp");
-	MainRenderer->CreateAnimation("Snowmon_Red_EggMove_Down",	"Snowmon_Red_EggMove_Down.Bmp", 0, 1, 0.2f, true);
-	MainRenderer->CreateAnimation("Snowmon_Red_EggMove_Up",		"Snowmon_Red_EggMove_Up.Bmp", 0, 1, 0.2f, true);
-	MainRenderer->CreateAnimation("Snowmon_Red_EggMove_Right",	"Snowmon_Red_EggMove_Right.Bmp", 0, 1, 0.2f, true);
-	MainRenderer->CreateAnimation("Snowmon_Red_EggMove_Left",	"Snowmon_Red_EggMove_Left.Bmp", 0, 1, 0.2f, true);
-	MainRenderer->CreateAnimation("Snowmon_Red_EggSummon",		"Snowmon_Red_Egg_Summon.Bmp", 0, 4, 0.2f, false);
+	MainRenderer->CreateAnimation("Snowmon_Red_EggMove_Down",	"Snowmon_Red_EggMove_Down.Bmp", 0, 1, 0.4f, true);
+	MainRenderer->CreateAnimation("Snowmon_Red_EggMove_Up",		"Snowmon_Red_EggMove_Up.Bmp", 0, 1, 0.4f, true);
+	MainRenderer->CreateAnimation("Snowmon_Red_EggMove_Right",	"Snowmon_Red_EggMove_Right.Bmp", 0, 1, 0.4f, true);
+	MainRenderer->CreateAnimation("Snowmon_Red_EggMove_Left",	"Snowmon_Red_EggMove_Left.Bmp", 0, 1, 0.4f, true);
+	MainRenderer->CreateAnimation("Snowmon_Red_EggHatch",		"Snowmon_Red_Egg_Hatch.Bmp", 0, 4, 0.2f, false);
 	MainRenderer->CreateAnimation("Snowmon_Red_EggDeath",		"Snowmon_Red_Egg_Death.Bmp", 0, 5, 0.1f, false);
 
 	// Snowmon
@@ -85,7 +87,7 @@ void Snowmon_red::Start()
 	MainRenderer->CreateAnimation("Snowmon_Red_AngerMove_Right",	"Snowmon_Red_AngerMove_Right.Bmp", 0, 1, 0.2f, true);
 	MainRenderer->CreateAnimation("Snowmon_Red_AngerMove_Left",		"Snowmon_Red_AngerMove_Left.Bmp", 0, 1, 0.2f, true);
 	MainRenderer->CreateAnimation("Snowmon_Red_Freeze",		"Snowmon_Red_Freeze.Bmp", 0, 2, 0.2f, false);
-	MainRenderer->CreateAnimation("Snowmon_Red_Die",		"Snowmon_Red_Die.Bmp", 0, 2, 0.2f, false);
+	MainRenderer->CreateAnimation("Snowmon_Red_Die",		"Snowmon_Red_Die.Bmp", 0, 2, 0.1f, false);
 	MainRenderer->CreateAnimation("Snowmon_Red_Anger",		"Snowmon_Red_Anger.Bmp", 0, 8, 0.1f, false);
 
 	MainRenderer->SetRenderPos({ 0, 20 });
@@ -167,6 +169,6 @@ void Snowmon_red::ChangeAnimationState(const std::string& _StateName)
 	}
 
 	CurState = _StateName;
-
+	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->ChangeAnimation(AnimationName);
 }
