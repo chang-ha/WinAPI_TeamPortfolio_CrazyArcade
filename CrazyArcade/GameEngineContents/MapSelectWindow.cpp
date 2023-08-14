@@ -41,7 +41,7 @@ void MapSelectWindow::loadButton()
 	vecButton.resize(static_cast<int>(MapSelectButton::Max));
 
 	GlobalUtils::SoundFileLoad("Select.wav", "Resources\\Sounds\\Lobby");
-	GlobalUtils::SoundFileLoad("MapChangeCancel.wav", "Resources\\Sounds\\Lobby");
+	GlobalUtils::SoundFileLoad("Map_Change_Cancel.wav", "Resources\\Sounds\\Lobby");
 	
 
 	// 취소버튼
@@ -64,7 +64,7 @@ void MapSelectWindow::loadButton()
 	CancleButtonPtr->setButtonTexture(ButtonState::Click, "Button_MapSelect_Cancel_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	CancleButtonPtr->setButtonTexture(ButtonState::Hover, "Button_MapSelect_Cancel_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
 	CancleButtonPtr->setButtonPos(GetPos() - m_WindowScale.Half() + float4{ 277.0f, 447.0f });
-	CancleButtonPtr->setButtonSound(ButtonEventState::Click, "MapChangeCancel.wav", "Resources\\Sounds\\Lobby");
+	CancleButtonPtr->setButtonSound(ButtonEventState::Click, "Map_Change_Cancel.wav", "Resources\\Sounds\\Lobby");
 
 	CancleButtonPtr->setCallback<MapSelectWindow>(ButtonEventState::Click, this, &MapSelectWindow::clickCancleButton);
 
@@ -122,7 +122,7 @@ void MapSelectWindow::loadMapInfoButton()
 		MapListButton->setButtonTexture(ButtonState::Normal, "MapSelect_SelectImageBar_Normal.bmp", "Resources\\Textures\\UI\\MapSelect", 1, 1);
 		MapListButton->setButtonTexture(ButtonState::Hover, "MapSelect_SelectImageBar_Hover.bmp", "Resources\\Textures\\UI\\MapSelect", 1, 1);
 		MapListButton->setButtonTexture(ButtonState::Click, "MapSelect_SelectImageBar_Hover.bmp", "Resources\\Textures\\UI\\MapSelect", 1, 1);
-		MapListButton->setButtonSound(ButtonEventState::Click, "MapButtonClick.wav", "Resources\\Sounds\\Lobby");
+		MapListButton->setButtonSound(ButtonEventState::Click, "Map_Button_Click.wav", "Resources\\Sounds\\Lobby");
 
 		switch (MapCount)
 		{

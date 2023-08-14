@@ -76,6 +76,8 @@ void CharacterRoomButton::loadSpaceButton()
 	SpaceButton->setButtonTexture(ButtonState::Hover, "Space_Button_Hover.bmp", "Resources\\Textures\\UI\\Button\\CharacterRoom", 1, 1);
 	SpaceButton->setButtonTexture(ButtonState::Click, "Space_Button_Click.bmp", "Resources\\Textures\\UI\\Button\\CharacterRoom", 1, 1);
 	SpaceButton->setCallback<CharacterRoomButton>(ButtonEventState::Click, this, &CharacterRoomButton::clickSpaceButton);
+	SpaceButton->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
+	SpaceButton->setButtonSound(ButtonEventState::Hover, "Hover.wav", "Resources\\Sounds\\Lobby");
 
 	//m_SpaceButton->setButtonSound();
 
@@ -97,6 +99,8 @@ void CharacterRoomButton::loadSpaceButton()
 	UnSpaceButton->setButtonTexture(ButtonState::Hover, "UnSpace_Button_Hover.bmp", "Resources\\Textures\\UI\\Button\\CharacterRoom", 1, 1);
 	UnSpaceButton->setButtonTexture(ButtonState::Click, "UnSpace_Button_Click.bmp", "Resources\\Textures\\UI\\Button\\CharacterRoom", 1, 1);
 	UnSpaceButton->setCallback<CharacterRoomButton>(ButtonEventState::Click, this, &CharacterRoomButton::clickUnspaceButton);
+	UnSpaceButton->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
+	UnSpaceButton->setButtonSound(ButtonEventState::Hover, "Hover.wav", "Resources\\Sounds\\Lobby");
 	UnSpaceButton->SetPos(GetPos() + m_SpaceButtonScale.Half());
 
 	UnSpaceButton->Off();

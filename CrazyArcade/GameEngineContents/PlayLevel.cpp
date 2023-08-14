@@ -49,7 +49,10 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	CurPlayLevel = this;
 
 	CharacterSetting();
-	Player->SetPos(GlobalValue::WinScale.Half());
+	if (Player)
+	{
+		Player->SetPos(GlobalValue::WinScale.Half());
+	}
 
 	UILevelStart();
 
@@ -1026,8 +1029,8 @@ void PlayLevel::CreateGameStartAnimation()
 
 	if (CurrentStage == 1)
 	{
-		GlobalUtils::SoundFileLoad("GameStart.wav", "Resources\\Sounds\\GamePlay");
-		GameEngineSound::SoundPlay("GameStart.wav");
+		GlobalUtils::SoundFileLoad("Game_Start.wav", "Resources\\Sounds\\GamePlay");
+		GameEngineSound::SoundPlay("Game_Start.wav");
 	}
 
 	if (CurrentStage >= 2 && CurrentStage <= 3)
@@ -1043,9 +1046,9 @@ void PlayLevel::OnGameStartAnimation()
 		m_GameStartAnimation->On();
 	}
 
-	GlobalUtils::SoundFileLoad("NextLevelReady.wav", "Resources\\Sounds\\GamePlay");
+	GlobalUtils::SoundFileLoad("Next_Level_Ready.wav", "Resources\\Sounds\\GamePlay");
 
-	GameEngineSound::SoundPlay("NextLevelReady.wav");
+	GameEngineSound::SoundPlay("Next_Level_Ready.wav");
 }
 
 void PlayLevel::CreateBossImage()
@@ -1228,7 +1231,7 @@ void PlayLevel::SetGoBackButton()
 	m_GoBackButton->setButtonTexture(ButtonState::Hover, "Play_Button_Exit_Hover.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 2);
 	m_GoBackButton->setButtonTexture(ButtonState::Click, "Play_Button_Exit_Click.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 1);
 	m_GoBackButton->setCallback<PlayLevel>(ButtonEventState::Click, this, &PlayLevel::clickGoBackButton);
-	m_GoBackButton->setButtonSound(ButtonEventState::Hover, "GameExitButtonHover.wav", "Resources\\Sounds\\GamePlay");
+	m_GoBackButton->setButtonSound(ButtonEventState::Hover, "Game_Exit_Button_Hover.wav", "Resources\\Sounds\\GamePlay");
 
 	float4 ButtonScale = m_GoBackButton->getButtonScale();
 	float4 ButtonPos = CONST_GoBackButtonStartPos + ButtonScale.Half();
