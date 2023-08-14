@@ -2,6 +2,8 @@
 #include "FadeObject.h"
 #include "BaseCharacter.h"
 #include "Snowmon_black.h"
+#include "Piratemon_black.h"
+#include "Piratemon_red.h"
 #include <GameEngineCore/TileMap.h>
 
 Penguin_Stage1::Penguin_Stage1()
@@ -21,16 +23,16 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	Player->SetPos(GroundTile->IndexToPos(6,4));
 
-	Snowmon = CreateActor<Snowmon_black>();
+	Snowmon = CreateActor<Piratemon_black>();
 	Snowmon->SetPos(GroundTile->IndexToPos(1, 6));
 
-	Snowmon = CreateActor<Snowmon_black>();
+	Snowmon = CreateActor<Piratemon_black>();
 	Snowmon->SetPos(GroundTile->IndexToPos(15, 6));
 
-	Snowmon = CreateActor<Snowmon_black>();
+	Snowmon = CreateActor<Piratemon_red>();
 	Snowmon->SetPos(GroundTile->IndexToPos(1, 8));
 
-	Snowmon = CreateActor<Snowmon_black>();
+	Snowmon = CreateActor<Piratemon_red>();
 	Snowmon->SetPos(GroundTile->IndexToPos(15, 8));
 }
 

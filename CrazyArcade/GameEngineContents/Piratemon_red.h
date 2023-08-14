@@ -23,6 +23,7 @@ protected:
 
 private:
 	void Start() override;
+	void Update(float _Delta) override;
 	float4 ShadowPos = { 0.0f, 30.0f };
 };
 

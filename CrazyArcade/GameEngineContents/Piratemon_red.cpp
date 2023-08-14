@@ -46,9 +46,55 @@ void Piratemon_red::Start()
 	MainRenderer->CreateAnimation("PiratemonRed_Move_Left", "Pirate_Red_Move_Left.Bmp");
 	MainRenderer->CreateAnimation("PiratemonRed_Death", "Pirate_Red_Death.Bmp");
 
+	ChangeState(MonsterState::Idle);
+}
+
+void Piratemon_red::Update(float _Delta)
+{
+	StateUpdate(_Delta);
+
+	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
+	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+
+	if (CurTileType == TileObjectOrder::PopRange)
+	{
+		ChangeState(MonsterState::Die);
+	}
+
+	if (true == GameEngineInput::IsDown('J'))
+	{
+		SwitchDebugData();
+	}
 }
 
 void Piratemon_red::ChangeAnimationState(const std::string& _StateName)
 {
+	std::string AnimationName = "PiratemonRed_";
 
+	AnimationName += _StateName;
+
+	if (_StateName == "Idle" || _StateName == "Move")
+	{
+		switch (Dir)
+		{
+		case ActorDir::Left:
+			AnimationName += "_Left";
+			break;
+		case ActorDir::Right:
+			AnimationName += "_Right";
+			break;
+		case ActorDir::Up:
+			AnimationName += "_Up";
+			break;
+		case ActorDir::Down:
+			AnimationName += "_Down";
+			break;
+		default:
+			break;
+		}
+	}
+
+	CurState = _StateName;
+
+	MainRenderer->ChangeAnimation(AnimationName);
 }
