@@ -112,5 +112,6 @@ private:
 	float4 EggSummonStartPos = float4::ZERO;
 	float4 EggSummonEndPos = float4::ZERO;
 
+	float checkplayerdur = 1.0f;
 };
 

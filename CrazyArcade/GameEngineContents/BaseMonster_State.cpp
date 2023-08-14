@@ -1,8 +1,10 @@
 #include "BaseMonster.h"
 #include "PlayLevel.h"
+#include "BaseCharacter.h"
 
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/TileMap.h>
 
 void BaseMonster::IdleStart()
 {
@@ -34,6 +36,46 @@ void BaseMonster::MoveUpdate(float _Delta)
 	float Speed = 50.0f;
 
 	CheckDeath();
+
+	//if (nullptr != PlayLevel::CurPlayLevel->Player)
+	//{
+	//	// 플레이어 위치 체크
+	//	float4 PlayerPos = PlayLevel::CurPlayLevel->Player->GetPos();
+	//	float4 PlayerIndex = PlayLevel::CurPlayLevel->GetGroundTile()->PosToIndex(PlayerPos - GlobalValue::TileStartPos);
+
+	//	float4 MonsterPos = GetPos() - float4{0,30.0f};
+	//	float4 MonsterIndex = PlayLevel::CurPlayLevel->GetGroundTile()->PosToIndex(MonsterPos - GlobalValue::TileStartPos - GlobalValue::MapTileSize.Half());
+	//	checkplayerdur -= _Delta;
+	//	if (5.0f< (PlayerPos - MonsterPos).Size() && (PlayerPos - MonsterPos).Size() < 120.0f && checkplayerdur<0)
+	//	{
+	//		// 따라와야함
+	//		float4 TmpDir = PlayerPos - MonsterPos;
+	//		if (abs(TmpDir.X) > abs(TmpDir.Y))
+	//		{
+	//			if (TmpDir.X > 0)
+	//			{
+	//				Dir = ActorDir::Right;
+	//			}
+	//			else
+	//			{
+	//				Dir = ActorDir::Left;
+	//			}
+	//		}
+	//		else
+	//		{
+	//			if (TmpDir.Y > 0)
+	//			{
+	//				Dir = ActorDir::Down;
+	//			}
+	//			else
+	//			{
+	//				Dir = ActorDir::Up;
+	//			}
+	//		}
+	//		ChangeAnimationState("Move");
+	//		checkplayerdur = 0.2f;
+	//	}
+	//}
 
 	if (Dir == ActorDir::Down)
 	{
