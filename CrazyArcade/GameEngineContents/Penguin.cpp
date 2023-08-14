@@ -128,11 +128,13 @@ void Penguin::Update(float _Delta)
 
 	if (PatternTimer >= PATTERN_TIME && false == PatternStart)
 	{
+		PatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
 		PatternStart = true;
 	}
 
 	if (true == GameEngineInput::IsDown('B'))
 	{
+		PatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
 		PatternStart = true;
 		PatternTimer = PATTERN_TIME;
 	}
@@ -512,23 +514,23 @@ void Penguin::PatternUpdate()
 	{
 		return;
 	}
-
+	static int CurPatternCount = 0;
 	GameEngineRandom::MainRandom.SetSeed(time(NULL));
-	static int Range = 0;
-	++PatternCount;
-	switch (PatternCount)
+	int Range = 0;
+	++CurPatternCount;
+	switch (CurPatternCount)
 	{
 	case 1:
-		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 2, PatternCount + 3);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 2, CurPatternCount + 3);
 		break;
 	case 2:
-		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 3, PatternCount + 4);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 3, CurPatternCount + 4);
 		break;
 	case 3:
-		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 4, PatternCount + 5);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 4, CurPatternCount + 5);
 		break;
 	case 4:
-		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 5, PatternCount + 6);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 5, CurPatternCount + 6);
 		break;
 	default:
 		break;
@@ -536,9 +538,10 @@ void Penguin::PatternUpdate()
 	CurPlayLevel->PatternAnimationEnd = false;
 	CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Range);
 
-	if (4 == PatternCount)
+	if (CurPatternCount == PatternCount)
 	{
 		PatternCount = 0;
+		CurPatternCount = 0;
 		PatternStart = false;
 		PatternTimer = 0.0f;
 		CurPlayLevel->PatternAnimationEnd = true;
