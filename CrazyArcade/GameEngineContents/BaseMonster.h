@@ -31,6 +31,11 @@ public:
 
 	void RandomDir(const std::string& _StateName);
 
+	void SetState(MonsterState _State)
+	{
+		ChangeState(_State);
+	}
+
 protected:
 	virtual void StateUpdate(float _Delta);
 	virtual void ChangeState(MonsterState _State);
