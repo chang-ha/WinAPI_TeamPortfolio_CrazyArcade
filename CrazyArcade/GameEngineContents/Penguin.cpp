@@ -86,7 +86,11 @@ void Penguin::Start()
 
 void Penguin::Update(float _Delta)
 {
-	PatternTimer += _Delta;
+	if (MonsterState::Idle == State || MonsterState::Summon == State || MonsterState::Hitten == State)
+	{
+		PatternTimer += _Delta;
+	}
+
 	if (true == GameEngineInput::IsDown('J'))
 	{
 		IsDebugMode = !IsDebugMode;
