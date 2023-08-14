@@ -111,10 +111,14 @@ void Penguin::Start()
 
 void Penguin::Update(float _Delta)
 {
-	if (MonsterState::Idle == State || MonsterState::Summon == State || MonsterState::Hitten == State)
+	StateUpdate(_Delta);
+
+	if (MonsterState::Die_Ready == State || MonsterState::Die_Bubble == State || MonsterState::Die == State)
 	{
-		PatternTimer += _Delta;
+		return;
 	}
+
+	PatternTimer += _Delta;
 
 	if (true == GameEngineInput::IsDown('J'))
 	{
@@ -143,11 +147,6 @@ void Penguin::Update(float _Delta)
 	{
 		ChangeState(MonsterState::Move);
 
-	}
-
-	if (true == GameEngineInput::IsDown('P'))
-	{
-		ChangeState(MonsterState::Move);
 	}
 
 	// BossTile Update
@@ -184,9 +183,6 @@ void Penguin::Update(float _Delta)
 	{
 		PatternUpdate();
 	}
-
-	// State Update
-	StateUpdate(_Delta);
 }
 
 void Penguin::Render(float _Delta)
@@ -236,31 +232,34 @@ void Penguin::StateUpdate(float _Delta)
 
 void Penguin::ChangeState(MonsterState _State)
 {
-	switch (_State)
+	if (_State != State)
 	{
-	case MonsterState::Idle:
-		IdleStart();
-		break;
-	case MonsterState::Move:
-		MoveStart();
-		break;
-	case MonsterState::Die:
-		DieStart();
-		break;
-	case MonsterState::Hitten:
-		HittenStart();
-		break;
-	case MonsterState::Summon:
-		SummonStart();
-		break;
-	case MonsterState::Die_Ready:
-		DieReadyStart();
-		break;
-	case MonsterState::Die_Bubble:
-		DieBubbleStart();
-		break;
-	default:
-		break;
+		switch (_State)
+		{
+		case MonsterState::Idle:
+			IdleStart();
+			break;
+		case MonsterState::Move:
+			MoveStart();
+			break;
+		case MonsterState::Die:
+			DieStart();
+			break;
+		case MonsterState::Hitten:
+			HittenStart();
+			break;
+		case MonsterState::Summon:
+			SummonStart();
+			break;
+		case MonsterState::Die_Ready:
+			DieReadyStart();
+			break;
+		case MonsterState::Die_Bubble:
+			DieBubbleStart();
+			break;
+		default:
+			break;
+		}
 	}
 
 	State = _State;
@@ -279,7 +278,7 @@ void Penguin::IdleUpdate(float _Delta)
 	}
 }
 
-ActorDir Penguin::DirDecision()
+ActorDir Penguin::DirDecision(int _MoveRange)
 {
 	std::vector<ActorDir> MoveDir;
 	ActorDir CheckDir;
@@ -292,19 +291,19 @@ ActorDir Penguin::DirDecision()
 		switch (i)
 		{
 		case 0:
-			MoveTile = CurLevelTile->GetTile(BossTile[0][0].iX() - 1, BossTile[0][0].iY());
+			MoveTile = CurLevelTile->GetTile(BossTile[0][0].iX() - _MoveRange, BossTile[0][0].iY());
 			CheckDir = ActorDir::Left;
 			break;
 		case 1:
-			MoveTile = CurLevelTile->GetTile(BossTile[0][1].iX(), BossTile[0][1].iY() - 1);
+			MoveTile = CurLevelTile->GetTile(BossTile[0][1].iX(), BossTile[0][1].iY() - _MoveRange);
 			CheckDir = ActorDir::Up;
 			break;
 		case 2:
-			MoveTile = CurLevelTile->GetTile(BossTile[0][2].iX() + 1, BossTile[0][2].iY());
+			MoveTile = CurLevelTile->GetTile(BossTile[0][2].iX() + _MoveRange, BossTile[0][2].iY());
 			CheckDir = ActorDir::Right;
 			break;
 		case 3:
-			MoveTile = CurLevelTile->GetTile(BossTile[1][0].iX(), BossTile[1][0].iY() + 1);
+			MoveTile = CurLevelTile->GetTile(BossTile[1][0].iX(), BossTile[1][0].iY() + _MoveRange);
 			CheckDir = ActorDir::Down;
 			break;
 		default:
@@ -325,21 +324,23 @@ ActorDir Penguin::DirDecision()
 
 void Penguin::MoveStart()
 {
-	Dir = DirDecision();
+	GameEngineRandom::MainRandom.SetSeed(time(NULL));
+	int MoveIndex = GameEngineRandom::MainRandom.RandomInt(1,2);
+	Dir = DirDecision(MoveIndex);
 
 	switch (Dir)
 	{
 	case ActorDir::Left:
-		MoveRange = { -BOSSMOVERANGE, 0 };
+		MoveRange = { -BOSSMOVERANGE * MoveIndex, 0 };
 		break;
 	case ActorDir::Right:
-		MoveRange = { BOSSMOVERANGE, 0 };
+		MoveRange = { BOSSMOVERANGE * MoveIndex, 0 };
 		break;
 	case ActorDir::Up:
-		MoveRange = { 0 , -BOSSMOVERANGE };
+		MoveRange = { 0 , -BOSSMOVERANGE * MoveIndex };
 		break;
 	case ActorDir::Down:
-		MoveRange = { 0 , BOSSMOVERANGE };
+		MoveRange = { 0 , BOSSMOVERANGE * MoveIndex };
 		break;
 	default:
 		break;
@@ -461,7 +462,7 @@ void Penguin::HitJudgement()
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX() + 1, BossTile[Y][X].iY() + 1) + GlobalValue::TileStartPos);
+			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY() + 1) + GlobalValue::TileStartPos);
 			if (CurTile == TileObjectOrder::PopRange)
 			{
 				--BossHP;

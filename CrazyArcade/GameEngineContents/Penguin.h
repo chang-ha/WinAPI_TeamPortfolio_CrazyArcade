@@ -44,7 +44,7 @@ private:
 	void IdleStart();
 	void IdleUpdate(float _Delta);
 
-	ActorDir DirDecision();
+	ActorDir DirDecision(int _MoveRange);
 	void MoveStart();
 	void MoveUpdate(float _Delta);
 
