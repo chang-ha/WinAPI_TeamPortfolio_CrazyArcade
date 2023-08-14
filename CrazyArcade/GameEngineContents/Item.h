@@ -26,7 +26,6 @@ public:
 	inline int GetItemTypeIntInt() const
 	{
 		return static_cast<int>(Type);
-
 	}
 
 	// Type ¼¼ÆÃ
@@ -63,6 +62,9 @@ public:
 	{
 		InBlock = false;
 		On();
+
+		EffectPlayer = GameEngineSound::SoundPlay("Item_Out.wav");
+		EffectPlayer.SetVolume(0.3f);
 	}
 
 	void SetItemPos(int _X, int _Y);

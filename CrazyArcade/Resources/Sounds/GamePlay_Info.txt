@@ -10,3 +10,5 @@ Lose -> 패배 효과음
 Next_Level_Ready -> 다음레벨 시작 전에 나오는 효과음
 
 Win -> 승리 효과음
+
+BossStage_Lose -> BossStage 패배 시 펭귄이 같이 웃음
