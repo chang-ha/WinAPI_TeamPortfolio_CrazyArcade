@@ -35,11 +35,6 @@ void BaseMonster::Update(float _Delta)
 	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
 	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
 
-	if (CurTileType == TileObjectOrder::PopRange)
-	{
-		ChangeState(MonsterState::Freeze);
-	}
-
 	if (true == GameEngineInput::IsDown('J'))
 	{
 		SwitchDebugData();
@@ -211,6 +206,23 @@ void BaseMonster::CheckCollision()
 			ColPlayer->ChangeState(CharacterState::Die);
 		}
 		return;
+	}
+}
+
+void BaseMonster::CheckDeath()
+{
+	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
+	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+
+	if (CurTileType == TileObjectOrder::PopRange
+		&& State == MonsterState::EggMove)
+	{
+		ChangeState(MonsterState::EggDeath);
+	}
+
+	else if (CurTileType == TileObjectOrder::PopRange)
+	{
+		ChangeState(MonsterState::Freeze);
 	}
 }
 

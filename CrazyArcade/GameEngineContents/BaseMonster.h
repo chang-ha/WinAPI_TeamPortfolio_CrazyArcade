@@ -94,6 +94,8 @@ private:
 	void EggDeathStart();
 	void EggDeathUpdate(float _Delta);
 
+	void CheckDeath();
+
 	bool IsDebugData = false;
 
 	float MainTimer = 0.0f;

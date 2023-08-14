@@ -32,7 +32,7 @@ void Snowmon_black::Start()
 	GlobalUtils::SpriteFileLoad("Snowmon_Black_EggMove_Right.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Black\\Egg\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Black_EggMove_Left.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Black\\Egg\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Black_Egg_Summon.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Black\\Egg\\", 5, 1);
-	GlobalUtils::SpriteFileLoad("Snowmon_Black_Egg_Death.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Black\\Egg\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Black_Egg_Death.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Black\\Egg\\", 6, 1);
 
 	// Snowmon
 	GlobalUtils::SpriteFileLoad("Snowmon_Black_Idle_Down.Bmp",		"Resources\\Textures\\Monster\\Snowmon\\Black\\", 1, 1);
@@ -67,7 +67,7 @@ void Snowmon_black::Start()
 	MainRenderer->CreateAnimation("Snowmon_Black_EggMove_Right",	"Snowmon_Black_EggMove_Right.Bmp", 0, 1, 0.4f, true);
 	MainRenderer->CreateAnimation("Snowmon_Black_EggMove_Left",		"Snowmon_Black_EggMove_Left.Bmp", 0, 1, 0.4f, true);
 	MainRenderer->CreateAnimation("Snowmon_Black_EggSummon",		"Snowmon_Black_Egg_Summon.Bmp", 0, 4, 0.2f, false);
-	MainRenderer->CreateAnimation("Snowmon_Black_EggDeath",		"Snowmon_Black_Egg_Death.Bmp", 0, 5, 0.1f, false);
+	MainRenderer->CreateAnimation("Snowmon_Black_EggDeath",			"Snowmon_Black_Egg_Death.Bmp", 0, 5, 0.1f, false);
 
 	// Snowmon
 	MainRenderer->CreateAnimation("Snowmon_Black_Idle_Down",	"Snowmon_Black_Idle_Down.Bmp");

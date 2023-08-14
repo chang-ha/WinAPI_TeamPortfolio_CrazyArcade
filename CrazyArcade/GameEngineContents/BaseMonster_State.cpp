@@ -31,8 +31,9 @@ void BaseMonster::MoveUpdate(float _Delta)
 {
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
-
 	float Speed = 50.0f;
+
+	CheckDeath();
 
 	if (Dir == ActorDir::Down)
 	{
@@ -143,9 +144,11 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
-
 	float AngerSpeed = 100.0f;
 
+	CheckDeath();
+
+	// 이동 체크
 	if (Dir == ActorDir::Down)
 	{
 		MovePos = { 0.0f, AngerSpeed * _Delta };
@@ -215,6 +218,8 @@ void BaseMonster::EggMoveUpdate(float _Delta)
 	float4 CheckPos = float4::ZERO;
 	float EggSpeed = 30.0f;
 
+	CheckDeath();
+
 	if (Dir == ActorDir::Down)
 	{
 		MovePos = { 0.0f, EggSpeed * _Delta };
@@ -255,7 +260,7 @@ void BaseMonster::EggMoveUpdate(float _Delta)
 	}
 
 	// Egg Summon
-	if (MainTimer > 5.0f)
+	if (MainTimer > 15.0f)
 	{
 		ChangeState(MonsterState::EggSummon);
 	}
@@ -283,7 +288,11 @@ void BaseMonster::EggDeathStart()
 
 void BaseMonster::EggDeathUpdate(float _Delta)
 {
-
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		Death();
+		return;
+	}
 }
 
 void BaseMonster::DieStart()
