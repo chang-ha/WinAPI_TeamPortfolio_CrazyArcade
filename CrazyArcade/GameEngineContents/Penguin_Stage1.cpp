@@ -21,7 +21,8 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 	PlayLevel::LevelStart(_PrevLevel);
 	FadeObject::CallFadeIn(this, 0.4f);
 
-	Player->SetPos(GroundTile->IndexToPos(6,4));
+	Player->SetPos(GroundTile->IndexToPos(6, 4));
+	Player2->SetPos(GroundTile->IndexToPos(6, 4));
 
 	Snowmon = CreateActor<Piratemon_black>();
 	Snowmon->SetPos(GroundTile->IndexToPos(1, 6));

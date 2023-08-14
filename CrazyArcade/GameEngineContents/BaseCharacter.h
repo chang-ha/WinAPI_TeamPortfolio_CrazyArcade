@@ -138,6 +138,11 @@ protected:
 		return PlayerDeath;
 	}
 
+	PlayerNum GetPlayerNumber() const
+	{
+		return PlayerNumber;
+	}
+
 	void SetPlayer2()
 	{
 		PlayerNumber = PlayerNum::P2;
