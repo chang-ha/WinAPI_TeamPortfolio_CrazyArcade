@@ -102,12 +102,14 @@ void BaseCharacter::FlashShortUpdate(float _Delta)
 
 void BaseCharacter::LiveStart()
 {
+	BodyCollision->Off();
 	ChangeAnimationState("Live");
 }
 void BaseCharacter::LiveUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
+		BodyCollision->On();
 		ChangeState(CharacterState::Idle);
 		return;
 	}

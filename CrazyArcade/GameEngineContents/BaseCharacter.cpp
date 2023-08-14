@@ -43,11 +43,6 @@ void BaseCharacter::Update(float _Delta)
 {
 	CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
 
-	if (CurTile == TileObjectOrder::PopRange)
-	{
-		ChangeState(CharacterState::Bubble);
-	}
-
 	StateUpdate(_Delta);
 
 	// 물풍선 설치

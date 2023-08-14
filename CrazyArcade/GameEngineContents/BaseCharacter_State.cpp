@@ -12,6 +12,11 @@ void BaseCharacter::IdleStart()
 
 void BaseCharacter::IdleUpdate(float _Delta)
 {
+	if (CurTile == TileObjectOrder::PopRange)
+	{
+		ChangeState(CharacterState::Bubble);
+	}
+
 	if (PlayerNumber == PlayerNum::P1)
 	{
 		if (true == GameEngineInput::IsDown('W') || true == GameEngineInput::IsPress('W')
@@ -46,6 +51,11 @@ void BaseCharacter::MoveStart()
 void BaseCharacter::MoveUpdate(float _Delta)
 {
 	DirCheck();
+
+	if (CurTile == TileObjectOrder::PopRange)
+	{
+		ChangeState(CharacterState::Bubble);
+	}
 
 	float MoveSpeed = GetSpeed();
 
