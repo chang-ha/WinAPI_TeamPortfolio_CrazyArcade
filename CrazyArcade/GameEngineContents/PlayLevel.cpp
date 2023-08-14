@@ -966,6 +966,12 @@ void PlayLevel::CreateGameStartAnimation()
 	m_GameStartAnimation->initStartAnimation(CurrentStage);
 	m_GameStartAnimation->setGameStartCallBack(this, &PlayLevel::setGameStartCallBack);
 
+	if (CurrentStage == 1)
+	{
+		GlobalUtils::SoundFileLoad("GameStart.wav", "Resources\\Sounds\\GamePlay");
+		GameEngineSound::SoundPlay("GameStart.wav");
+	}
+
 	if (CurrentStage >= 2 && CurrentStage <= 3)
 	{
 		m_GameStartAnimation->Off();
@@ -978,6 +984,10 @@ void PlayLevel::OnGameStartAnimation()
 	{
 		m_GameStartAnimation->On();
 	}
+
+	GlobalUtils::SoundFileLoad("NextLevelReady.wav", "Resources\\Sounds\\GamePlay");
+
+	GameEngineSound::SoundPlay("NextLevelReady.wav");
 }
 
 void PlayLevel::CreateBossImage()
@@ -1161,6 +1171,7 @@ void PlayLevel::SetGoBackButton()
 	m_GoBackButton->setButtonTexture(ButtonState::Hover, "Play_Button_Exit_Hover.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 2);
 	m_GoBackButton->setButtonTexture(ButtonState::Click, "Play_Button_Exit_Click.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 1);
 	m_GoBackButton->setCallback<PlayLevel>(ButtonEventState::Click, this, &PlayLevel::clickGoBackButton);
+	m_GoBackButton->setButtonSound(ButtonEventState::Hover, "GameExitButtonHover.wav", "Resources\\Sounds\\GamePlay");
 
 	float4 ButtonScale = m_GoBackButton->getButtonScale();
 	float4 ButtonPos = CONST_GoBackButtonStartPos + ButtonScale.Half();
@@ -1185,6 +1196,19 @@ void PlayLevel::StartGameOver()
 	m_ResultWindow->OnResultWindow(VecPlayerResult);
 
 	SetUpResultBoardAnimation();
+
+
+	static bool WinOrLoseSoundLoadValue = false;
+
+	if (false == WinOrLoseSoundLoadValue)
+	{
+		GlobalUtils::SoundFileLoad("Lose.wav", "Resources\\Sounds\\GamePlay");
+		GlobalUtils::SoundFileLoad("Win.wav", "Resources\\Sounds\\GamePlay");
+
+		WinOrLoseSoundLoadValue = true;
+	}
+
+	WinCheckValue ? GameEngineSound::SoundPlay("Win.wav") : GameEngineSound::SoundPlay("Lose.wav");
 
 	GameOverCheckValue = true;
 }
