@@ -45,6 +45,10 @@ void Piratemon_black::Start()
 	MainRenderer->CreateAnimation("PiratemonBlack_Move_Left", "Pirate_Black_Move_Left.Bmp");
 	MainRenderer->CreateAnimation("PiratemonBlack_Die", "Pirate_Black_Death.Bmp");
 
+	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
+	ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
+	ShadowRenderer->SetRenderPos(ShadowPos);
+
 	ChangeState(MonsterState::Idle);
 }
 
