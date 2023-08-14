@@ -324,3 +324,13 @@ void BaseCharacter::ChangeState(CharacterState _State)
 }
 
 void BaseCharacter::ChangeAnimationState(const std::string& _StateName) {}
+
+void BaseCharacter::SetPlayer2()
+{
+	PlayerNumber = PlayerNum::P2;
+
+	BodyCollision = CreateCollision(CollisionOrder::PlayerBody2);
+	BodyCollision->SetCollisionPos(GetPos());
+	BodyCollision->SetCollisionScale(BODYCOLLISIONSCALE);
+	BodyCollision->SetCollisionType(CollisionType::Rect);
+}

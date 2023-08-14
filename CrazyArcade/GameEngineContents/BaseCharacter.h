@@ -143,10 +143,7 @@ protected:
 		return PlayerNumber;
 	}
 
-	void SetPlayer2()
-	{
-		PlayerNumber = PlayerNum::P2;
-	}
+	void SetPlayer2();
 
 	void GetNeedle()
 	{
@@ -159,6 +156,8 @@ protected:
 	int BombPower = 1;
 	int BombCount = 1;
 	int NeedleCount = 0;
+
+	float BubbleTimer = 0.0f;
 
 	TileObjectOrder CurTile = TileObjectOrder::Empty;
 

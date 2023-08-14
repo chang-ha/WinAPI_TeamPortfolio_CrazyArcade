@@ -27,21 +27,23 @@ void BaseCharacter::BubbleStart()
 }
 void BaseCharacter::BubbleUpdate(float _Delta)
 {
-	static float BubbleTimer = 0.0f;
-
-	if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect))
+	if (PlayerNumber == PlayerNum::P1)
 	{
-		GameEngineActor* CurActor = Col[Col.size() - 1]->GetActor();
-		BaseCharacter* ColCharacter = dynamic_cast<BaseCharacter*>(CurActor);
-
-		PlayerNum ColPlayerNumber = ColCharacter->GetPlayerNumber();
-
-		if (ColPlayerNumber != PlayerNumber)
+		if (true == BodyCollision->Collision(CollisionOrder::PlayerBody2, Col, CollisionType::Rect, CollisionType::Rect))
 		{
+			BubbleTimer = 0.0f;
 			ChangeState(CharacterState::Live);
 			return;
 		}
-		
+	}
+	else if (PlayerNumber == PlayerNum::P2)
+	{
+		if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect))
+		{
+			BubbleTimer = 0.0f;
+			ChangeState(CharacterState::Live);
+			return;
+		}
 	}
 
 	if (true == GameEngineInput::IsDown(VK_CONTROL) && NeedleCount > 0)
