@@ -190,4 +190,3 @@ private:
 private:
 	float LerpTime = 1.0f;
 };
-

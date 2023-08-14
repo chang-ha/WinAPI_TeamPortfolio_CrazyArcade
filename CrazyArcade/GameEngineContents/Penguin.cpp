@@ -98,6 +98,7 @@ void Penguin::Update(float _Delta)
 		CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Pattern);
 		++Pattern;
 	}
+
 	// BossTile Update
 	CurLevelTile = CurPlayLevel->GetGroundTile();
 	float4 CurPos = GetPos() - GlobalValue::TileStartPos;

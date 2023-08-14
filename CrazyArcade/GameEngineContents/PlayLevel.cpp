@@ -1436,22 +1436,24 @@ void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range
 				continue;
 			}
 
-
-			// if (i == 1 || i == n || j == 1 || j == n)
 			if (X != BossIndex_X - _Range && X != BossIndex_X + _Range && Y != BossIndex_Y - _Range && Y != BossIndex_Y + _Range)
 			{
 				continue;
 			}
 
 			GameEngineRenderer* PopRenderer = nullptr;
-			if (TileObjectOrder::Empty == CurPlayLevel->TileInfo[Y][X].MapInfo)
+			if (TileObjectOrder::Bubble == TileInfo[Y][X].MapInfo)
 			{
-				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::PopRange;
-				PopRenderer = CurPlayLevel->BossBubbleTile->GetTile(X, Y);
+				TileInfo[Y][X].Timer = 2.0f;
 			}
 			else if (TileObjectOrder::ImmovableBlock == TileInfo[Y][X].MapInfo || TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
 			{
 				PopTile(X, Y);
+			}
+			else if (TileObjectOrder::Empty == CurPlayLevel->TileInfo[Y][X].MapInfo)
+			{
+				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::PopRange;
+				PopRenderer = CurPlayLevel->BossBubbleTile->GetTile(X, Y);
 			}
 			else
 			{
