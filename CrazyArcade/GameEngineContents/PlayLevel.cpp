@@ -1466,9 +1466,10 @@ void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range
 				PopRenderer = CurPlayLevel->BossBubbleTile->SetTile(X, Y, 0, GlobalValue::TileStartPos, true);
 			}
 
+			// Temp Ani
 			if (nullptr == PopRenderer->FindAnimation("Bubble_Pop"))
 			{
-				PopRenderer->CreateAnimation("Bubble_Pop", "Pop.bmp", 0, 5, 0.1f, true);
+				PopRenderer->CreateAnimation("Bubble_Pop", "Pop.bmp", 0, 5, 0.1f, true);	
 			}
 			PopRenderer->ChangeAnimation("Bubble_Pop");
 		}
@@ -1492,13 +1493,21 @@ void PlayLevel::ClearBossPattern()
 			{
 				continue;
 			}
+			All_Null = false;
 
 			if (true == PopRenderer->IsAnimationEnd())
 			{
 				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::Empty;
 				BossBubbleTile->DeathTile(X, Y);
+				PatternAnimationEnd = true;
 			}
 		}
 	}
+
+	if (true == All_Null)
+	{
+		PatternAnimationEnd = true;
+	}
+	All_Null = true;
 }
 

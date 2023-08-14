@@ -7,6 +7,7 @@ class TileMap;
 class PlayLevel;
 class Penguin : public BaseMonster
 {
+	friend PlayLevel;
 public:
 	// constrcuter destructer
 	Penguin();
@@ -54,6 +55,8 @@ private:
 	void SummonStart();
 	void SummonUpdate(float _Delta);
 
+	void PatternUpdate();
+
 
 	bool IsDebugMode = false;
 	bool IsHitten = false;
@@ -61,6 +64,8 @@ private:
 	float DieAlpha = 255.0f;
 	std::vector<std::vector<float4>> BossTile;
 
-	int Pattern = 3;
+	bool PatternStart = false;
+	int PatternCount = 0;
+	float PatternTimer = 0.0f;
 };
 
