@@ -95,6 +95,19 @@ void PlayLevel::Update(float _Delta)
 		CollisionDebugRenderSwitch();
 	}
 
+	if (true == GameEngineInput::IsDown(VK_F5))
+	{
+		GameEngineCore::ChangeLevel("Penguin_Stage1");
+	}
+	if (true == GameEngineInput::IsDown(VK_F6))
+	{
+		GameEngineCore::ChangeLevel("Penguin_Stage2");
+	}
+	if (true == GameEngineInput::IsDown(VK_F7))
+	{
+		GameEngineCore::ChangeLevel("Penguin_Stage3");
+	}
+
 	updateGameOverResult(_Delta);
 
 	ContentLevel::Update(_Delta);
