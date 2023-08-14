@@ -39,9 +39,10 @@ enum class MonsterState
 	Anger,
 	AngerIdle,
 	AngerMove,
+	EggSummon, // 소환
 	EggIdle,
 	EggMove,
-	EggSummon,
+	EggHatch, // 부화
 	EggDeath,
 	Die,
 	// Boss State
