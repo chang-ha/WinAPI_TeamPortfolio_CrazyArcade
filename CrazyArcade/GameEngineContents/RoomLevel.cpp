@@ -255,6 +255,9 @@ void RoomLevel::loadCharacterButton()
 		CharacterButtonPtr->setButtonTexture(ButtonState::Normal, FileName + "_Normal.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
 		CharacterButtonPtr->setButtonTexture(ButtonState::Hover, FileName + "_Hover.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
 		CharacterButtonPtr->setButtonTexture(ButtonState::Click, FileName + "_Click.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
+		CharacterButtonPtr->setButtonSound(ButtonEventState::Hover, "CharacterHover.wav", "Resources\\Sounds\\Lobby");
+		CharacterButtonPtr->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
+
 		m_CharacterButtonScale = CharacterButtonPtr->getButtonScale();
 
 		CharacterButtonPtr->setButtonPos(m_CharacterButtonStartPos +

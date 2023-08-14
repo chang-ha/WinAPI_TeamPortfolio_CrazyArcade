@@ -1,6 +1,7 @@
 #include "MapSelectWindow.h"
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
+#include "GlobalUtils.h"
 
 
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
@@ -39,6 +40,10 @@ void MapSelectWindow::loadButton()
 {
 	vecButton.resize(static_cast<int>(MapSelectButton::Max));
 
+	GlobalUtils::SoundFileLoad("Select.wav", "Resources\\Sounds\\Lobby");
+	GlobalUtils::SoundFileLoad("MapChangeCancel.wav", "Resources\\Sounds\\Lobby");
+	
+
 	// 취소버튼
 	GameEngineLevel* CurLevelPtr = GetLevel();
 	if (nullptr == CurLevelPtr)
@@ -59,7 +64,7 @@ void MapSelectWindow::loadButton()
 	CancleButtonPtr->setButtonTexture(ButtonState::Click, "Button_MapSelect_Cancel_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	CancleButtonPtr->setButtonTexture(ButtonState::Hover, "Button_MapSelect_Cancel_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
 	CancleButtonPtr->setButtonPos(GetPos() - m_WindowScale.Half() + float4{ 277.0f, 447.0f });
-	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
+	CancleButtonPtr->setButtonSound(ButtonEventState::Click, "MapChangeCancel.wav", "Resources\\Sounds\\Lobby");
 
 	CancleButtonPtr->setCallback<MapSelectWindow>(ButtonEventState::Click, this, &MapSelectWindow::clickCancleButton);
 
@@ -81,9 +86,10 @@ void MapSelectWindow::loadButton()
 	AcceptButtonPtr->setButtonTexture(ButtonState::Click, "Button_MapSelect_Accept_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	AcceptButtonPtr->setButtonTexture(ButtonState::Hover, "Button_MapSelect_Accept_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
 	AcceptButtonPtr->setButtonPos(GetPos() - m_WindowScale.Half() + float4{ 160.0f, 447.0f });
-	//AcceptButtonPtr->setButtonSound(ButtonEventState::Click, )
-
+	AcceptButtonPtr->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
 	AcceptButtonPtr->setCallback<MapSelectWindow>(ButtonEventState::Click, this, &MapSelectWindow::clickAcceptButton);
+
+
 
 	AcceptButtonPtr->Off();
 
@@ -116,6 +122,7 @@ void MapSelectWindow::loadMapInfoButton()
 		MapListButton->setButtonTexture(ButtonState::Normal, "MapSelect_SelectImageBar_Normal.bmp", "Resources\\Textures\\UI\\MapSelect", 1, 1);
 		MapListButton->setButtonTexture(ButtonState::Hover, "MapSelect_SelectImageBar_Hover.bmp", "Resources\\Textures\\UI\\MapSelect", 1, 1);
 		MapListButton->setButtonTexture(ButtonState::Click, "MapSelect_SelectImageBar_Hover.bmp", "Resources\\Textures\\UI\\MapSelect", 1, 1);
+		MapListButton->setButtonSound(ButtonEventState::Click, "MapButtonClick.wav", "Resources\\Sounds\\Lobby");
 
 		switch (MapCount)
 		{
