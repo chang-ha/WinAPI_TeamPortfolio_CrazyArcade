@@ -3,6 +3,15 @@
 
 #include <vector>
 
+
+enum class ExpState 
+{
+	ExpUI,
+	ExpAcquisition,
+	Max,
+};
+
+
 // Ό³Έν :
 class PlayResultLine : public GameEngineActor
 {
@@ -36,9 +45,12 @@ private:
 	void Start() override;
 	void Update(float _Delta) override;
 
+	void LevelEnd() override;
 
 	// this
 	int m_LineNumber = 0;
+
+	bool m_ShowLineValue = false;
 
 	struct ResultLineInfo
 	{
@@ -50,7 +62,8 @@ private:
 		class CommonTexture* PlayerID = nullptr;
 		std::vector<class CommonTexture*> KillNumber;
 		std::vector<class CommonTexture*> SaveNumber;
-		class CommonTexture* Exp = nullptr;
+		class ExpAcquisition* ExpAcquisition = nullptr;
+		class ExpUI* ExpUI = nullptr;
 		class CommonTexture* LevelUp = nullptr;
 	};
 
@@ -62,11 +75,13 @@ private:
 	const float4 CONST_LineNumberStartPos = float4{ 10.0f , 5.0f };
 
 	void setupWinOrLose();
-	bool GameMatchWinValue = false;
+	bool m_GameMatchWinValue = false;
+	const int CONST_WinEXPIncreaseAmount = 80;
 	const float4 CONST_PlayerWinOrLoseStartPos = float4{ 25.0f , 3.0f };
 
 	void setupLineRank();
 	int PlayerLevel = 0;
+	int m_Rank = 0;
 	const float4 CONST_PlayerRankStartPos = float4{ 98.0f , 4.0f };
 
 	void setupPlayerID();
@@ -74,10 +89,14 @@ private:
 
 	void setupKillNumber();
 	int m_KillNumberSlot = 2;
+	int m_killNumber = 0;
+	const int CONST_KillEXPAmount = 10;
 	const float4 CONST_KillNumberStartPos = float4{ 196.0f , 5.0f };
 
 	void setupSaveNumber();
 	int m_SaveNumberSlot = 2;
+	int m_SaveNumber = 0;
+	const int CONST_SaveEXPAmount = 50;
 	const float4 CONST_SaveNumberStartPos = float4{ 238.0f , 5.0f };
 
 	void setupExp();
@@ -85,5 +104,25 @@ private:
 
 	void setupLevelUp();
 	const float4 CONST_LevelUpStartPos = float4{ 397.0f , 2.0f };
+
+
+	void updateEXP();
+	bool m_updateExpCheckValue = false;
+	int m_ExpIncreaseValue = 0;
+	bool m_ExpUpdateCheckValue = false;
+
+	void updateRank();
+	bool m_RankUpdateValue = false;
+
+	void updateState(float _Delta);
+	ExpState m_State = ExpState::Max;
+	float StateTime = 0.0f;
+	const float CONST_EachStateDuration = 1.8f;
+
+	void changeState(ExpState _State);
+
+	void startExpUI();
+
+	void startExpAcquisition();
 };
 

@@ -1,6 +1,7 @@
 ﻿#include "BaseCharacter.h"
 #include "GlobalUtils.h"
 #include "PlayLevel.h"
+#include "GlobalUtils.h"
 
 #include <GameEngineBase/GameEnginePath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -22,6 +23,10 @@ BaseCharacter::~BaseCharacter()
 void BaseCharacter::Start()
 {
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Character\\", 1, 1);
+
+	// Sound
+	GlobalUtils::SoundFileLoad("Locked_In_Bubble2.wav", "Resources\\Sounds\\Character\\");
+	GlobalUtils::SoundFileLoad("Character_Death.wav", "Resources\\Sounds\\Character\\");
 
 	ShadowRenderer = CreateRenderer("Shadow.Bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(CHARACTERSHADOWPOS);

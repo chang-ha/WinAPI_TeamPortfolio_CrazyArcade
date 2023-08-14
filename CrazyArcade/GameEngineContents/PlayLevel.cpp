@@ -25,6 +25,7 @@
 #include "CommonTexture.h"
 #include "PlayTimer.h"
 #include "PlayPortrait.h"
+#include "PlayCharacterPortrait.h"
 #include "GameStartAnimation.h"
 #include "PlayResultWindow.h"
 #include "GameOverAnimation.h"
@@ -51,6 +52,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	Player->SetPos(GlobalValue::WinScale.Half());
 
 	UILevelStart();
+
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
@@ -70,6 +72,10 @@ void PlayLevel::Start()
 	Back->Init("PlayPanel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
+	// Sound Load
+	GlobalUtils::SoundFileLoad("Bubble_Install.wav", "Resources\\Sounds\\Character\\");
+	GlobalUtils::SoundFileLoad("Bubble_Pop.wav", "Resources\\Sounds\\Character\\");
+	
 	// Object Texture Load
 	GlobalLoad::TileTextureLoad();
 
@@ -89,48 +95,15 @@ void PlayLevel::Update(float _Delta)
 		CollisionDebugRenderSwitch();
 	}
 
-	if (true == GameOverCheckValue)
-	{
-		GameOverTime += _Delta;
-
-		if (GameOverTime > GameOverDuration)
-		{
-			GameOverTime = 0.0f;
-
-			std::string MoveLevel = WinCheckValue ? NextLevelName : "RoomLevel";
-			GameEngineCore::ChangeLevel(MoveLevel);
-		}
-	}
+	updateGameOverResult(_Delta);
 
 	ContentLevel::Update(_Delta);
 
-	if (-1 != CurrentStage && false == GameOverCheckValue)
-	{
-		if (nullptr == Player)
-		{
-			return;
-		}
+	updateVictoryRoll();
 
-		if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
-		{
-			WinCheckValue = false;
+	updateCharacterPortrait();
 
-			StartGameOver();
-		}
-
-		if (true == GameEngineInput::IsPress('6'))
-		{
-			for (int PlayerCount = 0; PlayerCount < GlobalValue::g_ActiveRoomCount; PlayerCount++)
-			{
-				VecPlayerResult[PlayerCount].PlayerWinValue = true;
-			}
-
-			WinCheckValue = true;
-
-			StartGameOver();
-		}
-	}
-
+	ClearBossPattern();
 
 	// 물폭탄의 타이머를 위한 for문
 	if (AllBubbleIndex.size() > 0)
@@ -200,6 +173,8 @@ void PlayLevel::Update(float _Delta)
 				++StartIter;
 			}
 		}
+		BubblePopPlayCount = 0;
+		//PlayBubblePopEffectSound = false;
 	}
 
 	// Item Debug
@@ -759,6 +734,8 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower)
 		}
 		BubbleRenderer->ChangeAnimation("Bubble_Idle");
 
+		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Install.wav");
+		EffectPlayer.SetVolume(1.0f);
 		return;
 	}
 
@@ -923,6 +900,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 
 		CheckItemInTile(X, Y);
 	}
+	BubblePopPlay();
 }
 
 void PlayLevel::SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
@@ -988,6 +966,7 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 	TileRenderer->ChangeAnimation(_AnimationName);
 
 	AllBubbleDeathIndex.push_back({ _X, _Y });
+
 }
 
 
@@ -998,6 +977,8 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 void PlayLevel::UILevelStart()
 {
 	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+
+	vecCharacterState.resize(GlobalValue::g_ActiveRoomCount);
 
 	if (-1 != CurrentStage)
 	{
@@ -1142,6 +1123,18 @@ void PlayLevel::CreateUIElements()
 	SetUpUIStart();
 }
 
+void PlayLevel::BubblePopPlay()
+{
+	// 물풍선 터지는 효과음 2번 이상 중첩 방지
+	if (1 >= BubblePopPlayCount)
+	{
+		BubblePopPlayCount++;
+		//PlayBubblePopEffectSound = true;
+		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Pop.wav");
+		EffectPlayer.SetVolume(1.0f);
+	}
+}
+
 void PlayLevel::SetUpUIStart()
 {
 	SetUpStageInfo();
@@ -1242,6 +1235,88 @@ void PlayLevel::StartGameOver()
 	GameOverCheckValue = true;
 }
 
+void PlayLevel::updateGameOverResult(float _Delta)
+{
+	if (true == GameOverCheckValue)
+	{
+		GameOverTime += _Delta;
+
+		if (GameOverTime > GameOverDuration)
+		{
+			GameOverTime = 0.0f;
+
+			std::string MoveLevel = WinCheckValue ? NextLevelName : "RoomLevel";
+			GameEngineCore::ChangeLevel(MoveLevel);
+		}
+	}
+}
+
+
+void PlayLevel::updateVictoryRoll()
+{
+	if (-1 != CurrentStage && false == GameOverCheckValue)
+	{
+		if (nullptr == Player)
+		{
+			return;
+		}
+
+		if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+		{
+			WinCheckValue = false;
+	
+			StartGameOver();
+		}
+
+		if (true == GameEngineInput::IsPress('6'))
+		{
+			for (int PlayerCount = 0; PlayerCount < GlobalValue::g_ActiveRoomCount; PlayerCount++)
+			{
+				VecPlayerResult[PlayerCount].PlayerWinValue = true;
+			}
+
+			WinCheckValue = true;
+
+			StartGameOver();
+		}
+	}
+}
+
+void PlayLevel::updateCharacterPortrait()
+{
+	if (CurrentStage < 1 || CurrentStage > 3)
+	{
+		return;
+	}
+	
+	if (nullptr == Player)
+	{
+		return;
+	}
+
+	// 플레이어가 죽었는데 초상화가 업데이트 되지 않았다면 초상화를 바꿔줍니다.
+	if (Player->GetPlayerDeath() && true == vecCharacterState[0].AliveState)
+	{
+		PlayPortrait* Portrait = vec_PlayPortrait[0];
+		if (nullptr == Portrait)
+		{
+			MsgBoxAssert("액터를 불러오지 못했습니다.");
+			return;
+		}
+
+		PlayCharacterPortrait* CharacterPortrait = Portrait->getPortrait();
+		if (nullptr == CharacterPortrait)
+		{
+			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
+			return;
+		}
+
+		CharacterPortrait->changeState(PlayPortraitState::Lose);
+
+		vecCharacterState[0].AliveState = false;
+	}
+}
+
 
 void PlayLevel::UILevelEnd()
 {
@@ -1259,6 +1334,9 @@ void PlayLevel::UILevelEnd()
 
 	GameOverCheckValue = false;
 	GameStartCheckValue = false;
+
+	vecCharacterState.clear();
+	VecPlayerResult.clear();
 }
 
 void PlayLevel::ReleaseLevelComposition()
@@ -1282,11 +1360,7 @@ void PlayLevel::ReleaseResultWindow()
 		m_ResultWindow->ActorRelease();
 		m_ResultWindow = nullptr;
 	}
-
 }
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 몬스터
@@ -1335,3 +1409,94 @@ bool PlayLevel::MonsterCheckTile(const float4& _Pos, float _Delta)
 		return false;
 	}
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 보스 맵 패턴
+void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range)
+{
+	if (nullptr == BossBubbleTile)
+	{
+		BossBubbleTile = CreateActor<TileMap>();
+		if (nullptr == BossBubbleTile)
+		{
+			MsgBoxAssert("타일을 생성에 실패하였습니다.");
+			return;
+		}
+
+		BossBubbleTile->CreateTileMap("Boss_Pop.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::MapObject);
+	}
+
+	for (int Y = BossIndex_Y - _Range; Y <= BossIndex_Y + _Range; Y++)
+	{
+		for (int X = BossIndex_X - _Range; X <= BossIndex_X + _Range; X++)
+		{
+			if (BossBubbleTile->IsOver(X, Y))
+			{
+				continue;
+			}
+
+
+			// if (i == 1 || i == n || j == 1 || j == n)
+			if (X != BossIndex_X - _Range && X != BossIndex_X + _Range && Y != BossIndex_Y - _Range && Y != BossIndex_Y + _Range)
+			{
+				continue;
+			}
+
+			GameEngineRenderer* PopRenderer = nullptr;
+			if (TileObjectOrder::Empty == CurPlayLevel->TileInfo[Y][X].MapInfo)
+			{
+				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::PopRange;
+				PopRenderer = CurPlayLevel->BossBubbleTile->GetTile(X, Y);
+			}
+			else if (TileObjectOrder::ImmovableBlock == TileInfo[Y][X].MapInfo || TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
+			{
+				PopTile(X, Y);
+			}
+			else
+			{
+				continue;
+			}
+
+
+			if (nullptr == PopRenderer)
+			{
+				PopRenderer = CurPlayLevel->BossBubbleTile->SetTile(X, Y, 0, GlobalValue::TileStartPos, true);
+			}
+
+			if (nullptr == PopRenderer->FindAnimation("Bubble_Pop"))
+			{
+				PopRenderer->CreateAnimation("Bubble_Pop", "Pop.bmp", 0, 5, 0.1f, true);
+			}
+			PopRenderer->ChangeAnimation("Bubble_Pop");
+		}
+	}
+}
+
+void PlayLevel::ClearBossPattern()
+{
+	if (nullptr == BossBubbleTile)
+	{
+		return;
+	}
+
+	for (int Y = 0; Y < BossBubbleTile->GetTileSize().iY(); Y++)
+	{
+		for (int X = 0; X < BossBubbleTile->GetTileSize().iX(); X++)
+		{
+			GameEngineRenderer* PopRenderer = CurPlayLevel->BossBubbleTile->GetTile(X, Y);
+
+			if (nullptr == PopRenderer)
+			{
+				continue;
+			}
+
+			if (true == PopRenderer->IsAnimationEnd())
+			{
+				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::Empty;
+				BossBubbleTile->DeathTile(X, Y);
+			}
+		}
+	}
+}
+

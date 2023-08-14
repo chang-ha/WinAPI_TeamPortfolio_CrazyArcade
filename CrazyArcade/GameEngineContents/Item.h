@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
 class Item : public GameEngineActor
@@ -92,4 +93,6 @@ private:
 	class GameEngineRenderer* ItemRenderer = nullptr;
 	class GameEngineRenderer* ShadowRenderer = nullptr;
 	class GameEngineCollision* ItemCollision = nullptr;
+
+	GameEngineSoundPlayer EffectPlayer;
 };

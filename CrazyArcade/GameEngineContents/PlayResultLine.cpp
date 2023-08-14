@@ -11,6 +11,8 @@
 
 
 #include "CommonTexture.h"
+#include "ExpAcquisition.h"
+#include "ExpUI.h"
 
 
 
@@ -144,6 +146,8 @@ void PlayResultLine::changePlayerMatchValue(const bool _Win)
 		return;
 	}
 
+	m_GameMatchWinValue = _Win;
+
 	int Result = _Win ? 0 : 1;
 
 	ResultLine.PlayerWinOrLose->setRendererCopyPos(0, Result);
@@ -178,19 +182,7 @@ void PlayResultLine::setupLineRank()
 
 	ResultLine.PlayerRank = LineRank;
 
-	int Rank = 0;
-
-	switch (m_LineNumber)
-	{
-	case 0:
-		Rank += GlobalValue::g_Player1Level;
-		break;
-	case 1:
-		Rank += GlobalValue::g_Player2Level;
-		break;
-	default:
-		break;
-	}
+	int Rank = GlobalValue::g_vecPlayerInfo[m_LineNumber].PlayerLevel;
 
 	changePlayerLevel(Rank);
 }
@@ -206,6 +198,8 @@ void PlayResultLine::changePlayerLevel(const int _PlayerLevel)
 	int Result = _PlayerLevel - 1;
 
 	ResultLine.PlayerRank->setRendererCopyPos(0, Result);
+
+	m_Rank = _PlayerLevel;
 }
 
 void PlayResultLine::setupPlayerID()
@@ -294,6 +288,8 @@ void PlayResultLine::changeKillNumber(const int _KillNumber)
 		return;
 	}
 
+	m_killNumber = _KillNumber;
+
 	for (int NumberCount = 0; NumberCount < m_KillNumberSlot; NumberCount++)
 	{
 		CommonTexture* KillNumber = ResultLine.KillNumber[NumberCount];
@@ -358,12 +354,14 @@ void PlayResultLine::setupSaveNumber()
 	}
 }
 
-void PlayResultLine::changeSaveNumber(const int _KillNumber)
+void PlayResultLine::changeSaveNumber(const int _SaveNumber)
 {
 	if (0 == ResultLine.KillNumber.size())
 	{
 		return;
 	}
+
+	m_SaveNumber = _SaveNumber;
 
 	for (int NumberCount = 0; NumberCount < m_SaveNumberSlot; NumberCount++)
 	{
@@ -379,10 +377,10 @@ void PlayResultLine::changeSaveNumber(const int _KillNumber)
 		switch (NumberCount)
 		{
 		case 0:
-			BoxNumber = _KillNumber / 10;
+			BoxNumber = _SaveNumber / 10;
 			break;
 		case 1:
-			BoxNumber = _KillNumber % 10;
+			BoxNumber = _SaveNumber % 10;
 			break;
 		default:
 			break;
@@ -401,24 +399,37 @@ void PlayResultLine::setupExp()
 		return;
 	}
 
-	CommonTexture* Exp = CurLevel->CreateActor<CommonTexture>(UpdateOrder::UI);
-	if (nullptr == Exp)
+	ExpAcquisition* ExpAcquisitionPtr = CurLevel->CreateActor<ExpAcquisition>(UpdateOrder::UI);
+	if (nullptr == ExpAcquisitionPtr)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
 		return;
 	}
 
-	Exp->loadTexture("Result_EXP_Bar.bmp", "Resources\\Textures\\UI\\PlayStage\\Result");
-	Exp->setTexture("Result_EXP_Bar.bmp");
 
-	float4 ExpPanelScale = Exp->getScale();
-	float4 ExpPanelPos = GetPos() + CONST_ExpPanelStartPos + ExpPanelScale.Half();
+	float4 ExpPanelPos = GetPos() + CONST_ExpPanelStartPos;
+	ExpAcquisitionPtr->SetPos(ExpPanelPos);
+	ExpAcquisitionPtr->initExpUI();
 
-	Exp->SetPos(ExpPanelPos);
-	Exp->setRendererOrder(7);
-	Exp->Off();
+	ExpAcquisitionPtr->Off();
 
-	ResultLine.Exp = Exp;
+	ResultLine.ExpAcquisition = ExpAcquisitionPtr;
+
+
+	ExpUI* ExpUIPtr = CurLevel->CreateActor<ExpUI>(UpdateOrder::UI);
+	if (nullptr == ExpUIPtr)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	float4 ExpUIPos = GetPos() + CONST_ExpPanelStartPos;
+
+	ExpUIPtr->SetPos(ExpUIPos);
+	ExpUIPtr->initExpUI();
+	ExpUIPtr->Off();
+
+	ResultLine.ExpUI = ExpUIPtr;
 }
 
 void PlayResultLine::setupLevelUp()
@@ -452,6 +463,8 @@ void PlayResultLine::setupLevelUp()
 
 void PlayResultLine::onResultLine()
 {
+	m_ShowLineValue = true;
+
 	if (ResultLine.Back)
 	{
 		ResultLine.Back->On();
@@ -493,20 +506,207 @@ void PlayResultLine::onResultLine()
 		}
 	}
 
-	if (ResultLine.Exp)
+	if (ResultLine.ExpAcquisition)
 	{
-		ResultLine.Exp->On();
+		ResultLine.ExpAcquisition->Off();
 	}
 
-	if (ResultLine.LevelUp)
+	if (ResultLine.ExpUI)
 	{
-		ResultLine.LevelUp->On();
+		ResultLine.ExpUI->Off();
 	}
 }
 
 void PlayResultLine::Update(float _Delta)
 {
+	if (true == m_ShowLineValue)
+	{
+		updateEXP();
+		updateRank();
+		updateState(_Delta);
+	}
 
+}
+
+void PlayResultLine::updateEXP()
+{
+	if (false == m_updateExpCheckValue)
+	{
+		int Rank = GlobalValue::g_vecPlayerInfo[m_LineNumber].PlayerLevel;
+
+		if (Rank >= MAX_PLAYER_LEVEL)
+		{
+			return;
+		}
+
+		int EXPIncreseAmount = m_GameMatchWinValue ? CONST_WinEXPIncreaseAmount : 0;
+		EXPIncreseAmount += m_killNumber* CONST_KillEXPAmount + m_SaveNumber * CONST_SaveEXPAmount;
+
+		if (ResultLine.ExpAcquisition)
+		{
+			ResultLine.ExpAcquisition->setScoreRender(EXPIncreseAmount);
+		}
+		
+
+		m_ExpIncreaseValue = EXPIncreseAmount;
+
+		int CurrentExp = GlobalValue::g_vecPlayerInfo[Rank - 1].CurrentExp;
+
+		while (true)
+		{
+			int SumEXP = CurrentExp + EXPIncreseAmount;
+			int ExpNumber = Rank - 1;
+			int LevelEXPAmount = GlobalValue::g_ExpArr[ExpNumber];
+
+			int EXPCalculatedValue = 0;
+
+			if (SumEXP >= LevelEXPAmount)
+			{
+				if (false == m_ExpUpdateCheckValue)
+				{
+					if (ResultLine.ExpUI)
+					{
+						ResultLine.ExpUI->changePercent(CurrentExp, LevelEXPAmount, LevelEXPAmount);
+					}
+
+					m_ExpUpdateCheckValue = true;
+				}
+
+				EXPIncreseAmount = SumEXP - LevelEXPAmount;
+				CurrentExp = 0;
+
+				++Rank;
+				++GlobalValue::g_vecPlayerInfo[m_LineNumber].PlayerLevel;
+				if (GlobalValue::g_vecPlayerInfo[m_LineNumber].PlayerLevel >= MAX_PLAYER_LEVEL)
+				{
+					break;
+				}
+			}
+			else if (SumEXP < LevelEXPAmount)
+			{
+				if (false == m_ExpUpdateCheckValue)
+				{
+					if (ResultLine.ExpUI)
+					{
+						ResultLine.ExpUI->changePercent(CurrentExp, SumEXP, LevelEXPAmount);
+					}
+
+					m_ExpUpdateCheckValue = true;
+				}
+
+				CurrentExp = SumEXP;
+				break;
+			}
+		}
+
+		GlobalValue::g_vecPlayerInfo[m_LineNumber].CurrentExp = CurrentExp;
+
+		m_updateExpCheckValue = true;
+	}
+}
+
+void PlayResultLine::updateRank()
+{
+	if (true == m_RankUpdateValue)
+	{
+		return;
+	}
+
+	int Rank = GlobalValue::g_vecPlayerInfo[m_LineNumber].PlayerLevel;
+
+	if (m_Rank != Rank)
+	{
+		changePlayerLevel(Rank);
+
+		if (ResultLine.LevelUp)
+		{
+			ResultLine.LevelUp->On();
+		}
+
+		m_Rank = Rank;
+	}
+
+	m_RankUpdateValue = true;
+}
+
+void PlayResultLine::updateState(float _Delta)
+{
+	if (ExpState::Max == m_State)
+	{
+		changeState(ExpState::ExpAcquisition);
+	}
+
+	StateTime += _Delta;
+
+	if (StateTime > CONST_EachStateDuration)
+	{
+		switch (m_State)
+		{
+		case ExpState::ExpUI:
+			changeState(ExpState::ExpAcquisition);
+			break;
+		case ExpState::ExpAcquisition:
+			changeState(ExpState::ExpUI);
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void PlayResultLine::changeState(ExpState _State)
+{
+	if (_State != m_State)
+	{
+		switch (_State)
+		{
+		case ExpState::ExpUI:
+			startExpUI();
+			break;
+		case ExpState::ExpAcquisition:
+			startExpAcquisition();
+			break;
+		default:
+			break;
+		}
+
+		m_State = _State;
+	}
+}
+
+void PlayResultLine::startExpUI()
+{
+	StateTime = 0.0f;
+
+	if (ResultLine.ExpAcquisition)
+	{
+		ResultLine.ExpAcquisition->Off();
+		ResultLine.ExpAcquisition->OffExpUI();
+	}
+
+	if (ResultLine.ExpUI)
+	{
+		ResultLine.ExpUI->On();
+		ResultLine.ExpUI->showExpUI();
+	}
+}
+
+
+void PlayResultLine::startExpAcquisition()
+{
+	StateTime = 0.0f;
+
+	if (ResultLine.ExpAcquisition)
+	{
+		ResultLine.ExpAcquisition->On();
+		ResultLine.ExpAcquisition->showExpUI();
+	}
+
+	if (ResultLine.ExpUI)
+	{
+		ResultLine.ExpUI->Off();
+		ResultLine.ExpUI->OffExpUI();
+	}
 }
 
 
@@ -565,10 +765,16 @@ void PlayResultLine::ActorRelease()
 
 	ResultLine.SaveNumber.clear();
 
-	if (ResultLine.Exp)
+	if (ResultLine.ExpAcquisition)
 	{
-		ResultLine.Exp->ActorRelease();
-		ResultLine.Exp = nullptr;
+		ResultLine.ExpAcquisition->ActorRelease();
+		ResultLine.ExpAcquisition = nullptr;
+	}
+
+	if (ResultLine.ExpUI)
+	{
+		ResultLine.ExpUI->ActorRelease();
+		ResultLine.ExpUI = nullptr;
 	}
 
 	if (ResultLine.LevelUp)
@@ -576,4 +782,12 @@ void PlayResultLine::ActorRelease()
 		ResultLine.LevelUp->ActorRelease();
 		ResultLine.LevelUp = nullptr;
 	}
+
+	Death();
 }
+
+void PlayResultLine::LevelEnd()
+{
+	ActorRelease();
+}
+

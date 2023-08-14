@@ -151,8 +151,20 @@
     <ClCompile Include="StageStartBossBillBoard.cpp">
       <Filter>Actor\UI\PlayLevel</Filter>
     </ClCompile>
+    <ClCompile Include="ExpUI.cpp">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpAcquisition.cpp">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClCompile>
     <ClCompile Include="BaseMonster_State.cpp">
       <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpUI.cpp">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpAcquisition.cpp">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +317,12 @@
     </ClInclude>
     <ClInclude Include="StageStartBossBillBoard.h">
       <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpUI.h">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpAcquisition.h">
+      <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

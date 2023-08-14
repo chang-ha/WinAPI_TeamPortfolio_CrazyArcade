@@ -1,9 +1,17 @@
 #pragma once
 #include "ContentLevel.h"
 #include "ContentsEnum.h"
+
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <vector>
 #include <list>
 
+
+struct CharacterStatus
+{
+public:
+	bool AliveState = true;
+};
 
 struct PlayerResult
 {
@@ -78,13 +86,16 @@ protected:
 	std::vector<std::vector<class Item*>> Items;
 	class Item* ItemActor = nullptr;
 
+	// Player
 	BaseCharacter* Player = nullptr;
 	BaseCharacter* Player2 = nullptr;
 
+	// Tile
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
 	class TileMap* GroundTile = nullptr;
 	class TileMap* ObjectTile = nullptr;
 
+	// Bubble
 	std::list<class GameMapIndex> AllBubbleIndex;
 	std::list<class GameMapIndex> AllBubbleDeathIndex;
 
@@ -98,6 +109,14 @@ protected:
 	std::string NextLevelName = "";
 
 	void CreateUIElements();
+	
+	// ∫∏Ω∫ ∏  ∆–≈œ
+	void BubblePattern(const int BossIndex_X, const int BossIndex_Y, const int _Range);
+
+	// Sound
+	void BubblePopPlay();
+	int BubblePopPlayCount = 0;
+	bool PlayBubblePopEffectSound = false;
 
 private:
 	void UILevelStart();
@@ -130,8 +149,6 @@ private:
 	void SetUpFadeScreen();
 	class FadeScreen* m_FadeScreen = nullptr;
 
-
-
 	void SetUpTimer();
 	class PlayTimer* m_PlayTimer = nullptr;
 	const float4 CONST_TimerLocation = float4{ 711.0f , 78.0f };
@@ -150,6 +167,12 @@ private:
 	const float4 CONST_ResultWindowStartPos = float4{ 39.0f , 138.0f };
 
 	void SetUpResultBoardAnimation();
+private:
+	void updateGameOverResult(float _Delta);
+	void updateVictoryRoll();
+
+	void updateCharacterPortrait();
+	std::vector<CharacterStatus> vecCharacterState;
 
 private:
 	bool GameOverCheckValue = false;
@@ -160,6 +183,9 @@ private:
 
 	void StartGameOver();
 
+private:
+	class TileMap* BossBubbleTile = nullptr;
+	void ClearBossPattern();
 
 private:
 	float LerpTime = 1.0f;
