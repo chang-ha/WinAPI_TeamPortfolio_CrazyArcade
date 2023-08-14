@@ -34,6 +34,7 @@ void Penguin_Stage3::LevelEnd(GameEngineLevel* _NextLevel)
 	if (nullptr != Boss_Penguin)
 	{
 		Boss_Penguin->Death();
+		Boss_Penguin = nullptr;
 	}
 }
 

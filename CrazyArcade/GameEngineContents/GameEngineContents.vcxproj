@@ -269,6 +269,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Piratemon_black.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Piratemon_red.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PlayCharacterPortrait.h">
       <SubType>
       </SubType>
@@ -453,6 +461,14 @@
     <ClCompile Include="Penguin_Stage2.cpp" />
     <ClCompile Include="Penguin_Stage3.cpp" />
     <ClCompile Include="Penguin.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Piratemon_black.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Piratemon_red.cpp">
       <SubType>
       </SubType>
     </ClCompile>
