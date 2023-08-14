@@ -1,7 +1,3 @@
-#define IDLE_ANI_SPEED 0.15f
-#define BUBBLE_ANI_SPEED 0.18f
-#define PATTERN_TIME 10.0f
-
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -48,8 +44,16 @@ void Penguin::Start()
 		FilePath.MoveParentToExistsChild("Resources");
 		FilePath.MoveChild("Resources\\Textures\\Monster\\Boss\\");
 
+		// Down
 		ResourcesManager::GetInst().CreateSpriteSheet("Down_Idle", FilePath.PlusFilePath("Idle_Penguin.bmp"), 9, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Down_Hitten", FilePath.PlusFilePath("Hitten_Penguin.bmp"), 5, 1);
+		// Up
+
+		// Right
+
+		// Left
+
+
 		ResourcesManager::GetInst().CreateSpriteSheet("Summon_Penguin", FilePath.PlusFilePath("Summon_Penguin.bmp"), 20, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die_Ready", FilePath.PlusFilePath("Die_Ready_Penguin.bmp"), 3, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die_Bubble", FilePath.PlusFilePath("Die_Bubble_Penguin.bmp"), 8, 1);
@@ -57,12 +61,33 @@ void Penguin::Start()
 	}
 
 	{
-		// Idle
-		MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 8, IDLE_ANI_SPEED);
-		MainRenderer->FindAnimation("Down_Idle")->Inters[8] = 5.0f;
-		
-		// Hitten
-		MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, IDLE_ANI_SPEED, false);
+		// Down
+		{
+			// Idle
+			MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 8, IDLE_ANI_SPEED);
+			MainRenderer->FindAnimation("Down_Idle")->Inters[8] = 5.0f;
+
+			// Move
+			// MainRenderer->CreateAnimation("Down_Move", "Down_Move", 0, 4, IDLE_ANI_SPEED, false);
+
+			// Hitten
+			MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, IDLE_ANI_SPEED, false);
+		}
+
+		// Up
+		{
+
+		}
+
+		// Right
+		{
+
+		}
+
+		// Left
+		{
+
+		}
 
 		// Summon
 		MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, IDLE_ANI_SPEED, false);
@@ -86,7 +111,11 @@ void Penguin::Start()
 
 void Penguin::Update(float _Delta)
 {
-	PatternTimer += _Delta;
+	if (MonsterState::Idle == State || MonsterState::Summon == State || MonsterState::Hitten == State)
+	{
+		PatternTimer += _Delta;
+	}
+
 	if (true == GameEngineInput::IsDown('J'))
 	{
 		IsDebugMode = !IsDebugMode;
@@ -106,6 +135,17 @@ void Penguin::Update(float _Delta)
 	{
 		PatternStart = true;
 		PatternTimer = PATTERN_TIME;
+	}
+
+	if (true == GameEngineInput::IsDown('O'))
+	{
+		ChangeState(MonsterState::Move);
+
+	}
+
+	if (true == GameEngineInput::IsDown('P'))
+	{
+		ChangeState(MonsterState::Move);
 	}
 
 	// BossTile Update
@@ -175,6 +215,8 @@ void Penguin::StateUpdate(float _Delta)
 	{
 	case MonsterState::Idle:
 		return IdleUpdate(_Delta);
+	case MonsterState::Move:
+		return MoveUpdate(_Delta);
 	case MonsterState::Die:
 		return DieUpdate(_Delta);
 	case MonsterState::Hitten:
@@ -196,6 +238,9 @@ void Penguin::ChangeState(MonsterState _State)
 	{
 	case MonsterState::Idle:
 		IdleStart();
+		break;
+	case MonsterState::Move:
+		MoveStart();
 		break;
 	case MonsterState::Die:
 		DieStart();
@@ -232,10 +277,124 @@ void Penguin::IdleUpdate(float _Delta)
 	}
 }
 
+ActorDir Penguin::DirDecision()
+{
+	std::vector<ActorDir> MoveDir;
+	ActorDir CheckDir;
+	MoveDir.reserve(4);
+
+	GameEngineRenderer* MoveTile = nullptr;
+
+	for (int i = 0; i < 4; i++)
+	{
+		switch (i)
+		{
+		case 0:
+			MoveTile = CurLevelTile->GetTile(BossTile[0][0].iX() - 1, BossTile[0][0].iY());
+			CheckDir = ActorDir::Left;
+			break;
+		case 1:
+			MoveTile = CurLevelTile->GetTile(BossTile[0][1].iX(), BossTile[0][1].iY() - 1);
+			CheckDir = ActorDir::Up;
+			break;
+		case 2:
+			MoveTile = CurLevelTile->GetTile(BossTile[0][2].iX() + 1, BossTile[0][2].iY());
+			CheckDir = ActorDir::Right;
+			break;
+		case 3:
+			MoveTile = CurLevelTile->GetTile(BossTile[1][0].iX(), BossTile[1][0].iY() + 1);
+			CheckDir = ActorDir::Down;
+			break;
+		default:
+			break;
+		}
+
+		if (nullptr != MoveTile)
+		{
+			MoveDir.push_back(CheckDir);
+		}
+	}
+
+	GameEngineRandom::MainRandom.SetSeed(time(NULL));
+	int ReturnIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(MoveDir.size()) - 1);
+
+	return MoveDir[ReturnIndex];
+}
+
+void Penguin::MoveStart()
+{
+	Dir = DirDecision();
+
+	switch (Dir)
+	{
+	case ActorDir::Left:
+		MoveRange = { -BOSSMOVERANGE, 0 };
+		break;
+	case ActorDir::Right:
+		MoveRange = { BOSSMOVERANGE, 0 };
+		break;
+	case ActorDir::Up:
+		MoveRange = { 0 , -BOSSMOVERANGE };
+		break;
+	case ActorDir::Down:
+		MoveRange = { 0 , BOSSMOVERANGE };
+		break;
+	default:
+		break;
+	}
+}
+
+void Penguin::MoveUpdate(float _Delta)
+{
+	float4 MovePos = float4::ZERO;
+	switch (Dir)
+	{
+	case ActorDir::Left:
+		MoveRange += { BOSSMOVESPEED * _Delta, 0};
+		MovePos += { - BOSSMOVESPEED* _Delta, 0};
+		if (0.0f < MoveRange.X)
+		{
+			MoveRange.X = 0.0f;
+		}
+		break;
+	case ActorDir::Right:
+		MoveRange += { - BOSSMOVESPEED* _Delta, 0};
+		MovePos += { BOSSMOVESPEED* _Delta, 0};
+		if (0.0f > MoveRange.X)
+		{
+			MoveRange.X = 0.0f;
+		}
+		break;
+	case ActorDir::Up:
+		MoveRange += { 0, BOSSMOVESPEED* _Delta};
+		MovePos += { 0, - BOSSMOVESPEED* _Delta};
+		if (0.0f < MoveRange.Y)
+		{
+			MoveRange.Y = 0.0f;
+		}
+		break; 
+	case ActorDir::Down:
+		MoveRange += { 0, - BOSSMOVESPEED* _Delta};
+		MovePos += { 0, BOSSMOVESPEED* _Delta};
+		if (0.0f > MoveRange.Y)
+		{
+			MoveRange.Y = 0.0f;
+		}
+		break;
+	default:
+		break;
+	}
+	AddPos(MovePos);
+
+	if (0.0f == MoveRange.X && 0.0f == MoveRange.Y)
+	{
+		ChangeState(MonsterState::Idle);
+	}
+}
+
 void Penguin::DieReadyStart()
 {
 	MainRenderer->ChangeAnimation("Die_Ready");
-
 }
 
 void Penguin::DieReadyUpdate(float _Delta)
