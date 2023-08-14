@@ -115,8 +115,6 @@ void BaseMonster::MoveUpdate(float _Delta)
 	{
 		RandomDir("Move");
 	}
-
-	MainTimer += _Delta;
 }
 
 void BaseMonster::FreezeStart()
@@ -228,8 +226,6 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 	{
 		RandomDir("AngerMove");
 	}
-
-	MainTimer += _Delta;
 }
 
 void BaseMonster::EggSummonStart()
