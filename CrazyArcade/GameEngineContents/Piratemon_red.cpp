@@ -44,7 +44,7 @@ void Piratemon_red::Start()
 	MainRenderer->CreateAnimation("PiratemonRed_Move_Up", "Pirate_Red_Move_Up.Bmp");
 	MainRenderer->CreateAnimation("PiratemonRed_Move_Right", "Pirate_Red_Move_Right.Bmp");
 	MainRenderer->CreateAnimation("PiratemonRed_Move_Left", "Pirate_Red_Move_Left.Bmp");
-	MainRenderer->CreateAnimation("PiratemonRed_Death", "Pirate_Red_Death.Bmp");
+	MainRenderer->CreateAnimation("PiratemonRed_Die", "Pirate_Red_Death.Bmp");
 
 	ChangeState(MonsterState::Idle);
 }

@@ -43,7 +43,7 @@ void Piratemon_black::Start()
 	MainRenderer->CreateAnimation("PiratemonBlack_Move_Up", "Pirate_Black_Move_Up.Bmp");
 	MainRenderer->CreateAnimation("PiratemonBlack_Move_Right", "Pirate_Black_Move_Right.Bmp");
 	MainRenderer->CreateAnimation("PiratemonBlack_Move_Left", "Pirate_Black_Move_Left.Bmp");
-	MainRenderer->CreateAnimation("PiratemonBlack_Death", "Pirate_Black_Death.Bmp");
+	MainRenderer->CreateAnimation("PiratemonBlack_Die", "Pirate_Black_Death.Bmp");
 
 	ChangeState(MonsterState::Idle);
 }
