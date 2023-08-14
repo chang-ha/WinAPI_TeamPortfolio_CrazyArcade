@@ -166,6 +166,12 @@
     <ClCompile Include="ExpAcquisition.cpp">
       <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
     </ClCompile>
+    <ClCompile Include="Piratemon_black.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Piratemon_red.cpp">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -323,6 +329,12 @@
     </ClInclude>
     <ClInclude Include="ExpAcquisition.h">
       <Filter>Actor\UI\PlayLevel\ResultWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Piratemon_black.h">
+      <Filter>Actor\Unit\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Piratemon_red.h">
+      <Filter>Actor\Unit\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

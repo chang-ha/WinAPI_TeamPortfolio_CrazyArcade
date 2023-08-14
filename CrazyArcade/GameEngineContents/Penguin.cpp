@@ -41,7 +41,7 @@ void Penguin::Start()
 
 	MainRenderer = CreateRenderer(RenderOrder::SelectTile);
 
-	if (nullptr == ResourcesManager::GetInst().FindSprite("Penguin.bmp"))
+	if (nullptr == ResourcesManager::GetInst().FindSprite("Down_Idle"))
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
