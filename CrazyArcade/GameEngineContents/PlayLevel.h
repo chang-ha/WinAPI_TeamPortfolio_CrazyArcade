@@ -115,7 +115,6 @@ protected:
 
 	// Sound
 	void BubblePopPlay();
-	int BubblePopPlayCount = 0;
 	bool PlayBubblePopEffectSound = false;
 
 private:

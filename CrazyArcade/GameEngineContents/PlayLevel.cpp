@@ -173,8 +173,7 @@ void PlayLevel::Update(float _Delta)
 				++StartIter;
 			}
 		}
-		BubblePopPlayCount = 0;
-		//PlayBubblePopEffectSound = false;
+		PlayBubblePopEffectSound = false;
 	}
 
 	// Item Debug
@@ -1079,11 +1078,10 @@ void PlayLevel::CreateUIElements()
 
 void PlayLevel::BubblePopPlay()
 {
-	// 물풍선 터지는 효과음 2번 이상 중첩 방지
-	if (1 >= BubblePopPlayCount)
+	// 물풍선 터지는 효과음 중첩 방지
+	if (false == PlayBubblePopEffectSound)
 	{
-		BubblePopPlayCount++;
-		//PlayBubblePopEffectSound = true;
+		PlayBubblePopEffectSound = true;
 		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Pop.wav");
 		EffectPlayer.SetVolume(1.0f);
 	}
