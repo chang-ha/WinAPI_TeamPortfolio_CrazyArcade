@@ -20,16 +20,9 @@ enum class WindowPanelActor
 	Max,
 };
 
-
-struct CharacterSelectUI
-{
-public:
-	class CommonTexture* OutlineTexture = nullptr;
-	class CommonTexture* SelectButton = nullptr;
-};
-
 class Button;
 class WindowPanelUI;
+class CommonTexture;
 class RoomLevel : public ContentLevel
 {
 public:
@@ -49,11 +42,14 @@ public:
 	}
 
 
-	CommonTexture* getChekcer2Pointer()
+	class CommonTexture* getChekcer2Pointer()
 	{
 		return m_SelectChecker2;
 	}
 
+
+public:
+	static int g_SelectRoomNumber;
 
 protected:
 
@@ -138,15 +134,19 @@ private:
 
 	
 
+
 	// 선택 가능한 버튼 요소
 	void loadAvailableCharacterButton();
+	class CommonTexture* OutlineTexture = nullptr;
+
 	int AvailableCharacterCount = static_cast<int>(AvailableCharacterList::Max);
 	const float4 m_SelectedCharacterButtonStartPos = float4{ 487.0f , 81.0f };
 	const float4 m_SpacingBTWSelectedCharacterButton = float4{ 3.0f , 0.0f };
-	std::vector<CharacterSelectUI> vecCharacterSelectUI;
+	std::vector<class CommonTexture*> vecSelectButton;
 	const float4 m_CharacterOutlineStartPos = float4{ 490.f , 22.0f };
 
 	void changeSelectedCharacterUI(CharacterList _Order);
+	void changeOutline(CharacterList _Order);
 
 
 
@@ -166,8 +166,6 @@ private:
 
 
 	// 각 방 버튼
-	static int g_SelectRoomNumber;
-
 	void loadRoomCharacterButton();
 	const int m_AvailableRoomCount = 2;
 	std::vector<class CharacterRoomButton*> vecCharacterRoomButton;
@@ -189,8 +187,6 @@ private:
 
 
 	// 업데이트
-	void checkNextLevelByDetectingFadevalue();
-
 	void updateRoomDetectionChange();
 	void updateSelectedMapDetectionChange();
 	void updateCharacterRoomBorder();
@@ -204,8 +200,4 @@ private:
 	void updateFirstElementUIVisibility();
 
 	bool m_ButtonUpdateValue = true;
-
-
-
 };
-

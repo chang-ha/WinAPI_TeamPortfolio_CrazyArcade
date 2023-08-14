@@ -30,7 +30,7 @@ void CharacterRoomButton::Start()
 	
 }
 
-void CharacterRoomButton::initCharacterRoomButton()
+void CharacterRoomButton::initCharacterRoomButton(int _RommNumber)
 {
 	// 호스트는 단 1명
 	static bool HostValue = false;
@@ -41,6 +41,8 @@ void CharacterRoomButton::initCharacterRoomButton()
 
 		HostValue = true;
 	}
+
+	m_RoomNumber = _RommNumber;
 
 	loadSpaceButton();
 	loadSpaceCharacterComposition();
@@ -218,20 +220,27 @@ void CharacterRoomButton::loadSpaceCharacterComposition()
 			m_Flag->setTexture("CharacterRoom_Flag.bmp");
 
 			float4 BillboardScale = Texture->GetScale();
-
 			float4 ReadyBillboardPos = GetPos() + m_FlagStartPosToEachRoom + BillboardScale.Half();
-
 			m_Flag->SetPos(ReadyBillboardPos);
 		}
 	}
 
-	 
+	switch (m_RoomNumber)
+	{
+	case 0:
+		m_CurrentSelectedCharaterTexture = GlobalValue::g_SelectAvailableCharacter1;
+		break;
+	case 1:
+		m_CurrentSelectedCharaterTexture = GlobalValue::g_SelectAvailableCharacter2;
+		break;
+	default:
+		break;
+	}
 
-
-	// test
-	m_CurrentSelectedCharaterTexture = AvailableCharacterList::Bazzi;
-	vecCharacterTexture[static_cast<int>(m_CurrentSelectedCharaterTexture)]->On();
-
+	if (true == m_HostValue)
+	{
+		vecCharacterTexture[static_cast<int>(m_CurrentSelectedCharaterTexture)]->On();
+	}
 }
 
 
@@ -254,14 +263,32 @@ void CharacterRoomButton::Update(float _Delta)
 {
 	if (SpaceButtonState::SpaceButton == m_SpaceButtonState)
 	{
-		if (GlobalValue::g_SelectAvailableCharacter1 != m_CurrentSelectedCharaterTexture)
+		// 캐릭터 선택
+		if (m_RoomNumber == RoomLevel::g_SelectRoomNumber)
 		{
-			vecCharacterTexture[static_cast<int>(m_CurrentSelectedCharaterTexture)]->Off();
+			AvailableCharacterList SelectCharacter = AvailableCharacterList::Max;
 
-			int SelectCharacterValue = static_cast<int>(GlobalValue::g_SelectAvailableCharacter1);
-			vecCharacterTexture[SelectCharacterValue]->On();
+			switch (m_RoomNumber)
+			{
+			case 0:
+				SelectCharacter = GlobalValue::g_SelectAvailableCharacter1;
+				break;
+			case 1:
+				SelectCharacter = GlobalValue::g_SelectAvailableCharacter2;
+				break;
+			default:
+				break;
+			}
 
-			m_CurrentSelectedCharaterTexture = GlobalValue::g_SelectAvailableCharacter1;
+			if (SelectCharacter != m_CurrentSelectedCharaterTexture)
+			{
+				vecCharacterTexture[static_cast<int>(m_CurrentSelectedCharaterTexture)]->Off();
+
+				int SelectCharacterValue = static_cast<int>(SelectCharacter);
+				vecCharacterTexture[SelectCharacterValue]->On();
+
+				m_CurrentSelectedCharaterTexture = SelectCharacter;
+			}
 		}
 
 		// 방장이 아니라면 업데이트 버튼 클릭이 가능합니다.
@@ -273,7 +300,7 @@ void CharacterRoomButton::Update(float _Delta)
 				vecSpaceButton[static_cast<int>(SpaceButtonState::UnspaceButton)]->Off();
 
 
-				int SelectCharacterValue = static_cast<int>(GlobalValue::g_SelectCharacter);
+				int SelectCharacterValue = static_cast<int>(GlobalValue::g_SelectAvailableCharacter2);
 
 				if (CharacterList::Random == GlobalValue::g_SelectCharacter)
 				{
@@ -301,7 +328,8 @@ void CharacterRoomButton::Update(float _Delta)
 				vecSpaceButton[static_cast<int>(SpaceButtonState::SpaceButton)]->Off();
 				vecSpaceButton[static_cast<int>(SpaceButtonState::UnspaceButton)]->On();
 
-				int SelectCharacterValue = static_cast<int>(GlobalValue::g_SelectCharacter);
+
+				int SelectCharacterValue = static_cast<int>(GlobalValue::g_SelectAvailableCharacter2);
 
 				vecCharacterTexture[SelectCharacterValue]->Off();
 				m_CharacterShadow->Off();
