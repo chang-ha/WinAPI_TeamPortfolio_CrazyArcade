@@ -29,9 +29,10 @@ void BaseCharacter::BubbleUpdate(float _Delta)
 {
 	static float BubbleTimer = 0.0f;
 
-	if (true == GameEngineInput::IsDown(VK_CONTROL))
+	if (true == GameEngineInput::IsDown(VK_CONTROL) && NeedleCount > 0)
 	{
 		BubbleTimer = 0.0f;
+		--NeedleCount;
 		ChangeState(CharacterState::Live);
 		return;
 	}

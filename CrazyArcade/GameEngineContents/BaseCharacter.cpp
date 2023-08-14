@@ -191,6 +191,7 @@ void BaseCharacter::GetItem(const ItemType& _ItemType)
 		ChangeMaxSpeed();
 		break;
 	case ItemType::Needle:
+		GetNeedle();
 		break;
 	default:
 		break;

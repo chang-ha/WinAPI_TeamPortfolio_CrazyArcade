@@ -143,11 +143,17 @@ protected:
 		PlayerNumber = PlayerNum::P2;
 	}
 
+	void GetNeedle()
+	{
+		++NeedleCount;
+	}
+
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
 	int BombPower = 1;
 	int BombCount = 1;
+	int NeedleCount = 0;
 
 	TileObjectOrder CurTile = TileObjectOrder::Empty;
 
