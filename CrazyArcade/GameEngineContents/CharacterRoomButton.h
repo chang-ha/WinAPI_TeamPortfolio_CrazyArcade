@@ -28,7 +28,7 @@ public:
 	CharacterRoomButton& operator=(const CharacterRoomButton& _Other) = delete;
 	CharacterRoomButton& operator=(CharacterRoomButton&& _Other) noexcept = delete;
 
-	void initCharacterRoomButton();
+	void initCharacterRoomButton(int _RommNumber);
 
 	bool isSpaceButtonState()
 	{
@@ -51,7 +51,9 @@ private:
 
 	// this
 	bool m_HostValue = false;
+	int m_RoomNumber = -1;
 
+	// ¹öÆ°
 	void loadSpaceButton();
 	SpaceButtonState m_SpaceButtonState = SpaceButtonState::Max;
 
@@ -60,8 +62,6 @@ private:
 
 	std::vector<class Button*> vecSpaceButton;
 	float4 m_SpaceButtonScale = float4::ZERO;
-
-
 
 
 
@@ -82,6 +82,5 @@ private:
 	const float4 m_FlagStartPosToEachRoom = float4{ 58.0f , 46.0f };
 
 	bool m_ActiveSpaceButtonValue = true;
-
 };
 
