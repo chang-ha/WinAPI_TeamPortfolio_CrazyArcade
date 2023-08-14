@@ -1,4 +1,4 @@
 <Item>
-GetItem -> 아이템 획득
+Get_Item -> 아이템 획득
 
-ItemOut -> 아이템 떨어지는 효과음
+Item_Out -> 아이템 떨어지는 효과음

@@ -7,3 +7,4 @@ Character_Death -> 캐릭터 죽음
 
 Locked_In_Bubble -> 캐릭터 물감옥에 잠기는 효과음
 
+Neddle -> 바늘 혹은 아군에 의해 물감옥에서 빠져나오는 효과음

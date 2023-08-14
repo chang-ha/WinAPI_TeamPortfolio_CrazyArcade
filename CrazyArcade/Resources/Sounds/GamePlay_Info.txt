@@ -1,6 +1,8 @@
 <Game Play>
 Boss_2_Phase -> 2페이즈 들어갈 때 중간 음악
 
+Boss_Stage_Lose -> BossStage 패배 시 펭귄이 같이 웃음
+
 Game_Exit_Button_Hover -> 인게임 나가기버튼 Hover
 
 Game_Start -> 게임 시작 효과음
@@ -9,6 +11,6 @@ Lose -> 패배 효과음
 
 Next_Level_Ready -> 다음레벨 시작 전에 나오는 효과음
 
-Win -> 승리 효과음
+Timer -> 타임 오버 10초전 효과음
 
-BossStage_Lose -> BossStage 패배 시 펭귄이 같이 웃음
+Win -> 승리 효과음
