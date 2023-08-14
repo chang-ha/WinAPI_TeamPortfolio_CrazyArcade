@@ -1,7 +1,3 @@
-#define IDLE_ANI_SPEED 0.15f
-#define BUBBLE_ANI_SPEED 0.18f
-#define PATTERN_TIME 10.0f
-
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>
@@ -143,14 +139,12 @@ void Penguin::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('O'))
 	{
-		Dir = ActorDir::Left;
 		ChangeState(MonsterState::Move);
 
 	}
 
 	if (true == GameEngineInput::IsDown('P'))
 	{
-		Dir = ActorDir::Right;
 		ChangeState(MonsterState::Move);
 	}
 
@@ -283,8 +277,54 @@ void Penguin::IdleUpdate(float _Delta)
 	}
 }
 
+ActorDir Penguin::DirDecision()
+{
+	std::vector<ActorDir> MoveDir;
+	ActorDir CheckDir;
+	MoveDir.reserve(4);
+
+	GameEngineRenderer* MoveTile = nullptr;
+
+	for (int i = 0; i < 4; i++)
+	{
+		switch (i)
+		{
+		case 0:
+			MoveTile = CurLevelTile->GetTile(BossTile[0][0].iX() - 1, BossTile[0][0].iY());
+			CheckDir = ActorDir::Left;
+			break;
+		case 1:
+			MoveTile = CurLevelTile->GetTile(BossTile[0][1].iX(), BossTile[0][1].iY() - 1);
+			CheckDir = ActorDir::Up;
+			break;
+		case 2:
+			MoveTile = CurLevelTile->GetTile(BossTile[0][2].iX() + 1, BossTile[0][2].iY());
+			CheckDir = ActorDir::Right;
+			break;
+		case 3:
+			MoveTile = CurLevelTile->GetTile(BossTile[1][0].iX(), BossTile[1][0].iY() + 1);
+			CheckDir = ActorDir::Down;
+			break;
+		default:
+			break;
+		}
+
+		if (nullptr != MoveTile)
+		{
+			MoveDir.push_back(CheckDir);
+		}
+	}
+
+	GameEngineRandom::MainRandom.SetSeed(time(NULL));
+	int ReturnIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(MoveDir.size()) - 1);
+
+	return MoveDir[ReturnIndex];
+}
+
 void Penguin::MoveStart()
 {
+	Dir = DirDecision();
+
 	switch (Dir)
 	{
 	case ActorDir::Left:

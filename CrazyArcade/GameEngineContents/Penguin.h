@@ -1,4 +1,7 @@
 #pragma once
+#define IDLE_ANI_SPEED 0.15f
+#define BUBBLE_ANI_SPEED 0.18f
+#define PATTERN_TIME 10.0f
 #define BOSSMOVERANGE GlobalValue::MapTileSize.X
 #define BOSSMOVESPEED GlobalValue::MapTileSize.X * 2
 
@@ -41,6 +44,7 @@ private:
 	void IdleStart();
 	void IdleUpdate(float _Delta);
 
+	ActorDir DirDecision();
 	void MoveStart();
 	void MoveUpdate(float _Delta);
 
