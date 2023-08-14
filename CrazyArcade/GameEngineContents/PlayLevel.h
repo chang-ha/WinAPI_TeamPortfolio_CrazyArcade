@@ -183,10 +183,12 @@ private:
 	void StartGameOver();
 
 private:
+	bool PatternAnimationEnd = true;
+	bool All_Null = true;
+
 	class TileMap* BossBubbleTile = nullptr;
 	void ClearBossPattern();
 
 private:
 	float LerpTime = 1.0f;
 };
-

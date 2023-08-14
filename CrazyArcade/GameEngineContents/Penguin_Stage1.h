@@ -22,6 +22,6 @@ protected:
 	void Render(float _Delta) override;
 
 private:
-	class Snowmon_black* Snowmon = nullptr;
+	class BaseMonster* Snowmon = nullptr;
 };
 
