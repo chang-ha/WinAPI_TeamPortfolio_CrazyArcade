@@ -67,6 +67,11 @@ void Piratemon_black::Update(float _Delta)
 		ChangeState(MonsterState::Die);
 	}
 
+	if (State != MonsterState::Die)
+	{
+		BaseMonster::CheckCollision();
+	}
+
 	if (true == GameEngineInput::IsDown('J'))
 	{
 		SwitchDebugData();
