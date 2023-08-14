@@ -2,6 +2,7 @@
 #include "PlayLevel.h"
 
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
 void BaseCharacter::IdleStart()
@@ -183,12 +184,14 @@ void BaseCharacter::MoveUpdate(float _Delta)
 
 void BaseCharacter::ReadyStart()
 {
+	BodyCollision->Off();
 	ChangeAnimationState("Ready");
 }
 void BaseCharacter::ReadyUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
+		BodyCollision->On();
 		ChangeState(CharacterState::Idle);
 		return;
 	}

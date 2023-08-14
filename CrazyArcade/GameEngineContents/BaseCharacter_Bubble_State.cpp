@@ -107,7 +107,7 @@ void BaseCharacter::LiveUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
-		ChangeState(CharacterState::FlashShort);
+		ChangeState(CharacterState::Idle);
 		return;
 	}
 }
