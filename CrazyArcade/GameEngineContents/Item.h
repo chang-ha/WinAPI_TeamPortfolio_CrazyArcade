@@ -61,10 +61,9 @@ public:
 	inline void OutItemInBlock()
 	{
 		InBlock = false;
-		On();
-
 		EffectPlayer = GameEngineSound::SoundPlay("Item_Out.wav");
 		EffectPlayer.SetVolume(0.3f);
+		On();
 	}
 
 	void SetItemPos(int _X, int _Y);
