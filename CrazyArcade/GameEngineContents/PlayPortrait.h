@@ -56,4 +56,3 @@ private:
 	const float4 CONST_NameStartPos = float4{ 51.0f , 25.0f };
 	const float4 CONST_RankStartPos = float4{ 54.0f , 6.0f };
 };
-

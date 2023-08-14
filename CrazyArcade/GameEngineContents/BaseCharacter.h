@@ -138,6 +138,11 @@ protected:
 		return PlayerDeath;
 	}
 
+	void SetPlayer2()
+	{
+		PlayerNumber = PlayerNum::P2;
+	}
+
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
@@ -145,6 +150,8 @@ protected:
 	int BombCount = 1;
 
 	TileObjectOrder CurTile = TileObjectOrder::Empty;
+
+	PlayerNum PlayerNumber = PlayerNum::P1;
 
 	void DirCheck();
 
