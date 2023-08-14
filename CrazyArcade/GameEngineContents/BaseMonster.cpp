@@ -32,9 +32,6 @@ void BaseMonster::Update(float _Delta)
 {
 	StateUpdate(_Delta);
 
-	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
-	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
-
 	if (true == GameEngineInput::IsDown('J'))
 	{
 		SwitchDebugData();
@@ -98,6 +95,8 @@ void BaseMonster::StateUpdate(float _Delta)
 		return AngerIdleUpdate(_Delta);
 	case MonsterState::AngerMove:
 		return AngerMoveUpdate(_Delta);
+	case MonsterState::EggSummon:
+		return EggSummonUpdate(_Delta);
 	case MonsterState::EggIdle:
 		return EggIdleUpdate(_Delta);
 	case MonsterState::EggMove:
@@ -134,6 +133,9 @@ void BaseMonster::ChangeState(MonsterState _State)
 		break;
 	case MonsterState::AngerMove:
 		AngerMoveStart();
+		break;
+	case MonsterState::EggSummon:
+		EggSummonStart();
 		break;
 	case MonsterState::EggIdle:
 		EggIdleStart();

@@ -87,6 +87,9 @@ private:
 	void AngerMoveStart();
 	void AngerMoveUpdate(float _Delta);
 
+	void EggSummonStart();
+	void EggSummonUpdate(float _Delta);
+
 	void EggIdleStart();
 	void EggIdleUpdate(float _Delta);
 
@@ -105,5 +108,9 @@ private:
 
 	float MainTimer = 0.0f;
 	float FreezeTimer = 0.0f;
+
+	float4 EggSummonStartPos = float4::ZERO;
+	float4 EggSummonEndPos = float4::ZERO;
+
 };
 

@@ -57,7 +57,7 @@ void Snowmon_red::Start()
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 
 	// Egg
-	MainRenderer->CreateAnimation("Snowmon_Red_Egg_Summon",		"Snowmon_Red_Egg_Summon.Bmp", 0, 3, 0.2f, true);
+	MainRenderer->CreateAnimation("Snowmon_Red_EggSummon",		"Snowmon_Red_Egg_Summon.Bmp", 0, 3, 0.2f, true);
 	MainRenderer->CreateAnimation("Snowmon_Red_EggIdle_Down",	"Snowmon_Red_EggIdle_Down.Bmp");
 	MainRenderer->CreateAnimation("Snowmon_Red_EggIdle_Up",		"Snowmon_Red_EggIdle_Up.Bmp");
 	MainRenderer->CreateAnimation("Snowmon_Red_EggIdle_Left",	"Snowmon_Red_EggIdle_Left.Bmp");

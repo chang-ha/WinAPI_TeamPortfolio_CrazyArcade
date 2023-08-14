@@ -190,6 +190,30 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 	MainTimer += _Delta;
 }
 
+void BaseMonster::EggSummonStart()
+{
+	ChangeAnimationState("EggSummon");
+
+	EggSummonStartPos = { GetPos().X, GetPos().Y - 200.0f };
+	EggSummonEndPos = GetPos();
+
+	MainTimer = 0.0f;
+}
+
+void BaseMonster::EggSummonUpdate(float _Delta)
+{
+	if (MainTimer < 1.0f)
+	{
+		MainTimer += _Delta * 2.0f;
+		SetPos(float4::ZERO.LerpClimp(EggSummonStartPos, EggSummonEndPos, MainTimer));
+	}
+
+	else
+	{
+		ChangeState(MonsterState::EggIdle);
+	}
+}
+
 void BaseMonster::EggIdleStart()
 {
 	ChangeAnimationState("EggIdle");
@@ -259,8 +283,8 @@ void BaseMonster::EggMoveUpdate(float _Delta)
 		RandomDir("EggMove");
 	}
 
-	// Egg Summon
-	if (MainTimer > 15.0f)
+	// Egg Hatch
+	if (MainTimer > 5.0f)
 	{
 		ChangeState(MonsterState::EggHatch);
 	}
