@@ -1,5 +1,8 @@
 #define IDLE_ANI_SPEED 0.15f
 #define BUBBLE_ANI_SPEED 0.18f
+#define PATTERN_TIME 10.0f
+
+#include <GameEngineBase/GameEngineRandom.h>
 
 #include <GameEnginePlatform/GameEngineInput.h>
 
@@ -38,7 +41,7 @@ void Penguin::Start()
 
 	MainRenderer = CreateRenderer(RenderOrder::SelectTile);
 
-	if (nullptr == ResourcesManager::GetInst().FindSprite("Penguin.bmp"))
+	if (nullptr == ResourcesManager::GetInst().FindSprite("Down_Idle"))
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
@@ -83,6 +86,7 @@ void Penguin::Start()
 
 void Penguin::Update(float _Delta)
 {
+	PatternTimer += _Delta;
 	if (true == GameEngineInput::IsDown('J'))
 	{
 		IsDebugMode = !IsDebugMode;
@@ -93,11 +97,17 @@ void Penguin::Update(float _Delta)
 		ChangeState(MonsterState::Summon);
 	}
 
+	if (PatternTimer >= PATTERN_TIME && false == PatternStart)
+	{
+		PatternStart = true;
+	}
+
 	if (true == GameEngineInput::IsDown('B'))
 	{
-		CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Pattern);
-		++Pattern;
+		PatternStart = true;
+		PatternTimer = PATTERN_TIME;
 	}
+
 	// BossTile Update
 	CurLevelTile = CurPlayLevel->GetGroundTile();
 	float4 CurPos = GetPos() - GlobalValue::TileStartPos;
@@ -128,6 +138,10 @@ void Penguin::Update(float _Delta)
 	}
 
 	HitJudgement();
+	if (true == CurPlayLevel->PatternAnimationEnd)
+	{
+		PatternUpdate();
+	}
 
 	// State Update
 	StateUpdate(_Delta);
@@ -329,5 +343,45 @@ void Penguin::SummonUpdate(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		ChangeState(MonsterState::Idle);
+	}
+}
+
+// Test Code
+void Penguin::PatternUpdate()
+{
+	if (false == PatternStart || PATTERN_TIME > PatternTimer)
+	{
+		return;
+	}
+
+	GameEngineRandom::MainRandom.SetSeed(time(NULL));
+	static int Range = 0;
+	++PatternCount;
+	switch (PatternCount)
+	{
+	case 1:
+		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 2, PatternCount + 3);
+		break;
+	case 2:
+		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 3, PatternCount + 4);
+		break;
+	case 3:
+		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 4, PatternCount + 5);
+		break;
+	case 4:
+		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 5, PatternCount + 6);
+		break;
+	default:
+		break;
+	}
+	CurPlayLevel->PatternAnimationEnd = false;
+	CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Range);
+
+	if (4 == PatternCount)
+	{
+		PatternCount = 0;
+		PatternStart = false;
+		PatternTimer = 0.0f;
+		CurPlayLevel->PatternAnimationEnd = true;
 	}
 }
