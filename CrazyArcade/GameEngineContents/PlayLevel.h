@@ -1,6 +1,8 @@
 #pragma once
 #include "ContentLevel.h"
 #include "ContentsEnum.h"
+
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <vector>
 #include <list>
 
@@ -84,13 +86,16 @@ protected:
 	std::vector<std::vector<class Item*>> Items;
 	class Item* ItemActor = nullptr;
 
+	// Player
 	BaseCharacter* Player = nullptr;
 	BaseCharacter* Player2 = nullptr;
 
+	// Tile
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
 	class TileMap* GroundTile = nullptr;
 	class TileMap* ObjectTile = nullptr;
 
+	// Bubble
 	std::list<class GameMapIndex> AllBubbleIndex;
 	std::list<class GameMapIndex> AllBubbleDeathIndex;
 
@@ -104,6 +109,14 @@ protected:
 	std::string NextLevelName = "";
 
 	void CreateUIElements();
+	
+	// ∫∏Ω∫ ∏  ∆–≈œ
+	void BubblePattern(const int BossIndex_X, const int BossIndex_Y, const int _Range);
+
+	// Sound
+	void BubblePopPlay();
+	int BubblePopPlayCount = 0;
+	bool PlayBubblePopEffectSound = false;
 
 private:
 	void UILevelStart();
@@ -154,7 +167,6 @@ private:
 	const float4 CONST_ResultWindowStartPos = float4{ 39.0f , 138.0f };
 
 	void SetUpResultBoardAnimation();
-
 private:
 	void updateGameOverResult(float _Delta);
 	void updateVictoryRoll();
@@ -171,7 +183,9 @@ private:
 
 	void StartGameOver();
 
-
+private:
+	class TileMap* BossBubbleTile = nullptr;
+	void ClearBossPattern();
 
 private:
 	float LerpTime = 1.0f;

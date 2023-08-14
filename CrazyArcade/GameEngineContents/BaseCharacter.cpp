@@ -1,6 +1,7 @@
 ﻿#include "BaseCharacter.h"
 #include "GlobalUtils.h"
 #include "PlayLevel.h"
+#include "GlobalUtils.h"
 
 #include <GameEngineBase/GameEnginePath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -22,6 +23,10 @@ BaseCharacter::~BaseCharacter()
 void BaseCharacter::Start()
 {
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Character\\", 1, 1);
+
+	// Sound
+	GlobalUtils::SoundFileLoad("Locked_In_Bubble2.wav", "Resources\\Sounds\\Character\\");
+	GlobalUtils::SoundFileLoad("Character_Death.wav", "Resources\\Sounds\\Character\\");
 
 	ShadowRenderer = CreateRenderer("Shadow.Bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(CHARACTERSHADOWPOS);
@@ -46,10 +51,22 @@ void BaseCharacter::Update(float _Delta)
 	StateUpdate(_Delta);
 
 	// 물풍선 설치
-	if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle" && GetBombCount() > 0
-		|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
+	if (PlayerNumber == PlayerNum::P1)
 	{
-		PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f}, GetBombPower());
+		if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle" && GetBombCount() > 0
+			|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
+		{
+			PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f }, GetBombPower());
+		}
+	}
+
+	if (PlayerNumber == PlayerNum::P2)
+	{
+		if (true == GameEngineInput::IsDown('M') && CurState == "Idle" && GetBombCount() > 0
+			|| true == GameEngineInput::IsDown('M') && CurState == "Move" && GetBombCount() > 0)
+		{
+			PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f }, GetBombPower());
+		}
 	}
 
 	if (true == GameEngineInput::IsDown('J'))
@@ -185,21 +202,44 @@ void BaseCharacter::DirCheck()
 {
 	ActorDir CheckDir = Dir;
 
-	if (true == GameEngineInput::IsDown('A') || true == GameEngineInput::IsPress('A'))
+	if (PlayerNumber == PlayerNum::P1)
 	{
-		CheckDir = ActorDir::Left;
+		if (true == GameEngineInput::IsDown('A') || true == GameEngineInput::IsPress('A'))
+		{
+			CheckDir = ActorDir::Left;
+		}
+		if (true == GameEngineInput::IsDown('D') || true == GameEngineInput::IsPress('D'))
+		{
+			CheckDir = ActorDir::Right;
+		}
+		if (true == GameEngineInput::IsDown('W') || true == GameEngineInput::IsPress('W'))
+		{
+			CheckDir = ActorDir::Up;
+		}
+		if (true == GameEngineInput::IsDown('S') || true == GameEngineInput::IsPress('S'))
+		{
+			CheckDir = ActorDir::Down;
+		}
 	}
-	if (true == GameEngineInput::IsDown('D') || true == GameEngineInput::IsPress('D'))
+	
+	if (PlayerNumber == PlayerNum::P2)
 	{
-		CheckDir = ActorDir::Right;
-	}
-	if (true == GameEngineInput::IsDown('W') || true == GameEngineInput::IsPress('W'))
-	{
-		CheckDir = ActorDir::Up;
-	}
-	if (true == GameEngineInput::IsDown('S') || true == GameEngineInput::IsPress('S'))
-	{
-		CheckDir = ActorDir::Down;
+		if (true == GameEngineInput::IsDown(VK_LEFT) || true == GameEngineInput::IsPress(VK_LEFT))
+		{
+			CheckDir = ActorDir::Left;
+		}
+		if (true == GameEngineInput::IsDown(VK_RIGHT) || true == GameEngineInput::IsPress(VK_RIGHT))
+		{
+			CheckDir = ActorDir::Right;
+		}
+		if (true == GameEngineInput::IsDown(VK_UP) || true == GameEngineInput::IsPress(VK_UP))
+		{
+			CheckDir = ActorDir::Up;
+		}
+		if (true == GameEngineInput::IsDown(VK_DOWN) || true == GameEngineInput::IsPress(VK_DOWN))
+		{
+			CheckDir = ActorDir::Down;
+		}
 	}
 
 	if (CheckDir != Dir)

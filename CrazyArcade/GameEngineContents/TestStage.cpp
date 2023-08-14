@@ -1,6 +1,9 @@
 #include "TestStage.h"
 
+#include <GameEnginePlatform/GameEngineInput.h>
+
 #include "GlobalValue.h"
+#include "GlobalUtils.h"
 #include "GameMapInfo.h"
 #include "FadeObject.h"
 
@@ -18,11 +21,14 @@ TestStage::~TestStage()
 void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	PlayLevel::LevelStart(_PrevLevel);
+
+	BGMPlayer = GameEngineSound::SoundPlay("PenguinStageBGM.wav", 10000);
+	BGMPlayer.SetVolume(BGMVolume);
 }
 
 void TestStage::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	BGMPlayer.Stop();
 }
 
 void TestStage::Start()
@@ -31,6 +37,10 @@ void TestStage::Start()
 
 	MapFileLoad("TestMap2.map");
 	TileSetting();
+
+	// Sound
+	GlobalUtils::SoundFileLoad("PenguinStageBGM.wav", "Resources\\Sounds\\BGM");
+	BGMVolume = 0.5f;
 
 	// 몬스터 테스트
 	Monster = CreateActor<Snowmon_black>();

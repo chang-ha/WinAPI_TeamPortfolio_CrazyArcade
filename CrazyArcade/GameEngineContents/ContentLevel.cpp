@@ -8,7 +8,7 @@
 #include "UIMouseObject.h"
 
 bool ContentLevel::DebugValue = false;
-
+float ContentLevel::GlobalVolume = 1.0f;
 ContentLevel::ContentLevel()
 {
 
@@ -73,5 +73,30 @@ void ContentLevel::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('P'))
 	{
 		DebugValue = !DebugValue;
+	}
+
+	// GlobalVolume
+	if (true == GameEngineInput::IsDown('N'))
+	{
+		GlobalVolume += 0.2f;
+		if (2.0f < GlobalVolume)
+		{
+			GlobalVolume = 2.0f;
+		}
+
+		GameEngineSound::SetGlobalVolume(GlobalVolume);
+		BGMPlayer.SetVolume(BGMVolume);
+	}
+
+	if (true == GameEngineInput::IsDown('M'))
+	{
+		GlobalVolume -= 0.2f;
+		if (0.0f > GlobalVolume)
+		{
+			GlobalVolume = 0.0f;
+		}
+
+		GameEngineSound::SetGlobalVolume(GlobalVolume);
+		BGMPlayer.SetVolume(BGMVolume);
 	}
 }

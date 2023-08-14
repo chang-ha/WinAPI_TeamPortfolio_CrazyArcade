@@ -117,14 +117,12 @@ private:
 	void updateState(float _Delta);
 	ExpState m_State = ExpState::Max;
 	float StateTime = 0.0f;
-	const float CONST_EachStateDuration = 2.0f;
+	const float CONST_EachStateDuration = 1.8f;
 
 	void changeState(ExpState _State);
 
 	void startExpUI();
-	void updateExpUI(float _Delta);
 
 	void startExpAcquisition();
-	void updateExpAcquisition(float _Delta);
 };
 

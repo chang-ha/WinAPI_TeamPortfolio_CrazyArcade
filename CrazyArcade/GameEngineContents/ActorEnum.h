@@ -24,6 +24,12 @@ enum class ActorDir
 	Down,
 };
 
+enum class PlayerNum
+{
+	P1,
+	P2
+};
+
 enum class MonsterState
 {
 	Idle,
