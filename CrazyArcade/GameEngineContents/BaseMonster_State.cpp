@@ -262,18 +262,18 @@ void BaseMonster::EggMoveUpdate(float _Delta)
 	// Egg Summon
 	if (MainTimer > 15.0f)
 	{
-		ChangeState(MonsterState::EggSummon);
+		ChangeState(MonsterState::EggHatch);
 	}
 
 	MainTimer += _Delta;
 }
 
-void BaseMonster::EggSummonStart()
+void BaseMonster::EggHatchStart()
 {
-	ChangeAnimationState("EggSummon");
+	ChangeAnimationState("EggHatch");
 }
 
-void BaseMonster::EggSummonUpdate(float _Delta)
+void BaseMonster::EggHatchUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{

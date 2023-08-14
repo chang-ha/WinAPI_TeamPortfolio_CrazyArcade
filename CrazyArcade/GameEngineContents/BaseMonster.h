@@ -93,8 +93,8 @@ private:
 	void EggMoveStart();
 	void EggMoveUpdate(float _Delta);
 
-	void EggSummonStart();
-	void EggSummonUpdate(float _Delta);
+	void EggHatchStart();
+	void EggHatchUpdate(float _Delta);
 
 	void EggDeathStart();
 	void EggDeathUpdate(float _Delta);

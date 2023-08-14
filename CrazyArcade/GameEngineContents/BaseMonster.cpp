@@ -102,8 +102,8 @@ void BaseMonster::StateUpdate(float _Delta)
 		return EggIdleUpdate(_Delta);
 	case MonsterState::EggMove:
 		return EggMoveUpdate(_Delta);
-	case MonsterState::EggSummon:
-		return EggSummonUpdate(_Delta);
+	case MonsterState::EggHatch:
+		return EggHatchUpdate(_Delta);
 	case MonsterState::EggDeath:
 		return EggDeathUpdate(_Delta);
 	case MonsterState::Die:
@@ -141,8 +141,8 @@ void BaseMonster::ChangeState(MonsterState _State)
 	case MonsterState::EggMove:
 		EggMoveStart();
 		break;
-	case MonsterState::EggSummon:
-		EggSummonStart();
+	case MonsterState::EggHatch:
+		EggHatchStart();
 		break;
 	case MonsterState::EggDeath:
 		EggDeathStart();
