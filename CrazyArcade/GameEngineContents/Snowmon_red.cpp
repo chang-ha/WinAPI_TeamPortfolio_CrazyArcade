@@ -85,7 +85,7 @@ void Snowmon_red::Start()
 	MainRenderer->CreateAnimation("Snowmon_Red_AngerMove_Right",	"Snowmon_Red_AngerMove_Right.Bmp", 0, 1, 0.2f, true);
 	MainRenderer->CreateAnimation("Snowmon_Red_AngerMove_Left",		"Snowmon_Red_AngerMove_Left.Bmp", 0, 1, 0.2f, true);
 	MainRenderer->CreateAnimation("Snowmon_Red_Freeze",		"Snowmon_Red_Freeze.Bmp", 0, 2, 0.2f, false);
-	MainRenderer->CreateAnimation("Snowmon_Red_Die",		"Snowmon_Red_Die.Bmp", 0, 2, 0.2f, false);
+	MainRenderer->CreateAnimation("Snowmon_Red_Die",		"Snowmon_Red_Die.Bmp", 0, 2, 0.1f, false);
 	MainRenderer->CreateAnimation("Snowmon_Red_Anger",		"Snowmon_Red_Anger.Bmp", 0, 8, 0.1f, false);
 
 	MainRenderer->SetRenderPos({ 0, 20 });
@@ -164,6 +164,11 @@ void Snowmon_red::ChangeAnimationState(const std::string& _StateName)
 		default:
 			break;
 		}
+	}
+
+	if (_StateName == "Die")
+	{
+		MainRenderer->SetRenderScale({ 70.0f, 70.0f });
 	}
 
 	CurState = _StateName;

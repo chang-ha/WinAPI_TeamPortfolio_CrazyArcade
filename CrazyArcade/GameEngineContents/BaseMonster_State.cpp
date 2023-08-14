@@ -7,24 +7,24 @@
 void BaseMonster::IdleStart()
 {
 	ChangeAnimationState("Idle");
-	IdleTimer = 0.0f;
+	MainTimer = 0.0f;
 }
 
 void BaseMonster::IdleUpdate(float _Delta)
 {
-	if (IdleTimer > 2.0f)
+	if (MainTimer > 2.0f)
 	{
 		ChangeState(MonsterState::Move);
 		return;
 	}
 
-	IdleTimer += _Delta;
+	MainTimer += _Delta;
 }
 
 void BaseMonster::MoveStart()
 {
 	ChangeAnimationState("Move");
-	MoveTimer = 0.0f;
+	MainTimer = 0.0f;
 }
 
 void BaseMonster::MoveUpdate(float _Delta)
@@ -72,7 +72,7 @@ void BaseMonster::MoveUpdate(float _Delta)
 		RandomDir("Move");
 	}
 
-	MoveTimer += _Delta;
+	MainTimer += _Delta;
 }
 
 void BaseMonster::FreezeStart()
@@ -117,18 +117,18 @@ void BaseMonster::AngerUpdate(float _Delta)
 void BaseMonster::AngerIdleStart()
 {
 	ChangeAnimationState("AngerIdle");
-	AngerIdleTimer = 0.0f;
+	MainTimer = 0.0f;
 }
 
 void BaseMonster::AngerIdleUpdate(float _Delta)
 {
-	if (AngerIdleTimer > 0.05f)
+	if (MainTimer > 0.05f)
 	{
 		ChangeState(MonsterState::AngerMove);
 		return;
 	}
 
-	AngerIdleTimer += _Delta;
+	MainTimer += _Delta;
 }
 
 void BaseMonster::AngerMoveStart()
@@ -138,7 +138,7 @@ void BaseMonster::AngerMoveStart()
 
 void BaseMonster::AngerMoveUpdate(float _Delta)
 {
-	static float MoveTimer = 0.0f;
+	MainTimer = 0.0f;
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
@@ -181,7 +181,7 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 		RandomDir("AngerMove");
 	}
 
-	MoveTimer += _Delta;
+	MainTimer += _Delta;
 }
 
 void BaseMonster::EggIdleStart()

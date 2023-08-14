@@ -99,9 +99,7 @@ private:
 	float Speed = 50.0f;
 	float AngerSpeed = 100.0f;
 
-	float IdleTimer = 0.0f;
-	float MoveTimer = 0.0f;
+	float MainTimer = 0.0f;
 	float FreezeTimer = 0.0f;
-	float AngerIdleTimer = 0.0f;
 };
 
