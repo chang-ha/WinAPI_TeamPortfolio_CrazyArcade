@@ -12,6 +12,8 @@
 #define RIGHTPOS { 20.0f, 20.0f }
 #define BOTPOS { 0.0f, 40.0f }
 
+#define CENTERPOS { 0.0f, 20.0f }
+
 #define MONSTERCOLLISIONSCALE { 30.0f, 30.0f }
 
 // Ό³Έν :

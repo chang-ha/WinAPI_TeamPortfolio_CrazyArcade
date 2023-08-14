@@ -22,7 +22,7 @@ void BaseMonster::Start()
 {
 	{
 		MonsterCollision = CreateCollision(CollisionOrder::MonsterBody);
-		MonsterCollision->SetCollisionPos({ GetPos().X, GetPos().Y + 20.0f });
+		MonsterCollision->SetCollisionPos(GetPos() + float4 CENTERPOS);
 		MonsterCollision->SetCollisionScale(MONSTERCOLLISIONSCALE);
 		MonsterCollision->SetCollisionType(CollisionType::Rect);
 	}
@@ -74,6 +74,10 @@ void BaseMonster::Render(float _Delta)
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
 		Data.Pos = GetPos() + float4 RIGHTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 CENTERPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 	}
@@ -214,7 +218,7 @@ void BaseMonster::CheckCollision()
 void BaseMonster::CheckDeath()
 {
 	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
-	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 CENTERPOS);
 
 	if (CurTileType == TileObjectOrder::PopRange
 		&& State == MonsterState::EggMove)
