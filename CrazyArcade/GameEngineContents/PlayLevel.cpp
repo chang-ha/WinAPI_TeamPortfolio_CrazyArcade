@@ -1215,12 +1215,30 @@ void PlayLevel::updateVictoryRoll()
 			return;
 		}
 
-		if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+		if (1 == GlobalValue::g_ActiveRoomCount)
 		{
-			WinCheckValue = false;
+			if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+			{
+				WinCheckValue = false;
 	
-			StartGameOver();
+				StartGameOver();
+			}
 		}
+		else
+		{
+			if (Player2)
+			{
+				if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || 
+					true == Player->GetPlayerDeath() && true == Player2->GetPlayerDeath())
+				{
+					WinCheckValue = false;
+
+					StartGameOver();
+				}
+			}
+
+		}
+
 
 		if (true == GameEngineInput::IsPress('6'))
 		{
@@ -1269,6 +1287,34 @@ void PlayLevel::updateCharacterPortrait()
 
 		vecCharacterState[0].AliveState = false;
 	}
+
+	if (nullptr == Player2)
+	{
+		return;
+	}
+
+
+	// 플레이어가 죽었는데 초상화가 업데이트 되지 않았다면 초상화를 바꿔줍니다.
+	if (Player2->GetPlayerDeath() && true == vecCharacterState[1].AliveState)
+	{
+		PlayPortrait* Portrait = vec_PlayPortrait[1];
+		if (nullptr == Portrait)
+		{
+			MsgBoxAssert("액터를 불러오지 못했습니다.");
+			return;
+		}
+
+		PlayCharacterPortrait* CharacterPortrait = Portrait->getPortrait();
+		if (nullptr == CharacterPortrait)
+		{
+			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
+			return;
+		}
+
+		CharacterPortrait->changeState(PlayPortraitState::Lose);
+
+		vecCharacterState[1].AliveState = false;
+	}
 }
 
 
@@ -1284,6 +1330,12 @@ void PlayLevel::UILevelEnd()
 	{
 		Player->Death();
 		Player = nullptr;
+	}
+
+	if (Player2)
+	{
+		Player2->Death();
+		Player2 = nullptr;
 	}
 
 	GameOverCheckValue = false;

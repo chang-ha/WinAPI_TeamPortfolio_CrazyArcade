@@ -189,9 +189,9 @@ void RoomLevel::loadButtonElement()
 	GameExitButtonPtr->setButtonTexture(ButtonState::Normal, "Button_GameExit_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameExitButtonPtr->setButtonTexture(ButtonState::Click, "Button_GameExit_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameExitButtonPtr->setButtonTexture(ButtonState::Hover, "Button_GameExit_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
+	GameExitButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickExitButton);
 	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
 
-	//ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickGameStartButton);
 
 
 	GameExitButtonPtr->setButtonPos(m_GameExitButtonStartPos);
@@ -200,9 +200,26 @@ void RoomLevel::loadButtonElement()
 	m_ButtonUpdateValue = true;
 }
 
+void RoomLevel::clickSelectButton()
+{
+	WindowPanelUI* WindowPanelMapSelectPtr = vecWindowPanel[static_cast<int>(WindowPanelActor::MapSelect)];
+	if (nullptr == WindowPanelMapSelectPtr)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	WindowPanelMapSelectPtr->enableWindow(true);
+}
+
 void RoomLevel::clickGameStartButton()
 {
 	FadeObject::CallFadeOut(this, "UITestStage", GlobalValue::g_ChangeLevelFadeSpeed);
+}
+
+void RoomLevel::clickExitButton()
+{
+	FadeObject::CallFadeOut(this, "Quit", 2.5f);
 }
 
 
@@ -670,17 +687,6 @@ void RoomLevel::loadSelectRoomBorder()
 }
 
 
-void RoomLevel::clickSelectButton()
-{
-	WindowPanelUI* WindowPanelMapSelectPtr = vecWindowPanel[static_cast<int>(WindowPanelActor::MapSelect)];
-	if (nullptr == WindowPanelMapSelectPtr)
-	{
-		MsgBoxAssert("액터를 불러오지 못했습니다.");
-		return;
-	}
-
-	WindowPanelMapSelectPtr->enableWindow(true);
-}
 
 void RoomLevel::clickBazziCharacterButton()
 {

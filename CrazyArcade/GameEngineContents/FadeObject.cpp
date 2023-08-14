@@ -4,6 +4,7 @@
 #include "GlobalValue.h"
 
 
+#include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCore.h>
@@ -77,6 +78,11 @@ void FadeObject::CallFadeOut(GameEngineLevel* _Level, const std::string& _LevelN
 	{
 		FadeOut->Renderer->SetAlpha(_Alpha);
 	}
+
+	if ("Quit" == _LevelName)
+	{
+		FadeOut->QuitValue = true;
+	}
 }
 
 void FadeObject::CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration /*= 1.0f*/, int _Alpha /*= 255*/)
@@ -112,6 +118,26 @@ void FadeObject::Update(float _Delta)
 {
 	m_FadeTime += _Delta;
 
+	if (true == QuitValue)
+	{
+		m_Alpha = static_cast<int>(static_cast<float>(MaxAlphaValue - m_RequestAlphaValue) / m_FadeDuration * m_FadeTime);
+		m_DebugAlphaValue = m_Alpha;
+
+		if (m_Alpha > MaxAlphaValue)
+		{
+			m_Alpha = MaxAlphaValue;
+		}
+
+		if (m_FadeTime > QuitTime)
+		{
+			GameEngineWindow::MainWindow.WindowLoopOff();
+		}
+
+		Renderer->SetAlpha(m_Alpha);
+
+		return;
+	}
+
 	if (CallFadeType::FadeOut == m_FadeType)
 	{
 		m_Alpha += static_cast<int>(static_cast<float>(MaxAlphaValue - m_RequestAlphaValue) / m_FadeDuration * _Delta);
@@ -124,7 +150,6 @@ void FadeObject::Update(float _Delta)
 		}
 
 		Renderer->SetAlpha(m_Alpha);
-
 	}
 	else if (CallFadeType::FadeIn == m_FadeType)
 	{
