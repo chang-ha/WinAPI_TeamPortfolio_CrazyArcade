@@ -72,7 +72,7 @@ private:
 	void IdleUpdate(float _Delta);
 
 	void MoveStart();
-	void MoveUpdate(float _Delta);
+	virtual void MoveUpdate(float _Delta);
 
 	void FreezeStart();
 	void FreezeUpdate(float _Delta);

@@ -23,10 +23,10 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	Player->SetPos(GroundTile->IndexToPos(1, 1));
 
-	Snowmon = CreateActor<Snowmon_black>();
+	Snowmon = CreateActor<Piratemon_black>();
 	Snowmon->SetPos(GroundTile->IndexToPos(1, 6));
 
-	Snowmon = CreateActor<Snowmon_black>();
+	Snowmon = CreateActor<Piratemon_black>();
 	Snowmon->SetPos(GroundTile->IndexToPos(15, 6));
 
 	Snowmon = CreateActor<Piratemon_red>();
