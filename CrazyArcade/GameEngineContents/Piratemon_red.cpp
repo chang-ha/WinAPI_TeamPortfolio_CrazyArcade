@@ -9,6 +9,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineSprite.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/TileMap.h>
 
 Piratemon_red::Piratemon_red()
@@ -33,7 +34,6 @@ void Piratemon_red::Start()
 	GlobalUtils::SpriteFileLoad("Pirate_Red_Move_Left.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 2, 1);
 	GlobalUtils::SpriteFileLoad("Pirate_Red_Death.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 4, 1);
 
-
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 
 	MainRenderer->CreateAnimation("PiratemonRed_Idle_Down", "Pirate_Red_Idle_Down.Bmp");
@@ -49,6 +49,8 @@ void Piratemon_red::Start()
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
 	ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(ShadowPos);
+
+	MonsterCollision->SetCollisionPos({ 0.0f, 5.0f });
 
 	ChangeState(MonsterState::Idle);
 }

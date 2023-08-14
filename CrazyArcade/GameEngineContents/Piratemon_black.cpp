@@ -9,6 +9,7 @@
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineSprite.h>
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/TileMap.h>
 
 Piratemon_black::Piratemon_black()
@@ -48,6 +49,8 @@ void Piratemon_black::Start()
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
 	ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(ShadowPos);
+
+	MonsterCollision->SetCollisionPos(float4::ZERO);
 
 	ChangeState(MonsterState::Idle);
 }
