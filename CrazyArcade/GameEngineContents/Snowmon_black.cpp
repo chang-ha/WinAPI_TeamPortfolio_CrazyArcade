@@ -62,10 +62,10 @@ void Snowmon_black::Start()
 	MainRenderer->CreateAnimation("Snowmon_Black_EggIdle_Up",		"Snowmon_Black_EggIdle_Up.Bmp");
 	MainRenderer->CreateAnimation("Snowmon_Black_EggIdle_Left",		"Snowmon_Black_EggIdle_Left.Bmp");
 	MainRenderer->CreateAnimation("Snowmon_Black_EggIdle_Right",	"Snowmon_Black_EggIdle_Right.Bmp");
-	MainRenderer->CreateAnimation("Snowmon_Black_EggMove_Down",		"Snowmon_Black_EggMove_Down.Bmp", 0, 1, 0.2f, true);
-	MainRenderer->CreateAnimation("Snowmon_Black_EggMove_Up",		"Snowmon_Black_EggMove_Up.Bmp", 0, 1, 0.2f, true);
-	MainRenderer->CreateAnimation("Snowmon_Black_EggMove_Right",	"Snowmon_Black_EggMove_Right.Bmp", 0, 1, 0.2f, true);
-	MainRenderer->CreateAnimation("Snowmon_Black_EggMove_Left",		"Snowmon_Black_EggMove_Left.Bmp", 0, 1, 0.2f, true);
+	MainRenderer->CreateAnimation("Snowmon_Black_EggMove_Down",		"Snowmon_Black_EggMove_Down.Bmp", 0, 1, 0.4f, true);
+	MainRenderer->CreateAnimation("Snowmon_Black_EggMove_Up",		"Snowmon_Black_EggMove_Up.Bmp", 0, 1, 0.4f, true);
+	MainRenderer->CreateAnimation("Snowmon_Black_EggMove_Right",	"Snowmon_Black_EggMove_Right.Bmp", 0, 1, 0.4f, true);
+	MainRenderer->CreateAnimation("Snowmon_Black_EggMove_Left",		"Snowmon_Black_EggMove_Left.Bmp", 0, 1, 0.4f, true);
 	MainRenderer->CreateAnimation("Snowmon_Black_EggSummon",		"Snowmon_Black_Egg_Summon.Bmp", 0, 4, 0.2f, false);
 	MainRenderer->CreateAnimation("Snowmon_Black_EggDeath",		"Snowmon_Black_Egg_Death.Bmp", 0, 5, 0.1f, false);
 
@@ -92,7 +92,7 @@ void Snowmon_black::Start()
 	
 	MainRenderer->SetRenderPos({0, 20});
 
-	ChangeState(MonsterState::Idle);
+	ChangeState(MonsterState::EggIdle);
 
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
 	ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
@@ -169,12 +169,7 @@ void Snowmon_black::ChangeAnimationState(const std::string& _StateName)
 		}
 	}
 
-	if (_StateName == "Die")
-	{
-		MainRenderer->SetRenderScale({70.0f, 70.0f});
-	}
-
 	CurState = _StateName;
-
+	MainRenderer->SetRenderScaleToTexture();
 	MainRenderer->ChangeAnimation(AnimationName);
 }

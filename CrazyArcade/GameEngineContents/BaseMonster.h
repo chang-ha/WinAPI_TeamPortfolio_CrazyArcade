@@ -96,9 +96,6 @@ private:
 
 	bool IsDebugData = false;
 
-	float Speed = 50.0f;
-	float AngerSpeed = 100.0f;
-
 	float MainTimer = 0.0f;
 	float FreezeTimer = 0.0f;
 };

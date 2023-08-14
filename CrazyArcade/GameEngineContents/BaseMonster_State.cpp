@@ -12,7 +12,7 @@ void BaseMonster::IdleStart()
 
 void BaseMonster::IdleUpdate(float _Delta)
 {
-	if (MainTimer > 2.0f)
+	if (MainTimer > 1.0f)
 	{
 		ChangeState(MonsterState::Move);
 		return;
@@ -32,6 +32,7 @@ void BaseMonster::MoveUpdate(float _Delta)
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 
+	float Speed = 50.0f;
 
 	if (Dir == ActorDir::Down)
 	{
@@ -143,6 +144,8 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 
+	float AngerSpeed = 100.0f;
+
 	if (Dir == ActorDir::Down)
 	{
 		MovePos = { 0.0f, AngerSpeed * _Delta };
@@ -191,17 +194,73 @@ void BaseMonster::EggIdleStart()
 
 void BaseMonster::EggIdleUpdate(float _Delta)
 {
+	if (MainTimer > 2.0f)
+	{
+		ChangeState(MonsterState::EggMove);
+		return;
+	}
 
+	MainTimer += _Delta;
 }
 
 void BaseMonster::EggMoveStart()
 {
 	ChangeAnimationState("EggMove");
+	MainTimer = 0.0f;
 }
 
 void BaseMonster::EggMoveUpdate(float _Delta)
 {
+	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
+	float EggSpeed = 30.0f;
 
+	if (Dir == ActorDir::Down)
+	{
+		MovePos = { 0.0f, EggSpeed * _Delta };
+		CheckPos = BOTPOS;
+	}
+
+	if (Dir == ActorDir::Up)
+	{
+		MovePos = { 0.0f, -EggSpeed * _Delta };
+		CheckPos = TOPPOS;
+	}
+
+	if (Dir == ActorDir::Left)
+	{
+		MovePos = { -EggSpeed * _Delta, 0.0f };
+		CheckPos = LEFTPOS;
+	}
+
+	if (Dir == ActorDir::Right)
+	{
+		MovePos = { EggSpeed * _Delta, 0.0f };
+		CheckPos = RIGHTPOS;
+	}
+
+	CheckPos += GetPos();
+
+	bool CheckTile = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos, _Delta);
+
+	if (false == CheckTile)
+	{
+		AddPos(MovePos);
+	}
+
+	// 방향 전환
+	else if (true == CheckTile)
+	{
+		RandomDir("EggMove");
+	}
+
+	// Egg Summon
+	if (MainTimer > 5.0f)
+	{
+		ChangeState(MonsterState::EggSummon);
+	}
+
+	MainTimer += _Delta;
 }
 
 void BaseMonster::EggSummonStart()
@@ -211,7 +270,10 @@ void BaseMonster::EggSummonStart()
 
 void BaseMonster::EggSummonUpdate(float _Delta)
 {
-
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(MonsterState::Idle);
+	}
 }
 
 void BaseMonster::EggDeathStart()
