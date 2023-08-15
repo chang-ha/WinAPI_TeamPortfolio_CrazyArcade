@@ -155,3 +155,10 @@ void Piratemon_red::MoveUpdate(float _Delta)
 		RandomDir("Move");
 	}
 }
+
+void Piratemon_red::DieStart()
+{
+	ChangeAnimationState("Die");
+	MonsterEffectSound = GameEngineSound::SoundPlay("Pirate_Monster_Death.wav");
+	MonsterEffectSound.SetVolume(1.0f);
+}

@@ -5,6 +5,7 @@
 #include "GlobalValue.h"
 
 #include <string>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineActor.h>
 
 #define TOPPOS { 0.0f, 0.0f }
@@ -67,6 +68,8 @@ protected:
 
 	void CheckCollision();
 
+	GameEngineSoundPlayer MonsterEffectSound;
+
 private:
 	void IdleStart();
 	void IdleUpdate(float _Delta);
@@ -77,7 +80,7 @@ private:
 	void FreezeStart();
 	void FreezeUpdate(float _Delta);
 
-	void DieStart();
+	virtual void DieStart();
 	void DieUpdate(float _Delta);
 
 	void AngerStart();

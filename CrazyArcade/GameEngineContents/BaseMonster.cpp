@@ -26,6 +26,14 @@ void BaseMonster::Start()
 		MonsterCollision->SetCollisionScale(MONSTERCOLLISIONSCALE);
 		MonsterCollision->SetCollisionType(CollisionType::Rect);
 	}
+
+	{
+		// Sound
+		GlobalUtils::SoundFileLoad("Ice_Monster_Angry.wav", "Resources\\Sounds\\Monster\\");
+		GlobalUtils::SoundFileLoad("Ice_Monster_Death.wav", "Resources\\Sounds\\Monster\\");
+		GlobalUtils::SoundFileLoad("Ice_Monster_Freeze.wav", "Resources\\Sounds\\Monster\\");
+		GlobalUtils::SoundFileLoad("Pirate_Monster_Death.wav", "Resources\\Sounds\\Monster\\");
+	}
 }
 
 void BaseMonster::Update(float _Delta)
