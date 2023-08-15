@@ -27,6 +27,79 @@ void BaseCharacter::BubbleStart()
 }
 void BaseCharacter::BubbleUpdate(float _Delta)
 {
+	DirCheck();
+
+	//버블상태에서 움직임
+	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
+	float MoveSpeed = SPEEDREFERENCEVALUE;
+
+	if (PlayerNumber == PlayerNum::P1)
+	{
+		if (ActorDir::Up == Dir && GameEngineInput::IsDown('W')
+			|| ActorDir::Up == Dir && GameEngineInput::IsPress('W'))
+		{
+			MovePos = float4::UP * MoveSpeed * _Delta;
+			CheckPos = TOPCHECKPOS;
+		}
+		else if (ActorDir::Down == Dir && GameEngineInput::IsDown('S')
+			|| ActorDir::Down == Dir && GameEngineInput::IsPress('S'))
+		{
+			MovePos = float4::DOWN * MoveSpeed * _Delta;
+			CheckPos = BOTCHECKPOS;
+		}
+		else if (ActorDir::Left == Dir && GameEngineInput::IsDown('A')
+			|| ActorDir::Left == Dir && GameEngineInput::IsPress('A'))
+		{
+			MovePos = float4::LEFT * MoveSpeed * _Delta;
+			CheckPos = LEFTCHECKPOS;
+		}
+		else if (ActorDir::Right == Dir && GameEngineInput::IsDown('D')
+			|| ActorDir::Right == Dir && GameEngineInput::IsPress('D'))
+		{
+			MovePos = float4::RIGHT * MoveSpeed * _Delta;
+			CheckPos = RIGHTCHECKPOS;
+		}
+	}
+
+	if (PlayerNumber == PlayerNum::P2)
+	{
+		if (ActorDir::Up == Dir && GameEngineInput::IsDown(VK_UP)
+			|| ActorDir::Up == Dir && GameEngineInput::IsPress(VK_UP))
+		{
+			MovePos = float4::UP * MoveSpeed * _Delta;
+			CheckPos = TOPCHECKPOS;
+		}
+		else if (ActorDir::Down == Dir && GameEngineInput::IsDown(VK_DOWN)
+			|| ActorDir::Down == Dir && GameEngineInput::IsPress(VK_DOWN))
+		{
+			MovePos = float4::DOWN * MoveSpeed * _Delta;
+			CheckPos = BOTCHECKPOS;
+		}
+		else if (ActorDir::Left == Dir && GameEngineInput::IsDown(VK_LEFT)
+			|| ActorDir::Left == Dir && GameEngineInput::IsPress(VK_LEFT))
+		{
+			MovePos = float4::LEFT * MoveSpeed * _Delta;
+			CheckPos = LEFTCHECKPOS;
+		}
+		else if (ActorDir::Right == Dir && GameEngineInput::IsDown(VK_RIGHT)
+			|| ActorDir::Right == Dir && GameEngineInput::IsPress(VK_RIGHT))
+		{
+			MovePos = float4::RIGHT * MoveSpeed * _Delta;
+			CheckPos = RIGHTCHECKPOS;
+		}
+	}
+
+	CheckPos += GetPos();
+
+	bool MoveCheck = PlayLevel::CurPlayLevel->CheckSidePos(CheckPos, PlayerNumber);
+
+	if (false == MoveCheck)
+	{
+		AddPos(MovePos);
+	}
+
+	// 아군이 살려줄 경우
 	if (PlayerNumber == PlayerNum::P1)
 	{
 		if (true == BodyCollision->Collision(CollisionOrder::PlayerBody2, Col, CollisionType::Rect, CollisionType::Rect))
@@ -46,6 +119,7 @@ void BaseCharacter::BubbleUpdate(float _Delta)
 		}
 	}
 
+	// 바늘아이템을 먹었을 경우
 	if (true == GameEngineInput::IsDown(VK_CONTROL) && NeedleCount > 0)
 	{
 		BubbleTimer = 0.0f;
