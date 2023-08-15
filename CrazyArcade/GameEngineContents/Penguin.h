@@ -1,5 +1,7 @@
 #pragma once
-#define IDLE_ANI_SPEED 0.15f
+#define IDLE_ANI_SPEED 0.10f
+#define HITTEN_ANI_SPEED 0.17f
+#define ANGER_ANI_SPEED 0.15f
 #define BUBBLE_ANI_SPEED 0.18f
 #define PATTERN_TIME 10.0f
 #define BOSSMOVERANGE GlobalValue::MapTileSize.X
@@ -48,6 +50,9 @@ private:
 	void MoveStart();
 	void MoveUpdate(float _Delta);
 
+	void AngerStart();
+	void AngerUpdate(float _Delta);
+
 	void DieReadyStart();
 	void DieReadyUpdate(float _Delta);
 
@@ -69,7 +74,7 @@ private:
 	bool IsDebugMode = false;
 	bool IsHitten = false;
 	bool PatternStart = false;
-	int BossHP = 2;
+	int BossHP = 6;
 	float4 MoveRange = float4::ZERO;
 	float4 MoveSpeed = float4::ZERO;
 	int PatternCount = 0;

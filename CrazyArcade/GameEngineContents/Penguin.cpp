@@ -53,7 +53,7 @@ void Penguin::Start()
 
 		// Left
 
-
+		ResourcesManager::GetInst().CreateSpriteSheet("Anger_Penguin", FilePath.PlusFilePath("Anger_Penguin.bmp"), 12, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Summon_Penguin", FilePath.PlusFilePath("Summon_Penguin.bmp"), 20, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die_Ready", FilePath.PlusFilePath("Die_Ready_Penguin.bmp"), 3, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die_Bubble", FilePath.PlusFilePath("Die_Bubble_Penguin.bmp"), 8, 1);
@@ -71,7 +71,7 @@ void Penguin::Start()
 			// MainRenderer->CreateAnimation("Down_Move", "Down_Move", 0, 4, IDLE_ANI_SPEED, false);
 
 			// Hitten
-			MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, IDLE_ANI_SPEED, false);
+			MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, HITTEN_ANI_SPEED, false);
 		}
 
 		// Up
@@ -89,6 +89,9 @@ void Penguin::Start()
 
 		}
 
+		// Anger 
+		MainRenderer->CreateAnimation("Anger", "Anger_Penguin", 0, 11, ANGER_ANI_SPEED, false);
+
 		// Summon
 		MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, IDLE_ANI_SPEED, false);
 
@@ -98,7 +101,7 @@ void Penguin::Start()
 		MainRenderer->CreateAnimation("Die", "Die", 0, 11, BUBBLE_ANI_SPEED, false);
 	}
 
-	MainRenderer->ChangeAnimation("Down_Idle");
+	MainRenderer->ChangeAnimation("Anger");
 	MainRenderer->SetRenderPos({0, -70});
 
 	// BossTile Vector resize
@@ -113,7 +116,12 @@ void Penguin::Update(float _Delta)
 {
 	StateUpdate(_Delta);
 
-	if (MonsterState::Die_Ready == State || MonsterState::Die_Bubble == State || MonsterState::Die == State)
+	if (true == CurPlayLevel->PatternAnimationEnd)
+	{
+		PatternUpdate();
+	}
+
+	if (MonsterState::Die_Ready == State || MonsterState::Die_Bubble == State || MonsterState::Die == State || MonsterState::Anger == State)
 	{
 		return;
 	}
@@ -146,7 +154,6 @@ void Penguin::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('O'))
 	{
 		ChangeState(MonsterState::Move);
-
 	}
 
 	// BossTile Update
@@ -179,10 +186,6 @@ void Penguin::Update(float _Delta)
 	}
 
 	HitJudgement();
-	if (true == CurPlayLevel->PatternAnimationEnd)
-	{
-		PatternUpdate();
-	}
 }
 
 void Penguin::Render(float _Delta)
@@ -204,6 +207,11 @@ void Penguin::Render(float _Delta)
 			Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 		}
 	}
+
+	std::string HPText = "";
+	HPText += "Boss HP : ";
+	HPText += std::to_string(BossHP);
+	TextOutA(dc, GlobalValue::WinScale.iX() - 100, 3, HPText.c_str(), static_cast<int>(HPText.size()));
 }
 
 
@@ -215,6 +223,8 @@ void Penguin::StateUpdate(float _Delta)
 		return IdleUpdate(_Delta);
 	case MonsterState::Move:
 		return MoveUpdate(_Delta);
+	case MonsterState::Anger:
+		return AngerUpdate(_Delta);
 	case MonsterState::Die:
 		return DieUpdate(_Delta);
 	case MonsterState::Hitten:
@@ -241,6 +251,9 @@ void Penguin::ChangeState(MonsterState _State)
 			break;
 		case MonsterState::Move:
 			MoveStart();
+			break;
+		case MonsterState::Anger:
+			AngerStart();
 			break;
 		case MonsterState::Die:
 			DieStart();
@@ -395,6 +408,19 @@ void Penguin::MoveUpdate(float _Delta)
 	}
 }
 
+void Penguin::AngerStart()
+{
+	MainRenderer->ChangeAnimation("Anger");
+}
+void Penguin::AngerUpdate(float _Delta)
+{
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(MonsterState::Idle);
+	}
+}
+
+
 void Penguin::DieReadyStart()
 {
 	MainRenderer->ChangeAnimation("Die_Ready");
@@ -462,7 +488,7 @@ void Penguin::HitJudgement()
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY() + 1) + GlobalValue::TileStartPos);
+			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()) + GlobalValue::TileStartPos);
 			if (CurTile == TileObjectOrder::PopRange)
 			{
 				--BossHP;
