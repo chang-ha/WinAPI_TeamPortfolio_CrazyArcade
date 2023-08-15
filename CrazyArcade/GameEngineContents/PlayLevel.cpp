@@ -1030,7 +1030,8 @@ void PlayLevel::UILevelStart()
 
 	if (m_PlayTimer)
 	{
-		m_PlayTimer->setTimer(CONST_TimeSetting);
+		m_PlayTimer->setTimer(15.0f);
+		//m_PlayTimer->setTimer(CONST_TimeSetting);
 		m_PlayTimer->stopTimer();
 	}
 }

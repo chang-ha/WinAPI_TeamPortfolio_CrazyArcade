@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 
 #include <vector>
 
@@ -71,6 +72,8 @@ private:
 	void Render(float _Delta) override;
 
 
+	void LevelEnd() override;
+
 	// this
 	void loadTexture();
 	float4 NumberScale = float4::ZERO;
@@ -94,5 +97,9 @@ private:
 	int m_RenderValue = 0;
 	float m_PlayTimerValue = 0.0f;
 	float m_PlayTimerRender = 0.0f;
+	bool HurryTimerCheckValue = false;
+	const float CONST_HurrySoundStartTime = 10.0f;
+
+	GameEngineSoundPlayer m_HurryTimerSoundPlayer;
 };
 
