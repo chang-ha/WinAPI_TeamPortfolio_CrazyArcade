@@ -36,6 +36,8 @@ void Penguin::Start()
 	}
 
 	MainRenderer = CreateRenderer(RenderOrder::SelectTile);
+	GameEngineRenderer* HPBar_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
+	HP_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
 
 	if (nullptr == ResourcesManager::GetInst().FindSprite("Down_Idle"))
 	{
@@ -58,6 +60,10 @@ void Penguin::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet("Die_Ready", FilePath.PlusFilePath("Die_Ready_Penguin.bmp"), 3, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die_Bubble", FilePath.PlusFilePath("Die_Bubble_Penguin.bmp"), 8, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die", FilePath.PlusFilePath("Die_Penguin.bmp"), 12, 1);
+
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HPBar.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HP_BLUE.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HP_RED.bmp"));
 	}
 
 	{
@@ -101,9 +107,13 @@ void Penguin::Start()
 		MainRenderer->CreateAnimation("Die", "Die", 0, 11, BUBBLE_ANI_SPEED, false);
 	}
 
-	MainRenderer->ChangeAnimation("Anger");
+	MainRenderer->ChangeAnimation("Down_Idle");
 	MainRenderer->SetRenderPos({0, -70});
 
+	HPBar_Renderer->SetTexture("HPBar.bmp");
+	HPBar_Renderer->SetRenderPos(HPBARPOS);
+	HP_Renderer->SetTexture("HP_BLUE.bmp");
+	HP_Renderer->SetRenderPos(HPBARPOS - float4{42, 0});
 	// BossTile Vector resize
 	BossTile.resize(2);
 	for (int Y = 0; Y < BossTile.size(); Y++)
@@ -115,6 +125,15 @@ void Penguin::Start()
 void Penguin::Update(float _Delta)
 {
 	StateUpdate(_Delta);
+	HP_Renderer->SetRenderScale(float4{ 2.0f * 12.0f * BossHP , 7 });
+	if (0 == BossHP)
+	{
+		HP_Renderer->Off();
+	}
+	else if (ANGERHP == BossHP)
+	{
+		HP_Renderer->SetTexture("HP_RED.bmp");
+	}
 
 	if (true == CurPlayLevel->PatternAnimationEnd)
 	{
@@ -437,7 +456,6 @@ void Penguin::DieReadyUpdate(float _Delta)
 void Penguin::DieBubbleStart()
 {
 	MainRenderer->ChangeAnimation("Die_Bubble");
-
 }
 
 void Penguin::DieBubbleUpdate(float _Delta)
@@ -516,6 +534,12 @@ void Penguin::HittenUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
+		if (ANGERHP == BossHP)
+		{
+			ChangeState(MonsterState::Anger);
+			IsHitten = false;
+			return;
+		}
 		ChangeState(MonsterState::Idle);
 		IsHitten = false;
 	}
