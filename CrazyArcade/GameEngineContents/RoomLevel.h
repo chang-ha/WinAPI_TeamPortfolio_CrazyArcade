@@ -201,4 +201,10 @@ private:
 	void updateFirstElementUIVisibility();
 
 	bool m_ButtonUpdateValue = true;
+
+
+	void selectRandomCharacterFirstPlayer();
+	void selectRandomCharacterSecondPlayer();
+	bool FirstPlayerRandomValue = false;
+	bool SecondPlayerRandomValue = false;
 };

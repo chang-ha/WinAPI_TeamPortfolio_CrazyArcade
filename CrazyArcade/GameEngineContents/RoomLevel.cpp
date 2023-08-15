@@ -4,6 +4,8 @@
 #include "ContentsEnum.h"
 #include "ActorEnum.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
+
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineWindowTexture.h>
 
@@ -1021,9 +1023,72 @@ void RoomLevel::Render(float _Delta)
 void RoomLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+
+	if (true == FirstPlayerRandomValue)
+	{
+		GlobalValue::g_SelectAvailableCharacter1 = AvailableCharacterList::Random;
+
+		FirstPlayerRandomValue = false;
+	}
+
+	if (true == SecondPlayerRandomValue)
+	{
+		GlobalValue::g_SelectAvailableCharacter2 = AvailableCharacterList::Random;
+
+		SecondPlayerRandomValue = false;
+	}
 }
 
 void RoomLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	selectRandomCharacterFirstPlayer();
+	selectRandomCharacterSecondPlayer();
+}
 
+void RoomLevel::selectRandomCharacterFirstPlayer()
+{
+	if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Random)
+	{
+		std::vector<int> Random;
+
+		for (int CharacterCount = 0; CharacterCount < static_cast<int>(AvailableCharacterList::Random) - 1; CharacterCount++)
+		{
+			Random.push_back(CharacterCount);
+		}
+
+		int RandomValue = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(Random.size()) - 1);
+
+		if (RandomValue >= static_cast<int>(GlobalValue::g_SelectAvailableCharacter2))
+		{
+			RandomValue += 1;
+		}
+
+		GlobalValue::g_SelectAvailableCharacter1 = static_cast<AvailableCharacterList>(RandomValue);
+
+		FirstPlayerRandomValue = true;
+	}
+}
+
+void RoomLevel::selectRandomCharacterSecondPlayer()
+{
+	if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Random)
+	{
+		std::vector<int> Random;
+
+		for (int CharacterCount = 0; CharacterCount < static_cast<int>(AvailableCharacterList::Random) - 1; CharacterCount++)
+		{
+			Random.push_back(CharacterCount);
+		}
+
+		int RandomValue = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(Random.size()) - 1);
+
+		if (RandomValue >= static_cast<int>(GlobalValue::g_SelectAvailableCharacter1))
+		{
+			RandomValue += 1;
+		}
+
+		GlobalValue::g_SelectAvailableCharacter2 = static_cast<AvailableCharacterList>(RandomValue);
+
+		SecondPlayerRandomValue = true;
+	}
 }
