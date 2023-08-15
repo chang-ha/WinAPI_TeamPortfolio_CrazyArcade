@@ -8,6 +8,7 @@
 #include "RoomLevel.h"
 #include "UITestStage.h"
 #include "UITestStage2.h"
+#include "UITestStage3.h"
 
 #include "Penguin_Stage1.h"
 #include "Penguin_Stage2.h"
@@ -35,8 +36,9 @@ void CrazyArcadeCore::Start()
 	GameEngineCore::CreateLevel<Penguin_Stage1>("Penguin_Stage1");
 	GameEngineCore::CreateLevel<Penguin_Stage2>("Penguin_Stage2");
 	GameEngineCore::CreateLevel<Penguin_Stage3>("Penguin_Stage3");
-	GameEngineCore::CreateLevel<UITestStage2>("UITestStage2");
 	GameEngineCore::CreateLevel<UITestStage>("UITestStage");
+	GameEngineCore::CreateLevel<UITestStage2>("UITestStage2");
+	GameEngineCore::CreateLevel<UITestStage3>("UITestStage3");
 	
 	GameEngineCore::ChangeLevel("Penguin_Stage1");
 }

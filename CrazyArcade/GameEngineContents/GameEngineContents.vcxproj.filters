@@ -172,6 +172,9 @@
     <ClCompile Include="Piratemon_red.cpp">
       <Filter>Actor\Unit\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="UITestStage3.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -335,6 +338,9 @@
     </ClInclude>
     <ClInclude Include="Piratemon_red.h">
       <Filter>Actor\Unit\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="UITestStage3.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
