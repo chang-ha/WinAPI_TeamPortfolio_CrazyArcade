@@ -25,8 +25,9 @@ void BaseCharacter::Start()
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Character\\", 1, 1);
 
 	// Sound
-	GlobalUtils::SoundFileLoad("Locked_In_Bubble2.wav", "Resources\\Sounds\\Character\\");
+	GlobalUtils::SoundFileLoad("Locked_In_Bubble.wav", "Resources\\Sounds\\Character\\");
 	GlobalUtils::SoundFileLoad("Character_Death.wav", "Resources\\Sounds\\Character\\");
+	GlobalUtils::SoundFileLoad("Neddle.wav", "Resources\\Sounds\\Character\\");
 
 	ShadowRenderer = CreateRenderer("Shadow.Bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(CHARACTERSHADOWPOS);

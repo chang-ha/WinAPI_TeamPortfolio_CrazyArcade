@@ -550,7 +550,7 @@ void PlayResultLine::updateEXP()
 
 		m_ExpIncreaseValue = EXPIncreseAmount;
 
-		int CurrentExp = GlobalValue::g_vecPlayerInfo[Rank - 1].CurrentExp;
+		int CurrentExp = GlobalValue::g_vecPlayerInfo[m_LineNumber].CurrentExp;
 
 		while (true)
 		{

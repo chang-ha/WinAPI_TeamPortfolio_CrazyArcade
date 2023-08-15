@@ -92,10 +92,9 @@ void MapEditor::LoadButton()
 	PrevButton->setButtonTexture(ButtonState::Normal, "Button_Prev_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	PrevButton->setButtonTexture(ButtonState::Click, "Button_Prev_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	PrevButton->setButtonTexture(ButtonState::Hover, "Button_Prev_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
-
-	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
-
 	PrevButton->setCallback<MapEditor>(ButtonEventState::Click, this, &MapEditor::ClickPrevButton);
+	PrevButton->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
+
 
 	GameEngineSprite* PrevButtonSprite = ResourcesManager::GetInst().FindSprite("Button_Prev_Normal.bmp");
 	if (nullptr == PrevButtonSprite)
