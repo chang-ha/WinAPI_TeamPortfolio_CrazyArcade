@@ -483,9 +483,9 @@ void PlayLevel::CheckItemInTile(float _X, float _Y)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 캐릭터
-bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
+bool PlayLevel::CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _PlayerNum)
 {
-	float4 CheckPos = { _Pos.X, _Pos.Y };
+	float4 CheckPos = _Pos;
 	CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
 	float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
 
@@ -548,7 +548,17 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 
 		if (TileObjectOrder::Bubble == TileInfo[CheckY][CheckX].MapInfo)
 		{
-			float4 CheckPos = _Pos;
+			float4 CheckPos = float4::ZERO;
+
+			if (_PlayerNum == PlayerNum::P1)
+			{
+				CheckPos = Player->GetPos();
+			}
+			else
+			{
+				CheckPos = Player2->GetPos();
+			}
+
 			CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
 			float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
 
@@ -566,9 +576,9 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 	}	
 }
 
-bool PlayLevel::CheckSidePos(const float4& _Pos)
+bool PlayLevel::CheckSidePos(const float4& _Pos, const PlayerNum& _PlayerNum)
 {
-	float4 CheckPos = { _Pos.X, _Pos.Y };
+	float4 CheckPos = _Pos;
 	CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
 	float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
 
@@ -591,7 +601,17 @@ bool PlayLevel::CheckSidePos(const float4& _Pos)
 
 		if (TileObjectOrder::Bubble == TileInfo[CheckY][CheckX].MapInfo)
 		{
-			float4 CheckPos = Player->GetPos();
+			float4 CheckPos = float4::ZERO;
+
+			if (_PlayerNum == PlayerNum::P1)
+			{
+				CheckPos = Player->GetPos();
+			}
+			else
+			{
+				CheckPos = Player2->GetPos();
+			}
+
 			CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
 			float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
 

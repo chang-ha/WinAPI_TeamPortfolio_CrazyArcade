@@ -140,9 +140,9 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	CheckPos2 += GetPos();
 	CheckPos3 += GetPos();
 
-	bool FirstCheck = PlayLevel::CurPlayLevel->CheckSidePos(CheckPos1);
-	bool SecondCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos2, _Delta);
-	bool ThirdCheck = PlayLevel::CurPlayLevel->CheckSidePos(CheckPos3);
+	bool FirstCheck = PlayLevel::CurPlayLevel->CheckSidePos(CheckPos1, PlayerNumber);
+	bool SecondCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos2, _Delta, PlayerNumber);
+	bool ThirdCheck = PlayLevel::CurPlayLevel->CheckSidePos(CheckPos3, PlayerNumber);
 
 	if (false == FirstCheck && false == SecondCheck && false == ThirdCheck)
 	{

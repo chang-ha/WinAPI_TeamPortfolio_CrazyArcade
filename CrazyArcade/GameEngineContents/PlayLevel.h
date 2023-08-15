@@ -40,9 +40,9 @@ public:
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
-	bool CheckTile(const float4& _Pos, float _Delta);
+	bool CheckTile(const float4& _Pos, float _Delta, const enum class PlayerNum& _PlayerNum);
 	bool MonsterCheckTile(const float4& _Pos, float _Delta);
-	bool CheckSidePos(const float4& _Pos);
+	bool CheckSidePos(const float4& _Pos, const enum class PlayerNum& _PlayerNum);
 	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y);
 	void SetBubble(const float4& _Pos, int _BubblePower);
 	void BubblePop(const int _X, const int _Y);
