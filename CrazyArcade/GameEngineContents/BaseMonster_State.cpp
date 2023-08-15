@@ -1,8 +1,10 @@
 #include "BaseMonster.h"
 #include "PlayLevel.h"
+#include "BaseCharacter.h"
 
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/TileMap.h>
 
 void BaseMonster::IdleStart()
 {
@@ -34,6 +36,46 @@ void BaseMonster::MoveUpdate(float _Delta)
 	float Speed = 50.0f;
 
 	CheckDeath();
+
+	//if (nullptr != PlayLevel::CurPlayLevel->Player)
+	//{
+	//	// 플레이어 위치 체크
+	//	float4 PlayerPos = PlayLevel::CurPlayLevel->Player->GetPos();
+	//	float4 PlayerIndex = PlayLevel::CurPlayLevel->GetGroundTile()->PosToIndex(PlayerPos - GlobalValue::TileStartPos);
+
+	//	float4 MonsterPos = GetPos() - float4{0,30.0f};
+	//	float4 MonsterIndex = PlayLevel::CurPlayLevel->GetGroundTile()->PosToIndex(MonsterPos - GlobalValue::TileStartPos - GlobalValue::MapTileSize.Half());
+	//	checkplayerdur -= _Delta;
+	//	if (5.0f< (PlayerPos - MonsterPos).Size() && (PlayerPos - MonsterPos).Size() < 120.0f && checkplayerdur<0)
+	//	{
+	//		// 따라와야함
+	//		float4 TmpDir = PlayerPos - MonsterPos;
+	//		if (abs(TmpDir.X) > abs(TmpDir.Y))
+	//		{
+	//			if (TmpDir.X > 0)
+	//			{
+	//				Dir = ActorDir::Right;
+	//			}
+	//			else
+	//			{
+	//				Dir = ActorDir::Left;
+	//			}
+	//		}
+	//		else
+	//		{
+	//			if (TmpDir.Y > 0)
+	//			{
+	//				Dir = ActorDir::Down;
+	//			}
+	//			else
+	//			{
+	//				Dir = ActorDir::Up;
+	//			}
+	//		}
+	//		ChangeAnimationState("Move");
+	//		checkplayerdur = 0.2f;
+	//	}
+	//}
 
 	if (Dir == ActorDir::Down)
 	{
@@ -73,14 +115,14 @@ void BaseMonster::MoveUpdate(float _Delta)
 	{
 		RandomDir("Move");
 	}
-
-	MainTimer += _Delta;
 }
 
 void BaseMonster::FreezeStart()
 {
 	ChangeAnimationState("Freeze");
 	FreezeTimer = 0.0f;
+	MonsterEffectSound = GameEngineSound::SoundPlay("Ice_Monster_Freeze.wav");
+	MonsterEffectSound.SetVolume(1.0f);
 }
 
 void BaseMonster::FreezeUpdate(float _Delta)
@@ -106,6 +148,8 @@ void BaseMonster::FreezeUpdate(float _Delta)
 void BaseMonster::AngerStart()
 {
 	ChangeAnimationState("Anger");
+	MonsterEffectSound = GameEngineSound::SoundPlay("Ice_Monster_Angry.wav");
+	MonsterEffectSound.SetVolume(1.0f);
 }
 
 void BaseMonster::AngerUpdate(float _Delta)
@@ -186,8 +230,6 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 	{
 		RandomDir("AngerMove");
 	}
-
-	MainTimer += _Delta;
 }
 
 void BaseMonster::EggSummonStart()
@@ -308,6 +350,8 @@ void BaseMonster::EggHatchUpdate(float _Delta)
 void BaseMonster::EggDeathStart()
 {
 	ChangeAnimationState("EggDeath");
+	MonsterEffectSound = GameEngineSound::SoundPlay("Pirate_Monster_Death.wav");
+	MonsterEffectSound.SetVolume(1.0f);
 }
 
 void BaseMonster::EggDeathUpdate(float _Delta)
@@ -322,6 +366,8 @@ void BaseMonster::EggDeathUpdate(float _Delta)
 void BaseMonster::DieStart()
 {
 	ChangeAnimationState("Die");
+	MonsterEffectSound = GameEngineSound::SoundPlay("Ice_Monster_Death.wav");
+	MonsterEffectSound.SetVolume(1.0f);
 }
 
 void BaseMonster::DieUpdate(float _Delta)

@@ -5,12 +5,15 @@
 #include "GlobalValue.h"
 
 #include <string>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineActor.h>
 
 #define TOPPOS { 0.0f, 0.0f }
 #define LEFTPOS { -20.0f, 20.0f }
 #define RIGHTPOS { 20.0f, 20.0f }
 #define BOTPOS { 0.0f, 40.0f }
+
+#define CENTERPOS { 0.0f, 20.0f }
 
 #define MONSTERCOLLISIONSCALE { 30.0f, 30.0f }
 
@@ -65,17 +68,19 @@ protected:
 
 	void CheckCollision();
 
+	GameEngineSoundPlayer MonsterEffectSound;
+
 private:
 	void IdleStart();
 	void IdleUpdate(float _Delta);
 
 	void MoveStart();
-	void MoveUpdate(float _Delta);
+	virtual void MoveUpdate(float _Delta);
 
 	void FreezeStart();
 	void FreezeUpdate(float _Delta);
 
-	void DieStart();
+	virtual void DieStart();
 	void DieUpdate(float _Delta);
 
 	void AngerStart();
@@ -112,5 +117,6 @@ private:
 	float4 EggSummonStartPos = float4::ZERO;
 	float4 EggSummonEndPos = float4::ZERO;
 
+	float checkplayerdur = 1.0f;
 };
 
