@@ -121,7 +121,7 @@ void BaseCharacter::LiveStart()
 {
 	BodyCollision->Off();
 	ChangeAnimationState("Live");
-	EffectPlayer = GameEngineSound::SoundPlay("Neddle.wav");
+	EffectPlayer = GameEngineSound::SoundPlay("Live.wav");
 	EffectPlayer.SetVolume(1.0f);
 }
 void BaseCharacter::LiveUpdate(float _Delta)
