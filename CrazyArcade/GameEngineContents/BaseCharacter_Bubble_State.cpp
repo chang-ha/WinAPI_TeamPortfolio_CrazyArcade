@@ -104,18 +104,46 @@ void BaseCharacter::BubbleUpdate(float _Delta)
 	{
 		if (true == BodyCollision->Collision(CollisionOrder::PlayerBody2, Col, CollisionType::Rect, CollisionType::Rect))
 		{
-			BubbleTimer = 0.0f;
-			ChangeState(CharacterState::Live);
-			return;
+			GameEngineActor* ColActor = Col[Col.size() - 1]->GetActor();
+			
+			BaseCharacter* ColCharacter = dynamic_cast<BaseCharacter*>(ColActor);
+
+			if (nullptr == ColCharacter)
+			{
+				return;
+			}
+
+			std::string ColState = ColCharacter->CurState;
+
+			if ("Idle" == ColState || "Move" == ColState)
+			{
+				BubbleTimer = 0.0f;
+				ChangeState(CharacterState::Live);
+				return;
+			}
 		}
 	}
 	else if (PlayerNumber == PlayerNum::P2)
 	{
 		if (true == BodyCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect))
 		{
-			BubbleTimer = 0.0f;
-			ChangeState(CharacterState::Live);
-			return;
+			GameEngineActor* ColActor = Col[Col.size() - 1]->GetActor();
+
+			BaseCharacter* ColCharacter = dynamic_cast<BaseCharacter*>(ColActor);
+
+			if (nullptr == ColCharacter)
+			{
+				return;
+			}
+
+			std::string ColState = ColCharacter->CurState;
+
+			if ("Idle" == ColState || "Move" == ColState)
+			{
+				BubbleTimer = 0.0f;
+				ChangeState(CharacterState::Live);
+				return;
+			}
 		}
 	}
 
