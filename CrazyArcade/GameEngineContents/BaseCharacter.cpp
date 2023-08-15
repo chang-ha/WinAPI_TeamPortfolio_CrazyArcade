@@ -77,38 +77,61 @@ void BaseCharacter::Render(float _Delta)
 
 	if (true == IsDebugData)
 	{
-		std::string XText = "";
-		XText += "Player Pos X : ";
-		XText += std::to_string(GetPos().X);
-		TextOutA(dc, 2, 3, XText.c_str(), static_cast<int>(XText.size()));
-
-		std::string YText = "";
-		YText += "Player Pos Y : ";
-		YText += std::to_string(GetPos().Y);
-		TextOutA(dc, 2, 30, YText.c_str(), static_cast<int>(YText.size()));
-
 		if (PlayerNumber == PlayerNum::P1)
 		{
+			std::string XText = "";
+			XText += "Player Pos X : ";
+			XText += std::to_string(GetPos().iX());
+			TextOutA(dc, 2, 3, XText.c_str(), static_cast<int>(XText.size()));
+
+			std::string YText = "";
+			YText += "Player Pos Y : ";
+			YText += std::to_string(GetPos().iY());
+			TextOutA(dc, 2, 30, YText.c_str(), static_cast<int>(YText.size()));
+
 			std::string BombCountText = "";
-			BombCountText += "폭탄 설치 개수 : ";
+			BombCountText += "1P폭탄 수 : ";
 			BombCountText += std::to_string(GetBombCount());
 			TextOutA(dc, 2, 57, BombCountText.c_str(), static_cast<int>(BombCountText.size()));
 
 			std::string BombPowerText = "";
-			BombPowerText += "폭탄 파워 : ";
+			BombPowerText += "1P파워 : ";
 			BombPowerText += std::to_string(GetBombPower());
 			TextOutA(dc, 2, 84, BombPowerText.c_str(), static_cast<int>(BombPowerText.size()));
 
 			std::string SpeedText = "";
-			SpeedText += "속도 : ";
-			SpeedText += std::to_string(GetSpeed());
+			SpeedText += "1P속도 : ";
+			SpeedText += std::to_string(static_cast<int>(GetSpeed()));
 			TextOutA(dc, 2, 111, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
 		}
 
-		std::string CurTileText = "";
-		CurTileText += "밟고있는 타일 번호 : ";
-		CurTileText += std::to_string(static_cast<int>(CurTile));
-		TextOutA(dc, 2, 138, CurTileText.c_str(), static_cast<int>(CurTileText.size()));
+		if (PlayerNumber == PlayerNum::P2)
+		{
+			std::string XText = "";
+			XText += "Player Pos X : ";
+			XText += std::to_string(GetPos().iX());
+			TextOutA(dc, 670, 3, XText.c_str(), static_cast<int>(XText.size()));
+
+			std::string YText = "";
+			YText += "Player Pos Y : ";
+			YText += std::to_string(GetPos().iY());
+			TextOutA(dc, 670, 30, YText.c_str(), static_cast<int>(YText.size()));
+
+			std::string BombCountText = "";
+			BombCountText += "2P폭탄 수 : ";
+			BombCountText += std::to_string(GetBombCount());
+			TextOutA(dc, 700, 57, BombCountText.c_str(), static_cast<int>(BombCountText.size()));
+
+			std::string BombPowerText = "";
+			BombPowerText += "2P파워 : ";
+			BombPowerText += std::to_string(GetBombPower());
+			TextOutA(dc, 700, 84, BombPowerText.c_str(), static_cast<int>(BombPowerText.size()));
+
+			std::string SpeedText = "";
+			SpeedText += "2P속도 : ";
+			SpeedText += std::to_string(static_cast<int>(GetSpeed()));
+			TextOutA(dc, 700, 111, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
+		}
 
 		CollisionData Data;
 
