@@ -62,11 +62,6 @@ void Piratemon_red::Update(float _Delta)
 	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
 	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 CENTERPOS);
 
-	if (CurTileType == TileObjectOrder::PopRange)
-	{
-		ChangeState(MonsterState::Die);
-	}
-
 	if (State != MonsterState::Die)
 	{
 		BaseMonster::CheckCollision();
@@ -112,6 +107,11 @@ void Piratemon_red::ChangeAnimationState(const std::string& _StateName)
 
 void Piratemon_red::MoveUpdate(float _Delta)
 {
+	if (CurTileType == TileObjectOrder::PopRange)
+	{
+		ChangeState(MonsterState::Die);
+	}
+
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 	float Speed = 50.0f;
