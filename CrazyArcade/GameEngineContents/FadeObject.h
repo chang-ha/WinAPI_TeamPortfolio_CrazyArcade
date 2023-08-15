@@ -51,6 +51,8 @@ private:
 
 	std::string m_NextLevelName = "";
 
+	bool QuitValue = false;
+	const float QuitTime = 5.0f;
 
 	int m_Alpha = 0;
 	int m_RequestAlphaValue = 0;

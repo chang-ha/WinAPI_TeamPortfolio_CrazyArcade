@@ -25,6 +25,6 @@ protected:
 
 private:
 	void Start() override;
-	float4 ShadowPos = { 0.0f, 25.0f };
+	float4 ShadowPos = { 0.0f, 27.0f };
 };
 

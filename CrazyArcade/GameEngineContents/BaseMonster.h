@@ -31,6 +31,11 @@ public:
 
 	void RandomDir(const std::string& _StateName);
 
+	void SetState(MonsterState _State)
+	{
+		ChangeState(_State);
+	}
+
 protected:
 	virtual void StateUpdate(float _Delta);
 	virtual void ChangeState(MonsterState _State);
@@ -82,26 +87,30 @@ private:
 	void AngerMoveStart();
 	void AngerMoveUpdate(float _Delta);
 
+	void EggSummonStart();
+	void EggSummonUpdate(float _Delta);
+
 	void EggIdleStart();
 	void EggIdleUpdate(float _Delta);
 
 	void EggMoveStart();
 	void EggMoveUpdate(float _Delta);
 
-	void EggSummonStart();
-	void EggSummonUpdate(float _Delta);
+	void EggHatchStart();
+	void EggHatchUpdate(float _Delta);
 
 	void EggDeathStart();
 	void EggDeathUpdate(float _Delta);
 
+	void CheckDeath();
+
 	bool IsDebugData = false;
 
-	float Speed = 50.0f;
-	float AngerSpeed = 100.0f;
-
-	float IdleTimer = 0.0f;
-	float MoveTimer = 0.0f;
+	float MainTimer = 0.0f;
 	float FreezeTimer = 0.0f;
-	float AngerIdleTimer = 0.0f;
+
+	float4 EggSummonStartPos = float4::ZERO;
+	float4 EggSummonEndPos = float4::ZERO;
+
 };
 

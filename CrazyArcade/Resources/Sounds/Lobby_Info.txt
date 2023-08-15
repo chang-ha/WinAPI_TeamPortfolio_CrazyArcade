@@ -8,3 +8,5 @@ Character_Hobber -> 캐릭터 선택창 Hobber
 Map_Button_Click -> 맵 선택 버튼 클릭
 
 Map_Change_Cancel -> 맵 선택창 취소
+
+Game_Exit -> ByeBye~

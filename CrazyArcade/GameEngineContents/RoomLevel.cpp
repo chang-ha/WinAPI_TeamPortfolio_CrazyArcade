@@ -144,6 +144,9 @@ void RoomLevel::loadButtonElement()
 	ButtonPtr->setButtonTexture(ButtonState::Normal, "Button_MapSelect_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	ButtonPtr->setButtonTexture(ButtonState::Click, "Button_MapSelect_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	ButtonPtr->setButtonTexture(ButtonState::Hover, "Button_MapSelect_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
+	ButtonPtr->setButtonSound(ButtonEventState::Click, "Map_Button_Click.wav", "Resources\\Sounds\\Lobby");
+	ButtonPtr->setButtonSound(ButtonEventState::Hover, "Select.wav", "Resources\\Sounds\\Lobby");
+
 
 	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
 
@@ -167,6 +170,7 @@ void RoomLevel::loadButtonElement()
 	GameStartButtonPtr->setButtonTexture(ButtonState::Normal, "Button_GameStart_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameStartButtonPtr->setButtonTexture(ButtonState::Click, "Button_GameStart_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameStartButtonPtr->setButtonTexture(ButtonState::Hover, "Button_GameStart_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 3);
+	GameStartButtonPtr->setButtonSound(ButtonEventState::Hover, "Select.wav", "Resources\\Sounds\\Lobby");
 	GameStartButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickGameStartButton);
 
 	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
@@ -189,9 +193,10 @@ void RoomLevel::loadButtonElement()
 	GameExitButtonPtr->setButtonTexture(ButtonState::Normal, "Button_GameExit_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameExitButtonPtr->setButtonTexture(ButtonState::Click, "Button_GameExit_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameExitButtonPtr->setButtonTexture(ButtonState::Hover, "Button_GameExit_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
-	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
+	GameExitButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickExitButton);
+	GameExitButtonPtr->setButtonSound(ButtonEventState::Click, "Game_Exit.wav", "Resources\\Sounds\\Lobby");
+	GameExitButtonPtr->setButtonSound(ButtonEventState::Hover, "Select.wav", "Resources\\Sounds\\Lobby");
 
-	//ButtonPtr->setCallback<RoomLevel>(ButtonEventState::Click, this, &RoomLevel::clickGameStartButton);
 
 
 	GameExitButtonPtr->setButtonPos(m_GameExitButtonStartPos);
@@ -200,9 +205,26 @@ void RoomLevel::loadButtonElement()
 	m_ButtonUpdateValue = true;
 }
 
+void RoomLevel::clickSelectButton()
+{
+	WindowPanelUI* WindowPanelMapSelectPtr = vecWindowPanel[static_cast<int>(WindowPanelActor::MapSelect)];
+	if (nullptr == WindowPanelMapSelectPtr)
+	{
+		MsgBoxAssert("액터를 불러오지 못했습니다.");
+		return;
+	}
+
+	WindowPanelMapSelectPtr->enableWindow(true);
+}
+
 void RoomLevel::clickGameStartButton()
 {
 	FadeObject::CallFadeOut(this, "UITestStage", GlobalValue::g_ChangeLevelFadeSpeed);
+}
+
+void RoomLevel::clickExitButton()
+{
+	FadeObject::CallFadeOut(this, "Quit", 2.5f);
 }
 
 
@@ -238,6 +260,9 @@ void RoomLevel::loadCharacterButton()
 		CharacterButtonPtr->setButtonTexture(ButtonState::Normal, FileName + "_Normal.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
 		CharacterButtonPtr->setButtonTexture(ButtonState::Hover, FileName + "_Hover.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
 		CharacterButtonPtr->setButtonTexture(ButtonState::Click, FileName + "_Click.bmp", "Resources\\Textures\\UI\\MapSelect\\CharactorSelect", 1, 1);
+		CharacterButtonPtr->setButtonSound(ButtonEventState::Hover, "Character_Hover.wav", "Resources\\Sounds\\Lobby");
+		CharacterButtonPtr->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
+
 		m_CharacterButtonScale = CharacterButtonPtr->getButtonScale();
 
 		CharacterButtonPtr->setButtonPos(m_CharacterButtonStartPos +
@@ -670,17 +695,6 @@ void RoomLevel::loadSelectRoomBorder()
 }
 
 
-void RoomLevel::clickSelectButton()
-{
-	WindowPanelUI* WindowPanelMapSelectPtr = vecWindowPanel[static_cast<int>(WindowPanelActor::MapSelect)];
-	if (nullptr == WindowPanelMapSelectPtr)
-	{
-		MsgBoxAssert("액터를 불러오지 못했습니다.");
-		return;
-	}
-
-	WindowPanelMapSelectPtr->enableWindow(true);
-}
 
 void RoomLevel::clickBazziCharacterButton()
 {

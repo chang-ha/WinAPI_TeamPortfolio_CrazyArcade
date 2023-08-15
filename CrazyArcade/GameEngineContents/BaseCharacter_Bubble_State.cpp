@@ -22,7 +22,7 @@ void BaseCharacter::BubbleHitUpdate(float _Delta)
 void BaseCharacter::BubbleStart()
 {
 	ChangeAnimationState("Bubble");
-	EffectPlayer = GameEngineSound::SoundPlay("Locked_In_Bubble2.wav");
+	EffectPlayer = GameEngineSound::SoundPlay("Locked_In_Bubble.wav");
 	EffectPlayer.SetVolume(1.0f);
 }
 void BaseCharacter::BubbleUpdate(float _Delta)
@@ -121,6 +121,8 @@ void BaseCharacter::LiveStart()
 {
 	BodyCollision->Off();
 	ChangeAnimationState("Live");
+	EffectPlayer = GameEngineSound::SoundPlay("Neddle.wav");
+	EffectPlayer.SetVolume(1.0f);
 }
 void BaseCharacter::LiveUpdate(float _Delta)
 {

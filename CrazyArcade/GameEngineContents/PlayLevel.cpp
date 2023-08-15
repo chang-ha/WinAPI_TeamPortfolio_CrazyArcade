@@ -49,7 +49,10 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	CurPlayLevel = this;
 
 	CharacterSetting();
-	Player->SetPos(GlobalValue::WinScale.Half());
+	if (Player)
+	{
+		Player->SetPos(GlobalValue::WinScale.Half());
+	}
 
 	UILevelStart();
 
@@ -1024,6 +1027,12 @@ void PlayLevel::CreateGameStartAnimation()
 	m_GameStartAnimation->initStartAnimation(CurrentStage);
 	m_GameStartAnimation->setGameStartCallBack(this, &PlayLevel::setGameStartCallBack);
 
+	if (CurrentStage == 1)
+	{
+		GlobalUtils::SoundFileLoad("Game_Start.wav", "Resources\\Sounds\\GamePlay");
+		GameEngineSound::SoundPlay("Game_Start.wav");
+	}
+
 	if (CurrentStage >= 2 && CurrentStage <= 3)
 	{
 		m_GameStartAnimation->Off();
@@ -1036,6 +1045,10 @@ void PlayLevel::OnGameStartAnimation()
 	{
 		m_GameStartAnimation->On();
 	}
+
+	GlobalUtils::SoundFileLoad("Next_Level_Ready.wav", "Resources\\Sounds\\GamePlay");
+
+	GameEngineSound::SoundPlay("Next_Level_Ready.wav");
 }
 
 void PlayLevel::CreateBossImage()
@@ -1218,6 +1231,7 @@ void PlayLevel::SetGoBackButton()
 	m_GoBackButton->setButtonTexture(ButtonState::Hover, "Play_Button_Exit_Hover.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 2);
 	m_GoBackButton->setButtonTexture(ButtonState::Click, "Play_Button_Exit_Click.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 1);
 	m_GoBackButton->setCallback<PlayLevel>(ButtonEventState::Click, this, &PlayLevel::clickGoBackButton);
+	m_GoBackButton->setButtonSound(ButtonEventState::Hover, "Game_Exit_Button_Hover.wav", "Resources\\Sounds\\GamePlay");
 
 	float4 ButtonScale = m_GoBackButton->getButtonScale();
 	float4 ButtonPos = CONST_GoBackButtonStartPos + ButtonScale.Half();
@@ -1242,6 +1256,19 @@ void PlayLevel::StartGameOver()
 	m_ResultWindow->OnResultWindow(VecPlayerResult);
 
 	SetUpResultBoardAnimation();
+
+
+	static bool WinOrLoseSoundLoadValue = false;
+
+	if (false == WinOrLoseSoundLoadValue)
+	{
+		GlobalUtils::SoundFileLoad("Lose.wav", "Resources\\Sounds\\GamePlay");
+		GlobalUtils::SoundFileLoad("Win.wav", "Resources\\Sounds\\GamePlay");
+
+		WinOrLoseSoundLoadValue = true;
+	}
+
+	WinCheckValue ? GameEngineSound::SoundPlay("Win.wav") : GameEngineSound::SoundPlay("Lose.wav");
 
 	GameOverCheckValue = true;
 }
@@ -1272,12 +1299,30 @@ void PlayLevel::updateVictoryRoll()
 			return;
 		}
 
-		if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+		if (1 == GlobalValue::g_ActiveRoomCount)
 		{
-			WinCheckValue = false;
+			if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+			{
+				WinCheckValue = false;
 	
-			StartGameOver();
+				StartGameOver();
+			}
 		}
+		else
+		{
+			if (Player2)
+			{
+				if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || 
+					true == Player->GetPlayerDeath() && true == Player2->GetPlayerDeath())
+				{
+					WinCheckValue = false;
+
+					StartGameOver();
+				}
+			}
+
+		}
+
 
 		if (true == GameEngineInput::IsPress('6'))
 		{
@@ -1326,6 +1371,34 @@ void PlayLevel::updateCharacterPortrait()
 
 		vecCharacterState[0].AliveState = false;
 	}
+
+	if (nullptr == Player2)
+	{
+		return;
+	}
+
+
+	// 플레이어가 죽었는데 초상화가 업데이트 되지 않았다면 초상화를 바꿔줍니다.
+	if (Player2->GetPlayerDeath() && true == vecCharacterState[1].AliveState)
+	{
+		PlayPortrait* Portrait = vec_PlayPortrait[1];
+		if (nullptr == Portrait)
+		{
+			MsgBoxAssert("액터를 불러오지 못했습니다.");
+			return;
+		}
+
+		PlayCharacterPortrait* CharacterPortrait = Portrait->getPortrait();
+		if (nullptr == CharacterPortrait)
+		{
+			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
+			return;
+		}
+
+		CharacterPortrait->changeState(PlayPortraitState::Lose);
+
+		vecCharacterState[1].AliveState = false;
+	}
 }
 
 
@@ -1341,6 +1414,12 @@ void PlayLevel::UILevelEnd()
 	{
 		Player->Death();
 		Player = nullptr;
+	}
+
+	if (Player2)
+	{
+		Player2->Death();
+		Player2 = nullptr;
 	}
 
 	GameOverCheckValue = false;
