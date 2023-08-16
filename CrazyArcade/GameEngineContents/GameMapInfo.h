@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include "ContentsEnum.h"
+#include "ActorEnum.h"
+
 class GameMapInfo
 {
 public:
@@ -22,4 +24,11 @@ class GameMapIndex
 public:
 	int X = -1;
 	int Y = -1;
+};
+
+class GameMapBubble
+{
+public:
+	GameMapIndex Index = { -1, -1 };
+	PlayerNum BubbleMaster = PlayerNum::P1;
 };

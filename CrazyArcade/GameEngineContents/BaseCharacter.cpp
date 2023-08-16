@@ -52,7 +52,7 @@ void BaseCharacter::Update(float _Delta)
 		if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle" && GetBombCount() > 0
 			|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
 		{
-			PlayLevel::CurPlayLevel->SetBubble(GetPos() + float4 SETBUBBLEPOS, GetBombPower());
+			PlayLevel::CurPlayLevel->SetBubble(GetPos() + float4 SETBUBBLEPOS, GetBombPower(), PlayerNumber);
 		}
 	}
 
@@ -61,7 +61,7 @@ void BaseCharacter::Update(float _Delta)
 		if (true == GameEngineInput::IsDown('M') && CurState == "Idle" && GetBombCount() > 0
 			|| true == GameEngineInput::IsDown('M') && CurState == "Move" && GetBombCount() > 0)
 		{
-			PlayLevel::CurPlayLevel->SetBubble(GetPos() + float4 SETBUBBLEPOS, GetBombPower());
+			PlayLevel::CurPlayLevel->SetBubble(GetPos() + float4 SETBUBBLEPOS, GetBombPower(), PlayerNumber);
 		}
 	}
 

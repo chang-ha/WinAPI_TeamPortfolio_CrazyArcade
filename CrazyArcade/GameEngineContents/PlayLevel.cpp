@@ -124,12 +124,13 @@ void PlayLevel::Update(float _Delta)
 	// 물폭탄의 타이머를 위한 for문
 	if (AllBubbleIndex.size() > 0)
 	{
-		std::list<GameMapIndex>::iterator StartIter = AllBubbleIndex.begin();
-		std::list<GameMapIndex>::iterator EndIter = AllBubbleIndex.end();
+		std::list<GameMapBubble>::iterator StartIter = AllBubbleIndex.begin();
+		std::list<GameMapBubble>::iterator EndIter = AllBubbleIndex.end();
 
 		for (; StartIter != EndIter;)
 		{
-			GameMapIndex CheckIndex = *StartIter;
+			GameMapBubble CheckBubble = *StartIter;
+			GameMapIndex CheckIndex = CheckBubble.Index;
 
 			if (TileInfo[CheckIndex.Y][CheckIndex.X].PrevPop == false)
 			{
@@ -735,7 +736,7 @@ TileObjectOrder PlayLevel::GetCurTileType(const float4& _Pos)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 물폭탄
-void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower)
+void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum& _PlayerNum)
 {
 	if (nullptr != Player)
 	{
@@ -753,9 +754,22 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower)
 			return;
 		}
 
-		Player->BombCountMinus();
+		if (PlayerNum::P1 == _PlayerNum)
+		{
+			Player->BombCountMinus();
+		}
+		else if (PlayerNum::P2 == _PlayerNum)
+		{
+			Player2->BombCountMinus();
+		}
+		else
+		{
+			MsgBoxAssert("폭탄을 설치하려는 플레이어가 1P인지 2P인지 알 수 없음");
+			return;
+		}
 
-		AllBubbleIndex.push_back({ BubbleIndexX, BubbleIndexY });
+
+		AllBubbleIndex.push_back({ { BubbleIndexX, BubbleIndexY }, _PlayerNum });
 
 		TileInfo[BubbleIndexY][BubbleIndexX].MapInfo = TileObjectOrder::Bubble;
 		TileInfo[BubbleIndexY][BubbleIndexX].BubblePower = _BubblePower;
@@ -780,7 +794,19 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower)
 
 void PlayLevel::BubblePop(const int _X, const int _Y)
 {
-	Player->BombCountPlus();
+	for (const GameMapBubble& BubbleIter : AllBubbleIndex)
+	{
+		if (_X == BubbleIter.Index.X && _Y == BubbleIter.Index.Y && PlayerNum::P1 == BubbleIter.BubbleMaster)
+		{
+			Player->BombCountPlus();
+		}
+		else if (_X == BubbleIter.Index.X && _Y == BubbleIter.Index.Y && PlayerNum::P2 == BubbleIter.BubbleMaster)
+		{
+			Player2->BombCountPlus();
+		}
+	}
+
+	
 	int BubblePower = TileInfo[_Y][_X].BubblePower;
 	TileInfo[_Y][_X].Timer = 0.0f;
 	TileInfo[_Y][_X].MapInfo = TileObjectOrder::PopRange;
