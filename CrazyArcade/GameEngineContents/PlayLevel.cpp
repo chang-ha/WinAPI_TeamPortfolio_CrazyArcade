@@ -546,7 +546,7 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _Pl
 
 			if (LerpTime < TileInfo[CheckY][CheckX].LerpTimer)
 			{
-				MoveTile(NextTile, CheckX, CheckY);
+				MoveTile(NextTile, CheckX, CheckY, _PlayerNum);
 				return false;
 			}
 			return true;
@@ -635,11 +635,21 @@ bool PlayLevel::CheckSidePos(const float4& _Pos, const PlayerNum& _PlayerNum)
 	}
 }
 
-void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
+void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y, const PlayerNum& _PlayerNum)
 {
 	static bool MoveCheck = false;
 
-	ActorDir PlayerDir = Player->GetDir();
+	ActorDir PlayerDir = ActorDir::Max;
+
+	if (PlayerNum::P1 == _PlayerNum)
+	{
+		PlayerDir = Player->GetDir();
+	}
+	else if(PlayerNum::P2 == _PlayerNum)
+	{
+		PlayerDir = Player2->GetDir();
+	}
+	
 	MOVEDIR LerpDir = MOVEDIR::NONE;
 	float4 ItemMoveDir = float4::ZERO;
 	int NewX = _X;
