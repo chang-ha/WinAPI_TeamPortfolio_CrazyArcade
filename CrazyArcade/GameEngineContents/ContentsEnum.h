@@ -4,8 +4,9 @@ enum class UpdateOrder
 {
 	Map,
 	UI,
-	Max,
-	Character
+	Character,
+	Monster,
+	Max
 };
 
 enum class RenderOrder
