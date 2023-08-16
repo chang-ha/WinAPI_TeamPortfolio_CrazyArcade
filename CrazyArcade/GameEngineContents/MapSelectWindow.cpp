@@ -272,6 +272,9 @@ void MapSelectWindow::loadMapInfoButton()
 
 			MapLevelRenderer->SetCopyScale(m_MapNumberScale);
 			MapLevelRenderer->SetRenderScale(m_MapNumberScale);
+
+
+			MapLevelRenderer->SetCopyPos(float4{ 0.0f , m_MapNumberScale.Y * static_cast<float>(MapCount % 2)});
 		}
 
 		float4 MapLevelPos = MapCompartStartPos + MapNumberStartPos + m_MapNumberScale.Half();
@@ -340,7 +343,7 @@ void MapSelectWindow::changeMapCompart(MapType _Type)
 		GameEngineRenderer* NumberRenderer = PrevNumberTexture->getRenderer();
 		if (NumberRenderer)
 		{
-			NumberRenderer->SetCopyPos(float4::ZERO);
+			NumberRenderer->SetCopyPos(float4{ 0.0f , m_MapNumberScale.Y * static_cast<float>(static_cast<int>(CurSelectMap) % 2) });
 		}
 	}
 
@@ -376,7 +379,7 @@ void MapSelectWindow::changeMapCompart(MapType _Type)
 		GameEngineRenderer* NumberRenderer = NumberTexture->getRenderer();
 		if (NumberRenderer)
 		{
-			NumberRenderer->SetCopyPos(float4{ m_MapNumberScale.X , 0.0f });
+			NumberRenderer->SetCopyPos(float4{ m_MapNumberScale.X , m_MapNumberScale.Y * static_cast<float>(static_cast<int>(CurSelectMap) % 2) });
 		}
 	}
 
