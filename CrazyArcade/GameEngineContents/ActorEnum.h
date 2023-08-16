@@ -22,6 +22,7 @@ enum class ActorDir
 	Right,
 	Up,
 	Down,
+	Max
 };
 
 enum class PlayerNum

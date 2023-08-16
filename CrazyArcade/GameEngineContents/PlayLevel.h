@@ -44,7 +44,7 @@ public:
 	bool CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _PlayerNum);
 	bool MonsterCheckTile(const float4& _Pos, float _Delta);
 	bool CheckSidePos(const float4& _Pos, const PlayerNum& _PlayerNum);
-	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y);
+	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y, const PlayerNum& _PlayerNum);
 	void SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum& _PlayerNum);
 	void BubblePop(const int _X, const int _Y);
 	void SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
