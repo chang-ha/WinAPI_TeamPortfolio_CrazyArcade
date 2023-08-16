@@ -149,9 +149,14 @@ protected:
 
 	void SetPlayer2();
 
-	void GetNeedle()
+	void NeedlePlus()
 	{
 		++NeedleCount;
+	}
+
+	int GetNeedle() const
+	{
+		return NeedleCount;
 	}
 
 protected:

@@ -105,8 +105,8 @@ void BaseCharacter::Render(float _Delta)
 			TextOutA(dc, 2, 111, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
 
 			std::string CurTileNum = "";
-			CurTileNum += "1P타일 : ";
-			CurTileNum += std::to_string(static_cast<int>(CurTile));
+			CurTileNum += "1P바늘 : ";
+			CurTileNum += std::to_string(GetNeedle());
 			TextOutA(dc, 2, 138, CurTileNum.c_str(), static_cast<int>(CurTileNum.size()));
 		}
 
@@ -136,6 +136,11 @@ void BaseCharacter::Render(float _Delta)
 			SpeedText += "2P속도 : ";
 			SpeedText += std::to_string(static_cast<int>(GetSpeed()));
 			TextOutA(dc, 700, 111, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
+
+			std::string CurTileNum = "";
+			CurTileNum += "2P바늘 : ";
+			CurTileNum += std::to_string(GetNeedle());
+			TextOutA(dc, 700, 138, CurTileNum.c_str(), static_cast<int>(CurTileNum.size()));
 		}
 
 		CollisionData Data;
@@ -227,7 +232,7 @@ void BaseCharacter::GetItem(const ItemType& _ItemType)
 		ChangeMaxSpeed();
 		break;
 	case ItemType::Needle:
-		GetNeedle();
+		NeedlePlus();
 		break;
 	default:
 		break;
