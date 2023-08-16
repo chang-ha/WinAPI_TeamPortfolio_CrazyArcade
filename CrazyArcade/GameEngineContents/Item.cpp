@@ -50,10 +50,8 @@ void Item::Start()
 void Item::Update(float _Delta)
 {
 	std::vector<GameEngineCollision*> Col;
-	if (true == ItemCollision->Collision(CollisionOrder::PlayerBody,
-		Col,
-		CollisionType::Rect,
-		CollisionType::Rect))
+	if (true == ItemCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect)
+		|| true == ItemCollision->Collision(CollisionOrder::PlayerBody2, Col, CollisionType::Rect, CollisionType::Rect))
 	{
 		EffectPlayer = GameEngineSound::SoundPlay("Get_Item.wav");
 		EffectPlayer.SetVolume(0.3f);

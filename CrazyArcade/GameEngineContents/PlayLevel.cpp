@@ -49,9 +49,14 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	CurPlayLevel = this;
 
 	CharacterSetting();
-	if (Player)
+	if (nullptr != Player)
 	{
 		Player->SetPos(GlobalValue::WinScale.Half());
+	}
+
+	if (nullptr != Player2)
+	{
+		Player2->SetPos(GlobalValue::WinScale.Half());
 	}
 
 	UILevelStart();
