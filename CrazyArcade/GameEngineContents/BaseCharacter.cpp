@@ -42,7 +42,7 @@ void BaseCharacter::Start()
 
 void BaseCharacter::Update(float _Delta)
 {
-	CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
+	CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 FOOTPOS);
 
 	StateUpdate(_Delta);
 
@@ -52,7 +52,7 @@ void BaseCharacter::Update(float _Delta)
 		if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle" && GetBombCount() > 0
 			|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
 		{
-			PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f }, GetBombPower());
+			PlayLevel::CurPlayLevel->SetBubble(GetPos() + float4 SETBUBBLEPOS, GetBombPower());
 		}
 	}
 
@@ -61,7 +61,7 @@ void BaseCharacter::Update(float _Delta)
 		if (true == GameEngineInput::IsDown('M') && CurState == "Idle" && GetBombCount() > 0
 			|| true == GameEngineInput::IsDown('M') && CurState == "Move" && GetBombCount() > 0)
 		{
-			PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f }, GetBombPower());
+			PlayLevel::CurPlayLevel->SetBubble(GetPos() + float4 SETBUBBLEPOS, GetBombPower());
 		}
 	}
 
@@ -103,6 +103,11 @@ void BaseCharacter::Render(float _Delta)
 			SpeedText += "1P속도 : ";
 			SpeedText += std::to_string(static_cast<int>(GetSpeed()));
 			TextOutA(dc, 2, 111, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
+
+			std::string CurTileNum = "";
+			CurTileNum += "1P타일 : ";
+			CurTileNum += std::to_string(static_cast<int>(CurTile));
+			TextOutA(dc, 2, 138, CurTileNum.c_str(), static_cast<int>(CurTileNum.size()));
 		}
 
 		if (PlayerNumber == PlayerNum::P2)
@@ -188,6 +193,15 @@ void BaseCharacter::Render(float _Delta)
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
 		Data.Pos = GetPos() + float4 RIGHTBOTCHECKPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+
+		Data.Pos = GetPos() + float4 FOOTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 SETBUBBLEPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 	}
