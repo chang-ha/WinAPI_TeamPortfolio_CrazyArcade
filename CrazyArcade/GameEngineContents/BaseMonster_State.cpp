@@ -135,7 +135,8 @@ void BaseMonster::FreezeUpdate(float _Delta)
 	}
 
 	std::vector<GameEngineCollision*> Col;
-	if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect))
+	if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect)
+		|| true == MonsterCollision->Collision(CollisionOrder::PlayerBody2, Col, CollisionType::Rect, CollisionType::Rect))
 	{
 		ChangeState(MonsterState::Die);
 		MonsterCollision->Off();
