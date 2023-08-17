@@ -88,6 +88,10 @@ void Penguin_Stage2::Start()
 
 	MapFileLoad("Penguin_Stage2.map");
 	TileSetting();
+
+	CurrentStage = 2;
+	NextLevelName = "Penguin_Stage3";
+	CreateUIElements();
 }
 
 void Penguin_Stage2::Update(float _Delta)

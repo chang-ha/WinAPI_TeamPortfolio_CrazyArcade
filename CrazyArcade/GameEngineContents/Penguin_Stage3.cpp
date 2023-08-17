@@ -59,6 +59,10 @@ void Penguin_Stage3::Start()
 
 	MapFileLoad("Penguin_Stage3.map");
 	TileSetting();
+
+	CurrentStage = 3;
+	NextLevelName = "RoomLevel";
+	CreateUIElements();
 }
 
 void Penguin_Stage3::Update(float _Delta)
