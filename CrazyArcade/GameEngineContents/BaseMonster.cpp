@@ -206,7 +206,8 @@ void BaseMonster::RandomDir(const std::string& _StateName)
 void BaseMonster::CheckCollision()
 {
 	std::vector<GameEngineCollision*> Col;
-	if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect))
+	if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect)
+		|| true == MonsterCollision->Collision(CollisionOrder::PlayerBody2, Col, CollisionType::Rect, CollisionType::Rect))
 	{
 		for (GameEngineCollision* _Col : Col)
 		{
