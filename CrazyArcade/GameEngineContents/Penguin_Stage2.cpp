@@ -66,7 +66,7 @@ void Penguin_Stage2::LevelStart(GameEngineLevel* _PrevLevel)
 
 void Penguin_Stage2::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	PlayLevel::LevelEnd(_NextLevel);
 }
 
 void Penguin_Stage2::Start()

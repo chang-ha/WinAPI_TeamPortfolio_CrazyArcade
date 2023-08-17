@@ -60,11 +60,22 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	UILevelStart();
-
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	if (Player != nullptr)
+	{
+		Player->Death();
+		Player = nullptr;
+	}
+
+	if (Player2 != nullptr)
+	{
+		Player2->Death();
+		Player2 = nullptr;
+	}
+
 	UILevelEnd();
 }
 
