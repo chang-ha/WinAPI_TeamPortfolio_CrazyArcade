@@ -1,6 +1,7 @@
 #include "Item.h"
 #include "BaseCharacter.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include <cmath>
@@ -69,6 +70,31 @@ void Item::Update(float _Delta)
 	Levitation(_Delta);
 }
 
+
+void Item::SetItemTypeRandom()
+{
+	// < 아이템 번호 >
+	// 0 : Bubble
+	// 1 : Fluid
+	// 2 : Roller
+	// 3 : Ultra
+	// 4 : Red_Devil
+	// 5 : Needle
+
+	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 4);
+	if (0 == RandomNumber)
+	{
+		// 20.0% 확률로 Ultra, Red_Devil, Needle중 하나 생성
+		RandomNumber = GameEngineRandom::MainRandom.RandomInt(3, 5);
+	}
+	else
+	{
+		// 80.0% 확률로 Bubble, Fluid, Roller 중 하나 생성
+		RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2);
+	}
+
+	SetItemTypeInt(RandomNumber);
+}
 
 void Item::SetItemPos(int _X, int _Y)
 {

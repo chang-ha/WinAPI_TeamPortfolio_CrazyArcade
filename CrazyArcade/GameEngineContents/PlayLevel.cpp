@@ -429,8 +429,8 @@ void PlayLevel::ItemSetting()
 			if (TileInfoInt == 2 ||
 				TileInfoInt == 3)
 			{
-				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2); // 33.3% 확률로 아이템 생성
-				if (0 == RandomNumber)
+				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 4); // 33.3% 확률로 아이템 생성
+				if (1 >= RandomNumber)
 				{
 					CreateItemInBlock(X, Y);
 				}
@@ -441,29 +441,11 @@ void PlayLevel::ItemSetting()
 
 void PlayLevel::CreateItemInBlock(int _X, int _Y)
 {
-	// < 아이템 번호 >
-	// 0 : Bubble
-	// 1 : Fluid
-	// 2 : Roller
-	// 3 : Ultra
-	// 4 : Red_Devil
-	// 5 : Needle -> 블럭에서 안나옴
-	
-	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 3); 
-	if (RandomNumber == 0)
-	{
-		// 25% 확률로 Ultra, Red_Devil 중 하나 생성
-		RandomNumber = GameEngineRandom::MainRandom.RandomInt(3, 4);
-	}
-	else
-	{
-		// 75% 확률로 Bubble, Fluid, Roller 중 하나 생성
-		RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2);
-	}
-
 	ItemActor = CreateActor<Item>(UpdateOrder::Map);
-	ItemActor->SetItemTypeInt(RandomNumber);
+	//ItemActor->SetItemTypeInt(RandomNumber);
+
 	ItemActor->SetItemPos(_X, _Y);
+	ItemActor->SetItemTypeRandom();
 	ItemActor->PutIteminBlock();
 	Items[_Y][_X] = ItemActor;
 	ItemActor = nullptr;
