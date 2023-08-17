@@ -718,7 +718,6 @@ void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y, const Pl
 		if (nullptr != Items[_Y][_X])
 		{
 			Items[NewY][NewX] = Items[_Y][_X];
-			//Items[NewY][NewX]->AddPos(GlobalValue::MapTileSize * ItemMoveDir);
 			Items[NewY][NewX]->SetItemPos(NewX, NewY);
 			Items[_Y][_X] = nullptr;
 		}
