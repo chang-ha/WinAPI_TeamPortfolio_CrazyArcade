@@ -360,6 +360,7 @@ void BaseMonster::EggDeathUpdate(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		Death();
+		PlayLevel::CurPlayLevel->MonsterListDelete();
 		return;
 	}
 }
@@ -369,7 +370,6 @@ void BaseMonster::DieStart()
 	ChangeAnimationState("Die");
 	MonsterEffectSound = GameEngineSound::SoundPlay("Ice_Monster_Death.wav");
 	MonsterEffectSound.SetVolume(1.0f);
-	PlayLevel::CurPlayLevel->StageMonsterCountMinus();
 }
 
 void BaseMonster::DieUpdate(float _Delta)
@@ -377,6 +377,7 @@ void BaseMonster::DieUpdate(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		Death();
+		PlayLevel::CurPlayLevel->MonsterListDelete();
 		return;
 	}
 }

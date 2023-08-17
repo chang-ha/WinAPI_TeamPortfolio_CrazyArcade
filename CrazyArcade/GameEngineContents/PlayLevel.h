@@ -29,7 +29,6 @@ class PlayLevel : public ContentLevel
 	friend class BaseMonster;
 public:
 	static PlayLevel* CurPlayLevel;
-	static int StageMonsterCount;
 
 	// constructer destructer
 	PlayLevel();
@@ -51,7 +50,7 @@ public:
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
 	bool MonsterCheckTile(const float4& _Pos, float _Delta);
-
+	
 	template <typename MonsterType>
 	MonsterType* CreateMonster()
 	{
@@ -59,8 +58,7 @@ public:
 
 		if (nullptr != NewMonster)
 		{
-			++StageMonsterCount;
-			// StageMonsters.push_back(NewMonster);
+			StageMonsters.push_back(NewMonster);
 			return NewMonster;
 		}
 		else
@@ -70,14 +68,9 @@ public:
 		}
 	}
 
-	void StageMonsterCountMinus()
-	{
-		--StageMonsterCount;
-	}
-
 	int GetStageMonsterCount() const
 	{
-		return StageMonsterCount;
+		return static_cast<int>(StageMonsters.size());
 	}
 
 	void CheckItemInTile(int _X, int _Y);
@@ -103,8 +96,16 @@ protected:
 	void MapFileLoad(const std::string& _FileName);
 	void TileSetting();
 
+	// Player
+	BaseCharacter* Player = nullptr;
+	BaseCharacter* Player2 = nullptr;
 	void CharacterSetting();
 
+	// Monster
+	std::list<BaseMonster*> StageMonsters;
+	void StageMonstersDeath();
+	void MonsterListDelete();
+	
 	// Item
 	void ItemSetting();
 	void CreateItemInBlock(int _X, int _Y);
@@ -114,10 +115,6 @@ protected:
 
 	std::vector<std::vector<class Item*>> Items;
 	class Item* ItemActor = nullptr;
-
-	// Player
-	BaseCharacter* Player = nullptr;
-	BaseCharacter* Player2 = nullptr;
 
 	// Tile
 	std::vector<std::vector<class GameMapInfo>> TileInfo;

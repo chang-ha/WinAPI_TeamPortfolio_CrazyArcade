@@ -35,7 +35,6 @@
 #include "Item.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
-int PlayLevel::StageMonsterCount = 0;
 
 PlayLevel::PlayLevel()
 {
@@ -77,6 +76,8 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 		Player2->Death();
 		Player2 = nullptr;
 	}
+
+	StageMonstersDeath();
 
 	UILevelEnd();
 }
@@ -1530,6 +1531,41 @@ bool PlayLevel::MonsterCheckTile(const float4& _Pos, float _Delta)
 		}
 
 		return false;
+	}
+}
+
+void PlayLevel::StageMonstersDeath()
+{
+	std::list<BaseMonster*>::iterator StartIter = StageMonsters.begin();
+	std::list<BaseMonster*>::iterator EndIter = StageMonsters.end();
+
+	for (; StartIter != EndIter;)
+	{
+		BaseMonster* CurMonster = *StartIter;
+
+		CurMonster->SetState(MonsterState::Die);
+
+		StartIter = StageMonsters.erase(StartIter);
+	}
+}
+
+void PlayLevel::MonsterListDelete()
+{
+	std::list<BaseMonster*>::iterator StartIter = StageMonsters.begin();
+	std::list<BaseMonster*>::iterator EndIter = StageMonsters.end();
+
+	for (; StartIter != EndIter;)
+	{
+		BaseMonster* CurMonster = *StartIter;
+
+		if (CurMonster->IsDeath() == true)
+		{
+			StartIter = StageMonsters.erase(StartIter);
+		}
+		else
+		{
+			++StartIter;
+		}
 	}
 }
 
