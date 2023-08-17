@@ -221,7 +221,7 @@ void RoomLevel::clickSelectButton()
 
 void RoomLevel::clickGameStartButton()
 {
-	FadeObject::CallFadeOut(this, "UITestStage", GlobalValue::g_ChangeLevelFadeSpeed);
+	FadeObject::CallFadeOut(this, "Penguin_Stage1", GlobalValue::g_ChangeLevelFadeSpeed);
 }
 
 void RoomLevel::clickExitButton()
