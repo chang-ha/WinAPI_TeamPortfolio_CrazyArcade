@@ -1,6 +1,7 @@
 #pragma once
 #define IDLE_ANI_SPEED 0.10f
-#define HITTEN_ANI_SPEED 0.17f
+#define MOVE_ANI_SPEED 0.10f
+#define HITTEN_ANI_SPEED 0.15f
 #define ANGER_ANI_SPEED 0.15f
 #define BUBBLE_ANI_SPEED 0.18f
 #define PATTERN_TIME 10.0f
@@ -51,6 +52,8 @@ private:
 	void IdleUpdate(float _Delta);
 
 	ActorDir DirDecision(int _MoveRange);
+	void ChangeAnimationState(MonsterState _State);
+
 	void MoveStart();
 	void MoveUpdate(float _Delta);
 
@@ -74,7 +77,6 @@ private:
 	void SummonUpdate(float _Delta);
 
 	void PatternUpdate();
-	void ResetPatternValue();
 	void OncePatternUpdate();
 
 	bool IsDebugMode = false;

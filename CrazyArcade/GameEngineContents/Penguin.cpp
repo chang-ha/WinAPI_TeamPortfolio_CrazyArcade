@@ -52,12 +52,20 @@ void Penguin::Start()
 
 		// Down
 		ResourcesManager::GetInst().CreateSpriteSheet("Down_Idle", FilePath.PlusFilePath("Idle_Penguin.bmp"), 9, 1);
-		ResourcesManager::GetInst().CreateSpriteSheet("Down_Hitten", FilePath.PlusFilePath("Hitten_Penguin.bmp"), 5, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Down_Move", FilePath.PlusFilePath("Down_Move.bmp"), 6, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Down_Hitten", FilePath.PlusFilePath("Down_Hitten.bmp"), 5, 1);
+
 		// Up
+		ResourcesManager::GetInst().CreateSpriteSheet("Up_Move", FilePath.PlusFilePath("Up_Move.bmp"), 6, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Up_Hitten", FilePath.PlusFilePath("Up_Hitten.bmp"), 5, 1);
 
 		// Right
+		ResourcesManager::GetInst().CreateSpriteSheet("Right_Move", FilePath.PlusFilePath("Right_Move.bmp"), 6, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Right_Hitten", FilePath.PlusFilePath("Right_Hitten.bmp"), 5, 1);
 
 		// Left
+		ResourcesManager::GetInst().CreateSpriteSheet("Left_Move", FilePath.PlusFilePath("Left_Move.bmp"), 6, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Left_Hitten", FilePath.PlusFilePath("Left_Hitten.bmp"), 5, 1);
 
 		ResourcesManager::GetInst().CreateSpriteSheet("Anger_Penguin", FilePath.PlusFilePath("Anger_Penguin.bmp"), 12, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Summon_Penguin", FilePath.PlusFilePath("Summon_Penguin.bmp"), 20, 1);
@@ -79,25 +87,37 @@ void Penguin::Start()
 			MainRenderer->FindAnimation("Down_Idle")->Inters[8] = 5.0f;
 
 			// Move
-			// MainRenderer->CreateAnimation("Down_Move", "Down_Move", 0, 4, IDLE_ANI_SPEED, false);
+			MainRenderer->CreateAnimation("Down_Move", "Down_Move", 0, 5, MOVE_ANI_SPEED);
 
 			// Hitten
-			MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, HITTEN_ANI_SPEED, false);
+			MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, HITTEN_ANI_SPEED);
 		}
 
 		// Up
 		{
+			// Move
+			MainRenderer->CreateAnimation("Up_Move", "Up_Move", 0, 5, MOVE_ANI_SPEED);
 
+			// Hitten
+			MainRenderer->CreateAnimation("Up_Hitten", "Up_Hitten", 0, 4, HITTEN_ANI_SPEED);
 		}
 
 		// Right
 		{
+			// Move
+			MainRenderer->CreateAnimation("Right_Move", "Right_Move", 0, 5, MOVE_ANI_SPEED);
 
+			// Hitten
+			MainRenderer->CreateAnimation("Right_Hitten", "Right_Hitten", 0, 4, HITTEN_ANI_SPEED);
 		}
 
 		// Left
 		{
+			// Move
+			MainRenderer->CreateAnimation("Left_Move", "Left_Move", 0, 5, MOVE_ANI_SPEED);
 
+			// Hitten
+			MainRenderer->CreateAnimation("Left_Hitten", "Left_Hitten", 0, 4, HITTEN_ANI_SPEED);
 		}
 
 		// Anger 
@@ -164,6 +184,27 @@ void Penguin::Update(float _Delta)
 		IsDebugMode = !IsDebugMode;
 	}
 
+	// Test Code
+	if (true == GameEngineInput::IsDown('1'))
+	{
+		Dir = ActorDir::Left;
+		ChangeAnimationState(MonsterState::Hitten);
+	}
+	if (true == GameEngineInput::IsDown('2'))
+	{
+		Dir = ActorDir::Right;
+		ChangeAnimationState(MonsterState::Hitten);
+	}
+	if (true == GameEngineInput::IsDown('3'))
+	{
+		Dir = ActorDir::Up;
+		ChangeAnimationState(MonsterState::Hitten);
+	}
+	if (true == GameEngineInput::IsDown('4'))
+	{
+		Dir = ActorDir::Down;
+		ChangeAnimationState(MonsterState::Hitten);
+	}
 	//if (true == GameEngineInput::IsDown('M'))
 	//{
 	//	ChangeState(MonsterState::Summon);
@@ -366,14 +407,68 @@ ActorDir Penguin::DirDecision(int _MoveRange)
 	GameEngineRandom::MainRandom.SetSeed(time(NULL));
 	int ReturnIndex = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(MoveDir.size()) - 1);
 
-	return MoveDir[ReturnIndex];
+	Dir = MoveDir[ReturnIndex];
+	return Dir;
+}
+
+void Penguin::ChangeAnimationState(MonsterState _State)
+{
+	std::string AnimationName = "";
+	
+	if (ActorDir::Right == Dir)
+	{
+		AnimationName = "Right_";
+	}
+	else if (ActorDir::Left == Dir)
+	{
+		AnimationName = "Left_";
+	}
+	else if (ActorDir::Up == Dir)
+	{
+		AnimationName = "Up_";
+	}
+	else if (ActorDir::Down == Dir)
+	{
+		AnimationName = "Down_";
+	}
+
+	switch (_State)
+	{
+	case MonsterState::Move:
+		AnimationName += "Move";
+		break;
+	case MonsterState::Hitten:
+		AnimationName += "Hitten";
+		break;
+	case MonsterState::Idle:
+	case MonsterState::Ready:
+	case MonsterState::Freeze:
+	case MonsterState::Anger:
+	case MonsterState::AngerIdle:
+	case MonsterState::AngerMove:
+	case MonsterState::EggSummon:
+	case MonsterState::EggIdle:
+	case MonsterState::EggMove:
+	case MonsterState::EggHatch:
+	case MonsterState::EggDeath:
+	case MonsterState::Die:
+	case MonsterState::Summon:
+	case MonsterState::Die_Ready:
+	case MonsterState::Die_Bubble:
+	default:
+		MsgBoxAssert("방향애니메이션이 존재하지 않는 State값입니다.");
+		break;
+	}
+
+	State = _State;
+	MainRenderer->ChangeAnimation(AnimationName);
 }
 
 void Penguin::MoveStart()
 {
 	GameEngineRandom::MainRandom.SetSeed(time(NULL));
 	int MoveIndex = GameEngineRandom::MainRandom.RandomInt(1,2);
-	Dir = DirDecision(MoveIndex);
+	DirDecision(MoveIndex);
 
 	switch (Dir)
 	{
@@ -392,6 +487,8 @@ void Penguin::MoveStart()
 	default:
 		break;
 	}
+
+	ChangeAnimationState(MonsterState::Move);
 }
 
 void Penguin::MoveUpdate(float _Delta)
@@ -560,7 +657,7 @@ void Penguin::HitJudgement()
 
 void Penguin::HittenStart()
 {
-	MainRenderer->ChangeAnimation("Down_Hitten");
+	ChangeAnimationState(MonsterState::Hitten);
 }
 
 void Penguin::HittenUpdate(float _Delta)
