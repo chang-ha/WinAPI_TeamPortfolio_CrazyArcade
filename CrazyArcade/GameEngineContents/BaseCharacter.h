@@ -96,6 +96,8 @@ protected:
 	void DieStart();
 	void DieUpdate(float _Delta);
 
+	void BossCheck();
+
 protected:
 	CharacterState State = CharacterState::Max;
 	std::string CurState = "";

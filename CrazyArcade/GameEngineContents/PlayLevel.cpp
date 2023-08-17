@@ -943,14 +943,19 @@ void PlayLevel::SideBubblePop(const int _X, const int _Y, const std::string& _Sp
 	{
 		if (TileInfo[DownIndexY][DownIndexX].MapInfo == TileObjectOrder::Bubble)
 		{
-			BubblePop(DownIndexX, DownIndexY);
-			TileInfo[DownIndexY][DownIndexX].PrevPop = true;
+			PrevBubblePop(DownIndexX, DownIndexY);
 		}
 		else
 		{
 			TileChange(DownIndexX, DownIndexY, _SpriteName, _AnimationName, _Inter);
 		}
 	}
+}
+
+void PlayLevel::PrevBubblePop(const int _X, const int _Y)
+{
+	BubblePop(_X, _Y);
+	TileInfo[_Y][_X].PrevPop = true;
 }
 
 // 블록이 물풍선에 맞을 경우 터지는 함수

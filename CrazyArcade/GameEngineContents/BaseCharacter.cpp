@@ -1,6 +1,8 @@
 ﻿#include "BaseCharacter.h"
+#include "Penguin.h"
 #include "GlobalUtils.h"
 #include "PlayLevel.h"
+#include "GameMapInfo.h"
 #include "GlobalUtils.h"
 
 #include <GameEngineBase/GameEnginePath.h>
@@ -390,4 +392,14 @@ void BaseCharacter::SetPlayer2()
 	BodyCollision->SetCollisionPos(GetPos());
 	BodyCollision->SetCollisionScale(BODYCOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+}
+
+void BaseCharacter::BossCheck()
+{
+	if (Penguin::BossMonster == nullptr)
+	{
+		return;
+	}
+
+	std::vector<std::vector<float4>> CheckTile = Penguin::BossMonster->GetBossTile();
 }
