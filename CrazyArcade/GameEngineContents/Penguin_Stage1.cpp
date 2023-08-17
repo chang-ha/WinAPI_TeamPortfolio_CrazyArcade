@@ -5,7 +5,6 @@
 #include "Piratemon_black.h"
 #include "Piratemon_red.h"
 #include <GameEngineCore/TileMap.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
 
 Penguin_Stage1::Penguin_Stage1()
 {
