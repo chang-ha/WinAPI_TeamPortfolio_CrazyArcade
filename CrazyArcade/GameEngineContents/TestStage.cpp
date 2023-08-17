@@ -22,7 +22,7 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	PlayLevel::LevelStart(_PrevLevel);
 
-	BGMPlayer = GameEngineSound::SoundPlay("PenguinStageBGM.wav", 10000);
+	BGMPlayer = GameEngineSound::SoundPlay("Penguin_Stage_BGM.wav", 10000);
 	BGMPlayer.SetVolume(BGMVolume);
 }
 
@@ -39,7 +39,7 @@ void TestStage::Start()
 	TileSetting();
 
 	// Sound
-	GlobalUtils::SoundFileLoad("PenguinStageBGM.wav", "Resources\\Sounds\\BGM");
+	GlobalUtils::SoundFileLoad("Penguin_Stage_BGM.wav", "Resources\\Sounds\\BGM");
 	BGMVolume = 0.5f;
 
 	// 몬스터 테스트

@@ -81,6 +81,11 @@ private:
 	class CommonTexture* m_Flag = nullptr;
 	const float4 m_FlagStartPosToEachRoom = float4{ 58.0f , 46.0f };
 
+	void setCharacterRank();
+	class CommonTexture* m_Rank = nullptr;
+	int m_RenderRank = 0;
+	const float4 CONST_RankStartPos = float4{ 73.0f , 61.0f };
+
 	bool m_ActiveSpaceButtonValue = true;
 };
 

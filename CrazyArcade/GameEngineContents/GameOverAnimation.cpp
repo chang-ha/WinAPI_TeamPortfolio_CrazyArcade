@@ -54,7 +54,7 @@ void GameOverAnimation::CreateStageClearAnimation(int _Stage)
 		m_AllStageBillboard->setTexture("ALLClear.bmp");
 
 		float4 ALLClearScale = m_AllStageBillboard->getTextureScale();
-		float4 ALLClearPos = ALLClearScale + CONST_ALLClearStartPos;
+		float4 ALLClearPos = ALLClearScale.Half() + CONST_ALLClearStartPos;
 		m_AllStageBillboard->SetPos(ALLClearPos);
 		m_AllStageBillboard->setRendererOrder(6);
 

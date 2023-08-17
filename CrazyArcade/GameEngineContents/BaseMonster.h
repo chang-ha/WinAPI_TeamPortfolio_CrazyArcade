@@ -5,12 +5,15 @@
 #include "GlobalValue.h"
 
 #include <string>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineActor.h>
 
 #define TOPPOS { 0.0f, 0.0f }
 #define LEFTPOS { -20.0f, 20.0f }
 #define RIGHTPOS { 20.0f, 20.0f }
 #define BOTPOS { 0.0f, 40.0f }
+
+#define CENTERPOS { 0.0f, 20.0f }
 
 #define MONSTERCOLLISIONSCALE { 30.0f, 30.0f }
 
@@ -30,6 +33,11 @@ public:
 	BaseMonster& operator=(BaseMonster&& _Other) noexcept = delete;
 
 	void RandomDir(const std::string& _StateName);
+
+	void SetState(MonsterState _State)
+	{
+		ChangeState(_State);
+	}
 
 protected:
 	virtual void StateUpdate(float _Delta);
@@ -60,17 +68,19 @@ protected:
 
 	void CheckCollision();
 
+	GameEngineSoundPlayer MonsterEffectSound;
+
 private:
 	void IdleStart();
 	void IdleUpdate(float _Delta);
 
 	void MoveStart();
-	void MoveUpdate(float _Delta);
+	virtual void MoveUpdate(float _Delta);
 
 	void FreezeStart();
 	void FreezeUpdate(float _Delta);
 
-	void DieStart();
+	virtual void DieStart();
 	void DieUpdate(float _Delta);
 
 	void AngerStart();
@@ -82,26 +92,31 @@ private:
 	void AngerMoveStart();
 	void AngerMoveUpdate(float _Delta);
 
+	void EggSummonStart();
+	void EggSummonUpdate(float _Delta);
+
 	void EggIdleStart();
 	void EggIdleUpdate(float _Delta);
 
 	void EggMoveStart();
 	void EggMoveUpdate(float _Delta);
 
-	void EggSummonStart();
-	void EggSummonUpdate(float _Delta);
+	void EggHatchStart();
+	void EggHatchUpdate(float _Delta);
 
 	void EggDeathStart();
 	void EggDeathUpdate(float _Delta);
 
+	void CheckDeath();
+
 	bool IsDebugData = false;
 
-	float Speed = 50.0f;
-	float AngerSpeed = 100.0f;
-
-	float IdleTimer = 0.0f;
-	float MoveTimer = 0.0f;
+	float MainTimer = 0.0f;
 	float FreezeTimer = 0.0f;
-	float AngerIdleTimer = 0.0f;
+
+	float4 EggSummonStartPos = float4::ZERO;
+	float4 EggSummonEndPos = float4::ZERO;
+
+	float checkplayerdur = 1.0f;
 };
 

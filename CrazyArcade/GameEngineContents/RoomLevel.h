@@ -107,10 +107,11 @@ private:
 	// ¹öÆ°
 	void loadButtonElement();
 	std::vector<Button*> vecButton;
+	void clickGameStartButton();
+	void clickExitButton();
 
 	const float4 m_GameExitButtonStartPos = float4{ 749.0f, 572.0f };
 
-	void clickGameStartButton();
 
 
 
@@ -200,4 +201,10 @@ private:
 	void updateFirstElementUIVisibility();
 
 	bool m_ButtonUpdateValue = true;
+
+
+	void selectRandomCharacterFirstPlayer();
+	void selectRandomCharacterSecondPlayer();
+	bool FirstPlayerRandomValue = false;
+	bool SecondPlayerRandomValue = false;
 };

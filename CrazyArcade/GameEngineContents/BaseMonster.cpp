@@ -22,23 +22,23 @@ void BaseMonster::Start()
 {
 	{
 		MonsterCollision = CreateCollision(CollisionOrder::MonsterBody);
-		MonsterCollision->SetCollisionPos({ GetPos().X, GetPos().Y + 20.0f });
+		MonsterCollision->SetCollisionPos(GetPos() + float4 CENTERPOS);
 		MonsterCollision->SetCollisionScale(MONSTERCOLLISIONSCALE);
 		MonsterCollision->SetCollisionType(CollisionType::Rect);
+	}
+
+	{
+		// Sound
+		GlobalUtils::SoundFileLoad("Ice_Monster_Angry.wav", "Resources\\Sounds\\Monster\\");
+		GlobalUtils::SoundFileLoad("Ice_Monster_Death.wav", "Resources\\Sounds\\Monster\\");
+		GlobalUtils::SoundFileLoad("Ice_Monster_Freeze.wav", "Resources\\Sounds\\Monster\\");
+		GlobalUtils::SoundFileLoad("Pirate_Monster_Death.wav", "Resources\\Sounds\\Monster\\");
 	}
 }
 
 void BaseMonster::Update(float _Delta)
 {
 	StateUpdate(_Delta);
-
-	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
-	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
-
-	if (CurTileType == TileObjectOrder::PopRange)
-	{
-		ChangeState(MonsterState::Freeze);
-	}
 
 	if (true == GameEngineInput::IsDown('J'))
 	{
@@ -84,6 +84,10 @@ void BaseMonster::Render(float _Delta)
 		Data.Pos = GetPos() + float4 RIGHTPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 CENTERPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 	}
 }
 
@@ -103,12 +107,14 @@ void BaseMonster::StateUpdate(float _Delta)
 		return AngerIdleUpdate(_Delta);
 	case MonsterState::AngerMove:
 		return AngerMoveUpdate(_Delta);
+	case MonsterState::EggSummon:
+		return EggSummonUpdate(_Delta);
 	case MonsterState::EggIdle:
 		return EggIdleUpdate(_Delta);
 	case MonsterState::EggMove:
 		return EggMoveUpdate(_Delta);
-	case MonsterState::EggSummon:
-		return EggSummonUpdate(_Delta);
+	case MonsterState::EggHatch:
+		return EggHatchUpdate(_Delta);
 	case MonsterState::EggDeath:
 		return EggDeathUpdate(_Delta);
 	case MonsterState::Die:
@@ -140,14 +146,17 @@ void BaseMonster::ChangeState(MonsterState _State)
 	case MonsterState::AngerMove:
 		AngerMoveStart();
 		break;
+	case MonsterState::EggSummon:
+		EggSummonStart();
+		break;
 	case MonsterState::EggIdle:
 		EggIdleStart();
 		break;
 	case MonsterState::EggMove:
 		EggMoveStart();
 		break;
-	case MonsterState::EggSummon:
-		EggSummonStart();
+	case MonsterState::EggHatch:
+		EggHatchStart();
 		break;
 	case MonsterState::EggDeath:
 		EggDeathStart();
@@ -197,7 +206,8 @@ void BaseMonster::RandomDir(const std::string& _StateName)
 void BaseMonster::CheckCollision()
 {
 	std::vector<GameEngineCollision*> Col;
-	if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect))
+	if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect)
+		|| true == MonsterCollision->Collision(CollisionOrder::PlayerBody2, Col, CollisionType::Rect, CollisionType::Rect))
 	{
 		for (GameEngineCollision* _Col : Col)
 		{
@@ -211,6 +221,23 @@ void BaseMonster::CheckCollision()
 			ColPlayer->ChangeState(CharacterState::Die);
 		}
 		return;
+	}
+}
+
+void BaseMonster::CheckDeath()
+{
+	CurTile = PlayLevel::CurPlayLevel->GetGroundTile();
+	CurTileType = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 CENTERPOS);
+
+	if (CurTileType == TileObjectOrder::PopRange
+		&& State == MonsterState::EggMove)
+	{
+		ChangeState(MonsterState::EggDeath);
+	}
+
+	else if (CurTileType == TileObjectOrder::PopRange)
+	{
+		ChangeState(MonsterState::Freeze);
 	}
 }
 

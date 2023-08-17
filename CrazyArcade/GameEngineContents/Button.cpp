@@ -90,8 +90,6 @@ void Button::setButtonSound(
 	const std::string& _Path)
 {
 	GlobalUtils::SoundFileLoad(_FileName, _Path);
-	GameEngineSound::SoundPlay(_FileName);
-
 	m_ButtonSoundEvent[static_cast<int>(_ButtonType)] = _FileName;
 }
 
@@ -132,9 +130,9 @@ void Button::Update(float _Delta)
 					m_ButtonEventCallBack[static_cast<int>(ButtonEventState::Click)]();
 				}
 
-				if ("" != m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)])
+				if ("" != m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Click)])
 				{
-					GameEngineSound::SoundPlay(m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)]);
+					GameEngineSound::SoundPlay(m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Click)]);
 				}
 
 				m_ButtonState = ButtonState::Hover;
@@ -157,7 +155,10 @@ void Button::Update(float _Delta)
 
 				if ("" != m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)])
 				{
-					GameEngineSound::SoundPlay(m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)]);
+					if (ButtonState::Normal == m_ButtonState)
+					{
+						GameEngineSound::SoundPlay(m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)]);
+					}
 				}
 
 				m_ButtonState = ButtonState::Hover;

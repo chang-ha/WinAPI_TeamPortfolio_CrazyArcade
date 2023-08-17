@@ -22,6 +22,7 @@ public:
 };
 
 class BaseCharacter;
+enum class PlayerNum;
 class PlayLevel : public ContentLevel
 {
 	friend class Penguin;
@@ -40,11 +41,11 @@ public:
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
-	bool CheckTile(const float4& _Pos, float _Delta);
+	bool CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _PlayerNum);
 	bool MonsterCheckTile(const float4& _Pos, float _Delta);
-	bool CheckSidePos(const float4& _Pos);
-	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y);
-	void SetBubble(const float4& _Pos, int _BubblePower);
+	bool CheckSidePos(const float4& _Pos, const PlayerNum& _PlayerNum);
+	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y, const PlayerNum& _PlayerNum);
+	void SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum& _PlayerNum);
 	void BubblePop(const int _X, const int _Y);
 	void SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	void PopTile(const int _X, const int _Y);
@@ -96,7 +97,7 @@ protected:
 	class TileMap* ObjectTile = nullptr;
 
 	// Bubble
-	std::list<class GameMapIndex> AllBubbleIndex;
+	std::list<class GameMapBubble> AllBubbleIndex;
 	std::list<class GameMapIndex> AllBubbleDeathIndex;
 
 	// 각 플레이어별 몬스터를 죽인 횟수, 아군을 구한 횟수, 승패 판정을 아래의 벡터에 넣어주세요

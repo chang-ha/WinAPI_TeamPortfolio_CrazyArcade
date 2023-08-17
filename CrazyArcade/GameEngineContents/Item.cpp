@@ -24,7 +24,8 @@ void Item::Start()
 	GlobalLoad::ItemTextureLoad();
 	
 	// Item Sound
-	GlobalUtils::SoundFileLoad("Get_Item.wav", "Resources\\Sounds\\Character\\");
+	GlobalUtils::SoundFileLoad("Get_Item.wav", "Resources\\Sounds\\Item\\");
+	GlobalUtils::SoundFileLoad("Item_Out.wav", "Resources\\Sounds\\Item\\");
 
 	// Item MainRenderer
 	ItemRenderer = CreateRenderer(RenderOrder::MapObject);
@@ -49,10 +50,8 @@ void Item::Start()
 void Item::Update(float _Delta)
 {
 	std::vector<GameEngineCollision*> Col;
-	if (true == ItemCollision->Collision(CollisionOrder::PlayerBody,
-		Col,
-		CollisionType::Rect,
-		CollisionType::Rect))
+	if (true == ItemCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect)
+		|| true == ItemCollision->Collision(CollisionOrder::PlayerBody2, Col, CollisionType::Rect, CollisionType::Rect))
 	{
 		EffectPlayer = GameEngineSound::SoundPlay("Get_Item.wav");
 		EffectPlayer.SetVolume(0.3f);

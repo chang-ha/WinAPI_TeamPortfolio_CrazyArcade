@@ -2,7 +2,7 @@
 #include "ContentsEnum.h"
 #include "GlobalUtils.h"
 
-#include <GameEnginePlatform/GameEngineWindowTexture.h>\
+#include <GameEnginePlatform/GameEngineWindowTexture.h>
 
 #include <GameEngineCore/GameEngineRenderer.h>
 
@@ -156,6 +156,24 @@ void PlayTimer::updateTimer(float _Delta)
 		return;
 	}
 
+	if (m_PlayTimerValue < CONST_HurrySoundStartTime)
+	{
+		static bool HurrySoundLoadValue = false;
+		if (false == HurrySoundLoadValue)
+		{
+			GlobalUtils::SoundFileLoad("Timer.wav", "Resources\\Sounds\\GamePlay");
+
+			HurrySoundLoadValue = true;
+		}
+
+		if (false == HurryTimerCheckValue)
+		{
+			m_HurryTimerSoundPlayer = GameEngineSound::SoundPlay("Timer.wav");
+
+			HurryTimerCheckValue = true;
+		}
+	}
+
 	updateRendererTimer(TimerValue);
 }
 
@@ -222,4 +240,10 @@ void PlayTimer::updateRendererTimer(int _Value)
 void PlayTimer::Render(float _Delta)
 {
 
+}
+
+
+void PlayTimer::LevelEnd()
+{
+	m_HurryTimerSoundPlayer.Stop();
 }

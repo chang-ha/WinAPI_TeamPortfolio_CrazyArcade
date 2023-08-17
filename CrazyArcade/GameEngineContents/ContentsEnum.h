@@ -4,8 +4,9 @@ enum class UpdateOrder
 {
 	Map,
 	UI,
-	Max,
-	Character
+	Character,
+	Monster,
+	Max
 };
 
 enum class RenderOrder
@@ -27,6 +28,7 @@ enum class RenderOrder
 enum class CollisionOrder
 {
 	PlayerBody,
+	PlayerBody2,
 	MonsterBody,
 	Item
 };

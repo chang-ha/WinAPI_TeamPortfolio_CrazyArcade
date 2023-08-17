@@ -2,6 +2,7 @@
 #include "PlayLevel.h"
 
 #include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
 void BaseCharacter::IdleStart()
@@ -11,6 +12,11 @@ void BaseCharacter::IdleStart()
 
 void BaseCharacter::IdleUpdate(float _Delta)
 {
+	if (CurTile == TileObjectOrder::PopRange)
+	{
+		ChangeState(CharacterState::Bubble);
+	}
+
 	if (PlayerNumber == PlayerNum::P1)
 	{
 		if (true == GameEngineInput::IsDown('W') || true == GameEngineInput::IsPress('W')
@@ -45,6 +51,11 @@ void BaseCharacter::MoveStart()
 void BaseCharacter::MoveUpdate(float _Delta)
 {
 	DirCheck();
+
+	if (CurTile == TileObjectOrder::PopRange)
+	{
+		ChangeState(CharacterState::Bubble);
+	}
 
 	float MoveSpeed = GetSpeed();
 
@@ -129,9 +140,9 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	CheckPos2 += GetPos();
 	CheckPos3 += GetPos();
 
-	bool FirstCheck = PlayLevel::CurPlayLevel->CheckSidePos(CheckPos1);
-	bool SecondCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos2, _Delta);
-	bool ThirdCheck = PlayLevel::CurPlayLevel->CheckSidePos(CheckPos3);
+	bool FirstCheck = PlayLevel::CurPlayLevel->CheckSidePos(CheckPos1, PlayerNumber);
+	bool SecondCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos2, _Delta, PlayerNumber);
+	bool ThirdCheck = PlayLevel::CurPlayLevel->CheckSidePos(CheckPos3, PlayerNumber);
 
 	if (false == FirstCheck && false == SecondCheck && false == ThirdCheck)
 	{
@@ -183,12 +194,14 @@ void BaseCharacter::MoveUpdate(float _Delta)
 
 void BaseCharacter::ReadyStart()
 {
+	BodyCollision->Off();
 	ChangeAnimationState("Ready");
 }
 void BaseCharacter::ReadyUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
+		BodyCollision->On();
 		ChangeState(CharacterState::Idle);
 		return;
 	}

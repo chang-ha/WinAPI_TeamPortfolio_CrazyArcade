@@ -1,0 +1,4 @@
+<Item>
+Get_Item -> 아이템 획득
+
+Item_Out -> 아이템 떨어지는 효과음

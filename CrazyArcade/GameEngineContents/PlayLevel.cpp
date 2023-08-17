@@ -49,14 +49,33 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	CurPlayLevel = this;
 
 	CharacterSetting();
-	Player->SetPos(GlobalValue::WinScale.Half());
+	if (nullptr != Player)
+	{
+		Player->SetPos(GlobalValue::WinScale.Half());
+	}
+
+	if (nullptr != Player2)
+	{
+		Player2->SetPos(GlobalValue::WinScale.Half());
+	}
 
 	UILevelStart();
-
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	if (Player != nullptr)
+	{
+		Player->Death();
+		Player = nullptr;
+	}
+
+	if (Player2 != nullptr)
+	{
+		Player2->Death();
+		Player2 = nullptr;
+	}
+
 	UILevelEnd();
 }
 
@@ -121,12 +140,13 @@ void PlayLevel::Update(float _Delta)
 	// 물폭탄의 타이머를 위한 for문
 	if (AllBubbleIndex.size() > 0)
 	{
-		std::list<GameMapIndex>::iterator StartIter = AllBubbleIndex.begin();
-		std::list<GameMapIndex>::iterator EndIter = AllBubbleIndex.end();
+		std::list<GameMapBubble>::iterator StartIter = AllBubbleIndex.begin();
+		std::list<GameMapBubble>::iterator EndIter = AllBubbleIndex.end();
 
 		for (; StartIter != EndIter;)
 		{
-			GameMapIndex CheckIndex = *StartIter;
+			GameMapBubble CheckBubble = *StartIter;
+			GameMapIndex CheckIndex = CheckBubble.Index;
 
 			if (TileInfo[CheckIndex.Y][CheckIndex.X].PrevPop == false)
 			{
@@ -480,9 +500,9 @@ void PlayLevel::CheckItemInTile(float _X, float _Y)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 캐릭터
-bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
+bool PlayLevel::CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _PlayerNum)
 {
-	float4 CheckPos = { _Pos.X, _Pos.Y };
+	float4 CheckPos = _Pos;
 	CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
 	float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
 
@@ -537,7 +557,7 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 
 			if (LerpTime < TileInfo[CheckY][CheckX].LerpTimer)
 			{
-				MoveTile(NextTile, CheckX, CheckY);
+				MoveTile(NextTile, CheckX, CheckY, _PlayerNum);
 				return false;
 			}
 			return true;
@@ -545,7 +565,17 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 
 		if (TileObjectOrder::Bubble == TileInfo[CheckY][CheckX].MapInfo)
 		{
-			float4 CheckPos = _Pos;
+			float4 CheckPos = float4::ZERO;
+
+			if (_PlayerNum == PlayerNum::P1)
+			{
+				CheckPos = Player->GetPos();
+			}
+			else
+			{
+				CheckPos = Player2->GetPos();
+			}
+
 			CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
 			float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
 
@@ -563,9 +593,9 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta)
 	}	
 }
 
-bool PlayLevel::CheckSidePos(const float4& _Pos)
+bool PlayLevel::CheckSidePos(const float4& _Pos, const PlayerNum& _PlayerNum)
 {
-	float4 CheckPos = { _Pos.X, _Pos.Y };
+	float4 CheckPos = _Pos;
 	CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
 	float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
 
@@ -588,7 +618,17 @@ bool PlayLevel::CheckSidePos(const float4& _Pos)
 
 		if (TileObjectOrder::Bubble == TileInfo[CheckY][CheckX].MapInfo)
 		{
-			float4 CheckPos = Player->GetPos();
+			float4 CheckPos = float4::ZERO;
+
+			if (_PlayerNum == PlayerNum::P1)
+			{
+				CheckPos = Player->GetPos();
+			}
+			else
+			{
+				CheckPos = Player2->GetPos();
+			}
+
 			CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
 			float4 CheckIndex = ObjectTile->PosToIndex(CheckPos);
 
@@ -606,11 +646,21 @@ bool PlayLevel::CheckSidePos(const float4& _Pos)
 	}
 }
 
-void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y)
+void PlayLevel::MoveTile(GameEngineRenderer* _Renderer, int _X, int _Y, const PlayerNum& _PlayerNum)
 {
 	static bool MoveCheck = false;
 
-	ActorDir PlayerDir = Player->GetDir();
+	ActorDir PlayerDir = ActorDir::Max;
+
+	if (PlayerNum::P1 == _PlayerNum)
+	{
+		PlayerDir = Player->GetDir();
+	}
+	else if(PlayerNum::P2 == _PlayerNum)
+	{
+		PlayerDir = Player2->GetDir();
+	}
+	
 	MOVEDIR LerpDir = MOVEDIR::NONE;
 	float4 ItemMoveDir = float4::ZERO;
 	int NewX = _X;
@@ -712,7 +762,7 @@ TileObjectOrder PlayLevel::GetCurTileType(const float4& _Pos)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 물폭탄
-void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower)
+void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum& _PlayerNum)
 {
 	if (nullptr != Player)
 	{
@@ -730,9 +780,22 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower)
 			return;
 		}
 
-		Player->BombCountMinus();
+		if (PlayerNum::P1 == _PlayerNum)
+		{
+			Player->BombCountMinus();
+		}
+		else if (PlayerNum::P2 == _PlayerNum)
+		{
+			Player2->BombCountMinus();
+		}
+		else
+		{
+			MsgBoxAssert("폭탄을 설치하려는 플레이어가 1P인지 2P인지 알 수 없음");
+			return;
+		}
 
-		AllBubbleIndex.push_back({ BubbleIndexX, BubbleIndexY });
+
+		AllBubbleIndex.push_back({ { BubbleIndexX, BubbleIndexY }, _PlayerNum });
 
 		TileInfo[BubbleIndexY][BubbleIndexX].MapInfo = TileObjectOrder::Bubble;
 		TileInfo[BubbleIndexY][BubbleIndexX].BubblePower = _BubblePower;
@@ -757,7 +820,19 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower)
 
 void PlayLevel::BubblePop(const int _X, const int _Y)
 {
-	Player->BombCountPlus();
+	for (const GameMapBubble& BubbleIter : AllBubbleIndex)
+	{
+		if (_X == BubbleIter.Index.X && _Y == BubbleIter.Index.Y && PlayerNum::P1 == BubbleIter.BubbleMaster)
+		{
+			Player->BombCountPlus();
+		}
+		else if (_X == BubbleIter.Index.X && _Y == BubbleIter.Index.Y && PlayerNum::P2 == BubbleIter.BubbleMaster)
+		{
+			Player2->BombCountPlus();
+		}
+	}
+
+	
 	int BubblePower = TileInfo[_Y][_X].BubblePower;
 	TileInfo[_Y][_X].Timer = 0.0f;
 	TileInfo[_Y][_X].MapInfo = TileObjectOrder::PopRange;
@@ -1024,6 +1099,12 @@ void PlayLevel::CreateGameStartAnimation()
 	m_GameStartAnimation->initStartAnimation(CurrentStage);
 	m_GameStartAnimation->setGameStartCallBack(this, &PlayLevel::setGameStartCallBack);
 
+	if (CurrentStage == 1)
+	{
+		GlobalUtils::SoundFileLoad("Game_Start.wav", "Resources\\Sounds\\GamePlay");
+		GameEngineSound::SoundPlay("Game_Start.wav");
+	}
+
 	if (CurrentStage >= 2 && CurrentStage <= 3)
 	{
 		m_GameStartAnimation->Off();
@@ -1036,6 +1117,10 @@ void PlayLevel::OnGameStartAnimation()
 	{
 		m_GameStartAnimation->On();
 	}
+
+	GlobalUtils::SoundFileLoad("Next_Level_Ready.wav", "Resources\\Sounds\\GamePlay");
+
+	GameEngineSound::SoundPlay("Next_Level_Ready.wav");
 }
 
 void PlayLevel::CreateBossImage()
@@ -1218,6 +1303,7 @@ void PlayLevel::SetGoBackButton()
 	m_GoBackButton->setButtonTexture(ButtonState::Hover, "Play_Button_Exit_Hover.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 2);
 	m_GoBackButton->setButtonTexture(ButtonState::Click, "Play_Button_Exit_Click.bmp", "Resources\\Textures\\UI\\PlayStage", 1, 1);
 	m_GoBackButton->setCallback<PlayLevel>(ButtonEventState::Click, this, &PlayLevel::clickGoBackButton);
+	m_GoBackButton->setButtonSound(ButtonEventState::Hover, "Game_Exit_Button_Hover.wav", "Resources\\Sounds\\GamePlay");
 
 	float4 ButtonScale = m_GoBackButton->getButtonScale();
 	float4 ButtonPos = CONST_GoBackButtonStartPos + ButtonScale.Half();
@@ -1242,6 +1328,19 @@ void PlayLevel::StartGameOver()
 	m_ResultWindow->OnResultWindow(VecPlayerResult);
 
 	SetUpResultBoardAnimation();
+
+
+	static bool WinOrLoseSoundLoadValue = false;
+
+	if (false == WinOrLoseSoundLoadValue)
+	{
+		GlobalUtils::SoundFileLoad("Lose.wav", "Resources\\Sounds\\GamePlay");
+		GlobalUtils::SoundFileLoad("Win.wav", "Resources\\Sounds\\GamePlay");
+
+		WinOrLoseSoundLoadValue = true;
+	}
+
+	WinCheckValue ? GameEngineSound::SoundPlay("Win.wav") : GameEngineSound::SoundPlay("Lose.wav");
 
 	GameOverCheckValue = true;
 }
@@ -1272,12 +1371,30 @@ void PlayLevel::updateVictoryRoll()
 			return;
 		}
 
-		if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+		if (1 == GlobalValue::g_ActiveRoomCount)
 		{
-			WinCheckValue = false;
+			if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
+			{
+				WinCheckValue = false;
 	
-			StartGameOver();
+				StartGameOver();
+			}
 		}
+		else
+		{
+			if (Player2)
+			{
+				if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || 
+					true == Player->GetPlayerDeath() && true == Player2->GetPlayerDeath())
+				{
+					WinCheckValue = false;
+
+					StartGameOver();
+				}
+			}
+
+		}
+
 
 		if (true == GameEngineInput::IsPress('6'))
 		{
@@ -1326,6 +1443,34 @@ void PlayLevel::updateCharacterPortrait()
 
 		vecCharacterState[0].AliveState = false;
 	}
+
+	if (nullptr == Player2)
+	{
+		return;
+	}
+
+
+	// 플레이어가 죽었는데 초상화가 업데이트 되지 않았다면 초상화를 바꿔줍니다.
+	if (Player2->GetPlayerDeath() && true == vecCharacterState[1].AliveState)
+	{
+		PlayPortrait* Portrait = vec_PlayPortrait[1];
+		if (nullptr == Portrait)
+		{
+			MsgBoxAssert("액터를 불러오지 못했습니다.");
+			return;
+		}
+
+		PlayCharacterPortrait* CharacterPortrait = Portrait->getPortrait();
+		if (nullptr == CharacterPortrait)
+		{
+			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
+			return;
+		}
+
+		CharacterPortrait->changeState(PlayPortraitState::Lose);
+
+		vecCharacterState[1].AliveState = false;
+	}
 }
 
 
@@ -1341,6 +1486,12 @@ void PlayLevel::UILevelEnd()
 	{
 		Player->Death();
 		Player = nullptr;
+	}
+
+	if (Player2)
+	{
+		Player2->Death();
+		Player2 = nullptr;
 	}
 
 	GameOverCheckValue = false;

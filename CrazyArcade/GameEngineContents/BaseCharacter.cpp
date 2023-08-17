@@ -25,8 +25,9 @@ void BaseCharacter::Start()
 	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Character\\", 1, 1);
 
 	// Sound
-	GlobalUtils::SoundFileLoad("Locked_In_Bubble2.wav", "Resources\\Sounds\\Character\\");
+	GlobalUtils::SoundFileLoad("Locked_In_Bubble.wav", "Resources\\Sounds\\Character\\");
 	GlobalUtils::SoundFileLoad("Character_Death.wav", "Resources\\Sounds\\Character\\");
+	GlobalUtils::SoundFileLoad("Live.wav", "Resources\\Sounds\\Character\\");
 
 	ShadowRenderer = CreateRenderer("Shadow.Bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(CHARACTERSHADOWPOS);
@@ -41,12 +42,7 @@ void BaseCharacter::Start()
 
 void BaseCharacter::Update(float _Delta)
 {
-	CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos());
-
-	if (CurTile == TileObjectOrder::PopRange)
-	{
-		ChangeState(CharacterState::Bubble);
-	}
+	CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 FOOTPOS);
 
 	StateUpdate(_Delta);
 
@@ -56,7 +52,7 @@ void BaseCharacter::Update(float _Delta)
 		if (true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Idle" && GetBombCount() > 0
 			|| true == GameEngineInput::IsDown(VK_SPACE) && CurState == "Move" && GetBombCount() > 0)
 		{
-			PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f }, GetBombPower());
+			PlayLevel::CurPlayLevel->SetBubble(GetPos() + float4 SETBUBBLEPOS, GetBombPower(), PlayerNumber);
 		}
 	}
 
@@ -65,7 +61,7 @@ void BaseCharacter::Update(float _Delta)
 		if (true == GameEngineInput::IsDown('M') && CurState == "Idle" && GetBombCount() > 0
 			|| true == GameEngineInput::IsDown('M') && CurState == "Move" && GetBombCount() > 0)
 		{
-			PlayLevel::CurPlayLevel->SetBubble({ GetPos().X, GetPos().Y + 5.0f }, GetBombPower());
+			PlayLevel::CurPlayLevel->SetBubble(GetPos() + float4 SETBUBBLEPOS, GetBombPower(), PlayerNumber);
 		}
 	}
 
@@ -81,35 +77,71 @@ void BaseCharacter::Render(float _Delta)
 
 	if (true == IsDebugData)
 	{
-		std::string XText = "";
-		XText += "Player Pos X : ";
-		XText += std::to_string(GetPos().X);
-		TextOutA(dc, 2, 3, XText.c_str(), static_cast<int>(XText.size()));
+		if (PlayerNumber == PlayerNum::P1)
+		{
+			std::string XText = "";
+			XText += "Player Pos X : ";
+			XText += std::to_string(GetPos().iX());
+			TextOutA(dc, 2, 3, XText.c_str(), static_cast<int>(XText.size()));
 
-		std::string YText = "";
-		YText += "Player Pos Y : ";
-		YText += std::to_string(GetPos().Y);
-		TextOutA(dc, 2, 30, YText.c_str(), static_cast<int>(YText.size()));
+			std::string YText = "";
+			YText += "Player Pos Y : ";
+			YText += std::to_string(GetPos().iY());
+			TextOutA(dc, 2, 30, YText.c_str(), static_cast<int>(YText.size()));
 
-		std::string BombCountText = "";
-		BombCountText += "폭탄 설치 개수 : ";
-		BombCountText += std::to_string(GetBombCount());
-		TextOutA(dc, 2, 57, BombCountText.c_str(), static_cast<int>(BombCountText.size()));
+			std::string BombCountText = "";
+			BombCountText += "1P폭탄 수 : ";
+			BombCountText += std::to_string(GetBombCount());
+			TextOutA(dc, 2, 57, BombCountText.c_str(), static_cast<int>(BombCountText.size()));
 
-		std::string BombPowerText = "";
-		BombPowerText += "폭탄 파워 : ";
-		BombPowerText += std::to_string(GetBombPower());
-		TextOutA(dc, 2, 84, BombPowerText.c_str(), static_cast<int>(BombPowerText.size()));
+			std::string BombPowerText = "";
+			BombPowerText += "1P파워 : ";
+			BombPowerText += std::to_string(GetBombPower());
+			TextOutA(dc, 2, 84, BombPowerText.c_str(), static_cast<int>(BombPowerText.size()));
 
-		std::string SpeedText = "";
-		SpeedText += "속도 : ";
-		SpeedText += std::to_string(GetSpeed());
-		TextOutA(dc, 2, 111, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
+			std::string SpeedText = "";
+			SpeedText += "1P속도 : ";
+			SpeedText += std::to_string(static_cast<int>(GetSpeed()));
+			TextOutA(dc, 2, 111, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
 
-		std::string CurTileText = "";
-		CurTileText += "밟고있는 타일 번호 : ";
-		CurTileText += std::to_string(static_cast<int>(CurTile));
-		TextOutA(dc, 2, 138, CurTileText.c_str(), static_cast<int>(CurTileText.size()));
+			std::string CurTileNum = "";
+			CurTileNum += "1P바늘 : ";
+			CurTileNum += std::to_string(GetNeedle());
+			TextOutA(dc, 2, 138, CurTileNum.c_str(), static_cast<int>(CurTileNum.size()));
+		}
+
+		if (PlayerNumber == PlayerNum::P2)
+		{
+			std::string XText = "";
+			XText += "Player Pos X : ";
+			XText += std::to_string(GetPos().iX());
+			TextOutA(dc, 670, 3, XText.c_str(), static_cast<int>(XText.size()));
+
+			std::string YText = "";
+			YText += "Player Pos Y : ";
+			YText += std::to_string(GetPos().iY());
+			TextOutA(dc, 670, 30, YText.c_str(), static_cast<int>(YText.size()));
+
+			std::string BombCountText = "";
+			BombCountText += "2P폭탄 수 : ";
+			BombCountText += std::to_string(GetBombCount());
+			TextOutA(dc, 700, 57, BombCountText.c_str(), static_cast<int>(BombCountText.size()));
+
+			std::string BombPowerText = "";
+			BombPowerText += "2P파워 : ";
+			BombPowerText += std::to_string(GetBombPower());
+			TextOutA(dc, 700, 84, BombPowerText.c_str(), static_cast<int>(BombPowerText.size()));
+
+			std::string SpeedText = "";
+			SpeedText += "2P속도 : ";
+			SpeedText += std::to_string(static_cast<int>(GetSpeed()));
+			TextOutA(dc, 700, 111, SpeedText.c_str(), static_cast<int>(SpeedText.size()));
+
+			std::string CurTileNum = "";
+			CurTileNum += "2P바늘 : ";
+			CurTileNum += std::to_string(GetNeedle());
+			TextOutA(dc, 700, 138, CurTileNum.c_str(), static_cast<int>(CurTileNum.size()));
+		}
 
 		CollisionData Data;
 
@@ -168,6 +200,15 @@ void BaseCharacter::Render(float _Delta)
 		Data.Pos = GetPos() + float4 RIGHTBOTCHECKPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+
+		Data.Pos = GetPos() + float4 FOOTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 SETBUBBLEPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 	}
 }
 
@@ -191,6 +232,7 @@ void BaseCharacter::GetItem(const ItemType& _ItemType)
 		ChangeMaxSpeed();
 		break;
 	case ItemType::Needle:
+		NeedlePlus();
 		break;
 	default:
 		break;
@@ -328,3 +370,13 @@ void BaseCharacter::ChangeState(CharacterState _State)
 }
 
 void BaseCharacter::ChangeAnimationState(const std::string& _StateName) {}
+
+void BaseCharacter::SetPlayer2()
+{
+	PlayerNumber = PlayerNum::P2;
+
+	BodyCollision = CreateCollision(CollisionOrder::PlayerBody2);
+	BodyCollision->SetCollisionPos(GetPos());
+	BodyCollision->SetCollisionScale(BODYCOLLISIONSCALE);
+	BodyCollision->SetCollisionType(CollisionType::Rect);
+}

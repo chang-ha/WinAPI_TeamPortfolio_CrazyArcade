@@ -76,6 +76,8 @@ void CharacterRoomButton::loadSpaceButton()
 	SpaceButton->setButtonTexture(ButtonState::Hover, "Space_Button_Hover.bmp", "Resources\\Textures\\UI\\Button\\CharacterRoom", 1, 1);
 	SpaceButton->setButtonTexture(ButtonState::Click, "Space_Button_Click.bmp", "Resources\\Textures\\UI\\Button\\CharacterRoom", 1, 1);
 	SpaceButton->setCallback<CharacterRoomButton>(ButtonEventState::Click, this, &CharacterRoomButton::clickSpaceButton);
+	SpaceButton->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
+	SpaceButton->setButtonSound(ButtonEventState::Hover, "Hover.wav", "Resources\\Sounds\\Lobby");
 
 	//m_SpaceButton->setButtonSound();
 
@@ -97,6 +99,8 @@ void CharacterRoomButton::loadSpaceButton()
 	UnSpaceButton->setButtonTexture(ButtonState::Hover, "UnSpace_Button_Hover.bmp", "Resources\\Textures\\UI\\Button\\CharacterRoom", 1, 1);
 	UnSpaceButton->setButtonTexture(ButtonState::Click, "UnSpace_Button_Click.bmp", "Resources\\Textures\\UI\\Button\\CharacterRoom", 1, 1);
 	UnSpaceButton->setCallback<CharacterRoomButton>(ButtonEventState::Click, this, &CharacterRoomButton::clickUnspaceButton);
+	UnSpaceButton->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
+	UnSpaceButton->setButtonSound(ButtonEventState::Hover, "Hover.wav", "Resources\\Sounds\\Lobby");
 	UnSpaceButton->SetPos(GetPos() + m_SpaceButtonScale.Half());
 
 	UnSpaceButton->Off();
@@ -206,24 +210,24 @@ void CharacterRoomButton::loadSpaceCharacterComposition()
 		}
 
 
-		m_Flag = CurLevel->CreateActor<CommonTexture>(UpdateOrder::UI);
-		if (nullptr == m_Flag)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
-
-		Texture = GlobalUtils::TextureFileLoad("CharacterRoom_Flag.bmp", "Resources\\Textures\\UI\\MapSelect\\Room");
-		if (Texture)
-		{
-			m_Flag->setTexture("CharacterRoom_Flag.bmp");
-
-			float4 BillboardScale = Texture->GetScale();
-			float4 ReadyBillboardPos = GetPos() + m_FlagStartPosToEachRoom + BillboardScale.Half();
-			m_Flag->SetPos(ReadyBillboardPos);
-		}
 	}
+
+	m_Flag = CurLevel->CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (nullptr == m_Flag)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+		
+	m_Flag->loadTexture("CharacterRoom_Flag.bmp", "Resources\\Textures\\UI\\Button\\CharacterRoom");
+	m_Flag->setTexture("CharacterRoom_Flag.bmp");
+
+	float4 BillboardScale = m_Flag->getScale();
+	float4 ReadyBillboardPos = GetPos() + m_FlagStartPosToEachRoom + BillboardScale.Half();
+	m_Flag->SetPos(ReadyBillboardPos);
+
+	setCharacterRank();
+
 
 	switch (m_RoomNumber)
 	{
@@ -243,6 +247,41 @@ void CharacterRoomButton::loadSpaceCharacterComposition()
 	}
 }
 
+void CharacterRoomButton::setCharacterRank()
+{
+	GameEngineLevel* CurLevel = GetLevel();
+	if (nullptr == CurLevel)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	m_Rank = CurLevel->CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (nullptr == m_Rank)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_Rank->loadTexture("Player_Trophy_Level.bmp", "Resources\\Textures\\UI\\PlayStage");
+	m_Rank->setTexture("Player_Trophy_Level.bmp");
+	m_Rank->setRendererCopyAndRenderScale(0,3);
+
+	int CharacterLevelEachRoom = GlobalValue::g_vecPlayerInfo[m_RoomNumber].PlayerLevel;
+	m_Rank->setRendererCopyPos(0, CharacterLevelEachRoom - 1);
+	m_RenderRank = CharacterLevelEachRoom;
+
+	float4 RankScale = m_Rank->getScale();
+	float4 ReadyBillboardPos = GetPos() + CONST_RankStartPos + RankScale.Half();
+	m_Rank->SetPos(ReadyBillboardPos);
+	m_Rank->setRendererOrder(6);
+
+	if (false == m_HostValue)
+	{
+		m_Rank->Off();
+	}
+}
+
 
 void CharacterRoomButton::clickSpaceButton()
 {
@@ -259,8 +298,18 @@ void CharacterRoomButton::clickUnspaceButton()
 }
 
 
-void CharacterRoomButton::Update(float _Delta) 
+void CharacterRoomButton::Update(float _Delta)
 {
+	if (GlobalValue::g_vecPlayerInfo[m_RoomNumber].PlayerLevel != m_RenderRank)
+	{
+		if (m_Rank)
+		{
+			m_Rank->setRendererCopyPos(0, GlobalValue::g_vecPlayerInfo[m_RoomNumber].PlayerLevel - 1);
+			m_RenderRank = GlobalValue::g_vecPlayerInfo[m_RoomNumber].PlayerLevel;
+		}
+	}
+
+
 	if (SpaceButtonState::SpaceButton == m_SpaceButtonState)
 	{
 		// 캐릭터 선택
@@ -312,6 +361,7 @@ void CharacterRoomButton::Update(float _Delta)
 
 				m_ReadyBillboard->On();
 				m_Flag->On();
+				m_Rank->On();
 
 				m_ActiveSpaceButtonValue = true;
 			}
@@ -336,6 +386,7 @@ void CharacterRoomButton::Update(float _Delta)
 
 				m_ReadyBillboard->Off();
 				m_Flag->Off();
+				m_Rank->Off();
 
 
 				m_ActiveSpaceButtonValue = false;
