@@ -704,6 +704,20 @@ TileObjectOrder PlayLevel::GetCurTileType(const float4& _Pos)
 	return Result;
 }
 
+GameMapIndex PlayLevel::GetCurIndex(const float4& _Pos)
+{
+	float4 CharacterPos = _Pos;
+	CharacterPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
+	float4 ChangeIndex = ObjectTile->PosToIndex(CharacterPos);
+
+	int CurIndexX = ChangeIndex.iX() - 1;
+	int CurIndexY = ChangeIndex.iY() - 1;
+
+	GameMapIndex Result = { CurIndexX, CurIndexY };
+
+	return Result;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 물폭탄
 void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum& _PlayerNum)
@@ -943,14 +957,19 @@ void PlayLevel::SideBubblePop(const int _X, const int _Y, const std::string& _Sp
 	{
 		if (TileInfo[DownIndexY][DownIndexX].MapInfo == TileObjectOrder::Bubble)
 		{
-			BubblePop(DownIndexX, DownIndexY);
-			TileInfo[DownIndexY][DownIndexX].PrevPop = true;
+			PrevBubblePop(DownIndexX, DownIndexY);
 		}
 		else
 		{
 			TileChange(DownIndexX, DownIndexY, _SpriteName, _AnimationName, _Inter);
 		}
 	}
+}
+
+void PlayLevel::PrevBubblePop(const int _X, const int _Y)
+{
+	BubblePop(_X, _Y);
+	TileInfo[_Y][_X].PrevPop = true;
 }
 
 // 블록이 물풍선에 맞을 경우 터지는 함수
@@ -1607,11 +1626,11 @@ void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range
 			}
 
 			// Temp Ani
-			if (nullptr == PopRenderer->FindAnimation("Bubble_Pop"))
+			if (nullptr == PopRenderer->FindAnimation("Boss_Pop"))
 			{
-				PopRenderer->CreateAnimation("Bubble_Pop", "Pop.bmp", 0, 5, 0.1f, true);	
+				PopRenderer->CreateAnimation("Boss_Pop", "Boss_Pop.bmp", 0, 4, 0.1f);	
 			}
-			PopRenderer->ChangeAnimation("Bubble_Pop");
+			PopRenderer->ChangeAnimation("Boss_Pop");
 		}
 	}
 }

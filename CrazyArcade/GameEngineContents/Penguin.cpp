@@ -18,6 +18,9 @@
 // Debug
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineCollision.h>
+
+Penguin* Penguin::BossMonster = nullptr;
+
 Penguin::Penguin()
 {
 }
@@ -36,6 +39,8 @@ void Penguin::Start()
 	}
 
 	MainRenderer = CreateRenderer(RenderOrder::SelectTile);
+	GameEngineRenderer* HPBar_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
+	HP_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
 
 	if (nullptr == ResourcesManager::GetInst().FindSprite("Down_Idle"))
 	{
@@ -53,11 +58,15 @@ void Penguin::Start()
 
 		// Left
 
-
+		ResourcesManager::GetInst().CreateSpriteSheet("Anger_Penguin", FilePath.PlusFilePath("Anger_Penguin.bmp"), 12, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Summon_Penguin", FilePath.PlusFilePath("Summon_Penguin.bmp"), 20, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die_Ready", FilePath.PlusFilePath("Die_Ready_Penguin.bmp"), 3, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die_Bubble", FilePath.PlusFilePath("Die_Bubble_Penguin.bmp"), 8, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Die", FilePath.PlusFilePath("Die_Penguin.bmp"), 12, 1);
+
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HPBar.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HP_BLUE.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HP_RED.bmp"));
 	}
 
 	{
@@ -71,7 +80,7 @@ void Penguin::Start()
 			// MainRenderer->CreateAnimation("Down_Move", "Down_Move", 0, 4, IDLE_ANI_SPEED, false);
 
 			// Hitten
-			MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, IDLE_ANI_SPEED, false);
+			MainRenderer->CreateAnimation("Down_Hitten", "Down_Hitten", 0, 4, HITTEN_ANI_SPEED, false);
 		}
 
 		// Up
@@ -89,6 +98,9 @@ void Penguin::Start()
 
 		}
 
+		// Anger 
+		MainRenderer->CreateAnimation("Anger", "Anger_Penguin", 0, 11, ANGER_ANI_SPEED, false);
+
 		// Summon
 		MainRenderer->CreateAnimation("Summon", "Summon_Penguin", 0, 19, IDLE_ANI_SPEED, false);
 
@@ -101,49 +113,73 @@ void Penguin::Start()
 	MainRenderer->ChangeAnimation("Down_Idle");
 	MainRenderer->SetRenderPos({0, -70});
 
+	HPBar_Renderer->SetTexture("HPBar.bmp");
+	HPBar_Renderer->SetRenderPos(HPBARPOS);
+	HP_Renderer->SetTexture("HP_BLUE.bmp");
+	HP_Renderer->SetRenderPos(HPBARPOS - float4{42, 0});
 	// BossTile Vector resize
 	BossTile.resize(2);
 	for (int Y = 0; Y < BossTile.size(); Y++)
 	{
 		BossTile[Y].resize(3);
 	}
+
+	BossMonster = this;
 }
 
 void Penguin::Update(float _Delta)
 {
-	if (MonsterState::Idle == State || MonsterState::Summon == State || MonsterState::Hitten == State)
+	StateUpdate(_Delta);
+
+	HP_Renderer->SetRenderScale(float4{ 2.0f * 12.0f * BossHP , 7 });
+
+	if (ANGERHP == BossHP)
 	{
-		PatternTimer += _Delta;
+		HP_Renderer->SetTexture("HP_RED.bmp");
 	}
+
+	if (true == CurPlayLevel->PatternAnimationEnd)
+	{
+		OncePatternUpdate();
+	}
+
+	if (true == CurPlayLevel->PatternAnimationEnd && false == IsOncePatternOn)
+	{
+		PatternUpdate();
+	}
+
+	if (MonsterState::Die_Ready == State || MonsterState::Die_Bubble == State || MonsterState::Die == State || MonsterState::Anger == State)
+	{
+		return;
+	}
+
+	PatternTimer += _Delta;
 
 	if (true == GameEngineInput::IsDown('J'))
 	{
 		IsDebugMode = !IsDebugMode;
 	}
 
-	if (true == GameEngineInput::IsDown('M'))
-	{
-		ChangeState(MonsterState::Summon);
-	}
+	//if (true == GameEngineInput::IsDown('M'))
+	//{
+	//	ChangeState(MonsterState::Summon);
+	//}
 
 	if (PatternTimer >= PATTERN_TIME && false == PatternStart)
 	{
+		PatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
 		PatternStart = true;
 	}
 
 	if (true == GameEngineInput::IsDown('B'))
 	{
-		PatternStart = true;
-		PatternTimer = PATTERN_TIME;
+		IsOncePatternOn = true;
+		//PatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
+		//PatternStart = true;
+		//PatternTimer = PATTERN_TIME;
 	}
 
 	if (true == GameEngineInput::IsDown('O'))
-	{
-		ChangeState(MonsterState::Move);
-
-	}
-
-	if (true == GameEngineInput::IsDown('P'))
 	{
 		ChangeState(MonsterState::Move);
 	}
@@ -178,13 +214,6 @@ void Penguin::Update(float _Delta)
 	}
 
 	HitJudgement();
-	if (true == CurPlayLevel->PatternAnimationEnd)
-	{
-		PatternUpdate();
-	}
-
-	// State Update
-	StateUpdate(_Delta);
 }
 
 void Penguin::Render(float _Delta)
@@ -206,6 +235,11 @@ void Penguin::Render(float _Delta)
 			Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 		}
 	}
+
+	std::string HPText = "";
+	HPText += "Boss HP : ";
+	HPText += std::to_string(BossHP);
+	TextOutA(dc, GlobalValue::WinScale.iX() - 100, 3, HPText.c_str(), static_cast<int>(HPText.size()));
 }
 
 
@@ -217,6 +251,8 @@ void Penguin::StateUpdate(float _Delta)
 		return IdleUpdate(_Delta);
 	case MonsterState::Move:
 		return MoveUpdate(_Delta);
+	case MonsterState::Anger:
+		return AngerUpdate(_Delta);
 	case MonsterState::Die:
 		return DieUpdate(_Delta);
 	case MonsterState::Hitten:
@@ -234,31 +270,37 @@ void Penguin::StateUpdate(float _Delta)
 
 void Penguin::ChangeState(MonsterState _State)
 {
-	switch (_State)
+	if (_State != State)
 	{
-	case MonsterState::Idle:
-		IdleStart();
-		break;
-	case MonsterState::Move:
-		MoveStart();
-		break;
-	case MonsterState::Die:
-		DieStart();
-		break;
-	case MonsterState::Hitten:
-		HittenStart();
-		break;
-	case MonsterState::Summon:
-		SummonStart();
-		break;
-	case MonsterState::Die_Ready:
-		DieReadyStart();
-		break;
-	case MonsterState::Die_Bubble:
-		DieBubbleStart();
-		break;
-	default:
-		break;
+		switch (_State)
+		{
+		case MonsterState::Idle:
+			IdleStart();
+			break;
+		case MonsterState::Move:
+			MoveStart();
+			break;
+		case MonsterState::Anger:
+			AngerStart();
+			break;
+		case MonsterState::Die:
+			DieStart();
+			break;
+		case MonsterState::Hitten:
+			HittenStart();
+			break;
+		case MonsterState::Summon:
+			SummonStart();
+			break;
+		case MonsterState::Die_Ready:
+			DieReadyStart();
+			break;
+		case MonsterState::Die_Bubble:
+			DieBubbleStart();
+			break;
+		default:
+			break;
+		}
 	}
 
 	State = _State;
@@ -277,7 +319,7 @@ void Penguin::IdleUpdate(float _Delta)
 	}
 }
 
-ActorDir Penguin::DirDecision()
+ActorDir Penguin::DirDecision(int _MoveRange)
 {
 	std::vector<ActorDir> MoveDir;
 	ActorDir CheckDir;
@@ -290,19 +332,19 @@ ActorDir Penguin::DirDecision()
 		switch (i)
 		{
 		case 0:
-			MoveTile = CurLevelTile->GetTile(BossTile[0][0].iX() - 1, BossTile[0][0].iY());
+			MoveTile = CurLevelTile->GetTile(BossTile[0][0].iX() - _MoveRange, BossTile[0][0].iY());
 			CheckDir = ActorDir::Left;
 			break;
 		case 1:
-			MoveTile = CurLevelTile->GetTile(BossTile[0][1].iX(), BossTile[0][1].iY() - 1);
+			MoveTile = CurLevelTile->GetTile(BossTile[0][1].iX(), BossTile[0][1].iY() - _MoveRange);
 			CheckDir = ActorDir::Up;
 			break;
 		case 2:
-			MoveTile = CurLevelTile->GetTile(BossTile[0][2].iX() + 1, BossTile[0][2].iY());
+			MoveTile = CurLevelTile->GetTile(BossTile[0][2].iX() + _MoveRange, BossTile[0][2].iY());
 			CheckDir = ActorDir::Right;
 			break;
 		case 3:
-			MoveTile = CurLevelTile->GetTile(BossTile[1][0].iX(), BossTile[1][0].iY() + 1);
+			MoveTile = CurLevelTile->GetTile(BossTile[1][0].iX(), BossTile[1][0].iY() + _MoveRange);
 			CheckDir = ActorDir::Down;
 			break;
 		default:
@@ -323,21 +365,23 @@ ActorDir Penguin::DirDecision()
 
 void Penguin::MoveStart()
 {
-	Dir = DirDecision();
+	GameEngineRandom::MainRandom.SetSeed(time(NULL));
+	int MoveIndex = GameEngineRandom::MainRandom.RandomInt(1,2);
+	Dir = DirDecision(MoveIndex);
 
 	switch (Dir)
 	{
 	case ActorDir::Left:
-		MoveRange = { -BOSSMOVERANGE, 0 };
+		MoveRange = { -BOSSMOVERANGE * MoveIndex, 0 };
 		break;
 	case ActorDir::Right:
-		MoveRange = { BOSSMOVERANGE, 0 };
+		MoveRange = { BOSSMOVERANGE * MoveIndex, 0 };
 		break;
 	case ActorDir::Up:
-		MoveRange = { 0 , -BOSSMOVERANGE };
+		MoveRange = { 0 , -BOSSMOVERANGE * MoveIndex };
 		break;
 	case ActorDir::Down:
-		MoveRange = { 0 , BOSSMOVERANGE };
+		MoveRange = { 0 , BOSSMOVERANGE * MoveIndex };
 		break;
 	default:
 		break;
@@ -392,6 +436,20 @@ void Penguin::MoveUpdate(float _Delta)
 	}
 }
 
+void Penguin::AngerStart()
+{
+	MainRenderer->ChangeAnimation("Anger");
+}
+void Penguin::AngerUpdate(float _Delta)
+{
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(MonsterState::Idle);
+		IsOncePatternOn = true;
+	}
+}
+
+
 void Penguin::DieReadyStart()
 {
 	MainRenderer->ChangeAnimation("Die_Ready");
@@ -408,21 +466,37 @@ void Penguin::DieReadyUpdate(float _Delta)
 void Penguin::DieBubbleStart()
 {
 	MainRenderer->ChangeAnimation("Die_Bubble");
-
 }
 
 void Penguin::DieBubbleUpdate(float _Delta)
 {
-	float4 PlayerPos = CurPlayLevel->Player->GetPos();
-	float4 Index = CurPlayLevel->GetGroundTile()->PosToIndex(PlayerPos - GlobalValue::TileStartPos);
-
-	for (int Y = 0; Y < BossTile.size(); Y++)
+	float4 PlayerPos = {};
+	for (int i = 0; i < 2; i++)
 	{
-		for (int X = 0; X < BossTile[Y].size(); X++)
+		switch (i)
 		{
-			if (BossTile[Y][X].iX() == Index.iX() && BossTile[Y][X].iY() == Index.iY())
+		case 0:
+			PlayerPos = CurPlayLevel->Player->GetPos();
+			break;
+		case 1:
+			if (nullptr != CurPlayLevel->Player2)
 			{
-				ChangeState(MonsterState::Die);
+				PlayerPos = CurPlayLevel->Player2->GetPos();
+			}
+			break;
+		default:
+			break;
+		}
+		float4 Index = CurPlayLevel->GetGroundTile()->PosToIndex(PlayerPos - GlobalValue::TileStartPos);
+
+		for (int Y = 0; Y < BossTile.size(); Y++)
+		{
+			for (int X = 0; X < BossTile[Y].size(); X++)
+			{
+				if (BossTile[Y][X].iX() == Index.iX() && BossTile[Y][X].iY() == Index.iY())
+				{
+					ChangeState(MonsterState::Die);
+				}
 			}
 		}
 	}
@@ -452,14 +526,14 @@ void Penguin::HitJudgement()
 {
 	if (true == IsHitten)
 	{
-		return;
+		return; 
 	}
 
 	for (int Y = 0; Y < BossTile.size(); Y++)
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX() + 1, BossTile[Y][X].iY() + 1) + GlobalValue::TileStartPos);
+			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()) + GlobalValue::TileStartPos);
 			if (CurTile == TileObjectOrder::PopRange)
 			{
 				--BossHP;
@@ -487,6 +561,12 @@ void Penguin::HittenUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
+		if (ANGERHP == BossHP)
+		{
+			ChangeState(MonsterState::Anger);
+			IsHitten = false;
+			return;
+		}
 		ChangeState(MonsterState::Idle);
 		IsHitten = false;
 	}
@@ -512,23 +592,23 @@ void Penguin::PatternUpdate()
 	{
 		return;
 	}
-
+	static int CurPatternCount = 0;
 	GameEngineRandom::MainRandom.SetSeed(time(NULL));
-	static int Range = 0;
-	++PatternCount;
-	switch (PatternCount)
+	int Range = 0;
+	++CurPatternCount;
+	switch (CurPatternCount)
 	{
 	case 1:
-		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 2, PatternCount + 3);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 1, CurPatternCount + 2);
 		break;
 	case 2:
-		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 3, PatternCount + 4);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 2, CurPatternCount + 3);
 		break;
 	case 3:
-		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 4, PatternCount + 5);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 3, CurPatternCount + 4);
 		break;
 	case 4:
-		Range = GameEngineRandom::MainRandom.RandomInt(PatternCount + 5, PatternCount + 6);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 4, CurPatternCount + 5);
 		break;
 	default:
 		break;
@@ -536,11 +616,49 @@ void Penguin::PatternUpdate()
 	CurPlayLevel->PatternAnimationEnd = false;
 	CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Range);
 
-	if (4 == PatternCount)
+	if (CurPatternCount == PatternCount)
 	{
 		PatternCount = 0;
+		CurPatternCount = 0;
 		PatternStart = false;
 		PatternTimer = 0.0f;
 		CurPlayLevel->PatternAnimationEnd = true;
+	}
+}
+
+void Penguin::OncePatternUpdate()
+{
+	if (false == IsOncePatternOn)
+	{
+		return;
+	}
+
+	static int CurPatternCount = 0;
+	int Range = 0;
+	++CurPatternCount;
+	switch (CurPatternCount)
+	{
+	case 1:
+		Range = 2;
+		break;
+	case 2:
+		Range = 3;
+		break;
+	case 3:
+		Range = 4;
+		break;
+	case 4:
+		Range = 5;
+		break;
+	default:
+		break;
+	}
+	CurPlayLevel->PatternAnimationEnd = false;
+	CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Range);
+
+	if (4 == CurPatternCount)
+	{
+		CurPatternCount = 0;
+		IsOncePatternOn = false;
 	}
 }
