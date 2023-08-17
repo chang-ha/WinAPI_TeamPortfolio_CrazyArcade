@@ -1,17 +1,17 @@
 #pragma once
 
-#define TOPCHECKPOS { 0.0f, -15.0f }
-#define LEFTTOPCHECKPOS { -16.0f, -15.0f }
-#define RIGHTTOPCHECKPOS { 16.0f, -15.0f }
+#define TOPCHECKPOS { 0.0f, -10.0f }
+#define LEFTTOPCHECKPOS { -16.0f, -10.0f }
+#define RIGHTTOPCHECKPOS { 16.0f, -10.0f }
 
 
-#define LEFTCHECKPOS { -20.0f, 5.0f }
-#define LEFTMOVETOPCHECKPOS { -20.0f, -13.0f }
-#define LEFTMOVEBOTCHECKPOS { -20.0f, 23.0f }
+#define LEFTCHECKPOS { -20.0f, 10.0f }
+#define LEFTMOVETOPCHECKPOS { -20.0f, -8.0f }
+#define LEFTMOVEBOTCHECKPOS { -20.0f, 28.0f }
 
-#define RIGHTCHECKPOS { 20.0f, 5.0f }
-#define RIGHTMOVETOPCHECKPOS { 20.0f, -13.0f }
-#define RIGHTMOVEBOTCHECKPOS { 20.0f, 23.0f }
+#define RIGHTCHECKPOS { 20.0f, 10.0f }
+#define RIGHTMOVETOPCHECKPOS { 20.0f, -8.0f }
+#define RIGHTMOVEBOTCHECKPOS { 20.0f, 28.0f }
 
 #define BOTCHECKPOS { 0.0f, 30.0f }
 #define LEFTBOTCHECKPOS { -16.0f, 30.0f }
