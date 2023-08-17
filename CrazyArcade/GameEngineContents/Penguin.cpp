@@ -121,7 +121,6 @@ void Penguin::Start()
 	HP_Renderer->SetRenderPos(HPBARPOS - float4{42, 0});
 
 	Shadow->SetTexture("Boss_Shadow.bmp");
-	Shadow->SetRenderPos(float4{0, 20});
 	// BossTile Vector resize
 	BossTile.resize(2);
 	for (int Y = 0; Y < BossTile.size(); Y++)
