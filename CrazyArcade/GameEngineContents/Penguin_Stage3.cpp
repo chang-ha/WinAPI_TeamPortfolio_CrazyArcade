@@ -21,7 +21,22 @@ void Penguin_Stage3::LevelStart(GameEngineLevel* _PrevLevel)
 	PlayLevel::LevelStart(_PrevLevel);
 	FadeObject::CallFadeIn(this, 0.4f);
 
-	Player->SetPos(GroundTile->IndexToPos(8, 13));
+	if (Player != nullptr)
+	{
+		Player->SetPos(GroundTile->IndexToPos(7, 13));
+	}
+	else
+	{
+		MsgBoxAssert("1P가 생성되지 못 했습니다");
+		return;
+	}
+
+	if (Player2 != nullptr)
+	{
+		Player2->SetPos(GroundTile->IndexToPos(9, 13));
+	}
+
+	
 	if (nullptr == Boss_Penguin)
 	{
 		Boss_Penguin = CreateActor<Penguin>();
