@@ -41,6 +41,7 @@ void Penguin::Start()
 	MainRenderer = CreateRenderer(RenderOrder::SelectTile);
 	GameEngineRenderer* HPBar_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
 	HP_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
+	Shadow = CreateRenderer(RenderOrder::Shadow);
 
 	if (nullptr == ResourcesManager::GetInst().FindSprite("Down_Idle"))
 	{
@@ -67,6 +68,7 @@ void Penguin::Start()
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HPBar.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HP_BLUE.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HP_RED.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Boss_Shadow.bmp"));
 	}
 
 	{
@@ -117,6 +119,9 @@ void Penguin::Start()
 	HPBar_Renderer->SetRenderPos(HPBARPOS);
 	HP_Renderer->SetTexture("HP_BLUE.bmp");
 	HP_Renderer->SetRenderPos(HPBARPOS - float4{42, 0});
+
+	Shadow->SetTexture("Boss_Shadow.bmp");
+	Shadow->SetRenderPos(float4{0, 20});
 	// BossTile Vector resize
 	BossTile.resize(2);
 	for (int Y = 0; Y < BossTile.size(); Y++)
@@ -167,14 +172,16 @@ void Penguin::Update(float _Delta)
 
 	if (PatternTimer >= PATTERN_TIME && false == PatternStart)
 	{
-		PatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
+		GameEngineRandom::MainRandom.SetSeed(time(NULL));
+		PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
 		PatternStart = true;
 	}
 
 	if (true == GameEngineInput::IsDown('B'))
 	{
 		IsOncePatternOn = true;
-		//PatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
+		GameEngineRandom::MainRandom.SetSeed(time(NULL));
+		//PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
 		//PatternStart = true;
 		//PatternTimer = PATTERN_TIME;
 	}

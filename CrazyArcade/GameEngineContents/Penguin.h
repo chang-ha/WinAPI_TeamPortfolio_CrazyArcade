@@ -3,7 +3,7 @@
 #define HITTEN_ANI_SPEED 0.17f
 #define ANGER_ANI_SPEED 0.15f
 #define BUBBLE_ANI_SPEED 0.18f
-#define PATTERN_TIME 30.0f
+#define PATTERN_TIME 10.0f
 #define ANGERHP 3
 #define HPBARPOS float4{0, -130}
 #define BOSSMOVERANGE GlobalValue::MapTileSize.X
@@ -89,6 +89,7 @@ private:
 	float DieAlpha = 255.0f;
 
 	GameEngineRenderer* HP_Renderer = nullptr;
+	GameEngineRenderer* Shadow = nullptr;
 	std::vector<std::vector<float4>> BossTile;
 };
 
