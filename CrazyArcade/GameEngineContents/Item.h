@@ -42,6 +42,8 @@ public:
 		SetTexture(Type);
 	}
 
+	void SetItemTypeRandom();
+
 	inline void SetTileInfo(TileObjectOrder _Info)
 	{
 		TileInfo = _Info;
