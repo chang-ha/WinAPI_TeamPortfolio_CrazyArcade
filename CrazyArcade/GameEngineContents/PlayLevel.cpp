@@ -244,61 +244,6 @@ void PlayLevel::Render(float _Delta)
 
 }
 
-void PlayLevel::CharacterSetting()
-{
-	// Create Character
-	if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Bazzi)
-	{
-		Player = CreateActor<Bazzi>(UpdateOrder::Character);
-	}
-	else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Dao)
-	{
-		Player = CreateActor<Dao>(UpdateOrder::Character);
-	}
-	else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Kephi)
-	{
-		Player = CreateActor<Kephi>(UpdateOrder::Character);
-	}
-	else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Marid)
-	{
-		Player = CreateActor<Marid>(UpdateOrder::Character);
-	}
-	else
-	{
-		MsgBoxAssert("플레이어 1은 반드시 생성되어야 합니다.");
-		return;
-	}
-
-	if (GlobalValue::g_ActiveRoomCount == 2)
-	{
-		if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Bazzi)
-		{
-			Player2 = CreateActor<Bazzi>(UpdateOrder::Character);
-		}
-		else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Dao)
-		{
-			Player2 = CreateActor<Dao>(UpdateOrder::Character);
-		}
-		else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Kephi)
-		{
-			Player2 = CreateActor<Kephi>(UpdateOrder::Character);
-		}
-		else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Marid)
-		{
-			Player2 = CreateActor<Marid>(UpdateOrder::Character);
-		}
-		else
-		{
-			return;
-		}
-	}
-
-	if (Player2 != nullptr)
-	{
-		Player2->SetPlayer2();
-	}
-}
-
 void PlayLevel::MapFileLoad(const std::string& _FileName)
 {
 	GameEnginePath FilePath;
@@ -459,6 +404,61 @@ void PlayLevel::CheckItemInTile(float _X, float _Y)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 캐릭터
+void PlayLevel::CharacterSetting()
+{
+	// Create Character
+	if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Bazzi)
+	{
+		Player = CreateActor<Bazzi>(UpdateOrder::Character);
+	}
+	else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Dao)
+	{
+		Player = CreateActor<Dao>(UpdateOrder::Character);
+	}
+	else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Kephi)
+	{
+		Player = CreateActor<Kephi>(UpdateOrder::Character);
+	}
+	else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Marid)
+	{
+		Player = CreateActor<Marid>(UpdateOrder::Character);
+	}
+	else
+	{
+		MsgBoxAssert("플레이어 1은 반드시 생성되어야 합니다.");
+		return;
+	}
+
+	if (GlobalValue::g_ActiveRoomCount == 2)
+	{
+		if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Bazzi)
+		{
+			Player2 = CreateActor<Bazzi>(UpdateOrder::Character);
+		}
+		else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Dao)
+		{
+			Player2 = CreateActor<Dao>(UpdateOrder::Character);
+		}
+		else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Kephi)
+		{
+			Player2 = CreateActor<Kephi>(UpdateOrder::Character);
+		}
+		else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Marid)
+		{
+			Player2 = CreateActor<Marid>(UpdateOrder::Character);
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	if (Player2 != nullptr)
+	{
+		Player2->SetPlayer2();
+	}
+}
+
 bool PlayLevel::CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _PlayerNum)
 {
 	float4 CheckPos = _Pos;
