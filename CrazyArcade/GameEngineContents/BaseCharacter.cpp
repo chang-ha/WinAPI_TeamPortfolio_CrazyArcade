@@ -108,6 +108,11 @@ void BaseCharacter::Render(float _Delta)
 			CurTileNum += "1P바늘 : ";
 			CurTileNum += std::to_string(GetNeedle());
 			TextOutA(dc, 2, 138, CurTileNum.c_str(), static_cast<int>(CurTileNum.size()));
+
+			std::string ItemCount = "";
+			ItemCount += "1P아이템 : ";
+			ItemCount += std::to_string(GetItemCount);
+			TextOutA(dc, 2, 165, ItemCount.c_str(), static_cast<int>(ItemCount.size()));
 		}
 
 		if (PlayerNumber == PlayerNum::P2)
@@ -141,6 +146,11 @@ void BaseCharacter::Render(float _Delta)
 			CurTileNum += "2P바늘 : ";
 			CurTileNum += std::to_string(GetNeedle());
 			TextOutA(dc, 700, 138, CurTileNum.c_str(), static_cast<int>(CurTileNum.size()));
+
+			std::string ItemCount = "";
+			ItemCount += "2P아이템 : ";
+			ItemCount += std::to_string(GetItemCount);
+			TextOutA(dc, 700, 165, ItemCount.c_str(), static_cast<int>(ItemCount.size()));
 		}
 
 		CollisionData Data;
@@ -214,6 +224,7 @@ void BaseCharacter::Render(float _Delta)
 
 void BaseCharacter::GetItem(const ItemType& _ItemType)
 {
+	++GetItemCount;
 	switch (_ItemType)
 	{
 	case ItemType::Bubble:
