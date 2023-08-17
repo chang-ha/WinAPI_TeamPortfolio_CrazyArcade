@@ -247,12 +247,7 @@ void PlayLevel::Render(float _Delta)
 void PlayLevel::CharacterSetting()
 {
 	// Create Character
-	if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Max)
-	{
-		MsgBoxAssert("플레이어 1은 반드시 생성되어야 합니다.");
-		return;
-	}
-	else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Bazzi)
+	if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Bazzi)
 	{
 		Player = CreateActor<Bazzi>(UpdateOrder::Character);
 	}
@@ -268,76 +263,40 @@ void PlayLevel::CharacterSetting()
 	{
 		Player = CreateActor<Marid>(UpdateOrder::Character);
 	}
-
-	/*else if (GlobalValue::g_SelectAvailableCharacter1 == AvailableCharacterList::Random)
+	else
 	{
-		int CharacterNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
-
-		switch (CharacterNumber)
-		{
-		case 1:
-			Player = CreateActor<Bazzi>(UpdateOrder::Character);
-			break;
-		case 2:
-			Player = CreateActor<Dao>(UpdateOrder::Character);
-			break;
-		case 3:
-			Player = CreateActor<Kephi>(UpdateOrder::Character);
-			break;
-		case 4:
-			Player = CreateActor<Marid>(UpdateOrder::Character);
-			break;
-		default:
-			MsgBoxAssert("랜덤으로 캐릭터 생성에서 오류가 발생했습니다.");
-			break;
-		}
-	}*/
-
-	if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Max)
-	{
+		MsgBoxAssert("플레이어 1은 반드시 생성되어야 합니다.");
 		return;
 	}
-	else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Bazzi)
-	{
-		Player2 = CreateActor<Bazzi>(UpdateOrder::Character);
-	}
-	else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Dao)
-	{
-		Player2 = CreateActor<Dao>(UpdateOrder::Character);
-	}
-	else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Kephi)
-	{
-		Player2 = CreateActor<Kephi>(UpdateOrder::Character);
-	}
-	else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Marid)
-	{
-		Player2 = CreateActor<Marid>(UpdateOrder::Character);
-	}
 
-	/*else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Random)
+	if (GlobalValue::g_ActiveRoomCount == 2)
 	{
-		int CharacterNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
-
-		switch (CharacterNumber)
+		if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Bazzi)
 		{
-		case 1:
 			Player2 = CreateActor<Bazzi>(UpdateOrder::Character);
-			break;
-		case 2:
-			Player2 = CreateActor<Dao>(UpdateOrder::Character);
-			break;
-		case 3:
-			Player2 = CreateActor<Kephi>(UpdateOrder::Character);
-			break;
-		case 4:
-			Player2 = CreateActor<Marid>(UpdateOrder::Character);
-			break;
-		default:
-			MsgBoxAssert("랜덤으로 캐릭터 생성에서 오류가 발생했습니다.");
-			break;
 		}
-	}*/
-	Player2->SetPlayer2();
+		else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Dao)
+		{
+			Player2 = CreateActor<Dao>(UpdateOrder::Character);
+		}
+		else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Kephi)
+		{
+			Player2 = CreateActor<Kephi>(UpdateOrder::Character);
+		}
+		else if (GlobalValue::g_SelectAvailableCharacter2 == AvailableCharacterList::Marid)
+		{
+			Player2 = CreateActor<Marid>(UpdateOrder::Character);
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	if (Player2 != nullptr)
+	{
+		Player2->SetPlayer2();
+	}
 }
 
 void PlayLevel::MapFileLoad(const std::string& _FileName)

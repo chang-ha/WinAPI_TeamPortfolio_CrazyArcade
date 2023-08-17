@@ -21,9 +21,21 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 	PlayLevel::LevelStart(_PrevLevel);
 	FadeObject::CallFadeIn(this, 0.4f);
 
-	Player->SetPos(GroundTile->IndexToPos(6, 4));
-	Player2->SetPos(GroundTile->IndexToPos(6, 10));
+	if (Player != nullptr)
+	{
+		Player->SetPos(GroundTile->IndexToPos(6, 4));
+	}
+	else
+	{
+		MsgBoxAssert("1P가 생성되지 못 했습니다");
+		return;
+	}
 
+	if (Player2 != nullptr)
+	{
+		Player2->SetPos(GroundTile->IndexToPos(6, 10));
+	}
+	
 	Snowmon = CreateActor<Piratemon_black>(UpdateOrder::Monster);
 	Snowmon->SetPos(GroundTile->IndexToPos(1, 6));
 
