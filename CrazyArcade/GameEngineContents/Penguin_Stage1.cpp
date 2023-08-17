@@ -48,6 +48,10 @@ void Penguin_Stage1::Start()
 
 	MapFileLoad("Penguin_Stage1.map");
 	TileSetting();
+
+	CurrentStage = 1;
+	NextLevelName = "Penguin_Stage2";
+	CreateUIElements();
 }
 
 void Penguin_Stage1::Update(float _Delta)
