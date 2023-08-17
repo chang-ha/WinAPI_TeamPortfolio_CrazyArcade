@@ -704,6 +704,20 @@ TileObjectOrder PlayLevel::GetCurTileType(const float4& _Pos)
 	return Result;
 }
 
+GameMapIndex PlayLevel::GetCurIndex(const float4& _Pos)
+{
+	float4 CharacterPos = _Pos;
+	CharacterPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
+	float4 ChangeIndex = ObjectTile->PosToIndex(CharacterPos);
+
+	int CurIndexX = ChangeIndex.iX() - 1;
+	int CurIndexY = ChangeIndex.iY() - 1;
+
+	GameMapIndex Result = { CurIndexX, CurIndexY };
+
+	return Result;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 물폭탄
 void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum& _PlayerNum)

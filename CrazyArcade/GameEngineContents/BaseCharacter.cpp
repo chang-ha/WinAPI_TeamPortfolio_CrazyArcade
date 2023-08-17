@@ -46,6 +46,8 @@ void BaseCharacter::Update(float _Delta)
 {
 	CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 FOOTPOS);
 
+	BossCheck();
+
 	StateUpdate(_Delta);
 
 	// 물풍선 설치
@@ -401,5 +403,23 @@ void BaseCharacter::BossCheck()
 		return;
 	}
 
+	GameMapIndex CharacterIndex = PlayLevel::CurPlayLevel->GetCurIndex(GetPos() + float4 FOOTPOS);
+
 	std::vector<std::vector<float4>> CheckTile = Penguin::BossMonster->GetBossTile();
+
+	for (std::vector<float4> CheckTileArr : CheckTile)
+	{
+		for (float4 CheckPos : CheckTileArr)
+		{
+			GameMapIndex BossIndex = { CheckPos.iX(), CheckPos.iY() };
+
+			if (BossIndex.X == CharacterIndex.X && BossIndex.Y == CharacterIndex.Y)
+			{
+				ChangeState(CharacterState::Die);
+				return;
+			}
+		}
+	}
+
+	return;
 }
