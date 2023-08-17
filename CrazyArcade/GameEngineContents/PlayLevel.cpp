@@ -15,6 +15,7 @@
 #include "Bazzi.h"
 #include "Kephi.h"
 #include "Marid.h"
+#include "BaseMonster.h"
 #include "ContentsEnum.h"
 #include "GlobalValue.h"
 #include "GlobalUtils.h"
@@ -34,6 +35,7 @@
 #include "Item.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
+int PlayLevel::StageMonsterCount = 0;
 
 PlayLevel::PlayLevel()
 {
@@ -1530,7 +1532,6 @@ bool PlayLevel::MonsterCheckTile(const float4& _Pos, float _Delta)
 		return false;
 	}
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 보스 맵 패턴

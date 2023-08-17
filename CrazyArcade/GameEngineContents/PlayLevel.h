@@ -26,10 +26,10 @@ enum class PlayerNum;
 class PlayLevel : public ContentLevel
 {
 	friend class Penguin;
-
 	friend class BaseMonster;
 public:
 	static PlayLevel* CurPlayLevel;
+	static int StageMonsterCount;
 
 	// constructer destructer
 	PlayLevel();
@@ -51,6 +51,34 @@ public:
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
 	bool MonsterCheckTile(const float4& _Pos, float _Delta);
+
+	template <typename MonsterType>
+	MonsterType* CreateMonster()
+	{
+		MonsterType* NewMonster = CreateActor<MonsterType>(UpdateOrder::Monster);
+
+		if (nullptr != NewMonster)
+		{
+			++StageMonsterCount;
+			// StageMonsters.push_back(NewMonster);
+			return NewMonster;
+		}
+		else
+		{
+			MsgBoxAssert("몬스터 생성에 실패했습니다");
+			return nullptr;
+		}
+	}
+
+	void StageMonsterCountMinus()
+	{
+		--StageMonsterCount;
+	}
+
+	int GetStageMonsterCount() const
+	{
+		return StageMonsterCount;
+	}
 
 	void CheckItemInTile(int _X, int _Y);
 	void CheckItemInTile(float _X, float _Y);

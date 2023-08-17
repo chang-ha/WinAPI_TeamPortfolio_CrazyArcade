@@ -37,42 +37,42 @@ void Penguin_Stage2::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	// Snowmon Black
-	Snowmon_black* Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_black* Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(5, 1));
 	Snowmon_Black->SetState(MonsterState::EggSummon);
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(2, 5));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(2, 9));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(11, 1));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(14, 5));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(14, 9));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(5, 13));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(11, 13));
 
 	// Snowmon Red
-	Snowmon_red* Snowmon_Red = CreateActor<Snowmon_red>(UpdateOrder::Monster);
+	Snowmon_red* Snowmon_Red = CreateMonster<Snowmon_red>();
 	Snowmon_Red->SetPos(GroundTile->IndexToPos(7, 6));
 
-	Snowmon_Red = CreateActor<Snowmon_red>(UpdateOrder::Monster);
+	Snowmon_Red = CreateMonster<Snowmon_red>();
 	Snowmon_Red->SetPos(GroundTile->IndexToPos(9, 6));
 
-	Snowmon_Red = CreateActor<Snowmon_red>(UpdateOrder::Monster);
+	Snowmon_Red = CreateMonster<Snowmon_red>();
 	Snowmon_Red->SetPos(GroundTile->IndexToPos(7, 8));
 
-	Snowmon_Red = CreateActor<Snowmon_red>(UpdateOrder::Monster);
+	Snowmon_Red = CreateMonster<Snowmon_red>();
 	Snowmon_Red->SetPos(GroundTile->IndexToPos(9, 8));
 }
 

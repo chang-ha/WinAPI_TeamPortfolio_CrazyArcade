@@ -161,4 +161,5 @@ void Piratemon_black::DieStart()
 	ChangeAnimationState("Die");
 	MonsterEffectSound = GameEngineSound::SoundPlay("Pirate_Monster_Death.wav");
 	MonsterEffectSound.SetVolume(1.0f);
+	PlayLevel::CurPlayLevel->StageMonsterCountMinus();
 }
