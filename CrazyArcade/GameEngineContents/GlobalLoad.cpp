@@ -22,7 +22,7 @@ void GlobalLoad::TileTextureLoad()
 		GlobalUtils::SpriteFileLoad("ImMovableBlocks.bmp", "Resources\\Textures\\Tile", ImmovableBlockMaxIndex + 1, 1);
 		GlobalUtils::SpriteFileLoad("MovableBlocks.bmp", "Resources\\Textures\\Tile", MovableBlockMaxIndex + 1, 1);
 		GlobalUtils::SpriteFileLoad("Pop_Tile.bmp", "Resources\\Textures\\Tile", 4, 1);
-		GlobalUtils::SpriteFileLoad("Boss_Pop.bmp", "Resources\\Textures\\Tile", 6, 1);
+		GlobalUtils::SpriteFileLoad("Boss_Pop.bmp", "Resources\\Textures\\Tile", 5, 1);
 		GlobalUtils::SpriteFileLoad("Bubble.bmp", "Resources\\Textures\\Tile\\Bubble", 3, 1);
 		GlobalUtils::SpriteFileLoad("Pop.bmp", "Resources\\Textures\\Tile\\Bubble", 6, 1);
 		GlobalUtils::SpriteFileLoad("Left_1.bmp", "Resources\\Textures\\Tile\\Bubble", 11, 1);
