@@ -168,6 +168,8 @@ protected:
 
 	float BubbleTimer = 0.0f;
 
+	int GetItemCount = 0;
+
 	TileObjectOrder CurTile = TileObjectOrder::Empty;
 
 	PlayerNum PlayerNumber = PlayerNum::P1;

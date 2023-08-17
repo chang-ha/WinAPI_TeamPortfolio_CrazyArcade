@@ -21,46 +21,58 @@ void Penguin_Stage2::LevelStart(GameEngineLevel* _PrevLevel)
 	FadeObject::CallFadeIn(this, 0.4f);
 
 	// Player
-	Player->SetPos(GroundTile->IndexToPos(2, 2));
-	Player2->SetPos(GroundTile->IndexToPos(14, 2));
+	if (Player != nullptr)
+	{
+		Player->SetPos(GroundTile->IndexToPos(2, 2));
+	}
+	else
+	{
+		MsgBoxAssert("1P가 생성되지 못 했습니다");
+		return;
+	}
+
+	if (Player2 != nullptr)
+	{
+		Player2->SetPos(GroundTile->IndexToPos(14, 2));
+	}
 
 	// Snowmon Black
-	Snowmon_black* Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_black* Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(5, 1));
 	Snowmon_Black->SetState(MonsterState::EggSummon);
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(2, 5));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(2, 9));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(11, 1));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(14, 5));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(14, 9));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(5, 13));
 
-	Snowmon_Black = CreateActor<Snowmon_black>(UpdateOrder::Monster);
+	Snowmon_Black = CreateMonster<Snowmon_black>();
 	Snowmon_Black->SetPos(GroundTile->IndexToPos(11, 13));
 
 	// Snowmon Red
-	Snowmon_red* Snowmon_Red = CreateActor<Snowmon_red>(UpdateOrder::Monster);
+	Snowmon_red* Snowmon_Red = CreateMonster<Snowmon_red>();
 	Snowmon_Red->SetPos(GroundTile->IndexToPos(7, 6));
 
-	Snowmon_Red = CreateActor<Snowmon_red>(UpdateOrder::Monster);
+	Snowmon_Red = CreateMonster<Snowmon_red>();
 	Snowmon_Red->SetPos(GroundTile->IndexToPos(9, 6));
 
-	Snowmon_Red = CreateActor<Snowmon_red>(UpdateOrder::Monster);
+	Snowmon_Red = CreateMonster<Snowmon_red>();
 	Snowmon_Red->SetPos(GroundTile->IndexToPos(7, 8));
 
-	Snowmon_Red = CreateActor<Snowmon_red>(UpdateOrder::Monster);
+	Snowmon_Red = CreateMonster<Snowmon_red>();
 	Snowmon_Red->SetPos(GroundTile->IndexToPos(9, 8));
 }
 
@@ -76,6 +88,10 @@ void Penguin_Stage2::Start()
 
 	MapFileLoad("Penguin_Stage2.map");
 	TileSetting();
+
+	CurrentStage = 2;
+	NextLevelName = "Penguin_Stage3";
+	CreateUIElements();
 }
 
 void Penguin_Stage2::Update(float _Delta)

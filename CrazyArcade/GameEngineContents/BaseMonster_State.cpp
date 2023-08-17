@@ -360,6 +360,7 @@ void BaseMonster::EggDeathUpdate(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		Death();
+		PlayLevel::CurPlayLevel->MonsterListDelete();
 		return;
 	}
 }
@@ -376,6 +377,7 @@ void BaseMonster::DieUpdate(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		Death();
+		PlayLevel::CurPlayLevel->MonsterListDelete();
 		return;
 	}
 }

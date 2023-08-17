@@ -26,7 +26,6 @@ enum class PlayerNum;
 class PlayLevel : public ContentLevel
 {
 	friend class Penguin;
-
 	friend class BaseMonster;
 public:
 	static PlayLevel* CurPlayLevel;
@@ -42,7 +41,6 @@ public:
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
 	bool CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _PlayerNum);
-	bool MonsterCheckTile(const float4& _Pos, float _Delta);
 	bool CheckSidePos(const float4& _Pos, const PlayerNum& _PlayerNum);
 	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y, const PlayerNum& _PlayerNum);
 	void SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum& _PlayerNum);
@@ -51,6 +49,29 @@ public:
 	void PopTile(const int _X, const int _Y);
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
+	bool MonsterCheckTile(const float4& _Pos, float _Delta);
+	
+	template <typename MonsterType>
+	MonsterType* CreateMonster()
+	{
+		MonsterType* NewMonster = CreateActor<MonsterType>(UpdateOrder::Monster);
+
+		if (nullptr != NewMonster)
+		{
+			StageMonsters.push_back(NewMonster);
+			return NewMonster;
+		}
+		else
+		{
+			MsgBoxAssert("몬스터 생성에 실패했습니다");
+			return nullptr;
+		}
+	}
+
+	int GetStageMonsterCount() const
+	{
+		return static_cast<int>(StageMonsters.size());
+	}
 
 	void CheckItemInTile(int _X, int _Y);
 	void CheckItemInTile(float _X, float _Y);
@@ -75,8 +96,16 @@ protected:
 	void MapFileLoad(const std::string& _FileName);
 	void TileSetting();
 
+	// Player
+	BaseCharacter* Player = nullptr;
+	BaseCharacter* Player2 = nullptr;
 	void CharacterSetting();
 
+	// Monster
+	std::list<BaseMonster*> StageMonsters;
+	void StageMonstersDeath();
+	void MonsterListDelete();
+	
 	// Item
 	void ItemSetting();
 	void CreateItemInBlock(int _X, int _Y);
@@ -86,10 +115,6 @@ protected:
 
 	std::vector<std::vector<class Item*>> Items;
 	class Item* ItemActor = nullptr;
-
-	// Player
-	BaseCharacter* Player = nullptr;
-	BaseCharacter* Player2 = nullptr;
 
 	// Tile
 	std::vector<std::vector<class GameMapInfo>> TileInfo;
