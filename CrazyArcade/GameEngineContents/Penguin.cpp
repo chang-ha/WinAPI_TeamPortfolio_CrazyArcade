@@ -130,6 +130,7 @@ void Penguin::Start()
 void Penguin::Update(float _Delta)
 {
 	StateUpdate(_Delta);
+
 	HP_Renderer->SetRenderScale(float4{ 2.0f * 12.0f * BossHP , 7 });
 	if (0 == BossHP)
 	{
@@ -157,10 +158,10 @@ void Penguin::Update(float _Delta)
 		IsDebugMode = !IsDebugMode;
 	}
 
-	if (true == GameEngineInput::IsDown('M'))
-	{
-		ChangeState(MonsterState::Summon);
-	}
+	//if (true == GameEngineInput::IsDown('M'))
+	//{
+	//	ChangeState(MonsterState::Summon);
+	//}
 
 	if (PatternTimer >= PATTERN_TIME && false == PatternStart)
 	{
