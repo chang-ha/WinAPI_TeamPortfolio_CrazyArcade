@@ -18,6 +18,9 @@
 // Debug
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineCollision.h>
+
+Penguin* Penguin::BossMonster = nullptr;
+
 Penguin::Penguin()
 {
 }
@@ -120,6 +123,8 @@ void Penguin::Start()
 	{
 		BossTile[Y].resize(3);
 	}
+
+	BossMonster = this;
 }
 
 void Penguin::Update(float _Delta)
@@ -460,16 +465,30 @@ void Penguin::DieBubbleStart()
 
 void Penguin::DieBubbleUpdate(float _Delta)
 {
-	float4 PlayerPos = CurPlayLevel->Player->GetPos();
-	float4 Index = CurPlayLevel->GetGroundTile()->PosToIndex(PlayerPos - GlobalValue::TileStartPos);
-
-	for (int Y = 0; Y < BossTile.size(); Y++)
+	float4 PlayerPos = {};
+	for (int i = 0; i < 2; i++)
 	{
-		for (int X = 0; X < BossTile[Y].size(); X++)
+		switch (i)
 		{
-			if (BossTile[Y][X].iX() == Index.iX() && BossTile[Y][X].iY() == Index.iY())
+		case 0:
+			PlayerPos = CurPlayLevel->Player->GetPos();
+			break;
+		case 1:
+			PlayerPos = CurPlayLevel->Player2->GetPos();
+			break;
+		default:
+			break;
+		}
+		float4 Index = CurPlayLevel->GetGroundTile()->PosToIndex(PlayerPos - GlobalValue::TileStartPos);
+
+		for (int Y = 0; Y < BossTile.size(); Y++)
+		{
+			for (int X = 0; X < BossTile[Y].size(); X++)
 			{
-				ChangeState(MonsterState::Die);
+				if (BossTile[Y][X].iX() == Index.iX() && BossTile[Y][X].iY() == Index.iY())
+				{
+					ChangeState(MonsterState::Die);
+				}
 			}
 		}
 	}
@@ -499,7 +518,7 @@ void Penguin::HitJudgement()
 {
 	if (true == IsHitten)
 	{
-		return;
+		return; 
 	}
 
 	for (int Y = 0; Y < BossTile.size(); Y++)

@@ -18,6 +18,8 @@ class Penguin : public BaseMonster
 {
 	friend PlayLevel;
 public:
+	static Penguin* BossMonster;
+
 	// constrcuter destructer
 	Penguin();
 	~Penguin();
