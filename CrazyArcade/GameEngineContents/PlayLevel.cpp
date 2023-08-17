@@ -1626,11 +1626,11 @@ void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range
 			}
 
 			// Temp Ani
-			if (nullptr == PopRenderer->FindAnimation("Bubble_Pop"))
+			if (nullptr == PopRenderer->FindAnimation("Boss_Pop"))
 			{
-				PopRenderer->CreateAnimation("Bubble_Pop", "Pop.bmp", 0, 5, 0.1f, true);	
+				PopRenderer->CreateAnimation("Boss_Pop", "Boss_Pop.bmp", 0, 4, 0.1f);	
 			}
-			PopRenderer->ChangeAnimation("Bubble_Pop");
+			PopRenderer->ChangeAnimation("Boss_Pop");
 		}
 	}
 }

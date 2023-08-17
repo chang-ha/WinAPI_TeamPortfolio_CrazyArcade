@@ -132,16 +132,18 @@ void Penguin::Update(float _Delta)
 	StateUpdate(_Delta);
 
 	HP_Renderer->SetRenderScale(float4{ 2.0f * 12.0f * BossHP , 7 });
-	if (0 == BossHP)
-	{
-		HP_Renderer->Off();
-	}
-	else if (ANGERHP == BossHP)
+
+	if (ANGERHP == BossHP)
 	{
 		HP_Renderer->SetTexture("HP_RED.bmp");
 	}
 
 	if (true == CurPlayLevel->PatternAnimationEnd)
+	{
+		OncePatternUpdate();
+	}
+
+	if (true == CurPlayLevel->PatternAnimationEnd && false == IsOncePatternOn)
 	{
 		PatternUpdate();
 	}
@@ -171,9 +173,10 @@ void Penguin::Update(float _Delta)
 
 	if (true == GameEngineInput::IsDown('B'))
 	{
-		PatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
-		PatternStart = true;
-		PatternTimer = PATTERN_TIME;
+		IsOncePatternOn = true;
+		//PatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
+		//PatternStart = true;
+		//PatternTimer = PATTERN_TIME;
 	}
 
 	if (true == GameEngineInput::IsDown('O'))
@@ -442,6 +445,7 @@ void Penguin::AngerUpdate(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		ChangeState(MonsterState::Idle);
+		IsOncePatternOn = true;
 	}
 }
 
@@ -475,7 +479,10 @@ void Penguin::DieBubbleUpdate(float _Delta)
 			PlayerPos = CurPlayLevel->Player->GetPos();
 			break;
 		case 1:
-			PlayerPos = CurPlayLevel->Player2->GetPos();
+			if (nullptr != CurPlayLevel->Player2)
+			{
+				PlayerPos = CurPlayLevel->Player2->GetPos();
+			}
 			break;
 		default:
 			break;
@@ -592,16 +599,16 @@ void Penguin::PatternUpdate()
 	switch (CurPatternCount)
 	{
 	case 1:
-		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 2, CurPatternCount + 3);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 1, CurPatternCount + 2);
 		break;
 	case 2:
-		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 3, CurPatternCount + 4);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 2, CurPatternCount + 3);
 		break;
 	case 3:
-		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 4, CurPatternCount + 5);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 3, CurPatternCount + 4);
 		break;
 	case 4:
-		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 5, CurPatternCount + 6);
+		Range = GameEngineRandom::MainRandom.RandomInt(CurPatternCount + 4, CurPatternCount + 5);
 		break;
 	default:
 		break;
@@ -616,5 +623,42 @@ void Penguin::PatternUpdate()
 		PatternStart = false;
 		PatternTimer = 0.0f;
 		CurPlayLevel->PatternAnimationEnd = true;
+	}
+}
+
+void Penguin::OncePatternUpdate()
+{
+	if (false == IsOncePatternOn)
+	{
+		return;
+	}
+
+	static int CurPatternCount = 0;
+	int Range = 0;
+	++CurPatternCount;
+	switch (CurPatternCount)
+	{
+	case 1:
+		Range = 2;
+		break;
+	case 2:
+		Range = 3;
+		break;
+	case 3:
+		Range = 4;
+		break;
+	case 4:
+		Range = 5;
+		break;
+	default:
+		break;
+	}
+	CurPlayLevel->PatternAnimationEnd = false;
+	CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Range);
+
+	if (4 == CurPatternCount)
+	{
+		CurPatternCount = 0;
+		IsOncePatternOn = false;
 	}
 }
