@@ -36,7 +36,7 @@ void BaseCharacter::Start()
 
 	{
 		BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
-		BodyCollision->SetCollisionPos(GetPos());
+		BodyCollision->SetCollisionPos(GetPos() + float4 CHARACTERCOLLISIONPOS);
 		BodyCollision->SetCollisionScale(BODYCOLLISIONSCALE);
 		BodyCollision->SetCollisionType(CollisionType::Rect);
 	}

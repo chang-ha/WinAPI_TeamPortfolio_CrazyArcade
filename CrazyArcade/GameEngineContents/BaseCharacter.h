@@ -17,11 +17,13 @@
 #define LEFTBOTCHECKPOS { -16.0f, 30.0f }
 #define RIGHTBOTCHECKPOS { 16.0f, 30.0f }
 
-#define FOOTPOS { 0.0f, 25.0f }
+#define CHARACTERCOLLISIONPOS { 0.0f, 5.0f }
 
 #define SETBUBBLEPOS { 0.0f, 15.0f }
 
 #define CHARACTERSHADOWPOS { 0.0f, 15.0f }
+
+#define FOOTPOS { 0.0f, 25.0f }
 
 #define SPEEDREFERENCEVALUE 40.0f
 
