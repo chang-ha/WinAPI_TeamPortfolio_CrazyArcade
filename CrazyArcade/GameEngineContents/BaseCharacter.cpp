@@ -420,6 +420,11 @@ void BaseCharacter::BossCheck()
 		return;
 	}
 
+	if (true == NoDamage)
+	{
+		return;
+	}
+
 	GameMapIndex CharacterIndex = PlayLevel::CurPlayLevel->GetCurIndex(GetPos() + float4 FOOTPOS);
 
 	std::vector<std::vector<float4>> CheckTile = Penguin::BossMonster->GetBossTile();

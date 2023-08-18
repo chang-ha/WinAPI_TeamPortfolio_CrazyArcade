@@ -213,7 +213,8 @@ void BaseMonster::CheckCollision()
 		{
 			BaseCharacter* ColPlayer = dynamic_cast<BaseCharacter*>(_Col->GetActor());
 
-			if (true == ColPlayer->GetPlayerDeath())
+			if (true == ColPlayer->GetPlayerDeath()
+				|| true == ColPlayer->GetNoDamage())
 			{
 				continue;
 			}

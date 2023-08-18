@@ -9,6 +9,8 @@
 void BaseCharacter::BubbleHitStart()
 {
 	ChangeAnimationState("BubbleHit");
+	EffectPlayer = GameEngineSound::SoundPlay("Locked_In_Bubble.wav");
+	EffectPlayer.SetVolume(1.0f);
 }
 void BaseCharacter::BubbleHitUpdate(float _Delta)
 {
@@ -22,8 +24,6 @@ void BaseCharacter::BubbleHitUpdate(float _Delta)
 void BaseCharacter::BubbleStart()
 {
 	ChangeAnimationState("Bubble");
-	EffectPlayer = GameEngineSound::SoundPlay("Locked_In_Bubble.wav");
-	EffectPlayer.SetVolume(1.0f);
 }
 void BaseCharacter::BubbleUpdate(float _Delta)
 {
