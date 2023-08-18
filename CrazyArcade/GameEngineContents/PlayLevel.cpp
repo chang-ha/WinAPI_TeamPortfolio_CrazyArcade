@@ -240,6 +240,13 @@ void PlayLevel::Update(float _Delta)
 			}
 		}
 	}
+
+	// Cheet : All Monster Death
+	if (true == GameEngineInput::IsDown(VK_F9))
+	{
+		StageMonstersDeath();
+		return;
+	}
 }
 
 void PlayLevel::Render(float _Delta)

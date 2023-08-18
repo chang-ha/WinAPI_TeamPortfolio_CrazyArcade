@@ -209,6 +209,7 @@ void BaseCharacter::ReadyUpdate(float _Delta)
 
 void BaseCharacter::JumpStart()
 {
+	BodyCollision->Off();
 	ChangeAnimationState("Jump");
 }
 void BaseCharacter::JumpUpdate(float _Delta) {}
