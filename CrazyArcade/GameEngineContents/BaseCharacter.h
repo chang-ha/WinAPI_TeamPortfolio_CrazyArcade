@@ -163,6 +163,11 @@ protected:
 		return NeedleCount;
 	}
 
+	bool GetNoDamage() const
+	{
+		return NoDamage;
+	}
+
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
@@ -183,8 +188,15 @@ protected:
 	std::vector<GameEngineCollision*> Col;
 
 	GameEngineSoundPlayer EffectPlayer;
+
+	void NoDamageSwitch()
+	{
+		NoDamage = !NoDamage;
+	}
+
 private:
 	bool IsDebugData = false;
 	bool PlayerDeath = false;
+	bool NoDamage = false;
 };
 

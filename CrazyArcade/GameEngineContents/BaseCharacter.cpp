@@ -48,6 +48,11 @@ void BaseCharacter::Update(float _Delta)
 
 	BossCheck();
 
+	if (true == GameEngineInput::IsDown('Z'))
+	{
+		NoDamageSwitch();
+	}
+
 	StateUpdate(_Delta);
 
 	// 물풍선 설치
@@ -156,6 +161,18 @@ void BaseCharacter::Render(float _Delta)
 			ItemCount += std::to_string(GetItemCount);
 			TextOutA(dc, 700, 165, ItemCount.c_str(), static_cast<int>(ItemCount.size()));
 		}
+
+		std::string NoDamageText = "";
+		NoDamageText += "무적 : ";
+		if (NoDamage == true)
+		{
+			NoDamageText += "True";
+		}
+		else
+		{
+			NoDamageText += "False";
+		}
+		TextOutA(dc, 2, 192, NoDamageText.c_str(), static_cast<int>(NoDamageText.size()));
 
 		CollisionData Data;
 

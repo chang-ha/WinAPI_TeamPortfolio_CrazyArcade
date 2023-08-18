@@ -989,8 +989,6 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 		TileRenderer->CreateAnimation("Pop_Tile", "Pop_Tile.Bmp", 0, 3, 0.1f, false);
 	}
 
-	TileInfo[_Y][_X].MapInfo = TileObjectOrder::Empty;
-
 	TileRenderer->ChangeAnimation("Pop_Tile");
 
 	AllBubbleDeathIndex.push_back({ _X, _Y });
