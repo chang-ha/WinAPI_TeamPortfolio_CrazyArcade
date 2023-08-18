@@ -834,8 +834,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			PopTile(X, Y);
 			break;
 		}
-		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo
-			|| TileObjectOrder::PopRange == TileInfo[Y][X].MapInfo)
+		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo)
 		{
 			break;
 		}
@@ -868,8 +867,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			PopTile(X, Y);
 			break;
 		}
-		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo
-			|| TileObjectOrder::PopRange == TileInfo[Y][X].MapInfo)
+		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo)
 		{
 			break;
 		}
@@ -902,8 +900,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			PopTile(X, Y);
 			break;
 		}
-		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo
-			|| TileObjectOrder::PopRange == TileInfo[Y][X].MapInfo)
+		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo)
 		{
 			break;
 		}
@@ -936,8 +933,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 			PopTile(X, Y);
 			break;
 		}
-		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo
-			|| TileObjectOrder::PopRange == TileInfo[Y][X].MapInfo)
+		else if (TileObjectOrder::Structure == TileInfo[Y][X].MapInfo)
 		{
 			break;
 		}
@@ -1002,26 +998,26 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 // 물풍선 상하좌우 타일 변경 함수
 void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
 {
-	if (TileObjectOrder::Empty != TileInfo[_Y][_X].MapInfo)
+	if (TileObjectOrder::Empty == TileInfo[_Y][_X].MapInfo
+		|| TileObjectOrder::PopRange == TileInfo[_Y][_X].MapInfo)
 	{
-		return;
+		GameEngineRenderer* TileRenderer = ObjectTile->GetTile(_X, _Y);
+
+		TileInfo[_Y][_X].MapInfo = TileObjectOrder::PopRange;
+
+		TileRenderer = ObjectTile->SetTileToSprite(_X, _Y, _SpriteName,
+			TileInfo[_Y][_X].ObjectTextureInfo, GlobalValue::TileStartPos, true);
+
+		if (nullptr == TileRenderer->FindAnimation(_AnimationName))
+		{
+			TileRenderer->CreateAnimation(_AnimationName, _SpriteName, -1, -1, _Inter, false);
+		}
+		TileRenderer->ChangeAnimation(_AnimationName);
+
+		AllBubbleDeathIndex.push_back({ _X, _Y });
 	}
 
-	GameEngineRenderer* TileRenderer = ObjectTile->GetTile(_X, _Y);
-
-	TileInfo[_Y][_X].MapInfo = TileObjectOrder::PopRange;
-
-	TileRenderer = ObjectTile->SetTileToSprite(_X, _Y, _SpriteName,
-		TileInfo[_Y][_X].ObjectTextureInfo, GlobalValue::TileStartPos, true);
-
-	if (nullptr == TileRenderer->FindAnimation(_AnimationName))
-	{
-		TileRenderer->CreateAnimation(_AnimationName, _SpriteName, -1, -1, _Inter, false);
-	}
-	TileRenderer->ChangeAnimation(_AnimationName);
-
-	AllBubbleDeathIndex.push_back({ _X, _Y });
-
+	return;
 }
 
 
