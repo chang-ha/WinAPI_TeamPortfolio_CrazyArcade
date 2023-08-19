@@ -13,6 +13,7 @@ enum class MapType
 	Seal2,
 	Peng1,
 	Peng2,
+	Test,
 	Max,
 };
 
