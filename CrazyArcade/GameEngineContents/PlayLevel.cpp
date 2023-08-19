@@ -58,6 +58,11 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	if (nullptr != Player2)
 	{
 		Player2->SetPos(GlobalValue::WinScale.Half());
+		Back->Init("PlayPanel_2P.bmp");
+	}
+	else
+	{
+		Back->Init("PlayPanel.bmp");
 	}
 
 	UILevelStart();
@@ -90,8 +95,6 @@ void PlayLevel::Start()
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
 		return;
 	}
-
-	Back->Init("PlayPanel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
 	// Sound Load
