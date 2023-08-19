@@ -33,6 +33,7 @@
 #include "StageStartBossBillBoard.h"
 #include "Button.h"
 #include "Item.h"
+#include "ItemSoket.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
@@ -54,15 +55,37 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		Player->SetPos(GlobalValue::WinScale.Half());
 	}
-
+	
 	if (nullptr != Player2)
 	{
 		Player2->SetPos(GlobalValue::WinScale.Half());
-		Back->Init("PlayPanel_2P.bmp");
+		
 	}
-	else
+
+	if (nullptr != Player)
 	{
-		Back->Init("PlayPanel.bmp");
+		if (nullptr != Player2)
+		{
+			LevelPlayState = PlayState::Multi;
+			Back->Init("PlayPanel_2P.bmp");
+
+			ItemSoket* Multi_P1ItemSoket = CreateActor<ItemSoket>(UpdateOrder::UI);
+			Multi_P1ItemSoket->SetPos(GlobalValue::ItemSoketPos_Multi_1P_Pos);
+			Sokets.push_back(Multi_P1ItemSoket);
+
+			ItemSoket* Multi_P2ItemSoket = CreateActor<ItemSoket>(UpdateOrder::UI);
+			Multi_P2ItemSoket->SetPos(GlobalValue::ItemSoketPos_Multi_2P_Pos);
+			Sokets.push_back(Multi_P2ItemSoket);
+		}
+		else
+		{
+			LevelPlayState = PlayState::Single;
+			Back->Init("PlayPanel.bmp");
+
+			ItemSoket* UseItemSoket = CreateActor<ItemSoket>(UpdateOrder::UI);
+			UseItemSoket->SetPos(GlobalValue::ItemSoketPos_Single_Pos);
+			Sokets.push_back(UseItemSoket);
+		}
 	}
 
 	UILevelStart();
@@ -83,7 +106,7 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 	}
 
 	StageMonstersDeath();
-
+	ItemRelease();
 	UILevelEnd();
 }
 
@@ -244,6 +267,42 @@ void PlayLevel::Update(float _Delta)
 		}
 	}
 
+	if (PlayState::Single == LevelPlayState)
+	{
+		switch (Player->GetNeedle())
+		{
+		case 0:
+			Sokets[0]->EmptyingSoket();
+			break;
+		default:
+			Sokets[0]->HoldingItem(ItemType::Needle);
+			break;
+		}
+		
+	}
+	else if (PlayState::Multi == LevelPlayState)
+	{
+		switch (Player->GetNeedle())
+		{
+		case 0:
+			Sokets[0]->EmptyingSoket();
+			break;
+		default:
+			Sokets[0]->HoldingItem(ItemType::Needle);
+			break;
+		}
+
+		switch (Player->GetNeedle())
+		{
+		case 0:
+			Sokets[0]->EmptyingSoket();
+			break;
+		default:
+			Sokets[0]->HoldingItem(ItemType::Needle);
+			break;
+		}
+	}
+
 	// Cheet : All Monster Death
 	if (true == GameEngineInput::IsDown(VK_F9))
 	{
@@ -394,6 +453,21 @@ void PlayLevel::CheckItemInTile(float _X, float _Y)
 	{
 		Items[Y][X]->Death();
 		Items[Y][X] = nullptr;
+	}
+}
+
+void PlayLevel::ItemRelease()
+{
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; ++Y)
+	{
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; ++X)
+		{
+			if (nullptr != Items[Y][X])
+			{
+				Items[Y][X]->Death();
+				Items[Y][X] = nullptr;
+			}
+		}
 	}
 }
 
