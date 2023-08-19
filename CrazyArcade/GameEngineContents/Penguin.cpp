@@ -193,69 +193,26 @@ void Penguin::Update(float _Delta)
 		IsDebugMode = !IsDebugMode;
 	}
 
-	// Test Code
-	if (true == GameEngineInput::IsDown('1'))
-	{
-		Dir = ActorDir::Left;
-		ChangeAnimationState(MonsterState::Hitten);
-	}
-	if (true == GameEngineInput::IsDown('2'))
-	{
-		Dir = ActorDir::Right;
-		ChangeAnimationState(MonsterState::Hitten);
-	}
-	if (true == GameEngineInput::IsDown('3'))
-	{
-		Dir = ActorDir::Up;
-		ChangeAnimationState(MonsterState::Hitten);
-	}
-	if (true == GameEngineInput::IsDown('4'))
-	{
-		Dir = ActorDir::Down;
-		ChangeAnimationState(MonsterState::Hitten);  
-	}
-
-	if (true == GameEngineInput::IsDown('5'))
-	{ 
-		Dir = ActorDir::Left;
-		ChangeAnimationState(MonsterState::Move);
-	} 
-	if (true == GameEngineInput::IsDown('7')) 
-	{
-		Dir = ActorDir::Right;
-		ChangeAnimationState(MonsterState::Move);
-	}
-	if (true == GameEngineInput::IsDown('8'))
-	{
-		Dir = ActorDir::Up;
-		ChangeAnimationState(MonsterState::Move);
-	}
-	if (true == GameEngineInput::IsDown('9'))
-	{
-		Dir = ActorDir::Down;
-		ChangeAnimationState(MonsterState::Move);
-	}
-
 	//if (true == GameEngineInput::IsDown('M'))
 	//{
 	//	ChangeState(MonsterState::Summon);
 	//}
 
-	//if (PatternTimer >= PATTERN_TIME && false == PatternStart)
-	//{
-	//	GameEngineRandom::MainRandom.SetSeed(time(NULL));
-	//	PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
-	//	PatternStart = true;
-	//}
+	if (PatternTimer >= PATTERN_TIME && false == PatternStart)
+	{
+		GameEngineRandom::MainRandom.SetSeed(time(NULL));
+		PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
+		PatternStart = true;
+	}
 
-	//if (true == GameEngineInput::IsDown('B'))
-	//{
-	//	IsOncePatternOn = true;
-	//	GameEngineRandom::MainRandom.SetSeed(time(NULL));
-	//	//PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
-	//	//PatternStart = true;
-	//	//PatternTimer = PATTERN_TIME;
-	//}
+	if (true == GameEngineInput::IsDown('B'))
+	{
+		IsOncePatternOn = true;
+		GameEngineRandom::MainRandom.SetSeed(time(NULL));
+		//PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
+		//PatternStart = true;
+		//PatternTimer = PATTERN_TIME;
+	}
 
 	if (true == GameEngineInput::IsDown('O'))
 	{
@@ -286,7 +243,7 @@ void Penguin::Update(float _Delta)
 			int Index_Y = BossTile[Y][X].iY();
 			if (CurPlayLevel->TileInfo[Index_Y][Index_X].MapInfo == TileObjectOrder::Bubble)
 			{
-				CurPlayLevel->BubblePop(Index_X , Index_Y);
+				CurPlayLevel->PrevBubblePop(Index_X , Index_Y);
 			}
 		}
 	}
