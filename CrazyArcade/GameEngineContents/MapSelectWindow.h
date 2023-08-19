@@ -89,6 +89,7 @@ private:
 	void clickSeal2Button();
 	void clickPenguin1Button();
 	void clickPenguin2Button();
+	void clickRandomButton();
 
 
 
