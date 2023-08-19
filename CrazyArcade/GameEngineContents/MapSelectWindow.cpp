@@ -187,7 +187,7 @@ void MapSelectWindow::loadMapInfoButton()
 
 		std::string IconFileName = "";
 
-		if (MapCount == static_cast<int>(MapType::Random))
+		if (MapCount == static_cast<int>(MapType::Test))
 		{
 			IconFileName = "MapSelect_Random_Icon.bmp";
 		}
@@ -227,7 +227,7 @@ void MapSelectWindow::loadMapInfoButton()
 		std::string TextFileName = "";
 
 
-		if (MapCount == static_cast<int>(MapType::Random))
+		if (MapCount == static_cast<int>(MapType::Test))
 		{
 			TextFileName = "MapSelect_Random_Text.bmp";
 		}
@@ -440,8 +440,8 @@ void MapSelectWindow::clickPenguin2Button()
 
 void MapSelectWindow::clickRandomButton()
 {
-	changeMapCompart(MapType::Random);
-	changeMapInfo(MapType::Random);
+	changeMapCompart(MapType::Test);
+	changeMapInfo(MapType::Test);
 }
 
 
@@ -591,7 +591,7 @@ void MapSelectWindow::changeMapInfo(MapType _Type)
 		case MapType::Peng2:
 			SelectedMapType = 1;
 			break;
-		case MapType::Random:
+		case MapType::Test:
 			SelectedMapType = 2;
 			break;
 		case MapType::Max:
@@ -716,7 +716,7 @@ void MapSelectWindow::onPanel()
 		case MapType::Peng2:
 			SelectedMapType = 1;
 			break;
-		case MapType::Random:
+		case MapType::Test:
 			SelectedMapType = 2;
 			break;
 		case MapType::Max:

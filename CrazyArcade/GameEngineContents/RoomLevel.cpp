@@ -232,7 +232,7 @@ void RoomLevel::clickGameStartButton()
 		break;
 	case MapType::Peng2:
 		break;
-	case MapType::Random:
+	case MapType::Test:
 		FadeObject::CallFadeOut(this, "TestStage", GlobalValue::g_ChangeLevelFadeSpeed);
 		break;
 	default:
