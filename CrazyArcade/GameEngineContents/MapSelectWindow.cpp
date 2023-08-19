@@ -138,6 +138,9 @@ void MapSelectWindow::loadMapInfoButton()
 		case 3:
 			MapListButton->setCallback(ButtonEventState::Click, this, &MapSelectWindow::clickPenguin2Button);
 			break;
+		case 4:
+			MapListButton->setCallback(ButtonEventState::Click, this, &MapSelectWindow::clickRandomButton);
+			break;
 		default:
 			break;
 		}
@@ -155,7 +158,7 @@ void MapSelectWindow::loadMapInfoButton()
 		vecMapInfoButton[MapCount].MapCompart = MapListButton;
 
 
-
+		// 뒷 패널 로드
 		CommonTexture* SelectMapPtr = CurLevel->CreateActor<CommonTexture>(UpdateOrder::UI);
 		if (nullptr == SelectMapPtr)
 		{
@@ -174,7 +177,7 @@ void MapSelectWindow::loadMapInfoButton()
 		vecMapInfoButton[MapCount].SelectMap = SelectMapPtr;
 
 
-
+		// 맵 선택 아이콘 로드
 		CommonTexture* MapIconPtr = CurLevel->CreateActor<CommonTexture>(UpdateOrder::UI);
 		if (nullptr == MapIconPtr)
 		{
@@ -184,7 +187,11 @@ void MapSelectWindow::loadMapInfoButton()
 
 		std::string IconFileName = "";
 
-		if (MapCount < static_cast<int>(MapType::Peng1))
+		if (MapCount == static_cast<int>(MapType::Random))
+		{
+			IconFileName = "MapSelect_Random_Icon.bmp";
+		}
+		else if (MapCount < static_cast<int>(MapType::Peng1))
 		{
 			IconFileName = "MapSelect_Seal_Icon.bmp";
 		}
@@ -209,7 +216,7 @@ void MapSelectWindow::loadMapInfoButton()
 		vecMapInfoButton[MapCount].MapIcon = MapIconPtr;
 
 
-
+		// 맵 선택 택스트 로드
 		CommonTexture* MapTextPtr = CurLevel->CreateActor<CommonTexture>(UpdateOrder::UI);
 		if (nullptr == MapTextPtr)
 		{
@@ -219,7 +226,12 @@ void MapSelectWindow::loadMapInfoButton()
 
 		std::string TextFileName = "";
 
-		if (MapCount < static_cast<int>(MapType::Peng1))
+
+		if (MapCount == static_cast<int>(MapType::Random))
+		{
+			TextFileName = "MapSelect_Random_Text.bmp";
+		}
+		else if (MapCount < static_cast<int>(MapType::Peng1))
 		{
 			TextFileName = "MapSelect_Seal_Text.bmp";
 		}
@@ -227,6 +239,7 @@ void MapSelectWindow::loadMapInfoButton()
 		{
 			TextFileName = "MapSelect_Penguin_Text.bmp";
 		}
+
 
 		MapTextPtr->loadTexture(TextFileName, "Resources\\Textures\\UI\\MapSelect");
 		MapTextPtr->setTexture(TextFileName);
@@ -254,6 +267,8 @@ void MapSelectWindow::loadMapInfoButton()
 
 
 
+
+		// 맵 선택 넘버 로드
 		CommonTexture* MapNumberPtr = CurLevel->CreateActor<CommonTexture>(UpdateOrder::UI);
 		if (nullptr == MapNumberPtr)
 		{
@@ -288,6 +303,8 @@ void MapSelectWindow::loadMapInfoButton()
 
 	GlobalValue::g_SelectMap = MapType::Seal1;
 	CurSelectMap = MapType::Seal1;
+
+
 
 
 	CommonTexture* NameTexture = vecMapInfoButton[static_cast<int>(CurSelectMap)].MapName;
@@ -421,6 +438,13 @@ void MapSelectWindow::clickPenguin2Button()
 	changeMapInfo(MapType::Peng2);
 }
 
+void MapSelectWindow::clickRandomButton()
+{
+	changeMapCompart(MapType::Random);
+	changeMapInfo(MapType::Random);
+}
+
+
 
 void MapSelectWindow::loadSelectMapInfo()
 {
@@ -431,6 +455,8 @@ void MapSelectWindow::loadSelectMapInfo()
 		return;
 	}
 
+
+	// 타이틀 로드
 	CommonTexture* TitlePtr = CurLevelPtr->CreateActor<CommonTexture>(UpdateOrder::UI);
 	if (TitlePtr)
 	{
@@ -457,6 +483,7 @@ void MapSelectWindow::loadSelectMapInfo()
 	}
 
 
+	// 맵이미지 로드
 	CommonTexture* MapImgPtr = CurLevelPtr->CreateActor<CommonTexture>(UpdateOrder::UI);
 	if (MapImgPtr)
 	{
@@ -484,6 +511,7 @@ void MapSelectWindow::loadSelectMapInfo()
 	}
 
 
+	// 맵 개요 로드
 	CommonTexture* MapOutlinePtr = CurLevelPtr->CreateActor<CommonTexture>(UpdateOrder::UI);
 	if (MapOutlinePtr)
 	{
@@ -503,6 +531,7 @@ void MapSelectWindow::loadSelectMapInfo()
 	}
 
 
+	// 맵 텍스트 로드
 	CommonTexture* MapTextPtr = CurLevelPtr->CreateActor<CommonTexture>(UpdateOrder::UI);
 	if (MapTextPtr)
 	{
@@ -510,7 +539,7 @@ void MapSelectWindow::loadSelectMapInfo()
 		MapTextPtr->setTexture("MapSelect_Text.bmp");
 
 		float4 TextTextureScale = MapTextPtr->getTextureScale();
-		m_TextScale = float4{ TextTextureScale.X , TextTextureScale.Y / 2.0f };
+		m_TextScale = float4{ TextTextureScale.X , TextTextureScale.Y / 3.0f };
 
 		GameEngineRenderer* TextRenderer = MapTextPtr->getRenderer();
 		if (TextRenderer)
@@ -561,6 +590,9 @@ void MapSelectWindow::changeMapInfo(MapType _Type)
 			break;
 		case MapType::Peng2:
 			SelectedMapType = 1;
+			break;
+		case MapType::Random:
+			SelectedMapType = 2;
 			break;
 		case MapType::Max:
 			break;
@@ -683,6 +715,9 @@ void MapSelectWindow::onPanel()
 			break;
 		case MapType::Peng2:
 			SelectedMapType = 1;
+			break;
+		case MapType::Random:
+			SelectedMapType = 2;
 			break;
 		case MapType::Max:
 			break;

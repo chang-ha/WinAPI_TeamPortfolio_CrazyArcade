@@ -86,7 +86,7 @@ void RoomLevel::loadSelectedMapComposition()
 	SelectedMapImg->loadTexture("MapSelect_Map.bmp", "Resources\\Textures\\UI\\MapSelect");
 
 	SelectedMapImg->setTexture("MapSelect_Map.bmp");
-	SelectedMapImg->setRendererCopyAndRenderScale(0, 3);
+	SelectedMapImg->setRendererCopyAndRenderScale(0, 4);
 
 	float4 MapImgScale = SelectedMapImg->getScale();
 
@@ -106,7 +106,7 @@ void RoomLevel::loadSelectedMapComposition()
 	SelectedMapOutline->loadTexture("SelectedMap_Outline.bmp", "Resources\\Textures\\UI\\MapSelect");
 
 	SelectedMapOutline->setTexture("SelectedMap_Outline.bmp");
-	SelectedMapOutline->setRendererCopyAndRenderScale(0, 3);
+	SelectedMapOutline->setRendererCopyAndRenderScale(0, 4);
 
 	float4 MapOutlineScale = SelectedMapOutline->getScale();
 
