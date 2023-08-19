@@ -56,7 +56,7 @@ void Penguin::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet("Down_Hitten", FilePath.PlusFilePath("Down_Hitten.bmp"), 5, 1);
 
 		// Up
-		ResourcesManager::GetInst().CreateSpriteSheet("Up_Move", FilePath.PlusFilePath("Up_Move.bmp"), 6, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet("Up_Move", FilePath.PlusFilePath("Up_Move.bmp"), 5, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet("Up_Hitten", FilePath.PlusFilePath("Up_Hitten.bmp"), 5, 1);
 
 		// Right
@@ -95,8 +95,11 @@ void Penguin::Start()
 
 		// Up
 		{
+			// Idle
+			MainRenderer->CreateAnimation("Up_Idle", "Up_Move", 0, 0);
+
 			// Move
-			MainRenderer->CreateAnimation("Up_Move", "Up_Move", 0, 5, MOVE_ANI_SPEED);
+			MainRenderer->CreateAnimation("Up_Move", "Up_Move", 0, 4, MOVE_ANI_SPEED);
 
 			// Hitten
 			MainRenderer->CreateAnimation("Up_Hitten", "Up_Hitten", 0, 4, HITTEN_ANI_SPEED);
@@ -104,15 +107,21 @@ void Penguin::Start()
 
 		// Right
 		{
+			//Idle
+			MainRenderer->CreateAnimation("Right_Idle", "Right_Move", 0, 0);
+
 			// Move
 			MainRenderer->CreateAnimation("Right_Move", "Right_Move", 0, 5, MOVE_ANI_SPEED);
 
-			// Hitten
+			// Hitten 
 			MainRenderer->CreateAnimation("Right_Hitten", "Right_Hitten", 0, 4, HITTEN_ANI_SPEED);
 		}
 
 		// Left
 		{
+			//Idle
+			MainRenderer->CreateAnimation("Left_Idle", "Left_Move", 0, 0);
+			
 			// Move
 			MainRenderer->CreateAnimation("Left_Move", "Left_Move", 0, 5, MOVE_ANI_SPEED);
 
@@ -164,7 +173,7 @@ void Penguin::Update(float _Delta)
 
 	if (true == CurPlayLevel->PatternAnimationEnd)
 	{
-		OncePatternUpdate();
+		SequentialPatternUpdate(3, 3, 1);
 	}
 
 	if (true == CurPlayLevel->PatternAnimationEnd && false == IsOncePatternOn)
@@ -203,28 +212,50 @@ void Penguin::Update(float _Delta)
 	if (true == GameEngineInput::IsDown('4'))
 	{
 		Dir = ActorDir::Down;
-		ChangeAnimationState(MonsterState::Hitten);
+		ChangeAnimationState(MonsterState::Hitten);  
 	}
+
+	if (true == GameEngineInput::IsDown('5'))
+	{ 
+		Dir = ActorDir::Left;
+		ChangeAnimationState(MonsterState::Move);
+	} 
+	if (true == GameEngineInput::IsDown('7')) 
+	{
+		Dir = ActorDir::Right;
+		ChangeAnimationState(MonsterState::Move);
+	}
+	if (true == GameEngineInput::IsDown('8'))
+	{
+		Dir = ActorDir::Up;
+		ChangeAnimationState(MonsterState::Move);
+	}
+	if (true == GameEngineInput::IsDown('9'))
+	{
+		Dir = ActorDir::Down;
+		ChangeAnimationState(MonsterState::Move);
+	}
+
 	//if (true == GameEngineInput::IsDown('M'))
 	//{
 	//	ChangeState(MonsterState::Summon);
 	//}
 
-	if (PatternTimer >= PATTERN_TIME && false == PatternStart)
-	{
-		GameEngineRandom::MainRandom.SetSeed(time(NULL));
-		PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
-		PatternStart = true;
-	}
+	//if (PatternTimer >= PATTERN_TIME && false == PatternStart)
+	//{
+	//	GameEngineRandom::MainRandom.SetSeed(time(NULL));
+	//	PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
+	//	PatternStart = true;
+	//}
 
-	if (true == GameEngineInput::IsDown('B'))
-	{
-		IsOncePatternOn = true;
-		GameEngineRandom::MainRandom.SetSeed(time(NULL));
-		//PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
-		//PatternStart = true;
-		//PatternTimer = PATTERN_TIME;
-	}
+	//if (true == GameEngineInput::IsDown('B'))
+	//{
+	//	IsOncePatternOn = true;
+	//	GameEngineRandom::MainRandom.SetSeed(time(NULL));
+	//	//PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
+	//	//PatternStart = true;
+	//	//PatternTimer = PATTERN_TIME;
+	//}
 
 	if (true == GameEngineInput::IsDown('O'))
 	{
@@ -355,15 +386,12 @@ void Penguin::ChangeState(MonsterState _State)
 
 void Penguin::IdleStart()
 {
-	MainRenderer->ChangeAnimation("Down_Idle");
+	ChangeAnimationState(MonsterState::Idle);
 }
 
 void Penguin::IdleUpdate(float _Delta)
 {
-	if (true == MainRenderer->IsAnimationEnd())
-	{
-		ChangeState(MonsterState::Summon);
-	}
+
 }
 
 ActorDir Penguin::DirDecision(int _MoveRange)
@@ -434,13 +462,15 @@ void Penguin::ChangeAnimationState(MonsterState _State)
 
 	switch (_State)
 	{
+	case MonsterState::Idle:
+		AnimationName += "Idle";
+		break;
 	case MonsterState::Move:
 		AnimationName += "Move";
 		break;
 	case MonsterState::Hitten:
 		AnimationName += "Hitten";
 		break;
-	case MonsterState::Idle:
 	case MonsterState::Ready:
 	case MonsterState::Freeze:
 	case MonsterState::Anger:
@@ -478,7 +508,7 @@ void Penguin::MoveStart()
 	case ActorDir::Right:
 		MoveRange = { BOSSMOVERANGE * MoveIndex, 0 };
 		break;
-	case ActorDir::Up:
+	case ActorDir::Up: 
 		MoveRange = { 0 , -BOSSMOVERANGE * MoveIndex };
 		break;
 	case ActorDir::Down:
@@ -547,6 +577,7 @@ void Penguin::AngerUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
 	{
+		Dir = ActorDir::Down;
 		ChangeState(MonsterState::Idle);
 		IsOncePatternOn = true;
 	}
@@ -687,7 +718,7 @@ void Penguin::SummonUpdate(float _Delta)
 		ChangeState(MonsterState::Idle);
 	}
 }
-
+	
 // Test Code
 void Penguin::PatternUpdate()
 {
@@ -729,7 +760,7 @@ void Penguin::PatternUpdate()
 	}
 }
 
-void Penguin::OncePatternUpdate()
+void Penguin::SequentialPatternUpdate(int _StartRange, int _PatternCount, int _PlusRange)
 {
 	if (false == IsOncePatternOn)
 	{
@@ -737,31 +768,20 @@ void Penguin::OncePatternUpdate()
 	}
 
 	static int CurPatternCount = 0;
-	int Range = 0;
-	++CurPatternCount;
-	switch (CurPatternCount)
-	{
-	case 1:
-		Range = 2;
-		break;
-	case 2:
-		Range = 3;
-		break;
-	case 3:
-		Range = 4;
-		break;
-	case 4:
-		Range = 5;
-		break;
-	default:
-		break;
-	}
-	CurPlayLevel->PatternAnimationEnd = false;
-	CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Range);
+	int Range = _StartRange + CurPatternCount * _PlusRange - 1;
 
-	if (4 == CurPatternCount)
+
+	if (_PatternCount > CurPatternCount)
+	{
+		++CurPatternCount;
+	}
+	else
 	{
 		CurPatternCount = 0;
 		IsOncePatternOn = false;
+		return;
 	}
+
+	CurPlayLevel->PatternAnimationEnd = false;
+	CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Range);
 }
