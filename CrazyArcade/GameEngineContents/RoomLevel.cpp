@@ -221,7 +221,24 @@ void RoomLevel::clickSelectButton()
 
 void RoomLevel::clickGameStartButton()
 {
-	FadeObject::CallFadeOut(this, "Penguin_Stage1", GlobalValue::g_ChangeLevelFadeSpeed);
+	switch (GlobalValue::g_SelectMap)
+	{
+	case MapType::Seal1:
+		break;
+	case MapType::Seal2:
+		break;
+	case MapType::Peng1:
+		FadeObject::CallFadeOut(this, "Penguin_Stage1", GlobalValue::g_ChangeLevelFadeSpeed);
+		break;
+	case MapType::Peng2:
+		break;
+	case MapType::Random:
+		FadeObject::CallFadeOut(this, "TestStage", GlobalValue::g_ChangeLevelFadeSpeed);
+		break;
+	default:
+		break;
+	}
+
 }
 
 void RoomLevel::clickExitButton()
