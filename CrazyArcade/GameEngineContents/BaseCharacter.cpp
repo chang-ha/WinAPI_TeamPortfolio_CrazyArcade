@@ -1,6 +1,8 @@
 ﻿#include "BaseCharacter.h"
+#include "Penguin.h"
 #include "GlobalUtils.h"
 #include "PlayLevel.h"
+#include "GameMapInfo.h"
 #include "GlobalUtils.h"
 
 #include <GameEngineBase/GameEnginePath.h>
@@ -34,7 +36,7 @@ void BaseCharacter::Start()
 
 	{
 		BodyCollision = CreateCollision(CollisionOrder::PlayerBody);
-		BodyCollision->SetCollisionPos(GetPos());
+		BodyCollision->SetCollisionPos(GetPos() + float4 CHARACTERCOLLISIONPOS);
 		BodyCollision->SetCollisionScale(BODYCOLLISIONSCALE);
 		BodyCollision->SetCollisionType(CollisionType::Rect);
 	}
@@ -43,6 +45,13 @@ void BaseCharacter::Start()
 void BaseCharacter::Update(float _Delta)
 {
 	CurTile = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 FOOTPOS);
+
+	BossCheck();
+
+	if (true == GameEngineInput::IsDown('Z'))
+	{
+		NoDamageSwitch();
+	}
 
 	StateUpdate(_Delta);
 
@@ -152,6 +161,18 @@ void BaseCharacter::Render(float _Delta)
 			ItemCount += std::to_string(GetItemCount);
 			TextOutA(dc, 700, 165, ItemCount.c_str(), static_cast<int>(ItemCount.size()));
 		}
+
+		std::string NoDamageText = "";
+		NoDamageText += "무적 : ";
+		if (NoDamage == true)
+		{
+			NoDamageText += "True";
+		}
+		else
+		{
+			NoDamageText += "False";
+		}
+		TextOutA(dc, 2, 192, NoDamageText.c_str(), static_cast<int>(NoDamageText.size()));
 
 		CollisionData Data;
 
@@ -390,4 +411,37 @@ void BaseCharacter::SetPlayer2()
 	BodyCollision->SetCollisionPos(GetPos());
 	BodyCollision->SetCollisionScale(BODYCOLLISIONSCALE);
 	BodyCollision->SetCollisionType(CollisionType::Rect);
+}
+
+void BaseCharacter::BossCheck()
+{
+	if (Penguin::BossMonster == nullptr)
+	{
+		return;
+	}
+
+	if (true == NoDamage)
+	{
+		return;
+	}
+
+	GameMapIndex CharacterIndex = PlayLevel::CurPlayLevel->GetCurIndex(GetPos() + float4 FOOTPOS);
+
+	std::vector<std::vector<float4>> CheckTile = Penguin::BossMonster->GetBossTile();
+
+	for (std::vector<float4> CheckTileArr : CheckTile)
+	{
+		for (float4 CheckPos : CheckTileArr)
+		{
+			GameMapIndex BossIndex = { CheckPos.iX(), CheckPos.iY() };
+
+			if (BossIndex.X == CharacterIndex.X && BossIndex.Y == CharacterIndex.Y)
+			{
+				ChangeState(CharacterState::Die);
+				return;
+			}
+		}
+	}
+
+	return;
 }

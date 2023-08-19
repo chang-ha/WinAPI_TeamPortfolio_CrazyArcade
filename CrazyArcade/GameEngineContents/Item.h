@@ -32,14 +32,14 @@ public:
 	inline void SetItemType(ItemType _Type)
 	{
 		Type = _Type;
-		SetTexture(Type);
+		SetItemTexture(Type);
 	}
 
 	// int를 인자로 받아서 Type 세팅
 	inline void SetItemTypeInt(int _Type)
 	{
 		Type = static_cast<ItemType>(_Type);
-		SetTexture(Type);
+		SetItemTexture(Type);
 	}
 
 	void SetItemTypeRandom();
@@ -75,7 +75,7 @@ protected:
 private:
 	void Start() override;
 	void Update(float _Delta) override;
-	void SetTexture(ItemType _Type);
+	void SetItemTexture(ItemType _Type);
 
 	void Levitation(float _Delta);
 
@@ -90,7 +90,7 @@ private:
 	float Speed = 3.5f;
 	float CurRadian = 0.0f;
 	float MovingHeight = 10.0f;
-	float4 StartPos = {0, -3};
+	float4 StartPos = {0, -5};
 
 	float AlphaValue = 200.0f;
 	class GameEngineRenderer* ItemRenderer = nullptr;

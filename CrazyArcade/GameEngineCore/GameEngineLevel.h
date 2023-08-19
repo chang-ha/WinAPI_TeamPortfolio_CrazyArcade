@@ -28,6 +28,20 @@ public:
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
 
+	template<typename EnumType>
+	std::list<GameEngineActor*>& GetActorGroup(EnumType _Order)
+	{
+		std::list<GameEngineActor*>& GroupList = AllActors[static_cast<int>(_Order)];
+
+		return GroupList;
+	}
+
+	std::list<GameEngineActor*>& GetActorGroup(int _Order)
+	{
+		std::list<GameEngineActor*>& GroupList = AllActors[_Order];
+
+		return GroupList;
+	}
 
 	template<typename ActorType, typename EnumType>
 	ActorType* CreateActor(EnumType _Order)

@@ -17,11 +17,13 @@
 #define LEFTBOTCHECKPOS { -16.0f, 30.0f }
 #define RIGHTBOTCHECKPOS { 16.0f, 30.0f }
 
-#define FOOTPOS { 0.0f, 25.0f }
+#define CHARACTERCOLLISIONPOS { 0.0f, 5.0f }
 
 #define SETBUBBLEPOS { 0.0f, 15.0f }
 
 #define CHARACTERSHADOWPOS { 0.0f, 15.0f }
+
+#define FOOTPOS { 0.0f, 25.0f }
 
 #define SPEEDREFERENCEVALUE 40.0f
 
@@ -96,6 +98,8 @@ protected:
 	void DieStart();
 	void DieUpdate(float _Delta);
 
+	void BossCheck();
+
 protected:
 	CharacterState State = CharacterState::Max;
 	std::string CurState = "";
@@ -159,6 +163,11 @@ protected:
 		return NeedleCount;
 	}
 
+	bool GetNoDamage() const
+	{
+		return NoDamage;
+	}
+
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
@@ -179,8 +188,15 @@ protected:
 	std::vector<GameEngineCollision*> Col;
 
 	GameEngineSoundPlayer EffectPlayer;
+
+	void NoDamageSwitch()
+	{
+		NoDamage = !NoDamage;
+	}
+
 private:
 	bool IsDebugData = false;
 	bool PlayerDeath = false;
+	bool NoDamage = false;
 };
 

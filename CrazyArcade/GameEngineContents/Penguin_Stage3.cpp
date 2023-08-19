@@ -21,6 +21,11 @@ void Penguin_Stage3::LevelStart(GameEngineLevel* _PrevLevel)
 	PlayLevel::LevelStart(_PrevLevel);
 	FadeObject::CallFadeIn(this, 0.4f);
 
+	MapFileLoad("Penguin_Stage3.map");
+	TileSetting();
+
+	ItemSetting();
+
 	if (Player != nullptr)
 	{
 		Player->SetPos(GroundTile->IndexToPos(7, 13));
@@ -56,9 +61,6 @@ void Penguin_Stage3::LevelEnd(GameEngineLevel* _NextLevel)
 void Penguin_Stage3::Start()
 {
 	PlayLevel::Start();
-
-	MapFileLoad("Penguin_Stage3.map");
-	TileSetting();
 
 	CurrentStage = 3;
 	NextLevelName = "RoomLevel";

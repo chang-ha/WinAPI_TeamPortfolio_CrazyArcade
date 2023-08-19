@@ -41,7 +41,7 @@ void Item::Start()
 	// Item Collision
 	ItemCollision = CreateCollision(CollisionOrder::Item);
 	ItemCollision->SetCollisionType(CollisionType::Rect);
-	ItemCollision->SetCollisionScale({1, 1});
+	ItemCollision->SetCollisionScale({10, 10});
 
 	// Position Initialize
 	SetItemPos(TileIndexX, TileIndexY);
@@ -126,27 +126,33 @@ void Item::Levitation(float _Delta)
 	ItemRenderer->AddRenderPos(AddPosY * _Delta);
 }
 
-void Item::SetTexture(ItemType _Type)
+void Item::SetItemTexture(ItemType _Type)
 {
 	switch (_Type)
 	{
 	case ItemType::Bubble:
-		ItemRenderer->SetTexture("Item_Bubble.bmp");
+		ItemRenderer->CreateAnimation("Blink", "Item_Bubble.bmp", 0, 2, 0.1f, true);
+		ItemRenderer->ChangeAnimation("Blink");
 		break;
 	case ItemType::Fluid:
-		ItemRenderer->SetTexture("Item_Fluid.bmp");
+		ItemRenderer->CreateAnimation("Blink", "Item_Fluid.bmp", 0, 2, 0.1f, true);
+		ItemRenderer->ChangeAnimation("Blink");
 		break;
 	case ItemType::Roller:
-		ItemRenderer->SetTexture("Item_Roller.bmp");
+		ItemRenderer->CreateAnimation("Blink", "Item_Roller.bmp", 0, 2, 0.1f, true);
+		ItemRenderer->ChangeAnimation("Blink");
 		break;
 	case ItemType::Ultra:
-		ItemRenderer->SetTexture("Item_Ultra.bmp");
+		ItemRenderer->CreateAnimation("Blink", "Item_Ultra.bmp", 0, 2, 0.1f, true);
+		ItemRenderer->ChangeAnimation("Blink");
 		break;
 	case ItemType::Red_Devil:
-		ItemRenderer->SetTexture("Item_Red_Devil.bmp");
+		ItemRenderer->CreateAnimation("Blink", "Item_Red_Devil.bmp", 0, 2, 0.1f, true);
+		ItemRenderer->ChangeAnimation("Blink");
 		break;
 	case ItemType::Needle:
-		ItemRenderer->SetTexture("Item_Needle.bmp");
+		ItemRenderer->CreateAnimation("Blink", "Item_Needle.bmp", 0, 2, 0.1f, true);
+		ItemRenderer->ChangeAnimation("Blink");
 		break;
 	default:
 		break;

@@ -45,10 +45,12 @@ public:
 	void MoveTile(GameEngineRenderer* _Renderer,int _X, int _Y, const PlayerNum& _PlayerNum);
 	void SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum& _PlayerNum);
 	void BubblePop(const int _X, const int _Y);
+	void PrevBubblePop(const int _X, const int _Y);
 	void SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	void PopTile(const int _X, const int _Y);
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
+	class GameMapIndex GetCurIndex(const float4& _Pos);
 	bool MonsterCheckTile(const float4& _Pos, float _Delta);
 	
 	template <typename MonsterType>
