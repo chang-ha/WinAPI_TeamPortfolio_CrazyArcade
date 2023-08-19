@@ -72,10 +72,12 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 			ItemSoket* Multi_P1ItemSoket = CreateActor<ItemSoket>(UpdateOrder::UI);
 			Multi_P1ItemSoket->SetPos(GlobalValue::ItemSoketPos_Multi_1P_Pos);
 			Sokets.push_back(Multi_P1ItemSoket);
+			Multi_P1ItemSoket = nullptr;
 
 			ItemSoket* Multi_P2ItemSoket = CreateActor<ItemSoket>(UpdateOrder::UI);
 			Multi_P2ItemSoket->SetPos(GlobalValue::ItemSoketPos_Multi_2P_Pos);
 			Sokets.push_back(Multi_P2ItemSoket);
+			Multi_P2ItemSoket = nullptr;
 		}
 		else
 		{
@@ -85,6 +87,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 			ItemSoket* UseItemSoket = CreateActor<ItemSoket>(UpdateOrder::UI);
 			UseItemSoket->SetPos(GlobalValue::ItemSoketPos_Single_Pos);
 			Sokets.push_back(UseItemSoket);
+			UseItemSoket = nullptr;
 		}
 	}
 
@@ -106,7 +109,10 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 	}
 
 	StageMonstersDeath();
+
+	SoketRelease();
 	ItemRelease();
+
 	UILevelEnd();
 }
 
@@ -269,36 +275,56 @@ void PlayLevel::Update(float _Delta)
 
 	if (PlayState::Single == LevelPlayState)
 	{
+
 		switch (Player->GetNeedle())
 		{
 		case 0:
-			Sokets[0]->EmptyingSoket();
+			if (nullptr != Sokets[0])
+			{
+				Sokets[0]->EmptyingSoket();
+			}
 			break;
 		default:
-			Sokets[0]->HoldingItem(ItemType::Needle);
+			if (nullptr != Sokets[0])
+			{
+				Sokets[0]->HoldingItem(ItemType::Needle);
+			}
 			break;
 		}
 		
 	}
 	else if (PlayState::Multi == LevelPlayState)
 	{
-		switch (Player->GetNeedle())
-		{
-		case 0:
-			Sokets[0]->EmptyingSoket();
-			break;
-		default:
-			Sokets[0]->HoldingItem(ItemType::Needle);
-			break;
-		}
 
 		switch (Player->GetNeedle())
 		{
 		case 0:
-			Sokets[0]->EmptyingSoket();
+			if (nullptr != Sokets[0])
+			{
+				Sokets[0]->EmptyingSoket();
+			}
 			break;
 		default:
-			Sokets[0]->HoldingItem(ItemType::Needle);
+			if (nullptr != Sokets[0])
+			{
+				Sokets[0]->HoldingItem(ItemType::Needle);
+			}
+			break;
+		}
+
+		switch (Player2->GetNeedle())
+		{
+		case 0:
+			if (nullptr != Sokets[1])
+			{
+				Sokets[1]->EmptyingSoket();
+			}
+			break;
+		default:
+			if (nullptr != Sokets[1])
+			{
+				Sokets[1]->HoldingItem(ItemType::Needle);
+			}
 			break;
 		}
 	}
@@ -1748,3 +1774,15 @@ void PlayLevel::ClearBossPattern()
 	All_Null = true;
 }
 
+void PlayLevel::SoketRelease()
+{
+	for (int i = 0; i < Sokets.size(); i++)
+	{
+		if (nullptr != Sokets[i])
+		{
+			Sokets[i]->Death();
+			Sokets[i] = nullptr;
+		}
+	}
+	Sokets.clear();
+}

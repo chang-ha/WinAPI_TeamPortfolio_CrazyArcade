@@ -14,7 +14,7 @@ float4 GlobalValue::ItemPosNormalize = { 20 , 0 };
 
 const float4 GlobalValue::ItemSoketPos_Single_Pos = { 694, 509 };
 const float4 GlobalValue::ItemSoketPos_Multi_1P_Pos = { 685, 508 };
-const float4 GlobalValue::ItemSoketPos_Multi_2P_Pos = { 686, 508 };
+const float4 GlobalValue::ItemSoketPos_Multi_2P_Pos = { 751, 508 };
 
 int GlobalValue::AllTextureIndex_X = 3;
 

@@ -142,6 +142,7 @@ protected:
 	int CurrentStage = -1;
 	std::string NextLevelName = "";
 
+	void SoketRelease();
 	std::vector<class ItemSoket*> Sokets;
 
 	void CreateUIElements();
