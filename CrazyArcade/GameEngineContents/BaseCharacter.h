@@ -155,7 +155,14 @@ protected:
 
 	void NeedlePlus()
 	{
-		++NeedleCount;
+		if (NeedleCount < 1)
+		{
+			++NeedleCount;
+		}
+		else
+		{
+			return;
+		}
 	}
 
 	int GetNeedle() const
