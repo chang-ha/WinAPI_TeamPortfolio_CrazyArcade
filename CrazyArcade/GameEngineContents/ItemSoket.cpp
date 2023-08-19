@@ -38,11 +38,11 @@ void ItemSoket::HoldingItem(ItemType _Type)
 
 void ItemSoket::EmptyingSoket()
 {
+	Off();
 	if (nullptr == Renderer)
 	{
 		return;
 	}
-	Off();
 	Renderer->Death();
 	Renderer = nullptr;
 }
