@@ -2,17 +2,21 @@
 #define IDLE_ANI_SPEED 0.10f
 #define MOVE_ANI_SPEED 0.10f
 #define HITTEN_ANI_SPEED 0.15f
-
 #define ANGER_ANI_SPEED 0.15f
 #define BUBBLE_ANI_SPEED 0.18f
+
 #define BUBBLEPATTERN_TIME 10.0f
-#define SUMMONPATTERN_TIME 1.0f
-#define ANGERHP 3
-#define HPBARPOS float4{0, -130}
-#define BOSSMOVERANGE GlobalValue::MapTileSize.X
-#define BOSSMOVESPEED GlobalValue::MapTileSize.X * 2
 
 #define SUMMON_FRAME 10
+#define SUMMONPATTERN_TIME 20.0f
+#define SUMMON_TIME 1.5f
+
+#define ANGERHP 3
+#define HPBARPOS float4{0, -130}
+
+#define MOVEPATTERN_TIME 10.0f
+#define BOSSMOVERANGE GlobalValue::MapTileSize.X
+#define BOSSMOVESPEED GlobalValue::MapTileSize.X * 2
 
 #include "BaseMonster.h"
  
@@ -89,8 +93,10 @@ private:
 	bool IsHitten = false;
 	bool BubblePatternStart = false;
 	bool SummonPatternStart = false;
+	bool SequentialPatternStart = false;
+	bool MovePatternOn = false;
+	bool OncePatternOn = false;
 
-	bool SequentialPatternOn = false;
 	int BossHP = 7;
 	float4 MoveRange = float4::ZERO;
 	float4 MoveSpeed = float4::ZERO;
@@ -100,6 +106,7 @@ private:
 	int PatternCount = 0;
 	float BubblePatternTimer = 0.0f;
 	float SummonPatternTimer = 0.0f;
+	float MovePatternTimer = 0.0f;
 
 	float DieAlpha = 255.0f;
 

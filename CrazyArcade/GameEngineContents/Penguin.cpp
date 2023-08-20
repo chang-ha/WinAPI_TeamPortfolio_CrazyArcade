@@ -98,7 +98,7 @@ void Penguin::Start()
 		// Up
 		{
 			// Idle
-			MainRenderer->CreateAnimation("Up_Idle", "Up_Move", 0, 0);
+			MainRenderer->CreateAnimation("Up_Idle", "Down_Idle", 0, 0);
 
 			// Move
 			MainRenderer->CreateAnimation("Up_Move", "Up_Move", 0, 4, MOVE_ANI_SPEED);
@@ -166,6 +166,12 @@ void Penguin::Update(float _Delta)
 {
 	StateUpdate(_Delta);
 
+	// Debug
+	if (true == GameEngineInput::IsDown('J'))
+	{
+		IsDebugMode = !IsDebugMode;
+	}
+
 	// Hp UI Update
 	{
 		HP_Renderer->SetRenderScale(float4{ 2.0f * 12.0f * BossHP , 7 });
@@ -182,7 +188,7 @@ void Penguin::Update(float _Delta)
 		SequentialPatternUpdate();
 	}
 
-	if (true == CurPlayLevel->PatternAnimationEnd && false == SequentialPatternOn)
+	if (true == CurPlayLevel->PatternAnimationEnd && false == SequentialPatternStart)
 	{
 		PatternUpdate();
 	}
@@ -194,24 +200,22 @@ void Penguin::Update(float _Delta)
 
 	BubblePatternTimer += _Delta;
 	SummonPatternTimer += _Delta;
+	MovePatternTimer += _Delta;
 
-	// Debug & Cheat
+	// Cheat
 	{
-		if (true == GameEngineInput::IsDown('J'))
-		{
-			IsDebugMode = !IsDebugMode;
-		}
-
 		if (true == GameEngineInput::IsDown('1'))
 		{
-			SequentialPatternOn = true;
-			SequentialPatternInit(3, 4, 1);
+			SequentialPatternStart = true;
+			BubblePatternStart = false;
+			SequentialPatternInit(4, 4, 1);
 		}
 
 		if (true == GameEngineInput::IsDown('2'))
 		{
-			SequentialPatternOn = true;
-			SequentialPatternInit(5, 3, -1);
+			SequentialPatternStart = true;
+			BubblePatternStart = false;
+			SequentialPatternInit(6, 3, -1);
 		}
 
 		if (true == GameEngineInput::IsDown('3'))
@@ -219,6 +223,7 @@ void Penguin::Update(float _Delta)
 			GameEngineRandom::MainRandom.SetSeed(time(NULL));
 			PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
 			BubblePatternStart = true;
+			SequentialPatternStart = false;
 			BubblePatternTimer = BUBBLEPATTERN_TIME;
 		}
 
@@ -231,14 +236,23 @@ void Penguin::Update(float _Delta)
 		if (true == GameEngineInput::IsDown('5'))
 		{
 			ChangeState(MonsterState::Move);
+			IsHitten = false;
 		}
+	}
+
+	if (false == OncePatternOn && 1 == BossHP && false == BubblePatternStart)
+	{
+		OncePatternOn = true;
+		SequentialPatternStart = true;
+		BubblePatternStart = false;
+		SequentialPatternInit(6, 3, -1);
 	}
 
 	// Bubble Pattern Start
 	if (BubblePatternTimer >= BUBBLEPATTERN_TIME && false == BubblePatternStart)
 	{
 		GameEngineRandom::MainRandom.SetSeed(time(NULL));
-		PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
+		PatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
 		BubblePatternStart = true;
 	}
 
@@ -276,6 +290,12 @@ void Penguin::Update(float _Delta)
 
 	// Summon Pattern
 	SummonMonster();
+
+	// Move Continuous
+	if (MonsterState::Idle == State && (0.0f != MoveRange.X || 0.0f != MoveRange.Y))
+	{
+		ChangeState(MonsterState::Move);
+	}
 }
 
 void Penguin::Render(float _Delta)
@@ -298,10 +318,10 @@ void Penguin::Render(float _Delta)
 		}
 	}
 
-	std::string HPText = "";
-	HPText += "Boss HP : ";
-	HPText += std::to_string(BossHP);
-	TextOutA(dc, GlobalValue::WinScale.iX() - 100, 3, HPText.c_str(), static_cast<int>(HPText.size()));
+	//std::string HPText = "";
+	//HPText += "Boss HP : ";
+	//HPText += std::to_string(BossHP);
+	//TextOutA(dc, GlobalValue::WinScale.iX() - 100, 3, HPText.c_str(), static_cast<int>(HPText.size()));
 }
 
 
@@ -371,11 +391,20 @@ void Penguin::ChangeState(MonsterState _State)
 void Penguin::IdleStart()
 {
 	ChangeAnimationState(MonsterState::Idle);
+	IsHitten = false;
 }
 
 void Penguin::IdleUpdate(float _Delta)
 {
+	if (true == MovePatternOn && MOVEPATTERN_TIME <= MovePatternTimer)
+	{
+		ChangeState(MonsterState::Move);
+	}
 
+	if (SUMMONPATTERN_TIME <= SummonPatternTimer)
+	{
+		ChangeState(MonsterState::Summon);
+	}
 }
 
 void Penguin::ChangeAnimationState(MonsterState _State)
@@ -480,6 +509,12 @@ ActorDir Penguin::DirDecision(int _MoveRange)
 
 void Penguin::MoveStart()
 {
+	if ((0.0f != MoveRange.X || 0.0f != MoveRange.Y))
+	{
+		ChangeAnimationState(MonsterState::Move);
+		return;
+	}
+
 	GameEngineRandom::MainRandom.SetSeed(time(NULL));
 	int MoveIndex = GameEngineRandom::MainRandom.RandomInt(1,3);
 	DirDecision(MoveIndex);
@@ -503,6 +538,7 @@ void Penguin::MoveStart()
 	}
 
 	ChangeAnimationState(MonsterState::Move);
+	MovePatternTimer = 0.0f;
 }
 
 void Penguin::MoveUpdate(float _Delta)
@@ -556,6 +592,8 @@ void Penguin::MoveUpdate(float _Delta)
 void Penguin::AngerStart()
 {
 	MainRenderer->ChangeAnimation("Anger");
+	IsHitten = false;
+	MovePatternOn = true;
 }
 void Penguin::AngerUpdate(float _Delta)
 {
@@ -563,7 +601,9 @@ void Penguin::AngerUpdate(float _Delta)
 	{
 		Dir = ActorDir::Down;
 		ChangeState(MonsterState::Idle);
-		SequentialPatternOn = true;
+		SequentialPatternStart = true;
+		BubblePatternStart = false;
+		SequentialPatternInit(4, 4, 1);
 	}
 }
 
@@ -682,11 +722,9 @@ void Penguin::HittenUpdate(float _Delta)
 		if (ANGERHP == BossHP)
 		{
 			ChangeState(MonsterState::Anger);
-			IsHitten = false;
 			return;
 		}
 		ChangeState(MonsterState::Idle);
-		IsHitten = false;
 	}
 }
 
@@ -694,6 +732,7 @@ void Penguin::SummonStart()
 {
 	MainRenderer->ChangeAnimation("Summon");
 	SummonPatternStart = true;
+	SummonPatternTimer = 0.0f;
 }
 
 void Penguin::SummonUpdate(float _Delta)
@@ -706,13 +745,17 @@ void Penguin::SummonUpdate(float _Delta)
 
 void Penguin::SummonMonster()
 {
-	if (false == SummonPatternStart || SUMMONPATTERN_TIME > SummonPatternTimer)
+	if (false == SummonPatternStart || SUMMON_TIME > SummonPatternTimer)
 	{
 		return;
 	}
 
 	Snowmon_black* Snowmon = CurPlayLevel->CreateMonster<Snowmon_black>();
 	Snowmon->SetPos(CurLevelTile->IndexToPos(1, 1));
+	Snowmon->SetState(MonsterState::EggSummon);
+
+	Snowmon = CurPlayLevel->CreateMonster<Snowmon_black>();
+	Snowmon->SetPos(CurLevelTile->IndexToPos(15, 13));
 	Snowmon->SetState(MonsterState::EggSummon);
 
 	SummonPatternStart = false;
@@ -726,6 +769,12 @@ void Penguin::PatternUpdate()
 	{
 		return;
 	}
+
+	if (MonsterState::Move == State)
+	{
+		return;
+	}
+
 	static int CurPatternCount = 0;
 	GameEngineRandom::MainRandom.SetSeed(time(NULL));
 	int Range = 0;
@@ -770,14 +819,13 @@ void Penguin::SequentialPatternInit(int _StartRange, int _PatternCount, int _Plu
 
 void Penguin::SequentialPatternUpdate()
 {
-	if (false == SequentialPatternOn)
+	if (false == SequentialPatternStart)
 	{
 		return;
 	}
 
 	static int CurPatternCount = 0;
 	int Range = StartRange + CurPatternCount * PlusRange - 1;
-
 
 	if (PatternCount > CurPatternCount)
 	{
@@ -786,7 +834,7 @@ void Penguin::SequentialPatternUpdate()
 	else
 	{
 		CurPatternCount = 0;
-		SequentialPatternOn = false;
+		SequentialPatternStart = false;
 		return;
 	}
 
