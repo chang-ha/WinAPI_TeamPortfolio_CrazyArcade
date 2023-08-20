@@ -114,6 +114,8 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 	ItemRelease();
 
 	UILevelEnd();
+
+	BGMPlayer.Stop();
 }
 
 void PlayLevel::Start()
@@ -1410,6 +1412,8 @@ void PlayLevel::StartGameOver()
 	WinCheckValue ? GameEngineSound::SoundPlay("Win.wav") : GameEngineSound::SoundPlay("Lose.wav");
 
 	GameOverCheckValue = true;
+
+	BGMPlayer.Stop();
 }
 
 void PlayLevel::updateGameOverResult(float _Delta)

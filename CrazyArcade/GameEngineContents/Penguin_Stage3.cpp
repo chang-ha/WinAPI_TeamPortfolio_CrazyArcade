@@ -4,6 +4,7 @@
 #include "FadeObject.h"
 #include "Penguin.h"
 #include "BaseCharacter.h"
+#include "GlobalUtils.h"
 
 Penguin_Stage3::Penguin_Stage3()
 {
@@ -21,9 +22,15 @@ void Penguin_Stage3::LevelStart(GameEngineLevel* _PrevLevel)
 	PlayLevel::LevelStart(_PrevLevel);
 	FadeObject::CallFadeIn(this, 0.4f);
 
+	// BGM
+	BGMPlayer = GameEngineSound::SoundPlay("Boss_1_Phase_BGM.wav", 10000);
+	BGMPlayer.SetVolume(BGMVolume);
+
+	// Map
 	MapFileLoad("Penguin_Stage3.map");
 	TileSetting();
 
+	// Item
 	ItemSetting();
 
 	if (Player != nullptr)
@@ -51,6 +58,8 @@ void Penguin_Stage3::LevelStart(GameEngineLevel* _PrevLevel)
 
 void Penguin_Stage3::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	PlayLevel::LevelEnd(_NextLevel);
+
 	if (nullptr != Boss_Penguin)
 	{
 		Boss_Penguin->Death();
@@ -61,6 +70,11 @@ void Penguin_Stage3::LevelEnd(GameEngineLevel* _NextLevel)
 void Penguin_Stage3::Start()
 {
 	PlayLevel::Start();
+
+	// Sound
+	GlobalUtils::SoundFileLoad("Boss_1_Phase_BGM.wav", "Resources\\Sounds\\BGM");
+	GlobalUtils::SoundFileLoad("Boss_2_Phase_BGM.wav", "Resources\\Sounds\\BGM");
+	BGMVolume = 0.5f;
 
 	CurrentStage = 3;
 	NextLevelName = "RoomLevel";

@@ -53,14 +53,11 @@ void TestStage::LevelEnd(GameEngineLevel* _NextLevel)
 
 	Monster->Death();
 	Monster = nullptr;
-
-	BGMPlayer.Stop();
 }
 
 void TestStage::Start()
 {
 	PlayLevel::Start();
-
 
 	// Sound
 	GlobalUtils::SoundFileLoad("Penguin_Stage_BGM.wav", "Resources\\Sounds\\BGM");
