@@ -175,6 +175,9 @@
     <ClCompile Include="UITestStage3.cpp">
       <Filter>Level\UITestLevel</Filter>
     </ClCompile>
+    <ClCompile Include="ItemSoket.cpp">
+      <Filter>Actor\UI\PlayLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -341,6 +344,9 @@
     </ClInclude>
     <ClInclude Include="UITestStage2.h">
       <Filter>Level\UITestLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemSoket.h">
+      <Filter>Actor\UI\PlayLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

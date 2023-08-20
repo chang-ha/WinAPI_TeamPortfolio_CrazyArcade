@@ -13,6 +13,7 @@ enum class MapType
 	Seal2,
 	Peng1,
 	Peng2,
+	Test,
 	Max,
 };
 
@@ -90,6 +91,10 @@ public:
 	static float4 StructureOverSize;
 
 	static float4 ItemPosNormalize;
+	
+	static const float4 ItemSoketPos_Single_Pos;
+	static const float4 ItemSoketPos_Multi_1P_Pos;
+	static const float4 ItemSoketPos_Multi_2P_Pos;
 
 	static int AllTextureIndex_X;
 
@@ -112,6 +117,7 @@ public:
 
 	//static int g_Player1Level;
 	//static int g_Player2Level;
+
 
 	static float g_ChangeLevelFadeSpeed;
 	static const int g_FadeScreenAlphaValue = 70;

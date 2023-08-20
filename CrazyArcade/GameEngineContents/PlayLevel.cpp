@@ -33,6 +33,7 @@
 #include "StageStartBossBillBoard.h"
 #include "Button.h"
 #include "Item.h"
+#include "ItemSoket.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
@@ -54,10 +55,40 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		Player->SetPos(GlobalValue::WinScale.Half());
 	}
-
+	
 	if (nullptr != Player2)
 	{
 		Player2->SetPos(GlobalValue::WinScale.Half());
+		
+	}
+
+	if (nullptr != Player)
+	{
+		if (nullptr != Player2)
+		{
+			LevelPlayState = PlayState::Multi;
+			Back->Init("PlayPanel_2P.bmp");
+
+			ItemSoket* Multi_P1ItemSoket = CreateActor<ItemSoket>(UpdateOrder::UI);
+			Multi_P1ItemSoket->SetPos(GlobalValue::ItemSoketPos_Multi_1P_Pos);
+			Sokets.push_back(Multi_P1ItemSoket);
+			Multi_P1ItemSoket = nullptr;
+
+			ItemSoket* Multi_P2ItemSoket = CreateActor<ItemSoket>(UpdateOrder::UI);
+			Multi_P2ItemSoket->SetPos(GlobalValue::ItemSoketPos_Multi_2P_Pos);
+			Sokets.push_back(Multi_P2ItemSoket);
+			Multi_P2ItemSoket = nullptr;
+		}
+		else
+		{
+			LevelPlayState = PlayState::Single;
+			Back->Init("PlayPanel.bmp");
+
+			ItemSoket* UseItemSoket = CreateActor<ItemSoket>(UpdateOrder::UI);
+			UseItemSoket->SetPos(GlobalValue::ItemSoketPos_Single_Pos);
+			Sokets.push_back(UseItemSoket);
+			UseItemSoket = nullptr;
+		}
 	}
 
 	UILevelStart();
@@ -79,6 +110,9 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 
 	StageMonstersDeath();
 
+	SoketRelease();
+	ItemRelease();
+
 	UILevelEnd();
 }
 
@@ -90,8 +124,6 @@ void PlayLevel::Start()
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
 		return;
 	}
-
-	Back->Init("PlayPanel.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
 	// Sound Load
@@ -238,6 +270,62 @@ void PlayLevel::Update(float _Delta)
 					}
 				}
 			}
+		}
+	}
+
+	if (PlayState::Single == LevelPlayState)
+	{
+
+		switch (Player->GetNeedle())
+		{
+		case 0:
+			if (nullptr != Sokets[0])
+			{
+				Sokets[0]->EmptyingSoket();
+			}
+			break;
+		default:
+			if (nullptr != Sokets[0])
+			{
+				Sokets[0]->HoldingItem(ItemType::Needle);
+			}
+			break;
+		}
+		
+	}
+	else if (PlayState::Multi == LevelPlayState)
+	{
+
+		switch (Player->GetNeedle())
+		{
+		case 0:
+			if (nullptr != Sokets[0])
+			{
+				Sokets[0]->EmptyingSoket();
+			}
+			break;
+		default:
+			if (nullptr != Sokets[0])
+			{
+				Sokets[0]->HoldingItem(ItemType::Needle);
+			}
+			break;
+		}
+
+		switch (Player2->GetNeedle())
+		{
+		case 0:
+			if (nullptr != Sokets[1])
+			{
+				Sokets[1]->EmptyingSoket();
+			}
+			break;
+		default:
+			if (nullptr != Sokets[1])
+			{
+				Sokets[1]->HoldingItem(ItemType::Needle);
+			}
+			break;
 		}
 	}
 
@@ -391,6 +479,21 @@ void PlayLevel::CheckItemInTile(float _X, float _Y)
 	{
 		Items[Y][X]->Death();
 		Items[Y][X] = nullptr;
+	}
+}
+
+void PlayLevel::ItemRelease()
+{
+	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; ++Y)
+	{
+		for (int X = 0; X < GlobalValue::MapTileIndex_X; ++X)
+		{
+			if (nullptr != Items[Y][X])
+			{
+				Items[Y][X]->Death();
+				Items[Y][X] = nullptr;
+			}
+		}
 	}
 }
 
@@ -1335,6 +1438,12 @@ void PlayLevel::updateVictoryRoll()
 			return;
 		}
 
+		if (true == detectAllMonsterKill())
+		{
+			return;
+		}
+
+		// 플레이어가 전부 사망했을때 Lose를 띄웁니다.
 		if (1 == GlobalValue::g_ActiveRoomCount)
 		{
 			if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
@@ -1356,10 +1465,9 @@ void PlayLevel::updateVictoryRoll()
 					StartGameOver();
 				}
 			}
-
 		}
 
-
+		// 승리 숏컷
 		if (true == GameEngineInput::IsPress('6'))
 		{
 			for (int PlayerCount = 0; PlayerCount < GlobalValue::g_ActiveRoomCount; PlayerCount++)
@@ -1372,6 +1480,46 @@ void PlayLevel::updateVictoryRoll()
 			StartGameOver();
 		}
 	}
+}
+
+bool PlayLevel::detectAllMonsterKill()
+{
+	if (CurrentStage >= 1 && CurrentStage <= 2)
+	{
+		if (0 == StageMonsters.size())
+		{
+			WinCheckValue = true;
+
+			// 승리 시 플레이어 점프 상태 변경
+			if (Player != nullptr)
+			{
+				Player->ChangeState(CharacterState::Jump);
+			}
+
+			if (Player2 != nullptr)
+			{
+				Player2->ChangeState(CharacterState::Jump);
+			}
+
+			StartGameOver();
+
+			return true;
+		}
+	}
+	else if (3 == CurrentStage)
+	{
+		// 3 스테이지에서는 펭귄 보스가 죽으면 승리하게 됩니다.
+		if (false)
+		{
+			WinCheckValue = true;
+
+			StartGameOver();
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void PlayLevel::updateCharacterPortrait()
@@ -1671,3 +1819,15 @@ void PlayLevel::ClearBossPattern()
 	All_Null = true;
 }
 
+void PlayLevel::SoketRelease()
+{
+	for (int i = 0; i < Sokets.size(); i++)
+	{
+		if (nullptr != Sokets[i])
+		{
+			Sokets[i]->Death();
+			Sokets[i] = nullptr;
+		}
+	}
+	Sokets.clear();
+}

@@ -24,4 +24,12 @@ protected:
 private:
 	class BaseMonster* Monster = nullptr;
 	class Item* TestItem = nullptr;
+
+
+private:
+	void SetupGoBackButton();
+	class Button* m_GoBackButton = nullptr;
+	const float4 CONST_GoBackButtonStartPos = float4{ 647.0f , 561.0f };
+
+	void clickGoBackButton();
 };
