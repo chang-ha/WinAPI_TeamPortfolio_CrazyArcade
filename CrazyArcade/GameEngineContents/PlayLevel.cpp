@@ -1438,6 +1438,11 @@ void PlayLevel::updateVictoryRoll()
 			return;
 		}
 
+		if (true == detectAllMonsterKill())
+		{
+			return;
+		}
+
 		// 플레이어가 전부 사망했을때 Lose를 띄웁니다.
 		if (1 == GlobalValue::g_ActiveRoomCount)
 		{
@@ -1462,8 +1467,6 @@ void PlayLevel::updateVictoryRoll()
 			}
 		}
 
-		detectAllMonsterKill();
-
 		// 승리 숏컷
 		if (true == GameEngineInput::IsPress('6'))
 		{
@@ -1479,7 +1482,7 @@ void PlayLevel::updateVictoryRoll()
 	}
 }
 
-void PlayLevel::detectAllMonsterKill()
+bool PlayLevel::detectAllMonsterKill()
 {
 	if (CurrentStage >= 1 && CurrentStage <= 2)
 	{
@@ -1488,6 +1491,8 @@ void PlayLevel::detectAllMonsterKill()
 			WinCheckValue = true;
 
 			StartGameOver();
+
+			return true;
 		}
 	}
 	else if (3 == CurrentStage)
@@ -1498,8 +1503,12 @@ void PlayLevel::detectAllMonsterKill()
 			WinCheckValue = true;
 
 			StartGameOver();
+
+			return true;
 		}
 	}
+
+	return false;
 }
 
 void PlayLevel::updateCharacterPortrait()
