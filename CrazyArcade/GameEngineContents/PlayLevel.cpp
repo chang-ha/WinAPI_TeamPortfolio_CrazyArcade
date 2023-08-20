@@ -1490,6 +1490,17 @@ bool PlayLevel::detectAllMonsterKill()
 		{
 			WinCheckValue = true;
 
+			// 승리 시 플레이어 점프 상태 변경
+			if (Player != nullptr)
+			{
+				Player->ChangeState(CharacterState::Jump);
+			}
+
+			if (Player2 != nullptr)
+			{
+				Player2->ChangeState(CharacterState::Jump);
+			}
+
 			StartGameOver();
 
 			return true;
