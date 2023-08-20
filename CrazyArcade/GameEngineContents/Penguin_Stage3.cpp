@@ -44,7 +44,7 @@ void Penguin_Stage3::LevelStart(GameEngineLevel* _PrevLevel)
 	
 	if (nullptr == Boss_Penguin)
 	{
-		Boss_Penguin = CreateActor<Penguin>();
+		Boss_Penguin = CreateMonster<Penguin>();
 	}
 	Boss_Penguin->SetPos(GroundTile->IndexToPos(8, 6));
 }
