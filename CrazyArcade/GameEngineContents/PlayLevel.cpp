@@ -131,7 +131,9 @@ void PlayLevel::Start()
 	// Sound Load
 	GlobalUtils::SoundFileLoad("Bubble_Install.wav", "Resources\\Sounds\\Character\\");
 	GlobalUtils::SoundFileLoad("Bubble_Pop.wav", "Resources\\Sounds\\Character\\");
-	
+	GlobalUtils::SoundFileLoad("Game_Start.wav", "Resources\\Sounds\\GamePlay");
+	GlobalUtils::SoundFileLoad("Next_Level_Ready.wav", "Resources\\Sounds\\GamePlay");
+
 	// Object Texture Load
 	GlobalLoad::TileTextureLoad();
 
@@ -880,7 +882,7 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum&
 		BubbleRenderer->ChangeAnimation("Bubble_Idle");
 
 		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Install.wav");
-		EffectPlayer.SetVolume(1.0f);
+		EffectPlayer.SetVolume(2.0f);
 		return;
 	}
 
@@ -1170,8 +1172,8 @@ void PlayLevel::CreateGameStartAnimation()
 
 	if (CurrentStage == 1)
 	{
-		GlobalUtils::SoundFileLoad("Game_Start.wav", "Resources\\Sounds\\GamePlay");
-		GameEngineSound::SoundPlay("Game_Start.wav");
+		EffectPlayer = GameEngineSound::SoundPlay("Game_Start.wav");
+		EffectPlayer.SetVolume(0.7f);
 	}
 
 	if (CurrentStage >= 2 && CurrentStage <= 3)
@@ -1187,9 +1189,9 @@ void PlayLevel::OnGameStartAnimation()
 		m_GameStartAnimation->On();
 	}
 
-	GlobalUtils::SoundFileLoad("Next_Level_Ready.wav", "Resources\\Sounds\\GamePlay");
 
-	GameEngineSound::SoundPlay("Next_Level_Ready.wav");
+	EffectPlayer = GameEngineSound::SoundPlay("Next_Level_Ready.wav");
+	EffectPlayer.SetVolume(0.5f);
 }
 
 void PlayLevel::CreateBossImage()
@@ -1296,7 +1298,7 @@ void PlayLevel::BubblePopPlay()
 	{
 		PlayBubblePopEffectSound = true;
 		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Pop.wav");
-		EffectPlayer.SetVolume(1.0f);
+		EffectPlayer.SetVolume(1.5f);
 	}
 }
 
@@ -1409,8 +1411,8 @@ void PlayLevel::StartGameOver()
 		WinOrLoseSoundLoadValue = true;
 	}
 
-	WinCheckValue ? GameEngineSound::SoundPlay("Win.wav") : GameEngineSound::SoundPlay("Lose.wav");
-
+	WinCheckValue ? EffectPlayer = GameEngineSound::SoundPlay("Win.wav") : EffectPlayer = GameEngineSound::SoundPlay("Lose.wav");
+	EffectPlayer.SetVolume(0.8f);
 	GameOverCheckValue = true;
 
 	BGMPlayer.Stop();

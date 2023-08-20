@@ -61,7 +61,7 @@ void TestStage::Start()
 
 	// Sound
 	GlobalUtils::SoundFileLoad("Penguin_Stage_BGM.wav", "Resources\\Sounds\\BGM");
-	BGMVolume = 0.5f;
+	BGMVolume = 0.7f;
 
 	// UI
 	SetupGoBackButton();
