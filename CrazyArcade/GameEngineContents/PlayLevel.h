@@ -206,6 +206,7 @@ private:
 private:
 	void updateGameOverResult(float _Delta);
 	void updateVictoryRoll();
+	void detectAllMonsterKill();
 
 	void updateCharacterPortrait();
 	std::vector<CharacterStatus> vecCharacterState;

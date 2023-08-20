@@ -1438,6 +1438,7 @@ void PlayLevel::updateVictoryRoll()
 			return;
 		}
 
+		// 플레이어가 전부 사망했을때 Lose를 띄웁니다.
 		if (1 == GlobalValue::g_ActiveRoomCount)
 		{
 			if ((false == m_PlayTimer->getTimeFlowValue() && true == GameStartCheckValue) || true == Player->GetPlayerDeath())
@@ -1459,10 +1460,11 @@ void PlayLevel::updateVictoryRoll()
 					StartGameOver();
 				}
 			}
-
 		}
 
+		detectAllMonsterKill();
 
+		// 승리 숏컷
 		if (true == GameEngineInput::IsPress('6'))
 		{
 			for (int PlayerCount = 0; PlayerCount < GlobalValue::g_ActiveRoomCount; PlayerCount++)
@@ -1470,6 +1472,29 @@ void PlayLevel::updateVictoryRoll()
 				VecPlayerResult[PlayerCount].PlayerWinValue = true;
 			}
 
+			WinCheckValue = true;
+
+			StartGameOver();
+		}
+	}
+}
+
+void PlayLevel::detectAllMonsterKill()
+{
+	if (CurrentStage >= 1 && CurrentStage <= 2)
+	{
+		if (0 == StageMonsters.size())
+		{
+			WinCheckValue = true;
+
+			StartGameOver();
+		}
+	}
+	else if (3 == CurrentStage)
+	{
+		// 3 스테이지에서는 펭귄 보스가 죽으면 승리하게 됩니다.
+		if (false)
+		{
 			WinCheckValue = true;
 
 			StartGameOver();
