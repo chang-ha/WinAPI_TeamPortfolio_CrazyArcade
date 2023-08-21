@@ -21,7 +21,7 @@
 
 #define SETBUBBLEPOS { 0.0f, 15.0f }
 
-#define CHARACTERSHADOWPOS { 0.0f, 15.0f }
+#define CHARACTERSHADOWPOS { 0.0f, 23.0f }
 
 #define FOOTPOS { 0.0f, 25.0f }
 

@@ -162,7 +162,7 @@ void Piratemon_red::DieStart()
 	MonsterEffectSound = GameEngineSound::SoundPlay("Pirate_Monster_Death.wav");
 	if (true == IsDeathSound)
 	{
-		MonsterEffectSound.SetVolume(1.0f);
+		MonsterEffectSound.SetVolume(0.6f);
 	}
 	else
 	{

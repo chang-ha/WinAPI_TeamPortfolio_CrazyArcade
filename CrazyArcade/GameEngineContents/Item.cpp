@@ -54,9 +54,6 @@ void Item::Update(float _Delta)
 	if (true == ItemCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect)
 		|| true == ItemCollision->Collision(CollisionOrder::PlayerBody2, Col, CollisionType::Rect, CollisionType::Rect))
 	{
-		EffectPlayer = GameEngineSound::SoundPlay("Get_Item.wav");
-		EffectPlayer.SetVolume(0.8f);
-
 		PlayLevel* Level = dynamic_cast<PlayLevel*>(GetLevel());
 
 		GameEngineActor* ColActor = Col[Col.size() - 1]->GetActor();
@@ -65,6 +62,9 @@ void Item::Update(float _Delta)
 		if (CharacterState::Idle == ColCharacter->GetState()
 			|| CharacterState::Move == ColCharacter->GetState())
 		{
+			EffectPlayer = GameEngineSound::SoundPlay("Get_Item.wav");
+			EffectPlayer.SetVolume(0.8f);
+
 			ColCharacter->GetItem(GetItemType());
 
 			Level->CheckItemInTile(TileIndexX, TileIndexY);
