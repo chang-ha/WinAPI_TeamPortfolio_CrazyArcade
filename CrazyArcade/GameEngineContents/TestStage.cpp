@@ -45,11 +45,15 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 	CreateItemInTile(7, 6, ItemType::Red_Devil);
 
 	ItemSetting();
+
+	// UI
+	CreatePortrait();
 }
 
 void TestStage::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
+	ReleaseLevelComposition();
 
 	Monster->Death();
 	Monster = nullptr;
