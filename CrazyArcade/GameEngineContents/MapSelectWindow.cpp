@@ -63,7 +63,7 @@ void MapSelectWindow::loadButton()
 	CancleButtonPtr->setButtonTexture(ButtonState::Normal, "Button_MapSelect_Cancel_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	CancleButtonPtr->setButtonTexture(ButtonState::Click, "Button_MapSelect_Cancel_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	CancleButtonPtr->setButtonTexture(ButtonState::Hover, "Button_MapSelect_Cancel_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
-	CancleButtonPtr->setButtonPos(GetPos() - m_WindowScale.Half() + float4{ 277.0f, 447.0f });
+	CancleButtonPtr->setButtonPos(GetPos() - m_WindowScale.Half() + CONST_CancleButtonStartPos);
 	CancleButtonPtr->setButtonSound(ButtonEventState::Click, "Map_Change_Cancel.wav", "Resources\\Sounds\\Lobby");
 
 	CancleButtonPtr->setCallback<MapSelectWindow>(ButtonEventState::Click, this, &MapSelectWindow::clickCancleButton);
@@ -85,7 +85,7 @@ void MapSelectWindow::loadButton()
 	AcceptButtonPtr->setButtonTexture(ButtonState::Normal, "Button_MapSelect_Accept_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	AcceptButtonPtr->setButtonTexture(ButtonState::Click, "Button_MapSelect_Accept_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	AcceptButtonPtr->setButtonTexture(ButtonState::Hover, "Button_MapSelect_Accept_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
-	AcceptButtonPtr->setButtonPos(GetPos() - m_WindowScale.Half() + float4{ 160.0f, 447.0f });
+	AcceptButtonPtr->setButtonPos(GetPos() - m_WindowScale.Half() + CONST_AcceptButtonStartPos);
 	AcceptButtonPtr->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
 	AcceptButtonPtr->setCallback<MapSelectWindow>(ButtonEventState::Click, this, &MapSelectWindow::clickAcceptButton);
 
