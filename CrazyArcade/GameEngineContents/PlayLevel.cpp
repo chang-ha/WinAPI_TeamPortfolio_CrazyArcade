@@ -194,7 +194,7 @@ void PlayLevel::Update(float _Delta)
 				TileInfo[CheckIndex.Y][CheckIndex.X].PrevPop = false;
 				break;
 			}
-			else if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 2.0f)
+			else if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 3.0f)
 			{
 				BubblePop(CheckIndex.X, CheckIndex.Y);
 				AllBubbleIndex.erase(StartIter);
@@ -623,11 +623,11 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _Pl
 
 			if (_PlayerNum == PlayerNum::P1)
 			{
-				CheckPos = Player->GetPos();
+				CheckPos = Player->GetPos() + float4{ 0.0f, 15.0f };
 			}
 			else
 			{
-				CheckPos = Player2->GetPos();
+				CheckPos = Player2->GetPos() + float4{ 0.0f, 15.0f };
 			}
 
 			CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
