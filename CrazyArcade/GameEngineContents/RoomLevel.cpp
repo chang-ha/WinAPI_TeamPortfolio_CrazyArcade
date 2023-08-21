@@ -248,6 +248,8 @@ void RoomLevel::clickGameStartButton()
 
 void RoomLevel::clickExitButton()
 {
+	BGMPlayer.Stop();
+
 	FadeObject::CallFadeOut(this, "Quit", 2.5f);
 }
 
