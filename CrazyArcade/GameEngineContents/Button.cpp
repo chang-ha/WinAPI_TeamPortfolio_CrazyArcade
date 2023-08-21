@@ -29,6 +29,13 @@ Button::~Button()
 void Button::Start()
 {
 	m_ButtonState = ButtonState::Max;
+
+
+	vecButtonVolume.resize(static_cast<int>(ButtonEventState::Max));
+	for (int EventCount = 0; EventCount < static_cast<int>(ButtonEventState::Max); EventCount++)
+	{
+		vecButtonVolume[EventCount] = 1.0f;
+	}
 }
 
 
@@ -132,7 +139,12 @@ void Button::Update(float _Delta)
 
 				if ("" != m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Click)])
 				{
-					GameEngineSound::SoundPlay(m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Click)]);
+					GameEngineSoundPlayer ButtonSoundPlayer =
+						GameEngineSound::SoundPlay(m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Click)]);
+
+					float Volume = vecButtonVolume[static_cast<int>(ButtonEventState::Click)];
+
+					ButtonSoundPlayer.SetVolume(Volume);
 				}
 
 				m_ButtonState = ButtonState::Hover;
@@ -157,7 +169,12 @@ void Button::Update(float _Delta)
 				{
 					if (ButtonState::Normal == m_ButtonState)
 					{
-						GameEngineSound::SoundPlay(m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)]);
+						GameEngineSoundPlayer ButtonSoundPlayer = 
+							GameEngineSound::SoundPlay(m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Hover)]);
+
+						float Volume = vecButtonVolume[static_cast<int>(ButtonEventState::Hover)];
+
+						ButtonSoundPlayer.SetVolume(Volume);
 					}
 				}
 

@@ -53,6 +53,9 @@ private:
 
 	// this 
 	void loadButton();
+	
+	const float4 CONST_CancleButtonStartPos = float4{ 278.0f, 447.0f };
+	const float4 CONST_AcceptButtonStartPos = float4{ 161.0f, 447.0f };
 
 	void clickCancleButton();
 	void clickAcceptButton();

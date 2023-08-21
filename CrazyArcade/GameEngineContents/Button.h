@@ -91,6 +91,10 @@ public:
 		m_ButtonEventCallBack[static_cast<int>(_ButtonState)] = std::bind(_Func, _Actor);
 	}
 
+	void setButtonVolume(ButtonEventState _ButtonState, float _Volume)
+	{
+		vecButtonVolume[static_cast<int>(_ButtonState)] = _Volume;
+	}
 
 	void setButtonText(std::string _Text)
 	{
@@ -119,6 +123,7 @@ private:
 	ButtonState m_ButtonState = ButtonState::Max;
 	std::function<void()> m_ButtonEventCallBack[static_cast<int>(ButtonEventState::Max)];
 	std::string m_ButtonSoundEvent[static_cast<int>(ButtonEventState::Max)];
+	std::vector<float> vecButtonVolume;
 
 	bool checkHovered();
 	bool m_ButtonHoverValue = false;
