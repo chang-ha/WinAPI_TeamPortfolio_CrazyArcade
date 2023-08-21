@@ -199,6 +199,8 @@ void RoomLevel::loadButtonElement()
 	GameExitButtonPtr->setButtonSound(ButtonEventState::Click, "Game_Exit.wav", "Resources\\Sounds\\Lobby");
 	GameExitButtonPtr->setButtonSound(ButtonEventState::Hover, "Select.wav", "Resources\\Sounds\\Lobby");
 
+	GameExitButtonPtr->setButtonVolume(ButtonEventState::Click, 0.5f);
+
 
 
 	GameExitButtonPtr->setButtonPos(m_GameExitButtonStartPos);
