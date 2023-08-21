@@ -90,7 +90,7 @@ void Penguin_Stage1::Start()
 
 	// Sound
 	GlobalUtils::SoundFileLoad("Penguin_Stage_BGM.wav", "Resources\\Sounds\\BGM");
-	BGMVolume = 0.6f;
+	BGMVolume = 1.0f;
 
 	CurrentStage = 1;
 	NextLevelName = "Penguin_Stage2";

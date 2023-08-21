@@ -680,11 +680,11 @@ bool PlayLevel::CheckSidePos(const float4& _Pos, const PlayerNum& _PlayerNum)
 
 			if (_PlayerNum == PlayerNum::P1)
 			{
-				CheckPos = Player->GetPos();
+				CheckPos = Player->GetPos() + float4{ 0.0f, 15.0f };
 			}
 			else
 			{
-				CheckPos = Player2->GetPos();
+				CheckPos = Player2->GetPos() + float4{ 0.0f, 15.0f };
 			}
 
 			CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
@@ -1298,7 +1298,7 @@ void PlayLevel::BubblePopPlay()
 	{
 		PlayBubblePopEffectSound = true;
 		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Pop.wav");
-		EffectPlayer.SetVolume(1.5f);
+		EffectPlayer.SetVolume(2.0f);
 	}
 }
 
@@ -1412,7 +1412,7 @@ void PlayLevel::StartGameOver()
 	}
 
 	WinCheckValue ? EffectPlayer = GameEngineSound::SoundPlay("Win.wav") : EffectPlayer = GameEngineSound::SoundPlay("Lose.wav");
-	EffectPlayer.SetVolume(0.8f);
+	EffectPlayer.SetVolume(1.0f);
 	GameOverCheckValue = true;
 
 	BGMPlayer.Stop();
@@ -1497,12 +1497,12 @@ bool PlayLevel::detectAllMonsterKill()
 			WinCheckValue = true;
 
 			// 승리 시 플레이어 점프 상태 변경
-			if (Player != nullptr)
+			if (Player != nullptr && Player->State != CharacterState::Die)
 			{
 				Player->ChangeState(CharacterState::Jump);
 			}
 
-			if (Player2 != nullptr)
+			if (Player2 != nullptr && Player2->State != CharacterState::Die)
 			{
 				Player2->ChangeState(CharacterState::Jump);
 			}
