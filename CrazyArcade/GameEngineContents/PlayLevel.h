@@ -6,6 +6,11 @@
 #include <vector>
 #include <list>
 
+enum class PlayState
+{
+	Single,
+	Multi
+};
 
 struct CharacterStatus
 {
@@ -29,7 +34,6 @@ class PlayLevel : public ContentLevel
 	friend class BaseMonster;
 public:
 	static PlayLevel* CurPlayLevel;
-
 	// constructer destructer
 	PlayLevel();
 	~PlayLevel();
@@ -101,6 +105,7 @@ protected:
 	// Player
 	BaseCharacter* Player = nullptr;
 	BaseCharacter* Player2 = nullptr;
+	PlayState LevelPlayState;
 	void CharacterSetting();
 
 	// Monster
@@ -110,6 +115,7 @@ protected:
 	
 	// Item
 	void ItemSetting();
+	void ItemRelease();
 	void CreateItemInBlock(int _X, int _Y);
 	void CreateItemInTile(int _X, int _Y, ItemType _Type);
 
@@ -135,6 +141,9 @@ protected:
 	// UI
 	int CurrentStage = -1;
 	std::string NextLevelName = "";
+
+	void SoketRelease();
+	std::vector<class ItemSoket*> Sokets;
 
 	void CreateUIElements();
 	
@@ -197,6 +206,7 @@ private:
 private:
 	void updateGameOverResult(float _Delta);
 	void updateVictoryRoll();
+	bool detectAllMonsterKill();
 
 	void updateCharacterPortrait();
 	std::vector<CharacterStatus> vecCharacterState;

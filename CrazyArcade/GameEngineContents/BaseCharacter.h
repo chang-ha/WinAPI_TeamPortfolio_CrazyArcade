@@ -160,12 +160,24 @@ protected:
 
 	void NeedlePlus()
 	{
-		++NeedleCount;
+		if (NeedleCount < 1)
+		{
+			++NeedleCount;
+		}
+		else
+		{
+			return;
+		}
 	}
 
 	int GetNeedle() const
 	{
 		return NeedleCount;
+	}
+
+	bool GetNoDamage() const
+	{
+		return NoDamage;
 	}
 
 protected:
@@ -188,8 +200,15 @@ protected:
 	std::vector<GameEngineCollision*> Col;
 
 	GameEngineSoundPlayer EffectPlayer;
+
+	void NoDamageSwitch()
+	{
+		NoDamage = !NoDamage;
+	}
+
 private:
 	bool IsDebugData = false;
 	bool PlayerDeath = false;
+	bool NoDamage = false;
 };
 

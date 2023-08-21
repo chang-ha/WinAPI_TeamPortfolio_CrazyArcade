@@ -21,6 +21,11 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 	PlayLevel::LevelStart(_PrevLevel);
 	FadeObject::CallFadeIn(this, 0.4f);
 
+	MapFileLoad("Penguin_Stage1.map");
+	TileSetting();
+
+	ItemSetting();
+
 	if (Player != nullptr)
 	{
 		Player->SetPos(GroundTile->IndexToPos(6, 4));
@@ -75,9 +80,6 @@ void Penguin_Stage1::LevelEnd(GameEngineLevel* _NextLevel)
 void Penguin_Stage1::Start()
 {
 	PlayLevel::Start();
-
-	MapFileLoad("Penguin_Stage1.map");
-	TileSetting();
 
 	CurrentStage = 1;
 	NextLevelName = "Penguin_Stage2";

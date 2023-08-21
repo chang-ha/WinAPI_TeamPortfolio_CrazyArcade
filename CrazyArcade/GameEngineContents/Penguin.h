@@ -1,17 +1,19 @@
 #pragma once
 #define IDLE_ANI_SPEED 0.10f
-#define HITTEN_ANI_SPEED 0.17f
+#define MOVE_ANI_SPEED 0.10f
+#define HITTEN_ANI_SPEED 0.15f
+
 #define ANGER_ANI_SPEED 0.15f
 #define BUBBLE_ANI_SPEED 0.18f
-#define PATTERN_TIME 30.0f
+#define PATTERN_TIME 10.0f
 #define ANGERHP 3
 #define HPBARPOS float4{0, -130}
 #define BOSSMOVERANGE GlobalValue::MapTileSize.X
 #define BOSSMOVESPEED GlobalValue::MapTileSize.X * 2
 
 #include "BaseMonster.h"
-
-// 설명 :
+ 
+// 설명 :m
 class TileMap;
 class PlayLevel;
 class Penguin : public BaseMonster
@@ -28,7 +30,7 @@ public:
 	Penguin(const Penguin& _Other) = delete;
 	Penguin(Penguin&& _Other) noexcept = delete;
 	Penguin& operator=(const Penguin& _Other) = delete;
-	Penguin& operator=(Penguin&& _Other) noexcept = delete;
+	Penguin& operator=(Penguin&& _Other) noexcept = delete; 
 
 	const std::vector<std::vector<float4>> GetBossTile()
 	{
@@ -51,6 +53,8 @@ private:
 	void IdleUpdate(float _Delta);
 
 	ActorDir DirDecision(int _MoveRange);
+	void ChangeAnimationState(MonsterState _State);
+
 	void MoveStart();
 	void MoveUpdate(float _Delta);
 
@@ -74,8 +78,7 @@ private:
 	void SummonUpdate(float _Delta);
 
 	void PatternUpdate();
-	void ResetPatternValue();
-	void OncePatternUpdate();
+	void SequentialPatternUpdate(int _StartRange, int _PatternCount, int _PlusRange);
 
 	bool IsDebugMode = false;
 	bool IsHitten = false;
@@ -89,6 +92,7 @@ private:
 	float DieAlpha = 255.0f;
 
 	GameEngineRenderer* HP_Renderer = nullptr;
+	GameEngineRenderer* Shadow = nullptr;
 	std::vector<std::vector<float4>> BossTile;
 };
 

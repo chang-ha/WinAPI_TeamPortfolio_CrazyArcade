@@ -86,7 +86,7 @@ void RoomLevel::loadSelectedMapComposition()
 	SelectedMapImg->loadTexture("MapSelect_Map.bmp", "Resources\\Textures\\UI\\MapSelect");
 
 	SelectedMapImg->setTexture("MapSelect_Map.bmp");
-	SelectedMapImg->setRendererCopyAndRenderScale(0, 3);
+	SelectedMapImg->setRendererCopyAndRenderScale(0, 4);
 
 	float4 MapImgScale = SelectedMapImg->getScale();
 
@@ -106,7 +106,7 @@ void RoomLevel::loadSelectedMapComposition()
 	SelectedMapOutline->loadTexture("SelectedMap_Outline.bmp", "Resources\\Textures\\UI\\MapSelect");
 
 	SelectedMapOutline->setTexture("SelectedMap_Outline.bmp");
-	SelectedMapOutline->setRendererCopyAndRenderScale(0, 3);
+	SelectedMapOutline->setRendererCopyAndRenderScale(0, 4);
 
 	float4 MapOutlineScale = SelectedMapOutline->getScale();
 
@@ -221,7 +221,24 @@ void RoomLevel::clickSelectButton()
 
 void RoomLevel::clickGameStartButton()
 {
-	FadeObject::CallFadeOut(this, "Penguin_Stage1", GlobalValue::g_ChangeLevelFadeSpeed);
+	switch (GlobalValue::g_SelectMap)
+	{
+	case MapType::Seal1:
+		break;
+	case MapType::Seal2:
+		break;
+	case MapType::Peng1:
+		FadeObject::CallFadeOut(this, "Penguin_Stage1", GlobalValue::g_ChangeLevelFadeSpeed);
+		break;
+	case MapType::Peng2:
+		break;
+	case MapType::Test:
+		FadeObject::CallFadeOut(this, "TestStage", GlobalValue::g_ChangeLevelFadeSpeed);
+		break;
+	default:
+		break;
+	}
+
 }
 
 void RoomLevel::clickExitButton()

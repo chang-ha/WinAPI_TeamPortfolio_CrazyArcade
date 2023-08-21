@@ -20,6 +20,11 @@ void Penguin_Stage2::LevelStart(GameEngineLevel* _PrevLevel)
 	PlayLevel::LevelStart(_PrevLevel);
 	FadeObject::CallFadeIn(this, 0.4f);
 
+	MapFileLoad("Penguin_Stage2.map");
+	TileSetting();
+
+	ItemSetting();
+
 	// Player
 	if (Player != nullptr)
 	{
@@ -84,10 +89,6 @@ void Penguin_Stage2::LevelEnd(GameEngineLevel* _NextLevel)
 void Penguin_Stage2::Start()
 {
 	PlayLevel::Start();
-	
-
-	MapFileLoad("Penguin_Stage2.map");
-	TileSetting();
 
 	CurrentStage = 2;
 	NextLevelName = "Penguin_Stage3";

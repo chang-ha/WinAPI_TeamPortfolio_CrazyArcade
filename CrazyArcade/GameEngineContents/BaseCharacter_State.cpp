@@ -12,9 +12,9 @@ void BaseCharacter::IdleStart()
 
 void BaseCharacter::IdleUpdate(float _Delta)
 {
-	if (CurTile == TileObjectOrder::PopRange)
+	if (CurTile == TileObjectOrder::PopRange && NoDamage == false)
 	{
-		ChangeState(CharacterState::Bubble);
+		ChangeState(CharacterState::BubbleHit);
 	}
 
 	if (PlayerNumber == PlayerNum::P1)
@@ -52,9 +52,9 @@ void BaseCharacter::MoveUpdate(float _Delta)
 {
 	DirCheck();
 
-	if (CurTile == TileObjectOrder::PopRange)
+	if (CurTile == TileObjectOrder::PopRange && NoDamage == false)
 	{
-		ChangeState(CharacterState::Bubble);
+		ChangeState(CharacterState::BubbleHit);
 	}
 
 	float MoveSpeed = GetSpeed();
