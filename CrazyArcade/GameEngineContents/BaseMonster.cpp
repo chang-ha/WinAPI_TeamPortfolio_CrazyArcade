@@ -51,7 +51,7 @@ void BaseMonster::Update(float _Delta)
 		return;
 	}
 
-	if (State != MonsterState::Freeze)
+	if (!(State == MonsterState::Freeze || State == MonsterState::Anger || State == MonsterState::AngerIdle))
 	{
 		CheckCollision();
 	}
