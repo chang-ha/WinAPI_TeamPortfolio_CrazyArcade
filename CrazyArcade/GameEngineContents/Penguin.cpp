@@ -594,6 +594,10 @@ void Penguin::AngerStart()
 	MainRenderer->ChangeAnimation("Anger");
 	IsHitten = false;
 	MovePatternOn = true;
+
+	CurPlayLevel->BGMPlayer.Stop();
+	CurPlayLevel->BGMPlayer = GameEngineSound::SoundPlay("Boss_2_Phase_BGM.wav", 10000);
+	CurPlayLevel->BGMPlayer.SetVolume(CurPlayLevel->BGMVolume);
 }
 void Penguin::AngerUpdate(float _Delta)
 {
@@ -671,6 +675,7 @@ void Penguin::DieUpdate(float _Delta)
 	if (0 >= DieAlpha)
 	{
 		Death();
+		PlayLevel::CurPlayLevel->MonsterListDelete();
 	}
 
 	if (true == MainRenderer->IsAnimationEnd())
