@@ -146,6 +146,9 @@ protected:
 	std::vector<class ItemSoket*> Sokets;
 
 	void CreateUIElements();
+	void CreatePortrait();
+	void ReleaseLevelComposition();
+
 	
 	// ∫∏Ω∫ ∏  ∆–≈œ
 	void BubblePattern(const int BossIndex_X, const int BossIndex_Y, const int _Range);
@@ -166,14 +169,13 @@ private:
 	void setGameStartCallBack();
 	bool GameStartCheckValue = false;
 
-	void CreatePortrait();
+	
 	std::vector<class PlayPortrait*> vec_PlayPortrait;
 	const float4 CONST_PlayPortraitStartPos = float4{ 654.0f , 98.0f };
 	const float4 CONST_PlayPortraitNextPos = float4{ 0.0f , 43.0f };
 
 
 	void UILevelEnd();
-	void ReleaseLevelComposition();
 	void ReleaseResultWindow();
 
 	void SetUpUIStart();
