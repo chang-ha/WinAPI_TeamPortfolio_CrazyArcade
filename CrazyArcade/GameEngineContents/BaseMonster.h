@@ -39,6 +39,11 @@ public:
 		ChangeState(_State);
 	}
 
+	inline MonsterState GetState()
+	{
+		return State;
+	}
+
 protected:
 	virtual void StateUpdate(float _Delta);
 	virtual void ChangeState(MonsterState _State);
