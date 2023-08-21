@@ -317,12 +317,12 @@ void Penguin::Render(float _Delta)
 	// Debug
 	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 	CollisionData Data;
-	Data.Scale = { 40, 40 };
+	Data.Scale = GlobalValue::MapTileSize;
 	for (int Y = 0; Y < BossTile.size(); Y++)
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			Data.Pos = CurLevelTile->IndexToPos(BossTile[Y][X].iX() + 1, BossTile[Y][X].iY() + 2) + GlobalValue::MapTileSize.Half() - GlobalValue::TileStartPos;
+			Data.Pos = CurLevelTile->IndexToPos(BossTile[Y][X].iX() + 1, BossTile[Y][X].iY() + 2) + Data.Scale.Half() - GlobalValue::TileStartPos;
 			Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 		}
 	}
