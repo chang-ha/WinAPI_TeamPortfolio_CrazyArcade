@@ -1759,16 +1759,17 @@ void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range
 			GameEngineRenderer* PopRenderer = nullptr;
 			if (TileObjectOrder::Bubble == TileInfo[Y][X].MapInfo)
 			{
-				TileInfo[Y][X].Timer = 2.0f;
+				PrevBubblePop(X, Y);
 			}
 			else if (TileObjectOrder::ImmovableBlock == TileInfo[Y][X].MapInfo || TileObjectOrder::MovableBlock == TileInfo[Y][X].MapInfo)
 			{
 				PopTile(X, Y);
 			}
-			else if (TileObjectOrder::Empty == CurPlayLevel->TileInfo[Y][X].MapInfo)
+			else if (TileObjectOrder::Empty == CurPlayLevel->TileInfo[Y][X].MapInfo || TileObjectOrder::PopRange == CurPlayLevel->TileInfo[Y][X].MapInfo)
 			{
 				CurPlayLevel->TileInfo[Y][X].MapInfo = TileObjectOrder::PopRange;
 				PopRenderer = CurPlayLevel->BossBubbleTile->GetTile(X, Y);
+				CheckItemInTile(X, Y);
 			}
 			else
 			{

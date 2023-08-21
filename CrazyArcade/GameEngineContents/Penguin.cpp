@@ -198,7 +198,7 @@ void Penguin::Update(float _Delta)
 
 	if (true == CurPlayLevel->PatternAnimationEnd && false == SequentialPatternStart)
 	{
-		PatternUpdate();
+		BubblePatternUpdate();
 	}
 
 	if (MonsterState::Die_Ready == State || MonsterState::Die_Bubble == State || MonsterState::Die == State || MonsterState::Anger == State)
@@ -214,25 +214,25 @@ void Penguin::Update(float _Delta)
 	{
 		if (true == GameEngineInput::IsDown('1'))
 		{
+			BubblePatternReset();
 			SequentialPatternStart = true;
-			BubblePatternStart = false;
 			SequentialPatternInit(4, 4, 1);
 		}
 
 		if (true == GameEngineInput::IsDown('2'))
 		{
+			BubblePatternReset();
 			SequentialPatternStart = true;
-			BubblePatternStart = false;
 			SequentialPatternInit(6, 3, -1);
 		}
 
 		if (true == GameEngineInput::IsDown('3'))
 		{
-			GameEngineRandom::MainRandom.SetSeed(time(NULL));
-			PatternCount = GameEngineRandom::MainRandom.RandomInt(1, 4);
+			SequentialPatternReset();
 			BubblePatternStart = true;
-			SequentialPatternStart = false;
 			BubblePatternTimer = BUBBLEPATTERN_TIME;
+			GameEngineRandom::MainRandom.SetSeed(time(NULL));
+			MaxPatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
 		}
 
 		if (true == GameEngineInput::IsDown('4'))
@@ -250,17 +250,18 @@ void Penguin::Update(float _Delta)
 
 	if (false == OncePatternOn && 1 == BossHP && false == BubblePatternStart)
 	{
+		BubblePatternReset();
 		OncePatternOn = true;
 		SequentialPatternStart = true;
-		BubblePatternStart = false;
 		SequentialPatternInit(6, 3, -1);
 	}
 
 	// Bubble Pattern Start
 	if (BubblePatternTimer >= BUBBLEPATTERN_TIME && false == BubblePatternStart)
 	{
+		SequentialPatternReset();
 		GameEngineRandom::MainRandom.SetSeed(time(NULL));
-		PatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
+		MaxPatternCount = GameEngineRandom::MainRandom.RandomInt(2, 4);
 		BubblePatternStart = true;
 	}
 
@@ -607,8 +608,8 @@ void Penguin::AngerStart()
 	CurPlayLevel->BGMPlayer = GameEngineSound::SoundPlay("Boss_2_Phase_BGM.wav", 10000);
 	CurPlayLevel->BGMPlayer.SetVolume(CurPlayLevel->BGMVolume);
 
+	BubblePatternReset();
 	SequentialPatternStart = true;
-	BubblePatternStart = false;
 	SequentialPatternInit(4, 4, 1);
 }
 void Penguin::AngerUpdate(float _Delta)
@@ -779,20 +780,21 @@ void Penguin::SummonMonster()
 	SummonPatternTimer = 0.0f;
 }
 	
+void Penguin::BubblePatternReset()
+{
+	CurPatternCount = 0;
+	BubblePatternStart = false;
+	BubblePatternTimer = 0.0f;
+	CurPlayLevel->PatternAnimationEnd = true;
+}
 
-void Penguin::PatternUpdate()
+void Penguin::BubblePatternUpdate()
 {
 	if (false == BubblePatternStart || BUBBLEPATTERN_TIME > BubblePatternTimer)
 	{
 		return;
 	}
 
-	if (MonsterState::Move == State)
-	{
-		return;
-	}
-
-	static int CurPatternCount = 0;
 	GameEngineRandom::MainRandom.SetSeed(time(NULL));
 	int Range = 0;
 	++CurPatternCount;
@@ -816,20 +818,22 @@ void Penguin::PatternUpdate()
 	CurPlayLevel->PatternAnimationEnd = false;
 	CurPlayLevel->BubblePattern(BossTile[1][1].iX(), BossTile[1][1].iY(), Range);
 
-	if (CurPatternCount == PatternCount)
+	if (CurPatternCount == MaxPatternCount)
 	{
-		PatternCount = 0;
-		CurPatternCount = 0;
-		BubblePatternStart = false;
-		BubblePatternTimer = 0.0f;
-		CurPlayLevel->PatternAnimationEnd = true;
+		BubblePatternReset();
 	}
+}
+
+void Penguin::SequentialPatternReset()
+{
+	CurPatternCount = 0;
+	SequentialPatternStart = false;
 }
 
 void Penguin::SequentialPatternInit(int _StartRange, int _PatternCount, int _PlusRange)
 {
 	StartRange = _StartRange;
-	PatternCount = _PatternCount;
+	MaxPatternCount = _PatternCount;
 	PlusRange = _PlusRange;
 }
 
@@ -841,17 +845,16 @@ void Penguin::SequentialPatternUpdate()
 		return;
 	}
 
-	static int CurPatternCount = 0;
+	BubblePatternTimer = 0.0f;
 	int Range = StartRange + CurPatternCount * PlusRange - 1;
 
-	if (PatternCount > CurPatternCount)
+	if (MaxPatternCount > CurPatternCount)
 	{
 		++CurPatternCount;
 	}
 	else
 	{
-		CurPatternCount = 0;
-		SequentialPatternStart = false;
+		SequentialPatternReset();
 		return;
 	}
 

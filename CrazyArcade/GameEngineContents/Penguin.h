@@ -85,7 +85,10 @@ private:
 	void SummonUpdate(float _Delta);
 	void SummonMonster();
 
-	void PatternUpdate();
+	void BubblePatternReset();
+	void BubblePatternUpdate();
+
+	void SequentialPatternReset();
 	void SequentialPatternInit(int _StartRange, int _PatternCount, int _PlusRange);
 	void SequentialPatternUpdate();
 
@@ -103,7 +106,8 @@ private:
 
 	int StartRange = 0;
 	int PlusRange = 0;
-	int PatternCount = 0;
+	int CurPatternCount = 0;
+	int MaxPatternCount = 0;
 	float BubblePatternTimer = 0.0f;
 	float SummonPatternTimer = 0.0f;
 	float MovePatternTimer = 0.0f;
