@@ -61,7 +61,12 @@ void Item::Update(float _Delta)
 
 		GameEngineActor* ColActor = Col[Col.size() - 1]->GetActor();
 		BaseCharacter* ColCharacter = dynamic_cast<BaseCharacter*>(ColActor);
-		ColCharacter->GetItem(GetItemType());
+
+		if (CharacterState::Idle == ColCharacter->GetState()
+			|| CharacterState::Move == ColCharacter->GetState())
+		{
+			ColCharacter->GetItem(GetItemType());
+		}
 
 		Level->CheckItemInTile(TileIndexX, TileIndexY);
 		return;

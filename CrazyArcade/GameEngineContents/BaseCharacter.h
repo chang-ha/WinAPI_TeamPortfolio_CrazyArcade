@@ -58,6 +58,11 @@ public:
 		return Dir;
 	}
 
+	CharacterState GetState() const
+	{
+		return State;
+	}
+
 	void GetItem(const ItemType& _ItemType);
 
 protected:
