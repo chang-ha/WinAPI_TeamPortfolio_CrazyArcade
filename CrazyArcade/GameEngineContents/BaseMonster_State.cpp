@@ -122,7 +122,7 @@ void BaseMonster::FreezeStart()
 	ChangeAnimationState("Freeze");
 	FreezeTimer = 0.0f;
 	MonsterEffectSound = GameEngineSound::SoundPlay("Ice_Monster_Freeze.wav");
-	MonsterEffectSound.SetVolume(1.0f);
+	MonsterEffectSound.SetVolume(0.6f);
 }
 
 void BaseMonster::FreezeUpdate(float _Delta)

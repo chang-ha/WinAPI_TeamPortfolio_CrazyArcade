@@ -242,7 +242,7 @@ void BaseCharacter::DieStart()
 	BodyCollision->Off();
 	ChangeAnimationState("Die");
 	EffectPlayer = GameEngineSound::SoundPlay("Character_Death.wav");
-	EffectPlayer.SetVolume(1.0f);
+	EffectPlayer.SetVolume(2.0f);
 }
 void BaseCharacter::DieUpdate(float _Delta)
 {

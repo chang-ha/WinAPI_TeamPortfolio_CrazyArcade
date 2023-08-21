@@ -46,6 +46,9 @@ void RoomLevel::Start()
 	Back->Init("RoomLevelBackGround.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
+	// Sound
+	GlobalUtils::SoundFileLoad("Lobby_BGM.wav", "Resources\\Sounds\\BGM");
+	BGMVolume = 1.0f;
 
 	loadWindowElement();
 	loadSelectedMapComposition();
@@ -1054,12 +1057,18 @@ void RoomLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 		SecondPlayerRandomValue = false;
 	}
+
+	// BGM
+	BGMPlayer = GameEngineSound::SoundPlay("Lobby_BGM.wav", 10000);
+	BGMPlayer.SetVolume(BGMVolume);
 }
 
 void RoomLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	selectRandomCharacterFirstPlayer();
 	selectRandomCharacterSecondPlayer();
+
+	BGMPlayer.Stop();
 }
 
 void RoomLevel::selectRandomCharacterFirstPlayer()

@@ -4,6 +4,7 @@
 #include "Snowmon_black.h"
 #include "Piratemon_black.h"
 #include "Piratemon_red.h"
+#include "GlobalUtils.h"
 #include <GameEngineCore/TileMap.h>
 
 Penguin_Stage1::Penguin_Stage1()
@@ -21,9 +22,15 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 	PlayLevel::LevelStart(_PrevLevel);
 	FadeObject::CallFadeIn(this, 0.4f);
 
+	// BGM
+	BGMPlayer = GameEngineSound::SoundPlay("Penguin_Stage_BGM.wav", 10000);
+	BGMPlayer.SetVolume(BGMVolume);
+
+	// Map
 	MapFileLoad("Penguin_Stage1.map");
 	TileSetting();
 
+	// Item
 	ItemSetting();
 
 	if (Player != nullptr)
@@ -80,6 +87,10 @@ void Penguin_Stage1::LevelEnd(GameEngineLevel* _NextLevel)
 void Penguin_Stage1::Start()
 {
 	PlayLevel::Start();
+
+	// Sound
+	GlobalUtils::SoundFileLoad("Penguin_Stage_BGM.wav", "Resources\\Sounds\\BGM");
+	BGMVolume = 0.6f;
 
 	CurrentStage = 1;
 	NextLevelName = "Penguin_Stage2";
