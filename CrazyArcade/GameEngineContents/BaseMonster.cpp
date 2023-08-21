@@ -33,6 +33,7 @@ void BaseMonster::Start()
 		GlobalUtils::SoundFileLoad("Ice_Monster_Death.wav", "Resources\\Sounds\\Monster\\");
 		GlobalUtils::SoundFileLoad("Ice_Monster_Freeze.wav", "Resources\\Sounds\\Monster\\");
 		GlobalUtils::SoundFileLoad("Pirate_Monster_Death.wav", "Resources\\Sounds\\Monster\\");
+		GlobalUtils::SoundFileLoad("Hatching_Egg2.wav", "Resources\\Sounds\\Boss\\");
 	}
 }
 
