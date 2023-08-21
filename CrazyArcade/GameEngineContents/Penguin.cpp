@@ -45,6 +45,7 @@ void Penguin::Start()
 	HP_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
 	Shadow = CreateRenderer(RenderOrder::Shadow);
 
+	// Texture Load
 	if (nullptr == ResourcesManager::GetInst().FindSprite("Down_Idle"))
 	{
 		GameEnginePath FilePath;
@@ -79,6 +80,13 @@ void Penguin::Start()
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HP_BLUE.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HP_RED.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Boss_Shadow.bmp"));
+	}
+
+	// Sound Load
+	if (nullptr == GameEngineSound::FindSound("Locked_In_Bubble.wav"))
+	{
+		GlobalUtils::SoundFileLoad("Locked_In_Bubble.wav", "Resources\\Sounds\\Character\\");
+		GlobalUtils::SoundFileLoad("Character_Death.wav", "Resources\\Sounds\\Character\\");
 	}
 
 	{
@@ -598,6 +606,10 @@ void Penguin::AngerStart()
 	CurPlayLevel->BGMPlayer.Stop();
 	CurPlayLevel->BGMPlayer = GameEngineSound::SoundPlay("Boss_2_Phase_BGM.wav", 10000);
 	CurPlayLevel->BGMPlayer.SetVolume(CurPlayLevel->BGMVolume);
+
+	SequentialPatternStart = true;
+	BubblePatternStart = false;
+	SequentialPatternInit(4, 4, 1);
 }
 void Penguin::AngerUpdate(float _Delta)
 {
@@ -605,9 +617,6 @@ void Penguin::AngerUpdate(float _Delta)
 	{
 		Dir = ActorDir::Down;
 		ChangeState(MonsterState::Idle);
-		SequentialPatternStart = true;
-		BubblePatternStart = false;
-		SequentialPatternInit(4, 4, 1);
 	}
 }
 
@@ -615,6 +624,7 @@ void Penguin::AngerUpdate(float _Delta)
 void Penguin::DieReadyStart()
 {
 	MainRenderer->ChangeAnimation("Die_Ready");
+	MonsterEffectSound = GameEngineSound::SoundPlay("Locked_In_Bubble.wav");
 }
 
 void Penguin::DieReadyUpdate(float _Delta)
@@ -668,6 +678,7 @@ void Penguin::DieBubbleUpdate(float _Delta)
 void Penguin::DieStart()
 {
 	MainRenderer->ChangeAnimation("Die");
+	MonsterEffectSound = GameEngineSound::SoundPlay("Character_Death.wav");
 }
 
 void Penguin::DieUpdate(float _Delta)
@@ -676,6 +687,7 @@ void Penguin::DieUpdate(float _Delta)
 	{
 		Death();
 		PlayLevel::CurPlayLevel->MonsterListDelete();
+		BossMonster = nullptr;
 	}
 
 	if (true == MainRenderer->IsAnimationEnd())

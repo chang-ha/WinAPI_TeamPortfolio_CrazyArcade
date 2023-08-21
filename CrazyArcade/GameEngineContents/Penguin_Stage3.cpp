@@ -49,21 +49,22 @@ void Penguin_Stage3::LevelStart(GameEngineLevel* _PrevLevel)
 	}
 
 	
-	if (nullptr == Boss_Penguin)
+	if (nullptr == Penguin::BossMonster)
 	{
-		Boss_Penguin = CreateMonster<Penguin>();
+		Penguin::BossMonster = CreateMonster<Penguin>();
 	}
-	Boss_Penguin->SetPos(GroundTile->IndexToPos(8, 6));
+	Penguin::BossMonster->SetPos(GroundTile->IndexToPos(8, 6));
 }
 
 void Penguin_Stage3::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
 
-	if (nullptr != Boss_Penguin)
+	if (nullptr != Penguin::BossMonster)
 	{
-		Boss_Penguin->Death();
-		Boss_Penguin = nullptr;
+		Penguin::BossMonster->Death();
+		MonsterListDelete();
+		Penguin::BossMonster = nullptr;
 	}
 }
 

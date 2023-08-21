@@ -20,8 +20,5 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
-
-private:
-	class Penguin* Boss_Penguin = nullptr;
 };
 

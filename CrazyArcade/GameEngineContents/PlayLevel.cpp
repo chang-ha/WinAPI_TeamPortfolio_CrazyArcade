@@ -1781,7 +1781,6 @@ void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range
 				PopRenderer = CurPlayLevel->BossBubbleTile->SetTile(X, Y, 0, GlobalValue::TileStartPos, true);
 			}
 
-			// Temp Ani
 			if (nullptr == PopRenderer->FindAnimation("Boss_Pop"))
 			{
 				PopRenderer->CreateAnimation("Boss_Pop", "Boss_Pop.bmp", 0, 4, 0.1f);	
@@ -1789,6 +1788,9 @@ void PlayLevel::BubblePattern(int BossIndex_X, int BossIndex_Y, const int _Range
 			PopRenderer->ChangeAnimation("Boss_Pop");
 		}
 	}
+
+	EffectPlayer = GameEngineSound::SoundPlay("Bubble_Pop.wav");
+	EffectPlayer.SetVolume(1.5f);
 }
 
 void PlayLevel::ClearBossPattern()
