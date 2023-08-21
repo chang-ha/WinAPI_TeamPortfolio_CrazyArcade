@@ -346,6 +346,8 @@ void BaseMonster::EggMoveUpdate(float _Delta)
 void BaseMonster::EggHatchStart()
 {
 	ChangeAnimationState("EggHatch");
+	MonsterEffectSound = GameEngineSound::SoundPlay("Hatching_Egg2.wav");
+	MonsterEffectSound.SetVolume(1.0f);
 }
 
 void BaseMonster::EggHatchUpdate(float _Delta)
