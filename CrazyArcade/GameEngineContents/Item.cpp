@@ -66,9 +66,9 @@ void Item::Update(float _Delta)
 			|| CharacterState::Move == ColCharacter->GetState())
 		{
 			ColCharacter->GetItem(GetItemType());
-		}
 
-		Level->CheckItemInTile(TileIndexX, TileIndexY);
+			Level->CheckItemInTile(TileIndexX, TileIndexY);
+		}
 		return;
 	}
 
