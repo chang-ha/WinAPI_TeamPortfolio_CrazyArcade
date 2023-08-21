@@ -1693,6 +1693,7 @@ void PlayLevel::StageMonstersDeath()
 	{
 		BaseMonster* CurMonster = *StartIter;
 
+		CurMonster->DeathSoundOff();
 		CurMonster->SetState(MonsterState::Die);
 
 		StartIter = StageMonsters.erase(StartIter);

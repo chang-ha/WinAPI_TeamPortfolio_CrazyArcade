@@ -377,7 +377,14 @@ void BaseMonster::DieStart()
 {
 	ChangeAnimationState("Die");
 	MonsterEffectSound = GameEngineSound::SoundPlay("Ice_Monster_Death.wav");
-	MonsterEffectSound.SetVolume(1.0f);
+	if (true == IsDeathSound)
+	{
+		MonsterEffectSound.SetVolume(1.0f);
+	}
+	else
+	{
+		MonsterEffectSound.SetVolume(0.0f);
+	}
 }
 
 void BaseMonster::DieUpdate(float _Delta)
