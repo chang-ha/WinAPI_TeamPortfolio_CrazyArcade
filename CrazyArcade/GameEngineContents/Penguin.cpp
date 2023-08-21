@@ -246,6 +246,11 @@ void Penguin::Update(float _Delta)
 			ChangeState(MonsterState::Move);
 			IsHitten = false;
 		}
+
+		if (true == GameEngineInput::IsDown('7'))
+		{
+			Invincibility = !Invincibility;
+		}
 	}
 
 	if (false == OncePatternOn && 1 == BossHP && false == BubblePatternStart)
@@ -412,6 +417,7 @@ void Penguin::IdleUpdate(float _Delta)
 
 	if (SUMMONPATTERN_TIME <= SummonPatternTimer)
 	{
+		Dir = ActorDir::Down;
 		ChangeState(MonsterState::Summon);
 	}
 }
@@ -712,7 +718,10 @@ void Penguin::HitJudgement()
 			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()) + GlobalValue::TileStartPos);
 			if (CurTile == TileObjectOrder::PopRange)
 			{
-				--BossHP;
+				if (false == Invincibility)
+				{
+					--BossHP;
+				}
 				IsHitten = true;
 				if (0 == BossHP)
 				{
@@ -788,6 +797,7 @@ void Penguin::SummonMonster()
 		}
 	}
 
+	GameEngineRandom::MainRandom.SetSeed(time(NULL));
 	int First = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(EmptyPlace.size()) / 2 - 1);
 	int Second = GameEngineRandom::MainRandom.RandomInt(static_cast<int>(EmptyPlace.size()) / 2, static_cast<int>(EmptyPlace.size()) - 1);
 
