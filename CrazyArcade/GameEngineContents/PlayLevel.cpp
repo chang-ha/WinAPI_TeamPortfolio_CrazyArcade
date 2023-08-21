@@ -680,11 +680,11 @@ bool PlayLevel::CheckSidePos(const float4& _Pos, const PlayerNum& _PlayerNum)
 
 			if (_PlayerNum == PlayerNum::P1)
 			{
-				CheckPos = Player->GetPos();
+				CheckPos = Player->GetPos() + float4{ 0.0f, 15.0f };
 			}
 			else
 			{
-				CheckPos = Player2->GetPos();
+				CheckPos = Player2->GetPos() + float4{ 0.0f, 15.0f };
 			}
 
 			CheckPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
