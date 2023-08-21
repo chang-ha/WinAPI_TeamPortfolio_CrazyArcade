@@ -48,7 +48,7 @@ void RoomLevel::Start()
 
 	// Sound
 	GlobalUtils::SoundFileLoad("Lobby_BGM.wav", "Resources\\Sounds\\BGM");
-	BGMVolume = 1.0f;
+	BGMVolume = 1.4f;
 
 	loadWindowElement();
 	loadSelectedMapComposition();

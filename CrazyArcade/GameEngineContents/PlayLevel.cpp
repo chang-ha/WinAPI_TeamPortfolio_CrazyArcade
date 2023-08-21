@@ -1298,7 +1298,7 @@ void PlayLevel::BubblePopPlay()
 	{
 		PlayBubblePopEffectSound = true;
 		EffectPlayer = GameEngineSound::SoundPlay("Bubble_Pop.wav");
-		EffectPlayer.SetVolume(1.5f);
+		EffectPlayer.SetVolume(2.0f);
 	}
 }
 
@@ -1412,7 +1412,7 @@ void PlayLevel::StartGameOver()
 	}
 
 	WinCheckValue ? EffectPlayer = GameEngineSound::SoundPlay("Win.wav") : EffectPlayer = GameEngineSound::SoundPlay("Lose.wav");
-	EffectPlayer.SetVolume(0.8f);
+	EffectPlayer.SetVolume(1.0f);
 	GameOverCheckValue = true;
 
 	BGMPlayer.Stop();
