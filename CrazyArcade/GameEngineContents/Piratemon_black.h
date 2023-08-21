@@ -28,6 +28,6 @@ private:
 	void MoveUpdate(float _Delta) override;
 	void DieStart() override;
 
-	float4 ShadowPos = { 0.0f, 30.0f };
+	float4 ShadowPos = { 0.0f, 35.0f };
 };
 
