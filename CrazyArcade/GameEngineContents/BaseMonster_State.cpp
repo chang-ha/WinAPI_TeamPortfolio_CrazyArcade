@@ -138,9 +138,17 @@ void BaseMonster::FreezeUpdate(float _Delta)
 	if (true == MonsterCollision->Collision(CollisionOrder::PlayerBody, Col, CollisionType::Rect, CollisionType::Rect)
 		|| true == MonsterCollision->Collision(CollisionOrder::PlayerBody2, Col, CollisionType::Rect, CollisionType::Rect))
 	{
-		ChangeState(MonsterState::Die);
-		MonsterCollision->Off();
-		return;
+		GameEngineActor* CurActor = Col[Col.size() - 1]->GetActor();
+
+		BaseCharacter* ColPlayer = dynamic_cast<BaseCharacter*>(CurActor);
+
+		if (CharacterState::Idle == ColPlayer->State
+			|| CharacterState::Move == ColPlayer->State)
+		{
+			ChangeState(MonsterState::Die);
+			MonsterCollision->Off();
+			return;
+		}
 	}
 
 	FreezeTimer += _Delta;
@@ -369,7 +377,14 @@ void BaseMonster::DieStart()
 {
 	ChangeAnimationState("Die");
 	MonsterEffectSound = GameEngineSound::SoundPlay("Ice_Monster_Death.wav");
-	MonsterEffectSound.SetVolume(0.6f);
+	if (true == IsDeathSound)
+	{
+		MonsterEffectSound.SetVolume(1.0f);
+	}
+	else
+	{
+		MonsterEffectSound.SetVolume(0.0f);
+	}
 }
 
 void BaseMonster::DieUpdate(float _Delta)

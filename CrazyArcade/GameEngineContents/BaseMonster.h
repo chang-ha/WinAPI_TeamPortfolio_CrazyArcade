@@ -39,6 +39,11 @@ public:
 		ChangeState(_State);
 	}
 
+	void DeathSoundOff()
+	{
+		IsDeathSound = false;
+	}
+
 	inline MonsterState GetState()
 	{
 		return State;
@@ -74,6 +79,9 @@ protected:
 	void CheckCollision();
 
 	GameEngineSoundPlayer MonsterEffectSound;
+
+	bool IsDebugData = false;
+	bool IsDeathSound = true;
 
 private:
 	void IdleStart();
@@ -113,8 +121,6 @@ private:
 	void EggDeathUpdate(float _Delta);
 
 	void CheckDeath();
-
-	bool IsDebugData = false;
 
 	float MainTimer = 0.0f;
 	float FreezeTimer = 0.0f;
