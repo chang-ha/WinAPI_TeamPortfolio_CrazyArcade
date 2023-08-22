@@ -92,6 +92,11 @@ public:
 		return ObjectTile;
 	}
 
+	bool GetGameStartCheckValue() const
+	{
+		return GameStartCheckValue;
+	}
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;

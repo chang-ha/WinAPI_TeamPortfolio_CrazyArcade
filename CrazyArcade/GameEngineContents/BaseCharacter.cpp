@@ -68,8 +68,8 @@ void BaseCharacter::Update(float _Delta)
 
 	if (PlayerNumber == PlayerNum::P2)
 	{
-		if (true == GameEngineInput::IsDown('M') && CurState == "Idle" && GetBombCount() > 0
-			|| true == GameEngineInput::IsDown('M') && CurState == "Move" && GetBombCount() > 0)
+		if (true == GameEngineInput::IsDown(VK_RSHIFT) && CurState == "Idle" && GetBombCount() > 0
+			|| true == GameEngineInput::IsDown(VK_RSHIFT) && CurState == "Move" && GetBombCount() > 0)
 		{
 			PlayLevel::CurPlayLevel->SetBubble(GetPos() + float4 SETBUBBLEPOS, GetBombPower(), PlayerNumber);
 		}
