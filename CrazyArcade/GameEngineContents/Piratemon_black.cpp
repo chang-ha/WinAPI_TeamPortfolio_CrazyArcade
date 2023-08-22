@@ -1,4 +1,5 @@
 ﻿#include "Piratemon_black.h"
+#include "BaseCharacter.h"
 #include "GlobalUtils.h"
 #include "ContentsEnum.h"
 #include "ActorEnum.h"
@@ -107,6 +108,7 @@ void Piratemon_black::MoveUpdate(float _Delta)
 {
 	if (CurTileType == TileObjectOrder::PopRange)
 	{
+		KillCountPlus();
 		ChangeState(MonsterState::Die);
 	}
 
