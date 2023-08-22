@@ -1401,6 +1401,17 @@ void PlayLevel::StartGameOver()
 		return;
 	}
 
+	// Kill 수, Save 수 입력--------------------------------------
+	VecPlayerResult[0].KillNUmber = Player->GetKillCount();
+	VecPlayerResult[0].SaveNUmber = Player->GetSaveCount();
+
+	if (nullptr != Player2)
+	{
+		VecPlayerResult[1].KillNUmber = Player2->GetKillCount();
+		VecPlayerResult[1].SaveNUmber = Player2->GetSaveCount();
+	}
+	//------------------------------------------------------------
+
 	m_ResultWindow->OnResultWindow(VecPlayerResult);
 
 	SetUpResultBoardAnimation();
