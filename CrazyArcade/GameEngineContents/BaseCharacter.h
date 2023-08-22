@@ -13,15 +13,15 @@
 #define RIGHTMOVETOPCHECKPOS { 21.0f, -8.0f }
 #define RIGHTMOVEBOTCHECKPOS { 21.0f, 28.0f }
 
-#define BOTCHECKPOS { 0.0f, 31.0f }
-#define LEFTBOTCHECKPOS { -16.0f, 31.0f }
-#define RIGHTBOTCHECKPOS { 16.0f, 31.0f }
+#define BOTCHECKPOS { 0.0f, 34.0f }
+#define LEFTBOTCHECKPOS { -16.0f, 34.0f }
+#define RIGHTBOTCHECKPOS { 16.0f, 34.0f }
 
 #define CHARACTERCOLLISIONPOS { 0.0f, 5.0f }
 
 #define SETBUBBLEPOS { 0.0f, 15.0f }
 
-#define CHARACTERSHADOWPOS { 0.0f, 22.0f }
+#define CHARACTERSHADOWPOS { 0.0f, 25.0f }
 
 #define FOOTPOS { 0.0f, 25.0f }
 
