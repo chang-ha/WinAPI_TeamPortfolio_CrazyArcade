@@ -97,7 +97,7 @@ public:
 	static const float4 ItemSoketPos_Multi_2P_Pos;
 
 	static int AllTextureIndex_X;
-
+	static unsigned char AllAlphaValue;
 	static int GroundTextureIndex_Y;
 	static int MovableBlockTextureIndex_Y;
 	static int ImmovableBlockTextureIndex_Y;

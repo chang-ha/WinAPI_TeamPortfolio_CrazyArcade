@@ -33,6 +33,7 @@ void BaseCharacter::Start()
 
 	ShadowRenderer = CreateRenderer("Shadow.Bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(CHARACTERSHADOWPOS);
+	ShadowRenderer->SetAlpha(GlobalValue::AllAlphaValue);
 
 	{
 		BodyCollision = CreateCollision(CollisionOrder::PlayerBody);

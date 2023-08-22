@@ -35,6 +35,12 @@ void BaseMonster::Start()
 		GlobalUtils::SoundFileLoad("Pirate_Monster_Death.wav", "Resources\\Sounds\\Monster\\");
 		GlobalUtils::SoundFileLoad("Hatching_Egg2.wav", "Resources\\Sounds\\Boss\\");
 	}
+
+	{
+		GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
+		ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
+		ShadowRenderer->SetAlpha(GlobalValue::AllAlphaValue);
+	}
 }
 
 void BaseMonster::Update(float _Delta)

@@ -92,7 +92,6 @@ private:
 	float MovingHeight = 10.0f;
 	float4 StartPos = {0, -5};
 
-	float AlphaValue = 200.0f;
 	class GameEngineRenderer* ItemRenderer = nullptr;
 	class GameEngineRenderer* ShadowRenderer = nullptr;
 	class GameEngineCollision* ItemCollision = nullptr;
