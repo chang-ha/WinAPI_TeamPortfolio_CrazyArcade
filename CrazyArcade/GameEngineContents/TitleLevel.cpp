@@ -4,6 +4,9 @@
 #include "GlobalValue.h"
 #include "GlobalUtils.h"
 
+#include "FadeObject.h"
+
+
 TitleLevel::TitleLevel()
 {
 
@@ -16,6 +19,8 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 {
+	FadeObject::CallFadeIn(this, GlobalValue::g_ChangeLevelFadeSpeed);
+
 	// BGM
 	BGMPlayer = GameEngineSound::SoundPlay("TitleBGM.wav", 10000);
 	BGMPlayer.SetVolume(BGMVolume);
