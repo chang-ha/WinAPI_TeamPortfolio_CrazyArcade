@@ -123,6 +123,13 @@ void GameEngineInput::InputInit()
 	AllKeys['='] = GameEngineKey(VK_OEM_PLUS);
 	AllKeys[VK_OEM_4] = GameEngineKey(VK_OEM_4); // '['
 	AllKeys[VK_OEM_6] = GameEngineKey(VK_OEM_6); // ']'
+
+	AllKeys[VK_LSHIFT] = GameEngineKey(VK_LSHIFT);
+	AllKeys[VK_RSHIFT] = GameEngineKey(VK_RSHIFT);
+
+	AllKeys[VK_LCONTROL] = GameEngineKey(VK_LCONTROL);
+	AllKeys[VK_RCONTROL] = GameEngineKey(VK_RCONTROL);
+
 	// AllKeys['='] = GameEngineKey('=');
 }
 
