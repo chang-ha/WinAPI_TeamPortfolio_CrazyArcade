@@ -48,7 +48,7 @@ void RoomLevel::Start()
 
 	// Sound
 	GlobalUtils::SoundFileLoad("Lobby_BGM.wav", "Resources\\Sounds\\BGM");
-	BGMVolume = 1.0f;
+	BGMVolume = 1.4f;
 
 	loadWindowElement();
 	loadSelectedMapComposition();
@@ -202,6 +202,8 @@ void RoomLevel::loadButtonElement()
 	GameExitButtonPtr->setButtonSound(ButtonEventState::Click, "Game_Exit.wav", "Resources\\Sounds\\Lobby");
 	GameExitButtonPtr->setButtonSound(ButtonEventState::Hover, "Select.wav", "Resources\\Sounds\\Lobby");
 
+	GameExitButtonPtr->setButtonVolume(ButtonEventState::Click, 0.5f);
+
 
 
 	GameExitButtonPtr->setButtonPos(m_GameExitButtonStartPos);
@@ -246,6 +248,8 @@ void RoomLevel::clickGameStartButton()
 
 void RoomLevel::clickExitButton()
 {
+	BGMPlayer.Stop();
+
 	FadeObject::CallFadeOut(this, "Quit", 2.5f);
 }
 

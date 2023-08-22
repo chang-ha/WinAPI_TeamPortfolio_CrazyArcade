@@ -19,7 +19,7 @@ Marid::~Marid()
 void Marid::Start()
 {
 	BaseCharacter::Start();
-	GlobalUtils::SpriteFileLoad("Marid_Ready.Bmp", "Resources\\Textures\\Character\\Marid\\", 17, 1);
+	GlobalUtils::SpriteFileLoad("Marid_Ready.Bmp", "Resources\\Textures\\Character\\Marid\\", 18, 1);
 	GlobalUtils::SpriteFileLoad("Marid_Idle_Up.Bmp", "Resources\\Textures\\Character\\Marid\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Marid_Idle_Down.Bmp", "Resources\\Textures\\Character\\Marid\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Marid_Idle_Left.Bmp", "Resources\\Textures\\Character\\Marid\\", 1, 1);
@@ -36,7 +36,7 @@ void Marid::Start()
 	GlobalUtils::SpriteFileLoad("Marid_Jump.Bmp", "Resources\\Textures\\Character\\Marid\\", 8, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
-	MainRenderer->CreateAnimation("Marid_Ready", "Marid_Ready.Bmp");
+	MainRenderer->CreateAnimation("Marid_Ready", "Marid_Ready.Bmp", -1, -1, 0.1f, false);
 	MainRenderer->CreateAnimation("Marid_Idle_Up", "Marid_Idle_Up.Bmp");
 	MainRenderer->CreateAnimation("Marid_Idle_Down", "Marid_Idle_Down.Bmp");
 	MainRenderer->CreateAnimation("Marid_Idle_Left", "Marid_Idle_Left.Bmp");
@@ -50,7 +50,7 @@ void Marid::Start()
 	MainRenderer->CreateAnimation("Marid_BubbleEnd", "Marid_Bubble.Bmp", 12, 13, 0.1f, false);
 	MainRenderer->CreateAnimation("Marid_FlashLong", "Marid_FlashLong.Bmp");
 	MainRenderer->CreateAnimation("Marid_FlashShort", "Marid_FlashShort.Bmp");
-	MainRenderer->CreateAnimation("Marid_Live", "Marid_Live.Bmp");
+	MainRenderer->CreateAnimation("Marid_Live", "Marid_Live.Bmp", -1, -1, 0.1f, false);
 	MainRenderer->CreateAnimation("Marid_Die", "Marid_Die.Bmp", -1, -1, 0.1f, false);
 	MainRenderer->CreateAnimation("Marid_Jump", "Marid_Jump.Bmp", -1, -1, 0.3f, true);
 

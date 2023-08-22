@@ -346,6 +346,8 @@ void BaseMonster::EggMoveUpdate(float _Delta)
 void BaseMonster::EggHatchStart()
 {
 	ChangeAnimationState("EggHatch");
+	MonsterEffectSound = GameEngineSound::SoundPlay("Hatching_Egg2.wav");
+	MonsterEffectSound.SetVolume(1.0f);
 }
 
 void BaseMonster::EggHatchUpdate(float _Delta)
@@ -379,7 +381,7 @@ void BaseMonster::DieStart()
 	MonsterEffectSound = GameEngineSound::SoundPlay("Ice_Monster_Death.wav");
 	if (true == IsDeathSound)
 	{
-		MonsterEffectSound.SetVolume(1.0f);
+		MonsterEffectSound.SetVolume(0.6f);
 	}
 	else
 	{

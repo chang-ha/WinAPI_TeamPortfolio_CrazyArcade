@@ -5,23 +5,23 @@
 #define RIGHTTOPCHECKPOS { 16.0f, -10.0f }
 
 
-#define LEFTCHECKPOS { -20.0f, 10.0f }
-#define LEFTMOVETOPCHECKPOS { -20.0f, -8.0f }
-#define LEFTMOVEBOTCHECKPOS { -20.0f, 28.0f }
+#define LEFTCHECKPOS { -21.0f, 10.0f }
+#define LEFTMOVETOPCHECKPOS { -21.0f, -8.0f }
+#define LEFTMOVEBOTCHECKPOS { -21.0f, 28.0f }
 
-#define RIGHTCHECKPOS { 20.0f, 10.0f }
-#define RIGHTMOVETOPCHECKPOS { 20.0f, -8.0f }
-#define RIGHTMOVEBOTCHECKPOS { 20.0f, 28.0f }
+#define RIGHTCHECKPOS { 21.0f, 10.0f }
+#define RIGHTMOVETOPCHECKPOS { 21.0f, -8.0f }
+#define RIGHTMOVEBOTCHECKPOS { 21.0f, 28.0f }
 
-#define BOTCHECKPOS { 0.0f, 30.0f }
-#define LEFTBOTCHECKPOS { -16.0f, 30.0f }
-#define RIGHTBOTCHECKPOS { 16.0f, 30.0f }
+#define BOTCHECKPOS { 0.0f, 31.0f }
+#define LEFTBOTCHECKPOS { -16.0f, 31.0f }
+#define RIGHTBOTCHECKPOS { 16.0f, 31.0f }
 
 #define CHARACTERCOLLISIONPOS { 0.0f, 5.0f }
 
 #define SETBUBBLEPOS { 0.0f, 15.0f }
 
-#define CHARACTERSHADOWPOS { 0.0f, 15.0f }
+#define CHARACTERSHADOWPOS { 0.0f, 22.0f }
 
 #define FOOTPOS { 0.0f, 25.0f }
 

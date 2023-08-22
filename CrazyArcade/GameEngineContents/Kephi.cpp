@@ -19,7 +19,7 @@ Kephi::~Kephi()
 void Kephi::Start()
 {
 	BaseCharacter::Start();
-	GlobalUtils::SpriteFileLoad("Kephi_Ready.Bmp", "Resources\\Textures\\Character\\Kephi\\", 17, 1);
+	GlobalUtils::SpriteFileLoad("Kephi_Ready.Bmp", "Resources\\Textures\\Character\\Kephi\\", 18, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Idle_Up.Bmp", "Resources\\Textures\\Character\\Kephi\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Idle_Down.Bmp", "Resources\\Textures\\Character\\Kephi\\", 1, 1);
 	GlobalUtils::SpriteFileLoad("Kephi_Idle_Left.Bmp", "Resources\\Textures\\Character\\Kephi\\", 1, 1);
@@ -36,7 +36,7 @@ void Kephi::Start()
 	GlobalUtils::SpriteFileLoad("Kephi_Jump.Bmp", "Resources\\Textures\\Character\\Kephi\\", 2, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
-	MainRenderer->CreateAnimation("Kephi_Ready", "Kephi_Ready.Bmp");
+	MainRenderer->CreateAnimation("Kephi_Ready", "Kephi_Ready.Bmp", -1, -1, 0.1f, false);
 	MainRenderer->CreateAnimation("Kephi_Idle_Up", "Kephi_Idle_Up.Bmp");
 	MainRenderer->CreateAnimation("Kephi_Idle_Down", "Kephi_Idle_Down.Bmp");
 	MainRenderer->CreateAnimation("Kephi_Idle_Left", "Kephi_Idle_Left.Bmp");
@@ -50,7 +50,7 @@ void Kephi::Start()
 	MainRenderer->CreateAnimation("Kephi_BubbleEnd", "Kephi_Bubble.Bmp", 12, 13, 0.1f, false);
 	MainRenderer->CreateAnimation("Kephi_FlashLong", "Kephi_FlashLong.Bmp");
 	MainRenderer->CreateAnimation("Kephi_FlashShort", "Kephi_FlashShort.Bmp");
-	MainRenderer->CreateAnimation("Kephi_Live", "Kephi_Live.Bmp");
+	MainRenderer->CreateAnimation("Kephi_Live", "Kephi_Live.Bmp", -1, -1, 0.1f, false);
 	MainRenderer->CreateAnimation("Kephi_Die", "Kephi_Die.Bmp", -1, -1, 0.1f, false);
 	MainRenderer->CreateAnimation("Kephi_Jump", "Kephi_Jump.Bmp", -1, -1, 0.3f, true);
 
