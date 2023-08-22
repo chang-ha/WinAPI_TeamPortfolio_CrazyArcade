@@ -180,6 +180,26 @@ protected:
 		return NoDamage;
 	}
 
+	void AddKillCount()
+	{
+		++KillCount;
+	}
+
+	int GetKillCount() const
+	{
+		return KillCount;
+	}
+
+	void AddSaveCount()
+	{
+		++SaveCount;
+	}
+
+	int GetSaveCount() const
+	{
+		return SaveCount;
+	}
+
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
@@ -200,6 +220,9 @@ protected:
 	std::vector<GameEngineCollision*> Col;
 
 	GameEngineSoundPlayer EffectPlayer;
+
+	int KillCount = 0;
+	int SaveCount = 0;
 
 	void NoDamageSwitch()
 	{

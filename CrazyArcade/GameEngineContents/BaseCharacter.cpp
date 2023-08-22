@@ -123,6 +123,16 @@ void BaseCharacter::Render(float _Delta)
 			ItemCount += "1P아이템 : ";
 			ItemCount += std::to_string(GetItemCount);
 			TextOutA(dc, 2, 165, ItemCount.c_str(), static_cast<int>(ItemCount.size()));
+
+			std::string Kill = "";
+			Kill += "1P Kill : ";
+			Kill += std::to_string(KillCount);
+			TextOutA(dc, 2, 192, Kill.c_str(), static_cast<int>(Kill.size()));
+
+			std::string Save = "";
+			Save += "1P Save : ";
+			Save += std::to_string(SaveCount);
+			TextOutA(dc, 2, 219, Save.c_str(), static_cast<int>(Save.size()));
 		}
 
 		if (PlayerNumber == PlayerNum::P2)
@@ -161,6 +171,16 @@ void BaseCharacter::Render(float _Delta)
 			ItemCount += "2P아이템 : ";
 			ItemCount += std::to_string(GetItemCount);
 			TextOutA(dc, 700, 165, ItemCount.c_str(), static_cast<int>(ItemCount.size()));
+
+			std::string Kill = "";
+			Kill += "2P Kill : ";
+			Kill += std::to_string(KillCount);
+			TextOutA(dc, 700, 192, Kill.c_str(), static_cast<int>(Kill.size()));
+
+			std::string Save = "";
+			Save += "2P Save : ";
+			Save += std::to_string(SaveCount);
+			TextOutA(dc, 700, 219, Save.c_str(), static_cast<int>(Save.size()));
 		}
 
 		std::string NoDamageText = "";
@@ -173,7 +193,7 @@ void BaseCharacter::Render(float _Delta)
 		{
 			NoDamageText += "False";
 		}
-		TextOutA(dc, 2, 192, NoDamageText.c_str(), static_cast<int>(NoDamageText.size()));
+		TextOutA(dc, 2, 246, NoDamageText.c_str(), static_cast<int>(NoDamageText.size()));
 
 		CollisionData Data;
 
