@@ -600,6 +600,7 @@ void Penguin::MoveUpdate(float _Delta)
 
 	if (0.0f == MoveRange.X && 0.0f == MoveRange.Y)
 	{
+		Dir = ActorDir::Down;
 		ChangeState(MonsterState::Idle);
 	}
 }
