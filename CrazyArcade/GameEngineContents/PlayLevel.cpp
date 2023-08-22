@@ -108,6 +108,11 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 		Player2 = nullptr;
 	}
 
+	if (AllBubbleIndex.size() > 0)
+	{
+		AllBubbleIndex.clear();
+	}
+
 	StageMonstersDeath();
 
 	SoketRelease();
@@ -198,7 +203,7 @@ void PlayLevel::Update(float _Delta)
 				TileInfo[CheckIndex.Y][CheckIndex.X].PrevPop = false;
 				break;
 			}
-			else if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 3.0f)
+			else if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 3.0f && nullptr == GameOverAnimationPtr)
 			{
 				BubblePop(CheckIndex.X, CheckIndex.Y);
 				AllBubbleIndex.erase(StartIter);
@@ -1269,7 +1274,7 @@ void PlayLevel::SetUpResultWindow()
 
 void PlayLevel::SetUpResultBoardAnimation()
 {
-	GameOverAnimation* GameOverAnimationPtr = CreateActor<GameOverAnimation>(UpdateOrder::UI);
+	GameOverAnimationPtr = CreateActor<GameOverAnimation>(UpdateOrder::UI);
 	if (nullptr == GameOverAnimationPtr)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
@@ -1600,16 +1605,10 @@ void PlayLevel::UILevelEnd()
 		ReleaseResultWindow();
 	}
 
-	if (Player)
+	if (nullptr != GameOverAnimationPtr)
 	{
-		Player->Death();
-		Player = nullptr;
-	}
-
-	if (Player2)
-	{
-		Player2->Death();
-		Player2 = nullptr;
+		GameOverAnimationPtr->Death();
+		GameOverAnimationPtr = nullptr;
 	}
 
 	GameOverCheckValue = false;

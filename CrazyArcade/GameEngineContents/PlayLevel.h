@@ -219,6 +219,7 @@ private:
 	std::vector<CharacterStatus> vecCharacterState;
 
 private:
+	class GameOverAnimation* GameOverAnimationPtr = nullptr;
 	bool GameOverCheckValue = false;
 	bool WinCheckValue = false;
 

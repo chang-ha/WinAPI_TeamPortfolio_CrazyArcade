@@ -425,10 +425,12 @@ void BaseCharacter::BossCheck()
 		return;
 	}
 
-	/*if ()
+	if (MonsterState::Die_Ready == Penguin::BossMonster->GetState()
+		|| MonsterState::Die_Bubble == Penguin::BossMonster->GetState()
+		|| MonsterState::Die == Penguin::BossMonster->GetState())
 	{
 		return;
-	}*/
+	}
 
 	GameMapIndex CharacterIndex = PlayLevel::CurPlayLevel->GetCurIndex(GetPos() + float4 FOOTPOS);
 
