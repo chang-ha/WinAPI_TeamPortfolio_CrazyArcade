@@ -48,8 +48,6 @@ void Piratemon_black::Start()
 
 	MainRenderer->SetRenderPos({ 0, 20 });
 
-	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
-	ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(ShadowPos);
 
 	ChangeState(MonsterState::Idle);

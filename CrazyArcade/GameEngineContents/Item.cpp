@@ -36,7 +36,7 @@ void Item::Start()
 	ShadowRenderer = CreateRenderer(RenderOrder::Shadow);
 	ShadowRenderer->SetTexture("ItemShadow2.bmp");
 	ShadowRenderer->SetRenderPos({0, 20});
-	ShadowRenderer->SetAlpha(static_cast<unsigned char>(AlphaValue));
+	ShadowRenderer->SetAlpha(static_cast<unsigned char>(GlobalValue::AllAlphaValue));
 
 	// Item Collision
 	ItemCollision = CreateCollision(CollisionOrder::Item);

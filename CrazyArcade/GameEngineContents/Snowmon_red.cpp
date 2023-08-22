@@ -94,8 +94,6 @@ void Snowmon_red::Start()
 
 	ChangeState(MonsterState::Idle);
 
-	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
-	ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(ShadowPos);
 }
 

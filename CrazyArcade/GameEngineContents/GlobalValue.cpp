@@ -18,6 +18,8 @@ const float4 GlobalValue::ItemSoketPos_Multi_2P_Pos = { 751, 508 };
 
 int GlobalValue::AllTextureIndex_X = 3;
 
+unsigned char GlobalValue::AllAlphaValue = static_cast<unsigned char>(200.0f);
+
 int GlobalValue::GroundTextureIndex_Y = 4;
 int GlobalValue::StructureTextureIndex_Y = 2;
 int GlobalValue::MovableBlockTextureIndex_Y = 1;
