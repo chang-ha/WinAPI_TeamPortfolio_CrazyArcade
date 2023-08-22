@@ -55,6 +55,7 @@ public:
 	void PopTile(const int _X, const int _Y);
 	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f, PlayerNum _PopBubbleMaster = PlayerNum::P1);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
+	enum class TileObjectOrder GetCurTileType(int _X, int _Y);
 	PlayerNum GetCurTileMaster(const float4& _Pos);
 	class GameMapIndex GetCurIndex(const float4& _Pos);
 	bool MonsterCheckTile(const float4& _Pos, float _Delta);

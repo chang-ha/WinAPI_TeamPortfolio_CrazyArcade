@@ -824,6 +824,14 @@ TileObjectOrder PlayLevel::GetCurTileType(const float4& _Pos)
 	return Result;
 }
 
+TileObjectOrder PlayLevel::GetCurTileType(int _X, int _Y)
+{
+	GameMapInfo Temp = TileInfo[_Y][_X];
+
+	TileObjectOrder Result = Temp.MapInfo;
+	return Result;
+}
+
 PlayerNum PlayLevel::GetCurTileMaster(const float4& _Pos)
 {
 	float4 CharacterPos = _Pos;

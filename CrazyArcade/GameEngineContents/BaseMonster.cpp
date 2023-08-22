@@ -41,6 +41,9 @@ void BaseMonster::Start()
 		ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
 		ShadowRenderer->SetAlpha(GlobalValue::AllAlphaValue);
 	}
+
+	// 색적 타일 vector resize
+	TrackingTiles.resize(8);
 }
 
 void BaseMonster::Update(float _Delta)
@@ -62,6 +65,9 @@ void BaseMonster::Update(float _Delta)
 	{
 		CheckCollision();
 	}
+
+	// 몬스터 색적 타일 업데이트
+	TrackingTileUpdate();
 }
 
 void BaseMonster::Render(float _Delta)
@@ -253,6 +259,188 @@ void BaseMonster::CheckDeath()
 void BaseMonster::ChangeAnimationState(const std::string& _StateName) 
 {
 
+}
+
+
+void BaseMonster::TrackingTileUpdate()
+{
+	CurLevelTile = PlayLevel::CurPlayLevel->GetObjectTile();
+
+	float4 CurPos = GetPos() - GlobalValue::TileStartPos;
+	float4 Index = CurLevelTile->PosToIndex(CurPos);
+
+	float4 Value;
+	Value.X = static_cast<float>(Index.iX());
+	Value.Y = static_cast<float>(Index.iY());
+
+	float4 NewValue;
+	NewValue.X = Value.X - 1;
+	NewValue.Y = Value.Y;
+
+	TrackingTiles[0] = NewValue;
+
+	NewValue.X = Value.X - 2;
+	NewValue.Y = Value.Y;
+
+	TrackingTiles[1] = NewValue;
+
+	NewValue.X = Value.X + 1;
+	NewValue.Y = Value.Y;
+
+	TrackingTiles[2] = NewValue;
+
+	NewValue.X = Value.X + 2;
+	NewValue.Y = Value.Y;
+
+	TrackingTiles[3] = NewValue;
+
+	NewValue.X = Value.X;
+	NewValue.Y = Value.Y - 1;
+
+	TrackingTiles[4] = NewValue;
+
+	NewValue.X = Value.X;
+	NewValue.Y = Value.Y - 2;
+
+	TrackingTiles[5] = NewValue;
+
+	NewValue.X = Value.X;
+	NewValue.Y = Value.Y + 1;
+
+	TrackingTiles[6] = NewValue;
+
+	NewValue.X = Value.X;
+	NewValue.Y = Value.Y + 2;
+
+	TrackingTiles[7] = NewValue;
+}
+
+void BaseMonster::CheckPlayerTracking()
+{
+	float4 PlayerPos = PlayLevel::CurPlayLevel->Player->GetPos() + float4{ 0.0f, 15.0f } - GlobalValue::TileStartPos;
+	float4 PlayerIndex = CurLevelTile->PosToIndex(PlayerPos);
+
+	float4 Value;
+	Value.X = static_cast<float>(PlayerIndex.iX());
+	Value.Y = static_cast<float>(PlayerIndex.iY());
+
+	float4 MonsterTrackTile = TrackingTiles[0];
+	if (false == CurLevelTile->IsOver(MonsterTrackTile.iX(), MonsterTrackTile.iY()))
+	{
+		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
+		{
+			Dir = ActorDir::Left;
+
+			ChangeAnimationState("Move");
+			return;
+		}
+	}
+
+	MonsterTrackTile = TrackingTiles[1];
+	if (false == CurLevelTile->IsOver(MonsterTrackTile.iX(), MonsterTrackTile.iY()))
+	{
+		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
+		{
+			TileObjectOrder CheckTile = PlayLevel::CurPlayLevel->GetCurTileType(Value.iX() + 1, Value.iY());
+
+			if (TileObjectOrder::Empty == CheckTile)
+			{
+				Dir = ActorDir::Left;
+
+				ChangeAnimationState("Move");
+				return;
+			}
+		}
+	}
+	
+	MonsterTrackTile = TrackingTiles[2];
+	if (false == CurLevelTile->IsOver(MonsterTrackTile.iX(), MonsterTrackTile.iY()))
+	{
+		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
+		{
+			Dir = ActorDir::Right;
+
+			ChangeAnimationState("Move");
+			return;
+		}
+	}
+
+	MonsterTrackTile = TrackingTiles[3];
+	if (false == CurLevelTile->IsOver(MonsterTrackTile.iX(), MonsterTrackTile.iY()))
+	{
+		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
+		{
+			TileObjectOrder CheckTile = PlayLevel::CurPlayLevel->GetCurTileType(Value.iX() - 1, Value.iY());
+
+			if (TileObjectOrder::Empty == CheckTile)
+			{
+				Dir = ActorDir::Right;
+
+				ChangeAnimationState("Move");
+				return;
+			}
+		}
+	}
+
+	MonsterTrackTile = TrackingTiles[4];
+	if (false == CurLevelTile->IsOver(MonsterTrackTile.iX(), MonsterTrackTile.iY()))
+	{
+		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
+		{
+			Dir = ActorDir::Up;
+
+			ChangeAnimationState("Move");
+			return;
+		}
+	}
+
+	MonsterTrackTile = TrackingTiles[5];
+	if (false == CurLevelTile->IsOver(MonsterTrackTile.iX(), MonsterTrackTile.iY()))
+	{
+		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
+		{
+			TileObjectOrder CheckTile = PlayLevel::CurPlayLevel->GetCurTileType(Value.iX(), Value.iY() + 1);
+
+			if (TileObjectOrder::Empty == CheckTile)
+			{
+				Dir = ActorDir::Up;
+
+				ChangeAnimationState("Move");
+				return;
+			}
+		}
+	}
+
+	MonsterTrackTile = TrackingTiles[6];
+	if (false == CurLevelTile->IsOver(MonsterTrackTile.iX(), MonsterTrackTile.iY()))
+	{
+		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
+		{
+			Dir = ActorDir::Down;
+
+			ChangeAnimationState("Move");
+			return;
+		}
+	}
+
+	MonsterTrackTile = TrackingTiles[7];
+	if (false == CurLevelTile->IsOver(MonsterTrackTile.iX(), MonsterTrackTile.iY()))
+	{
+		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
+		{
+			TileObjectOrder CheckTile = PlayLevel::CurPlayLevel->GetCurTileType(Value.iX(), Value.iY() - 1);
+
+			if (TileObjectOrder::Empty == CheckTile)
+			{
+				Dir = ActorDir::Down;
+
+				ChangeAnimationState("Move");
+				return;
+			}
+		}
+	}
+
+	return;
 }
 
 void BaseMonster::KillCountPlus()

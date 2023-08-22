@@ -77,6 +77,8 @@ void BaseMonster::MoveUpdate(float _Delta)
 	//	}
 	//}
 
+	CheckPlayerTracking();
+
 	if (Dir == ActorDir::Down)
 	{
 		MovePos = { 0.0f, Speed * _Delta };
