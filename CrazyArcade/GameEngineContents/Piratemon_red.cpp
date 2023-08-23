@@ -70,6 +70,8 @@ void Piratemon_red::Update(float _Delta)
 	{
 		SwitchDebugData();
 	}
+
+	TrackingTileUpdate();
 }
 
 void Piratemon_red::ChangeAnimationState(const std::string& _StateName)
@@ -115,6 +117,8 @@ void Piratemon_red::MoveUpdate(float _Delta)
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 	float Speed = 50.0f;
+
+	CheckPlayerTracking();
 
 	if (Dir == ActorDir::Down)
 	{
