@@ -199,11 +199,23 @@ void BaseCharacter::ReadyStart()
 }
 void BaseCharacter::ReadyUpdate(float _Delta)
 {
-	if (true == MainRenderer->IsAnimationEnd() && true == PlayLevel::CurPlayLevel->GetGameStartCheckValue())
+	if (true == ChangeReadyToIdle)
 	{
-		BodyCollision->On();
-		ChangeState(CharacterState::Idle);
-		return;
+		if (true == MainRenderer->IsAnimationEnd())
+		{
+			BodyCollision->On();
+			ChangeState(CharacterState::Idle);
+			return;
+		}
+	}
+	else
+	{
+		if (true == MainRenderer->IsAnimationEnd() && true == PlayLevel::CurPlayLevel->GetGameStartCheckValue())
+		{
+			BodyCollision->On();
+			ChangeState(CharacterState::Idle);
+			return;
+		}
 	}
 }
 
