@@ -65,6 +65,11 @@ public:
 
 	void GetItem(const ItemType& _ItemType);
 
+	void SwitchChangeReadyToIdle()
+	{
+		ChangeReadyToIdle = !ChangeReadyToIdle;
+	}
+
 protected:
 	void StateUpdate(float _Delta);
 	void ChangeState(CharacterState _State);
@@ -233,5 +238,6 @@ private:
 	bool IsDebugData = false;
 	bool PlayerDeath = false;
 	bool NoDamage = false;
+	bool ChangeReadyToIdle = false;
 };
 
