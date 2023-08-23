@@ -87,7 +87,7 @@ void BaseCharacter::Render(float _Delta)
 
 	if (true == IsDebugData)
 	{
-		/*if (PlayerNumber == PlayerNum::P1)
+		if (PlayerNumber == PlayerNum::P1)
 		{
 			std::string XText = "";
 			XText += "Player Pos X : ";
@@ -193,7 +193,7 @@ void BaseCharacter::Render(float _Delta)
 		{
 			NoDamageText += "False";
 		}
-		TextOutA(dc, 2, 246, NoDamageText.c_str(), static_cast<int>(NoDamageText.size()));*/
+		TextOutA(dc, 2, 246, NoDamageText.c_str(), static_cast<int>(NoDamageText.size()));
 
 		CollisionData Data;
 
