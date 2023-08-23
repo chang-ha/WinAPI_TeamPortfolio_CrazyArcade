@@ -83,6 +83,8 @@ protected:
 	bool IsDebugData = false;
 	bool IsDeathSound = true;
 
+	void KillCountPlus();
+
 private:
 	void IdleStart();
 	void IdleUpdate(float _Delta);

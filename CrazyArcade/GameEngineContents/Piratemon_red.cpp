@@ -1,4 +1,5 @@
 ﻿#include "Piratemon_red.h"
+#include "BaseCharacter.h"
 #include "GlobalUtils.h"
 #include "ContentsEnum.h"
 #include "ActorEnum.h"
@@ -48,8 +49,6 @@ void Piratemon_red::Start()
 
 	MainRenderer->SetRenderPos({ 0, 20 });
 
-	GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
-	ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
 	ShadowRenderer->SetRenderPos(ShadowPos);
 
 	ChangeState(MonsterState::Idle);
@@ -109,6 +108,7 @@ void Piratemon_red::MoveUpdate(float _Delta)
 {
 	if (CurTileType == TileObjectOrder::PopRange)
 	{
+		KillCountPlus();
 		ChangeState(MonsterState::Die);
 	}
 

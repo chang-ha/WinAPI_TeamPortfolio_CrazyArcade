@@ -118,6 +118,7 @@ void BaseCharacter::BubbleUpdate(float _Delta)
 			if ("Idle" == ColState || "Move" == ColState)
 			{
 				BubbleTimer = 0.0f;
+				ColCharacter->AddSaveCount();
 				ChangeState(CharacterState::Live);
 				return;
 			}
@@ -141,6 +142,7 @@ void BaseCharacter::BubbleUpdate(float _Delta)
 			if ("Idle" == ColState || "Move" == ColState)
 			{
 				BubbleTimer = 0.0f;
+				ColCharacter->AddSaveCount();
 				ChangeState(CharacterState::Live);
 				return;
 			}

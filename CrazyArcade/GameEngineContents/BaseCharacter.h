@@ -13,15 +13,15 @@
 #define RIGHTMOVETOPCHECKPOS { 21.0f, -8.0f }
 #define RIGHTMOVEBOTCHECKPOS { 21.0f, 28.0f }
 
-#define BOTCHECKPOS { 0.0f, 31.0f }
-#define LEFTBOTCHECKPOS { -16.0f, 31.0f }
-#define RIGHTBOTCHECKPOS { 16.0f, 31.0f }
+#define BOTCHECKPOS { 0.0f, 34.0f }
+#define LEFTBOTCHECKPOS { -16.0f, 34.0f }
+#define RIGHTBOTCHECKPOS { 16.0f, 34.0f }
 
 #define CHARACTERCOLLISIONPOS { 0.0f, 5.0f }
 
 #define SETBUBBLEPOS { 0.0f, 15.0f }
 
-#define CHARACTERSHADOWPOS { 0.0f, 22.0f }
+#define CHARACTERSHADOWPOS { 0.0f, 25.0f }
 
 #define FOOTPOS { 0.0f, 25.0f }
 
@@ -180,6 +180,26 @@ protected:
 		return NoDamage;
 	}
 
+	void AddKillCount()
+	{
+		++KillCount;
+	}
+
+	int GetKillCount() const
+	{
+		return KillCount;
+	}
+
+	void AddSaveCount()
+	{
+		++SaveCount;
+	}
+
+	int GetSaveCount() const
+	{
+		return SaveCount;
+	}
+
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
@@ -200,6 +220,9 @@ protected:
 	std::vector<GameEngineCollision*> Col;
 
 	GameEngineSoundPlayer EffectPlayer;
+
+	int KillCount = 0;
+	int SaveCount = 0;
 
 	void NoDamageSwitch()
 	{

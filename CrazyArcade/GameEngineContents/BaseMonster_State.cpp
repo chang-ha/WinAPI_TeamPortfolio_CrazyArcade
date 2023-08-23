@@ -145,6 +145,7 @@ void BaseMonster::FreezeUpdate(float _Delta)
 		if (CharacterState::Idle == ColPlayer->State
 			|| CharacterState::Move == ColPlayer->State)
 		{
+			ColPlayer->AddKillCount();
 			ChangeState(MonsterState::Die);
 			MonsterCollision->Off();
 			return;

@@ -35,6 +35,12 @@ void BaseMonster::Start()
 		GlobalUtils::SoundFileLoad("Pirate_Monster_Death.wav", "Resources\\Sounds\\Monster\\");
 		GlobalUtils::SoundFileLoad("Hatching_Egg2.wav", "Resources\\Sounds\\Boss\\");
 	}
+
+	{
+		GlobalUtils::SpriteFileLoad("Shadow.Bmp", "Resources\\Textures\\Monster\\", 1, 1);
+		ShadowRenderer = CreateRenderer("Shadow.bmp", RenderOrder::Shadow);
+		ShadowRenderer->SetAlpha(GlobalValue::AllAlphaValue);
+	}
 }
 
 void BaseMonster::Update(float _Delta)
@@ -234,6 +240,7 @@ void BaseMonster::CheckDeath()
 	if (CurTileType == TileObjectOrder::PopRange
 		&& State == MonsterState::EggMove)
 	{
+		KillCountPlus();
 		ChangeState(MonsterState::EggDeath);
 	}
 
@@ -246,4 +253,18 @@ void BaseMonster::CheckDeath()
 void BaseMonster::ChangeAnimationState(const std::string& _StateName) 
 {
 
+}
+
+void BaseMonster::KillCountPlus()
+{
+	PlayerNum BubbleMaster = PlayLevel::CurPlayLevel->GetCurTileMaster(GetPos() + float4 CENTERPOS);
+
+	if (BubbleMaster == PlayerNum::P1)
+	{
+		PlayLevel::CurPlayLevel->GetPlayer()->AddKillCount();
+	}
+	else
+	{
+		PlayLevel::CurPlayLevel->GetPlayer2()->AddKillCount();
+	}
 }

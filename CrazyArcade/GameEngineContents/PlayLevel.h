@@ -1,6 +1,7 @@
 #pragma once
 #include "ContentLevel.h"
 #include "ContentsEnum.h"
+#include "ActorEnum.h"
 
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <vector>
@@ -27,7 +28,7 @@ public:
 };
 
 class BaseCharacter;
-enum class PlayerNum;
+//enum class PlayerNum;
 class PlayLevel : public ContentLevel
 {
 	friend class Penguin;
@@ -50,10 +51,11 @@ public:
 	void SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum& _PlayerNum);
 	void BubblePop(const int _X, const int _Y);
 	void PrevBubblePop(const int _X, const int _Y);
-	void SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
+	void SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f, PlayerNum _PopBubbleMaster = PlayerNum::P1);
 	void PopTile(const int _X, const int _Y);
-	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f);
+	void TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter = 0.1f, PlayerNum _PopBubbleMaster = PlayerNum::P1);
 	enum class TileObjectOrder GetCurTileType(const float4& _Pos);
+	PlayerNum GetCurTileMaster(const float4& _Pos);
 	class GameMapIndex GetCurIndex(const float4& _Pos);
 	bool MonsterCheckTile(const float4& _Pos, float _Delta);
 	
@@ -90,6 +92,21 @@ public:
 	class TileMap* GetObjectTile()
 	{
 		return ObjectTile;
+	}
+
+	bool GetGameStartCheckValue() const
+	{
+		return GameStartCheckValue;
+	}
+
+	BaseCharacter* GetPlayer()
+	{
+		return Player;
+	}
+
+	BaseCharacter* GetPlayer2()
+	{
+		return Player2;
 	}
 
 protected:
@@ -131,7 +148,7 @@ protected:
 
 	// Bubble
 	std::list<class GameMapBubble> AllBubbleIndex;
-	std::list<class GameMapIndex> AllBubbleDeathIndex;
+	std::list<class GameMapBubble> AllBubbleDeathIndex;
 
 	// 각 플레이어별 몬스터를 죽인 횟수, 아군을 구한 횟수, 승패 판정을 아래의 벡터에 넣어주세요
 	// 벡터 생성은 UI에서 했습니다.
@@ -214,6 +231,7 @@ private:
 	std::vector<CharacterStatus> vecCharacterState;
 
 private:
+	class GameOverAnimation* GameOverAnimationPtr = nullptr;
 	bool GameOverCheckValue = false;
 	bool WinCheckValue = false;
 

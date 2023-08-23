@@ -108,6 +108,11 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 		Player2 = nullptr;
 	}
 
+	if (AllBubbleIndex.size() > 0)
+	{
+		AllBubbleIndex.clear();
+	}
+
 	StageMonstersDeath();
 
 	SoketRelease();
@@ -198,7 +203,7 @@ void PlayLevel::Update(float _Delta)
 				TileInfo[CheckIndex.Y][CheckIndex.X].PrevPop = false;
 				break;
 			}
-			else if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 3.0f)
+			else if (TileInfo[CheckIndex.Y][CheckIndex.X].Timer > 3.0f && nullptr == GameOverAnimationPtr)
 			{
 				BubblePop(CheckIndex.X, CheckIndex.Y);
 				AllBubbleIndex.erase(StartIter);
@@ -214,12 +219,13 @@ void PlayLevel::Update(float _Delta)
 	// 터진 부분의 Effect를 지워주기 위한 for문
 	if (AllBubbleDeathIndex.size() > 0)
 	{
-		std::list<GameMapIndex>::iterator StartIter = AllBubbleDeathIndex.begin();
-		std::list<GameMapIndex>::iterator EndIter = AllBubbleDeathIndex.end();
+		std::list<GameMapBubble>::iterator StartIter = AllBubbleDeathIndex.begin();
+		std::list<GameMapBubble>::iterator EndIter = AllBubbleDeathIndex.end();
 
 		for (; StartIter != EndIter;)
 		{
-			GameMapIndex CheckIndex = *StartIter;
+			GameMapBubble CheckPopRange = *StartIter;
+			GameMapIndex CheckIndex = CheckPopRange.Index;
 
 			GameEngineRenderer* PopRenderer = ObjectTile->GetTile(CheckIndex.X, CheckIndex.Y);
 
@@ -818,6 +824,28 @@ TileObjectOrder PlayLevel::GetCurTileType(const float4& _Pos)
 	return Result;
 }
 
+PlayerNum PlayLevel::GetCurTileMaster(const float4& _Pos)
+{
+	float4 CharacterPos = _Pos;
+	CharacterPos += GlobalValue::MapTileSize - GlobalValue::TileStartPos;
+	float4 ChangeIndex = ObjectTile->PosToIndex(CharacterPos);
+
+	int CurIndexX = ChangeIndex.iX() - 1;
+	int CurIndexY = ChangeIndex.iY() - 1;
+
+	for (const GameMapBubble& BubbleIter : AllBubbleDeathIndex)
+	{
+		if (CurIndexX == BubbleIter.Index.X && CurIndexY == BubbleIter.Index.Y && PlayerNum::P1 == BubbleIter.BubbleMaster)
+		{
+			return PlayerNum::P1;
+		}
+		else if (CurIndexX == BubbleIter.Index.X && CurIndexY == BubbleIter.Index.Y && PlayerNum::P2 == BubbleIter.BubbleMaster)
+		{
+			return PlayerNum::P2;
+		}
+	}
+}
+
 GameMapIndex PlayLevel::GetCurIndex(const float4& _Pos)
 {
 	float4 CharacterPos = _Pos;
@@ -892,19 +920,23 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum&
 
 void PlayLevel::BubblePop(const int _X, const int _Y)
 {
+	PlayerNum PopBubbleMaster = PlayerNum::P1;
+
 	for (const GameMapBubble& BubbleIter : AllBubbleIndex)
 	{
 		if (_X == BubbleIter.Index.X && _Y == BubbleIter.Index.Y && PlayerNum::P1 == BubbleIter.BubbleMaster)
 		{
 			Player->BombCountPlus();
+			PopBubbleMaster = PlayerNum::P1;
 		}
 		else if (_X == BubbleIter.Index.X && _Y == BubbleIter.Index.Y && PlayerNum::P2 == BubbleIter.BubbleMaster)
 		{
 			Player2->BombCountPlus();
+			PopBubbleMaster = PlayerNum::P2;
 		}
 	}
 
-	
+
 	int BubblePower = TileInfo[_Y][_X].BubblePower;
 	TileInfo[_Y][_X].Timer = 0.0f;
 	TileInfo[_Y][_X].MapInfo = TileObjectOrder::PopRange;
@@ -922,7 +954,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 	}
 	BubbleRenderer->ChangeAnimation("Bubble_Pop");
 
-	AllBubbleDeathIndex.push_back({ _X, _Y });
+	AllBubbleDeathIndex.push_back({ { _X, _Y }, PopBubbleMaster });
 
 	// 왼쪽 타일--------------------------------------------------------------
 	for (int i = 1; i <= BubblePower; i++)
@@ -947,11 +979,11 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		}
 		else if (i == BubblePower)
 		{
-			SideBubblePop(X, Y, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f);
+			SideBubblePop(X, Y, "Left_1.Bmp", "Bubble_Pop_Left", 0.05f, PopBubbleMaster);
 		}
 		else
 		{
-			SideBubblePop(X, Y, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f);
+			SideBubblePop(X, Y, "Left_2.Bmp", "Bubble_Pop_Left_Middle", 0.05f, PopBubbleMaster);
 		}
 
 		CheckItemInTile(X, Y);
@@ -980,11 +1012,11 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		}
 		else if (i == BubblePower)
 		{
-			SideBubblePop(X, Y, "Right_1.Bmp", "Bubble_Pop_Right", 0.05f);
+			SideBubblePop(X, Y, "Right_1.Bmp", "Bubble_Pop_Right", 0.05f, PopBubbleMaster);
 		}
 		else
 		{
-			SideBubblePop(X, Y, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f);
+			SideBubblePop(X, Y, "Right_2.Bmp", "Bubble_Pop_Right_Middle", 0.05f, PopBubbleMaster);
 		}
 
 		CheckItemInTile(X, Y);
@@ -1013,11 +1045,11 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		}
 		else if (i == BubblePower)
 		{
-			SideBubblePop(X, Y, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f);
+			SideBubblePop(X, Y, "Up_1.Bmp", "Bubble_Pop_Up", 0.05f, PopBubbleMaster);
 		}
 		else
 		{
-			SideBubblePop(X, Y, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f);
+			SideBubblePop(X, Y, "Up_2.Bmp", "Bubble_Pop_Up_Middle", 0.05f, PopBubbleMaster);
 		}
 
 		CheckItemInTile(X, Y);
@@ -1046,11 +1078,11 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 		}
 		else if (i == BubblePower)
 		{
-			SideBubblePop(X, Y, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f);
+			SideBubblePop(X, Y, "Down_1.Bmp", "Bubble_Pop_Down", 0.05f, PopBubbleMaster);
 		}
 		else
 		{
-			SideBubblePop(X, Y, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f);
+			SideBubblePop(X, Y, "Down_2.Bmp", "Bubble_Pop_Down_Middle", 0.05f, PopBubbleMaster);
 		}
 
 		CheckItemInTile(X, Y);
@@ -1058,7 +1090,7 @@ void PlayLevel::BubblePop(const int _X, const int _Y)
 	BubblePopPlay();
 }
 
-void PlayLevel::SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
+void PlayLevel::SideBubblePop(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter, PlayerNum _PopBubbleMaster)
 {
 	int DownIndexX = _X;
 	int DownIndexY = _Y;
@@ -1071,7 +1103,7 @@ void PlayLevel::SideBubblePop(const int _X, const int _Y, const std::string& _Sp
 		}
 		else
 		{
-			TileChange(DownIndexX, DownIndexY, _SpriteName, _AnimationName, _Inter);
+			TileChange(DownIndexX, DownIndexY, _SpriteName, _AnimationName, _Inter, _PopBubbleMaster);
 		}
 	}
 }
@@ -1103,7 +1135,7 @@ void PlayLevel::PopTile(const int _X, const int _Y)
 }
 
 // 물풍선 상하좌우 타일 변경 함수
-void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter)
+void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _SpriteName, const std::string& _AnimationName, float _Inter, PlayerNum _PopBubbleMaster)
 {
 	if (TileObjectOrder::Empty == TileInfo[_Y][_X].MapInfo
 		|| TileObjectOrder::PopRange == TileInfo[_Y][_X].MapInfo)
@@ -1121,7 +1153,7 @@ void PlayLevel::TileChange(const int _X, const int _Y, const std::string& _Sprit
 		}
 		TileRenderer->ChangeAnimation(_AnimationName);
 
-		AllBubbleDeathIndex.push_back({ _X, _Y });
+		AllBubbleDeathIndex.push_back({ { _X, _Y }, _PopBubbleMaster });
 	}
 
 	return;
@@ -1269,7 +1301,7 @@ void PlayLevel::SetUpResultWindow()
 
 void PlayLevel::SetUpResultBoardAnimation()
 {
-	GameOverAnimation* GameOverAnimationPtr = CreateActor<GameOverAnimation>(UpdateOrder::UI);
+	GameOverAnimationPtr = CreateActor<GameOverAnimation>(UpdateOrder::UI);
 	if (nullptr == GameOverAnimationPtr)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
@@ -1395,6 +1427,17 @@ void PlayLevel::StartGameOver()
 		MsgBoxAssert("액터를 생성하지 않았습니다.");
 		return;
 	}
+
+	// Kill 수, Save 수 입력--------------------------------------
+	VecPlayerResult[0].KillNUmber = Player->GetKillCount();
+	VecPlayerResult[0].SaveNUmber = Player->GetSaveCount();
+
+	if (nullptr != Player2)
+	{
+		VecPlayerResult[1].KillNUmber = Player2->GetKillCount();
+		VecPlayerResult[1].SaveNUmber = Player2->GetSaveCount();
+	}
+	//------------------------------------------------------------
 
 	m_ResultWindow->OnResultWindow(VecPlayerResult);
 
@@ -1600,16 +1643,10 @@ void PlayLevel::UILevelEnd()
 		ReleaseResultWindow();
 	}
 
-	if (Player)
+	if (nullptr != GameOverAnimationPtr)
 	{
-		Player->Death();
-		Player = nullptr;
-	}
-
-	if (Player2)
-	{
-		Player2->Death();
-		Player2 = nullptr;
+		GameOverAnimationPtr->Death();
+		GameOverAnimationPtr = nullptr;
 	}
 
 	GameOverCheckValue = false;

@@ -199,7 +199,7 @@ void BaseCharacter::ReadyStart()
 }
 void BaseCharacter::ReadyUpdate(float _Delta)
 {
-	if (true == MainRenderer->IsAnimationEnd())
+	if (true == MainRenderer->IsAnimationEnd() && true == PlayLevel::CurPlayLevel->GetGameStartCheckValue())
 	{
 		BodyCollision->On();
 		ChangeState(CharacterState::Idle);

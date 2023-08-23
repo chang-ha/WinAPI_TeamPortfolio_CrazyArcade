@@ -246,6 +246,11 @@ void Penguin::Update(float _Delta)
 			ChangeState(MonsterState::Move);
 			IsHitten = false;
 		}
+
+		if (true == GameEngineInput::IsDown('7'))
+		{
+			Invincibility = !Invincibility;
+		}
 	}
 
 	if (false == OncePatternOn && 1 == BossHP && false == BubblePatternStart)
@@ -317,12 +322,12 @@ void Penguin::Render(float _Delta)
 	// Debug
 	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 	CollisionData Data;
-	Data.Scale = { 40, 40 };
+	Data.Scale = GlobalValue::MapTileSize;
 	for (int Y = 0; Y < BossTile.size(); Y++)
 	{
 		for (int X = 0; X < BossTile[Y].size(); X++)
 		{
-			Data.Pos = CurLevelTile->IndexToPos(BossTile[Y][X].iX() + 1, BossTile[Y][X].iY() + 2) + GlobalValue::MapTileSize.Half() - GlobalValue::TileStartPos;
+			Data.Pos = CurLevelTile->IndexToPos(BossTile[Y][X].iX() + 1, BossTile[Y][X].iY() + 2) + Data.Scale.Half() - GlobalValue::TileStartPos;
 			Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 		}
 	}
@@ -412,6 +417,7 @@ void Penguin::IdleUpdate(float _Delta)
 
 	if (SUMMONPATTERN_TIME <= SummonPatternTimer)
 	{
+		Dir = ActorDir::Down;
 		ChangeState(MonsterState::Summon);
 	}
 }
@@ -712,7 +718,10 @@ void Penguin::HitJudgement()
 			TileObjectOrder CurTile = PlayLevel::CurPlayLevel->GetCurTileType(CurLevelTile->IndexToPos(BossTile[Y][X].iX(), BossTile[Y][X].iY()) + GlobalValue::TileStartPos);
 			if (CurTile == TileObjectOrder::PopRange)
 			{
-				--BossHP;
+				if (false == Invincibility)
+				{
+					--BossHP;
+				}
 				IsHitten = true;
 				if (0 == BossHP)
 				{
@@ -767,13 +776,39 @@ void Penguin::SummonMonster()
 	{
 		return;
 	}
+	
+	std::vector<float4> EmptyPlace;
+	EmptyPlace.reserve(15 * 13);
+
+	for (int Y = 0; Y < 13; Y++)
+	{
+		for (int X = 0; X < 15; X++)
+		{
+			if (X >= BossTile[0][0].X && Y >= BossTile[0][0].Y && X <= BossTile[1][2].X && Y <= BossTile[1][2].Y)
+			{
+				continue;
+			}
+
+			if (TileObjectOrder::Empty == CurPlayLevel->TileInfo[Y][X].MapInfo)
+			{
+				float4 Index = { static_cast<float>(X), static_cast<float>(Y) };
+				EmptyPlace.push_back(Index);
+			}
+		}
+	}
+
+	GameEngineRandom::MainRandom.SetSeed(time(NULL));
+	int First = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(EmptyPlace.size()) / 2 - 1);
+	int Second = GameEngineRandom::MainRandom.RandomInt(static_cast<int>(EmptyPlace.size()) / 2, static_cast<int>(EmptyPlace.size()) - 1);
 
 	Snowmon_black* Snowmon = CurPlayLevel->CreateMonster<Snowmon_black>();
-	Snowmon->SetPos(CurLevelTile->IndexToPos(1, 1));
+	// Snowmon->SetPos(CurLevelTile->IndexToPos(1, 1));
+	Snowmon->SetPos(CurLevelTile->IndexToPos(EmptyPlace[First].iX() + 1, EmptyPlace[First].iY() + 1));
 	Snowmon->SetState(MonsterState::EggSummon);
 
 	Snowmon = CurPlayLevel->CreateMonster<Snowmon_black>();
-	Snowmon->SetPos(CurLevelTile->IndexToPos(15, 13));
+	// Snowmon->SetPos(CurLevelTile->IndexToPos(15, 13));
+	Snowmon->SetPos(CurLevelTile->IndexToPos(EmptyPlace[Second].iX() + 1, EmptyPlace[Second].iY() + 1));
 	Snowmon->SetState(MonsterState::EggSummon);
 
 	SummonPatternStart = false;
