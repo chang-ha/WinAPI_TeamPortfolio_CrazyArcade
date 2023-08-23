@@ -34,6 +34,7 @@
 #include "Button.h"
 #include "Item.h"
 #include "ItemSoket.h"
+#include "Penguin.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
@@ -1558,8 +1559,11 @@ bool PlayLevel::detectAllMonsterKill()
 	else if (3 == CurrentStage)
 	{
 		// 3 스테이지에서는 펭귄 보스가 죽으면 승리하게 됩니다.
-		if (false)
+
+		if (nullptr != Penguin::BossMonster && MonsterState::Die == Penguin::BossMonster->GetState())
 		{
+			StageMonstersDeath();
+
 			WinCheckValue = true;
 
 			StartGameOver();

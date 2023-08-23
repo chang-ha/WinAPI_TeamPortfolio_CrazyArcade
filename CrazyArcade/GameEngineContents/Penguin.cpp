@@ -331,11 +331,6 @@ void Penguin::Render(float _Delta)
 			Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 		}
 	}
-
-	//std::string HPText = "";
-	//HPText += "Boss HP : ";
-	//HPText += std::to_string(BossHP);
-	//TextOutA(dc, GlobalValue::WinScale.iX() - 100, 3, HPText.c_str(), static_cast<int>(HPText.size()));
 }
 
 
@@ -600,6 +595,7 @@ void Penguin::MoveUpdate(float _Delta)
 
 	if (0.0f == MoveRange.X && 0.0f == MoveRange.Y)
 	{
+		Dir = ActorDir::Down;
 		ChangeState(MonsterState::Idle);
 	}
 }
@@ -618,6 +614,7 @@ void Penguin::AngerStart()
 	SequentialPatternStart = true;
 	SequentialPatternInit(4, 4, 1);
 }
+
 void Penguin::AngerUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
@@ -802,12 +799,10 @@ void Penguin::SummonMonster()
 	int Second = GameEngineRandom::MainRandom.RandomInt(static_cast<int>(EmptyPlace.size()) / 2, static_cast<int>(EmptyPlace.size()) - 1);
 
 	Snowmon_black* Snowmon = CurPlayLevel->CreateMonster<Snowmon_black>();
-	// Snowmon->SetPos(CurLevelTile->IndexToPos(1, 1));
 	Snowmon->SetPos(CurLevelTile->IndexToPos(EmptyPlace[First].iX() + 1, EmptyPlace[First].iY() + 1));
 	Snowmon->SetState(MonsterState::EggSummon);
 
 	Snowmon = CurPlayLevel->CreateMonster<Snowmon_black>();
-	// Snowmon->SetPos(CurLevelTile->IndexToPos(15, 13));
 	Snowmon->SetPos(CurLevelTile->IndexToPos(EmptyPlace[Second].iX() + 1, EmptyPlace[Second].iY() + 1));
 	Snowmon->SetState(MonsterState::EggSummon);
 
