@@ -27,6 +27,11 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 
 	PlayLevel::CurPlayLevel->GetPlayer()->SwitchChangeReadyToIdle();
 
+	if (nullptr != PlayLevel::CurPlayLevel->GetPlayer2())
+	{
+		PlayLevel::CurPlayLevel->GetPlayer2()->SwitchChangeReadyToIdle();
+	}
+
 	// Map
 	MapFileLoad("TestMap2.map");
 	TileSetting();
