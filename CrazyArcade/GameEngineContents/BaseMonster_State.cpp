@@ -54,28 +54,51 @@ void BaseMonster::MoveUpdate(float _Delta)
 	//		{
 	//			if (TmpDir.X > 0)
 	//			{
-	//				Dir = ActorDir::Right;
+	//				TileObjectOrder MoveTileOrder = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 RIGHTPOS);
+
+	//				if (TileObjectOrder::Empty == MoveTileOrder)
+	//				{
+	//					Dir = ActorDir::Right;
+	//				}
+	//				
 	//			}
 	//			else
 	//			{
-	//				Dir = ActorDir::Left;
+	//				TileObjectOrder MoveTileOrder = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 LEFTPOS);
+
+	//				if (TileObjectOrder::Empty == MoveTileOrder)
+	//				{
+	//					Dir = ActorDir::Left;
+	//				}
 	//			}
 	//		}
 	//		else
 	//		{
 	//			if (TmpDir.Y > 0)
 	//			{
-	//				Dir = ActorDir::Down;
+	//				TileObjectOrder MoveTileOrder = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 BOTPOS);
+
+	//				if (TileObjectOrder::Empty == MoveTileOrder)
+	//				{
+	//					Dir = ActorDir::Down;
+	//				}
 	//			}
 	//			else
 	//			{
-	//				Dir = ActorDir::Up;
+	//				TileObjectOrder MoveTileOrder = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 TOPPOS);
+
+	//				if (TileObjectOrder::Empty == MoveTileOrder)
+	//				{
+	//					Dir = ActorDir::Up;
+	//				}
 	//			}
 	//		}
 	//		ChangeAnimationState("Move");
 	//		checkplayerdur = 0.2f;
 	//	}
 	//}
+
+	CheckPlayerTracking();
 
 	if (Dir == ActorDir::Down)
 	{

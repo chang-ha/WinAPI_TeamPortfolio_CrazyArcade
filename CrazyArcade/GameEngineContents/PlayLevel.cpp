@@ -34,6 +34,7 @@
 #include "Button.h"
 #include "Item.h"
 #include "ItemSoket.h"
+#include "Penguin.h"
 
 PlayLevel* PlayLevel::CurPlayLevel = nullptr;
 
@@ -855,6 +856,14 @@ TileObjectOrder PlayLevel::GetCurTileType(const float4& _Pos)
 	return Result;
 }
 
+TileObjectOrder PlayLevel::GetCurTileType(int _X, int _Y)
+{
+	GameMapInfo Temp = TileInfo[_Y][_X];
+
+	TileObjectOrder Result = Temp.MapInfo;
+	return Result;
+}
+
 PlayerNum PlayLevel::GetCurTileMaster(const float4& _Pos)
 {
 	float4 CharacterPos = _Pos;
@@ -875,6 +884,8 @@ PlayerNum PlayLevel::GetCurTileMaster(const float4& _Pos)
 			return PlayerNum::P2;
 		}
 	}
+
+	return PlayerNum::None;
 }
 
 GameMapIndex PlayLevel::GetCurIndex(const float4& _Pos)
@@ -951,7 +962,7 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum&
 
 void PlayLevel::BubblePop(const int _X, const int _Y)
 {
-	PlayerNum PopBubbleMaster = PlayerNum::P1;
+	PlayerNum PopBubbleMaster = PlayerNum::None;
 
 	for (const GameMapBubble& BubbleIter : AllBubbleIndex)
 	{
@@ -1531,6 +1542,7 @@ void PlayLevel::updateVictoryRoll()
 				WinCheckValue = false;
 	
 				StartGameOver();
+				return;
 			}
 		}
 		else
@@ -1543,6 +1555,7 @@ void PlayLevel::updateVictoryRoll()
 					WinCheckValue = false;
 
 					StartGameOver();
+					return;
 				}
 			}
 		}
@@ -1558,6 +1571,7 @@ void PlayLevel::updateVictoryRoll()
 			WinCheckValue = true;
 
 			StartGameOver();
+			return;
 		}
 	}
 }
@@ -1589,9 +1603,23 @@ bool PlayLevel::detectAllMonsterKill()
 	else if (3 == CurrentStage)
 	{
 		// 3 스테이지에서는 펭귄 보스가 죽으면 승리하게 됩니다.
-		if (false)
+
+		if (nullptr != Penguin::BossMonster && MonsterState::Die == Penguin::BossMonster->GetState())
 		{
+			StageMonstersDeath();
+
 			WinCheckValue = true;
+
+			// 승리 시 플레이어 점프 상태 변경
+			if (Player != nullptr && Player->State != CharacterState::Die)
+			{
+				Player->ChangeState(CharacterState::Jump);
+			}
+
+			if (Player2 != nullptr && Player2->State != CharacterState::Die)
+			{
+				Player2->ChangeState(CharacterState::Jump);
+			}
 
 			StartGameOver();
 

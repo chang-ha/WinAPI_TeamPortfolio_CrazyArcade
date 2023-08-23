@@ -92,7 +92,7 @@ void Snowmon_black::Start()
 	MainRenderer->CreateAnimation("Snowmon_Black_Die",			"Snowmon_Black_Die.Bmp", 0, 2, 0.1f, false);
 	MainRenderer->CreateAnimation("Snowmon_Black_Anger",		"Snowmon_Black_Anger.Bmp", 0, 8, 0.1f, false);
 	
-	MainRenderer->SetRenderPos({0, 20});
+	MainRenderer->SetRenderPos({0, 18});
 
 	ChangeState(MonsterState::Idle);
 

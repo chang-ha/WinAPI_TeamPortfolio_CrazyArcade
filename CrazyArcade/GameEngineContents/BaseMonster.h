@@ -68,6 +68,12 @@ protected:
 	std::string CurState = "";
 	TileObjectOrder CurTileType = TileObjectOrder::Empty;
 
+	TileMap* CurLevelTile = nullptr;
+	std::vector<float4> TrackingTiles;
+
+	void TrackingTileUpdate();
+	void CheckPlayerTracking();
+
 	void SwitchDebugData()
 	{
 		IsDebugData = !IsDebugData;
