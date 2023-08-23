@@ -86,15 +86,15 @@ void Item::SetItemTypeRandom()
 	// 4 : Red_Devil
 	// 5 : Needle
 
-	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 4);
-	if (0 == RandomNumber)
+	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 20);
+	if (2 >= RandomNumber)
 	{
-		// 20.0% 확률로 Ultra, Red_Devil, Needle중 하나 생성
+		// 15.0% 확률로 Ultra, Red_Devil, Needle중 하나 생성
 		RandomNumber = GameEngineRandom::MainRandom.RandomInt(3, 5);
 	}
 	else
 	{
-		// 80.0% 확률로 Bubble, Fluid, Roller 중 하나 생성
+		// 85.0% 확률로 Bubble, Fluid, Roller 중 하나 생성
 		RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 2);
 	}
 

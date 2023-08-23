@@ -32,6 +32,8 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 
 	// Item
 	ItemSetting();
+	SetItemInBlock(0, 6, ItemType::Needle);
+	SetItemInBlock(14, 6, ItemType::Needle);
 
 	if (Player != nullptr)
 	{
