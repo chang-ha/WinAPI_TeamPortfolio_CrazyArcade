@@ -372,7 +372,7 @@ void PlayResultLine::changeSaveNumber(const int _SaveNumber)
 			return;
 		}
 
-		int BoxNumber = 0;
+		int BoxNumber = m_SaveNumber;
 
 		switch (NumberCount)
 		{
