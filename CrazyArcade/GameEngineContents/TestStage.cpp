@@ -46,6 +46,10 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 
 	ItemSetting();
 
+	SetItemInBlock(1, 0, ItemType::Needle);
+
+	
+
 	// UI
 	CreatePortrait();
 }

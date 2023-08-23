@@ -136,28 +136,46 @@ void Item::SetItemTexture(ItemType _Type)
 	switch (_Type)
 	{
 	case ItemType::Bubble:
-		ItemRenderer->CreateAnimation("Blink", "Item_Bubble.bmp", 0, 2, 0.1f, true);
-		ItemRenderer->ChangeAnimation("Blink");
+		if (nullptr == ItemRenderer->FindAnimation("Bubble"))
+		{
+			ItemRenderer->CreateAnimation("Bubble", "Item_Bubble.bmp", 0, 2, 0.1f, true);
+		}
+		ItemRenderer->ChangeAnimation("Bubble");
 		break;
 	case ItemType::Fluid:
-		ItemRenderer->CreateAnimation("Blink", "Item_Fluid.bmp", 0, 2, 0.1f, true);
-		ItemRenderer->ChangeAnimation("Blink");
+		if (nullptr == ItemRenderer->FindAnimation("Fluid"))
+		{
+			ItemRenderer->CreateAnimation("Fluid", "Item_Fluid.bmp", 0, 2, 0.1f, true);
+		}
+		ItemRenderer->ChangeAnimation("Fluid");
 		break;
 	case ItemType::Roller:
-		ItemRenderer->CreateAnimation("Blink", "Item_Roller.bmp", 0, 2, 0.1f, true);
-		ItemRenderer->ChangeAnimation("Blink");
+		if (nullptr == ItemRenderer->FindAnimation("Roller"))
+		{
+			ItemRenderer->CreateAnimation("Roller", "Item_Roller.bmp", 0, 2, 0.1f, true);
+		}
+		ItemRenderer->ChangeAnimation("Roller");
 		break;
 	case ItemType::Ultra:
-		ItemRenderer->CreateAnimation("Blink", "Item_Ultra.bmp", 0, 2, 0.1f, true);
-		ItemRenderer->ChangeAnimation("Blink");
+		if (nullptr == ItemRenderer->FindAnimation("Item_Ultra"))
+		{
+			ItemRenderer->CreateAnimation("Item_Ultra", "Item_Ultra.bmp", 0, 2, 0.1f, true);
+		}
+		ItemRenderer->ChangeAnimation("Item_Ultra");
 		break;
 	case ItemType::Red_Devil:
-		ItemRenderer->CreateAnimation("Blink", "Item_Red_Devil.bmp", 0, 2, 0.1f, true);
-		ItemRenderer->ChangeAnimation("Blink");
+		if (nullptr == ItemRenderer->FindAnimation("Red_Devil"))
+		{
+			ItemRenderer->CreateAnimation("Red_Devil", "Item_Red_Devil.bmp", 0, 2, 0.1f, true);
+		}
+		ItemRenderer->ChangeAnimation("Red_Devil");
 		break;
 	case ItemType::Needle:
-		ItemRenderer->CreateAnimation("Blink", "Item_Needle.bmp", 0, 2, 0.1f, true);
-		ItemRenderer->ChangeAnimation("Blink");
+		if (nullptr == ItemRenderer->FindAnimation("Needle"))
+		{
+			ItemRenderer->CreateAnimation("Needle", "Item_Needle.bmp", 0, 2, 0.1f, true);
+		}
+		ItemRenderer->ChangeAnimation("Needle");
 		break;
 	default:
 		break;

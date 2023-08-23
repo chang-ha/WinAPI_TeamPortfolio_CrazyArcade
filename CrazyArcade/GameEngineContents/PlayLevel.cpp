@@ -444,24 +444,54 @@ void PlayLevel::ItemSetting()
 				int RandomNumber = GameEngineRandom::MainRandom.RandomInt(0, 4); // 33.3% 확률로 아이템 생성
 				if (1 >= RandomNumber)
 				{
-					CreateItemInBlock(X, Y);
+					CreateItemInBlockRandom(X, Y);
 				}
 			}
 		}
 	}
 }
 
-void PlayLevel::CreateItemInBlock(int _X, int _Y)
+void PlayLevel::SetItemInBlock(int _X, int _Y, ItemType _Type)
+{
+	if (TileObjectOrder::ImmovableBlock == TileInfo[_Y][_X].MapInfo ||
+		TileObjectOrder::MovableBlock == TileInfo[_Y][_X].MapInfo )
+	{
+		if (nullptr == Items[_Y][_X])
+		{
+			CreateItemInBlock(_X, _Y, _Type);
+		}
+		else
+		{
+			Items[_Y][_X]->SetItemType(_Type);
+		}
+	}
+	else
+	{
+		const std::string Text = std::to_string(_X) + "x" + std::to_string(_Y) + "해당 타일에 블록이 없습니다.";
+		MsgBoxAssert(Text);
+	}
+}
+
+void PlayLevel::CreateItemInBlock(int _X, int _Y, ItemType _Type)
 {
 	ItemActor = CreateActor<Item>(UpdateOrder::Map);
-	//ItemActor->SetItemTypeInt(RandomNumber);
+	ItemActor->SetItemPos(_X, _Y);
+	ItemActor->SetItemType(_Type);
+	ItemActor->PutIteminBlock();
+	Items[_Y][_X] = ItemActor;
+	ItemActor = nullptr;
+}
 
+void PlayLevel::CreateItemInBlockRandom(int _X, int _Y)
+{
+	ItemActor = CreateActor<Item>(UpdateOrder::Map);
 	ItemActor->SetItemPos(_X, _Y);
 	ItemActor->SetItemTypeRandom();
 	ItemActor->PutIteminBlock();
 	Items[_Y][_X] = ItemActor;
 	ItemActor = nullptr;
 }
+
 
 void PlayLevel::CreateItemInTile(int _X, int _Y, ItemType _Type)
 {
@@ -471,6 +501,7 @@ void PlayLevel::CreateItemInTile(int _X, int _Y, ItemType _Type)
 	Items[_Y][_X] = ItemActor;
 	ItemActor = nullptr;
 }
+
 
 void PlayLevel::CheckItemInTile(int _X, int _Y)
 {
