@@ -1511,6 +1511,7 @@ void PlayLevel::updateVictoryRoll()
 				WinCheckValue = false;
 	
 				StartGameOver();
+				return;
 			}
 		}
 		else
@@ -1523,6 +1524,7 @@ void PlayLevel::updateVictoryRoll()
 					WinCheckValue = false;
 
 					StartGameOver();
+					return;
 				}
 			}
 		}
@@ -1538,6 +1540,7 @@ void PlayLevel::updateVictoryRoll()
 			WinCheckValue = true;
 
 			StartGameOver();
+			return;
 		}
 	}
 }
