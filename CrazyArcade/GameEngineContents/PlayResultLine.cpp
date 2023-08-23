@@ -356,7 +356,7 @@ void PlayResultLine::setupSaveNumber()
 
 void PlayResultLine::changeSaveNumber(const int _SaveNumber)
 {
-	if (0 == ResultLine.KillNumber.size())
+	if (0 == ResultLine.SaveNumber.size())
 	{
 		return;
 	}
@@ -365,8 +365,8 @@ void PlayResultLine::changeSaveNumber(const int _SaveNumber)
 
 	for (int NumberCount = 0; NumberCount < m_SaveNumberSlot; NumberCount++)
 	{
-		CommonTexture* KillNumber = ResultLine.KillNumber[NumberCount];
-		if (nullptr == KillNumber)
+		CommonTexture* SaveNumber = ResultLine.SaveNumber[NumberCount];
+		if (nullptr == SaveNumber)
 		{
 			MsgBoxAssert("벡터에 액터가 존재하지 않습니다.");
 			return;
@@ -386,7 +386,7 @@ void PlayResultLine::changeSaveNumber(const int _SaveNumber)
 			break;
 		}
 
-		KillNumber->setRendererCopyPos(BoxNumber, 0);
+		SaveNumber->setRendererCopyPos(BoxNumber, 0);
 	}
 }
 

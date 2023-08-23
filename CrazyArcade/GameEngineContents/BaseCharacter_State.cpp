@@ -149,38 +149,38 @@ void BaseCharacter::MoveUpdate(float _Delta)
 		AddPos(MovePos);
 	}
 
-	else if (ActorDir::Left == Dir && true == FirstCheck && false == SecondCheck && false == ThirdCheck)
+	else if (ActorDir::Left == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
 	{
 		AddPos(float4::DOWN);
 	}
-	else if (ActorDir::Left == Dir && false == FirstCheck && false == SecondCheck && true == ThirdCheck)
+	else if (ActorDir::Left == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
 	{
 		AddPos(float4::UP);
 	}
 
-	else if (ActorDir::Right == Dir && true == FirstCheck && false == SecondCheck && false == ThirdCheck)
+	else if (ActorDir::Right == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
 	{
 		AddPos(float4::DOWN);
 	}
-	else if (ActorDir::Right == Dir && false == FirstCheck && false == SecondCheck && true == ThirdCheck)
+	else if (ActorDir::Right == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
 	{
 		AddPos(float4::UP);
 	}
 
-	else if (ActorDir::Up == Dir && true == FirstCheck && false == SecondCheck && false == ThirdCheck)
+	else if (ActorDir::Up == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
 	{
 		AddPos(float4::RIGHT);
 	}
-	else if (ActorDir::Up == Dir && false == FirstCheck && false == SecondCheck && true == ThirdCheck)
+	else if (ActorDir::Up == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
 	{
 		AddPos(float4::LEFT);
 	}
 
-	else if (ActorDir::Down == Dir && true == FirstCheck && false == SecondCheck && false == ThirdCheck)
+	else if (ActorDir::Down == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
 	{
 		AddPos(float4::RIGHT);
 	}
-	else if (ActorDir::Down == Dir && false == FirstCheck && false == SecondCheck && true == ThirdCheck)
+	else if (ActorDir::Down == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
 	{
 		AddPos(float4::LEFT);
 	}

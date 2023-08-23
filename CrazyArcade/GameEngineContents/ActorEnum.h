@@ -27,6 +27,7 @@ enum class ActorDir
 
 enum class PlayerNum
 {
+	None,
 	P1,
 	P2
 };
