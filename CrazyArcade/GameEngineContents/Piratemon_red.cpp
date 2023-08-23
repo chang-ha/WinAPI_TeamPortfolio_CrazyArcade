@@ -47,7 +47,7 @@ void Piratemon_red::Start()
 	MainRenderer->CreateAnimation("PiratemonRed_Move_Left", "Pirate_Red_Move_Left.Bmp", -1, -1, 0.2f, true);
 	MainRenderer->CreateAnimation("PiratemonRed_Die", "Pirate_Red_Death.Bmp", -1, -1, 0.2f, false);
 
-	MainRenderer->SetRenderPos({ 0, 20 });
+	MainRenderer->SetRenderPos({ 0, 15 });
 
 	ShadowRenderer->SetRenderPos(ShadowPos);
 
