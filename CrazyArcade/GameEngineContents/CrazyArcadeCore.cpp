@@ -9,6 +9,8 @@
 #include "UITestStage.h"
 #include "UITestStage2.h"
 #include "UITestStage3.h"
+#include "TitleLodumani.h"
+#include "TitleNexon.h"
 
 #include "Penguin_Stage1.h"
 #include "Penguin_Stage2.h"
@@ -39,8 +41,10 @@ void CrazyArcadeCore::Start()
 	GameEngineCore::CreateLevel<UITestStage>("UITestStage");
 	GameEngineCore::CreateLevel<UITestStage2>("UITestStage2");
 	GameEngineCore::CreateLevel<UITestStage3>("UITestStage3");
+	GameEngineCore::CreateLevel<TitleNexon>("TitleNexon");
+	GameEngineCore::CreateLevel<TitleLodumani>("TitleLodumani");
 	
-	GameEngineCore::ChangeLevel("Penguin_Stage2");
+	GameEngineCore::ChangeLevel("TitleNexon");
 }
 
 void CrazyArcadeCore::Update(float _Delta)

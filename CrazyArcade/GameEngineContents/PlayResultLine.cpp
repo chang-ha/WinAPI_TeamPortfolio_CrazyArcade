@@ -299,7 +299,7 @@ void PlayResultLine::changeKillNumber(const int _KillNumber)
 			return;
 		}
 
-		int BoxNumber = 0;
+		int BoxNumber = m_killNumber;
 
 		switch (NumberCount)
 		{

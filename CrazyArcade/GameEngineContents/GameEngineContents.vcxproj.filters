@@ -178,6 +178,15 @@
     <ClCompile Include="ItemSoket.cpp">
       <Filter>Actor\UI\PlayLevel</Filter>
     </ClCompile>
+    <ClCompile Include="TitleNexon.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLodumani.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LogoLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h">
@@ -347,6 +356,15 @@
     </ClInclude>
     <ClInclude Include="ItemSoket.h">
       <Filter>Actor\UI\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleNexon.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLodumani.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LogoLevel.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

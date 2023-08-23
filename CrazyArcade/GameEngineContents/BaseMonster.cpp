@@ -246,7 +246,7 @@ void BaseMonster::CheckDeath()
 	if (CurTileType == TileObjectOrder::PopRange
 		&& State == MonsterState::EggMove)
 	{
-		KillCountPlus();
+		//KillCountPlus();
 		ChangeState(MonsterState::EggDeath);
 	}
 
@@ -463,16 +463,16 @@ void BaseMonster::CheckPlayerTracking()
 	return;
 }
 
-void BaseMonster::KillCountPlus()
-{
-	PlayerNum BubbleMaster = PlayLevel::CurPlayLevel->GetCurTileMaster(GetPos() + float4 CENTERPOS);
-
-	if (BubbleMaster == PlayerNum::P1)
-	{
-		PlayLevel::CurPlayLevel->GetPlayer()->AddKillCount();
-	}
-	else
-	{
-		PlayLevel::CurPlayLevel->GetPlayer2()->AddKillCount();
-	}
-}
+//void BaseMonster::KillCountPlus()
+//{
+//	PlayerNum BubbleMaster = PlayLevel::CurPlayLevel->GetCurTileMaster(GetPos() + float4 CENTERPOS);
+//
+//	if (BubbleMaster == PlayerNum::P1)
+//	{
+//		PlayLevel::CurPlayLevel->GetPlayer()->AddKillCount();
+//	}
+//	else
+//	{
+//		PlayLevel::CurPlayLevel->GetPlayer2()->AddKillCount();
+//	}
+//}

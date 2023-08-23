@@ -114,4 +114,9 @@ void ContentLevel::Update(float _Delta)
 		GameEngineSound::SetGlobalVolume(GlobalVolume);
 		BGMPlayer.SetVolume(BGMVolume);
 	}
+
+	if (true == GameEngineInput::IsDown(VK_OEM_4))
+	{
+		GameEngineCore::ChangeLevel("TitleNexon");
+	}
 }

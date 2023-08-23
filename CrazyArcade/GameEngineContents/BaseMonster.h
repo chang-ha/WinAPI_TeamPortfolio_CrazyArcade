@@ -89,7 +89,7 @@ protected:
 	bool IsDebugData = false;
 	bool IsDeathSound = true;
 
-	void KillCountPlus();
+	//void KillCountPlus();
 
 private:
 	void IdleStart();

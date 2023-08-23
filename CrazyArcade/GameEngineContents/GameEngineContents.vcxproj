@@ -246,6 +246,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="LogoLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LoseAnimation.h">
       <SubType>
       </SubType>
@@ -332,6 +336,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ItemSoket.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleLodumani.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleNexon.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -449,6 +461,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="LogoLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LoseAnimation.cpp">
       <SubType>
       </SubType>
@@ -535,6 +551,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ItemSoket.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleLodumani.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleNexon.cpp">
       <SubType>
       </SubType>
     </ClCompile>
