@@ -165,6 +165,12 @@ protected:
 
 	void CreateUIElements();
 	void CreatePortrait();
+
+	void ChangeStageStartValue(bool _Value)
+	{
+		GameStartCheckValue = _Value;
+	}
+
 	void ReleaseLevelComposition();
 
 	

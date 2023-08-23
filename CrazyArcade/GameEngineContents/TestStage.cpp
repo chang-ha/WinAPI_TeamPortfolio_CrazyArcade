@@ -48,6 +48,8 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 
 	// UI
 	CreatePortrait();
+
+	ChangeStageStartValue(true);
 }
 
 void TestStage::LevelEnd(GameEngineLevel* _NextLevel)
