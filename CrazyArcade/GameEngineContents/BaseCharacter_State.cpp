@@ -58,6 +58,7 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	}
 
 	float MoveSpeed = GetSpeed();
+	float PassSpeed = MoveSpeed * 0.8f;
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos1 = float4::ZERO;
@@ -151,38 +152,38 @@ void BaseCharacter::MoveUpdate(float _Delta)
 
 	else if (ActorDir::Left == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
 	{
-		AddPos(float4::DOWN);
+		AddPos(float4::DOWN * PassSpeed * _Delta);
 	}
 	else if (ActorDir::Left == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
 	{
-		AddPos(float4::UP);
+		AddPos(float4::UP * PassSpeed * _Delta);
 	}
 
 	else if (ActorDir::Right == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
 	{
-		AddPos(float4::DOWN);
+		AddPos(float4::DOWN * PassSpeed * _Delta);
 	}
 	else if (ActorDir::Right == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
 	{
-		AddPos(float4::UP);
+		AddPos(float4::UP * PassSpeed * _Delta);
 	}
 
 	else if (ActorDir::Up == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
 	{
-		AddPos(float4::RIGHT);
+		AddPos(float4::RIGHT * PassSpeed * _Delta);
 	}
 	else if (ActorDir::Up == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
 	{
-		AddPos(float4::LEFT);
+		AddPos(float4::LEFT * PassSpeed * _Delta);
 	}
 
 	else if (ActorDir::Down == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
 	{
-		AddPos(float4::RIGHT);
+		AddPos(float4::RIGHT * PassSpeed * _Delta);
 	}
 	else if (ActorDir::Down == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
 	{
-		AddPos(float4::LEFT);
+		AddPos(float4::LEFT * PassSpeed * _Delta);
 	}
 
 	if (float4::ZERO == MovePos)
