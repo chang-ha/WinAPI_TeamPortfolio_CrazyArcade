@@ -266,7 +266,7 @@ void BaseMonster::TrackingTileUpdate()
 {
 	CurLevelTile = PlayLevel::CurPlayLevel->GetObjectTile();
 
-	float4 CurPos = GetPos() - GlobalValue::TileStartPos;
+	float4 CurPos = GetPos() + float4 CENTERPOS - GlobalValue::TileStartPos;
 	float4 Index = CurLevelTile->PosToIndex(CurPos);
 
 	float4 Value;
@@ -329,10 +329,15 @@ void BaseMonster::CheckPlayerTracking()
 	{
 		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
 		{
-			Dir = ActorDir::Left;
+			TileObjectOrder CheckTile = PlayLevel::CurPlayLevel->GetCurTileType(Value.iX(), Value.iY());
 
-			ChangeAnimationState("Move");
-			return;
+			if (TileObjectOrder::Empty == CheckTile)
+			{
+				Dir = ActorDir::Left;
+
+				ChangeAnimationState("Move");
+				return;
+			}
 		}
 	}
 
@@ -358,10 +363,15 @@ void BaseMonster::CheckPlayerTracking()
 	{
 		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
 		{
-			Dir = ActorDir::Right;
+			TileObjectOrder CheckTile = PlayLevel::CurPlayLevel->GetCurTileType(Value.iX(), Value.iY());
 
-			ChangeAnimationState("Move");
-			return;
+			if (TileObjectOrder::Empty == CheckTile)
+			{
+				Dir = ActorDir::Right;
+
+				ChangeAnimationState("Move");
+				return;
+			}
 		}
 	}
 
@@ -387,10 +397,15 @@ void BaseMonster::CheckPlayerTracking()
 	{
 		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
 		{
-			Dir = ActorDir::Up;
+			TileObjectOrder CheckTile = PlayLevel::CurPlayLevel->GetCurTileType(Value.iX(), Value.iY());
 
-			ChangeAnimationState("Move");
-			return;
+			if (TileObjectOrder::Empty == CheckTile)
+			{
+				Dir = ActorDir::Up;
+
+				ChangeAnimationState("Move");
+				return;
+			}
 		}
 	}
 
@@ -416,10 +431,15 @@ void BaseMonster::CheckPlayerTracking()
 	{
 		if (Value.iX() == MonsterTrackTile.iX() && Value.iY() == MonsterTrackTile.iY())
 		{
-			Dir = ActorDir::Down;
+			TileObjectOrder CheckTile = PlayLevel::CurPlayLevel->GetCurTileType(Value.iX(), Value.iY());
 
-			ChangeAnimationState("Move");
-			return;
+			if (TileObjectOrder::Empty == CheckTile)
+			{
+				Dir = ActorDir::Down;
+
+				ChangeAnimationState("Move");
+				return;
+			}
 		}
 	}
 
