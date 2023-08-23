@@ -240,7 +240,7 @@ void BaseMonster::CheckDeath()
 	if (CurTileType == TileObjectOrder::PopRange
 		&& State == MonsterState::EggMove)
 	{
-		//KillCountPlus();
+		KillCountPlus();
 		ChangeState(MonsterState::EggDeath);
 	}
 
@@ -255,16 +255,22 @@ void BaseMonster::ChangeAnimationState(const std::string& _StateName)
 
 }
 
-//void BaseMonster::KillCountPlus()
-//{
-//	PlayerNum BubbleMaster = PlayLevel::CurPlayLevel->GetCurTileMaster(GetPos() + float4 CENTERPOS);
-//
-//	if (BubbleMaster == PlayerNum::P1)
-//	{
-//		PlayLevel::CurPlayLevel->GetPlayer()->AddKillCount();
-//	}
-//	else
-//	{
-//		PlayLevel::CurPlayLevel->GetPlayer2()->AddKillCount();
-//	}
-//}
+void BaseMonster::KillCountPlus()
+{
+	PlayerNum BubbleMaster = PlayLevel::CurPlayLevel->GetCurTileMaster(GetPos() + float4 CENTERPOS);
+
+	if (BubbleMaster == PlayerNum::P1)
+	{
+		PlayLevel::CurPlayLevel->GetPlayer()->AddKillCount();
+		return;
+	}
+	else if(BubbleMaster == PlayerNum::P2)
+	{
+		PlayLevel::CurPlayLevel->GetPlayer2()->AddKillCount();
+		return;
+	}
+	else
+	{
+		return;
+	}
+}

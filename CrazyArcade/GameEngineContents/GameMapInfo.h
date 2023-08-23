@@ -30,5 +30,5 @@ class GameMapBubble
 {
 public:
 	GameMapIndex Index = { -1, -1 };
-	PlayerNum BubbleMaster = PlayerNum::P1;
+	PlayerNum BubbleMaster = PlayerNum::None;
 };

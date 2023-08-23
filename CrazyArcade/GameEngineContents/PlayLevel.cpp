@@ -844,6 +844,8 @@ PlayerNum PlayLevel::GetCurTileMaster(const float4& _Pos)
 			return PlayerNum::P2;
 		}
 	}
+
+	return PlayerNum::None;
 }
 
 GameMapIndex PlayLevel::GetCurIndex(const float4& _Pos)
@@ -920,7 +922,7 @@ void PlayLevel::SetBubble(const float4& _Pos, int _BubblePower, const PlayerNum&
 
 void PlayLevel::BubblePop(const int _X, const int _Y)
 {
-	PlayerNum PopBubbleMaster = PlayerNum::P1;
+	PlayerNum PopBubbleMaster = PlayerNum::None;
 
 	for (const GameMapBubble& BubbleIter : AllBubbleIndex)
 	{

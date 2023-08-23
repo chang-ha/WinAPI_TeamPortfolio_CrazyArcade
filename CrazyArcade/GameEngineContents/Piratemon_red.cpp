@@ -108,7 +108,7 @@ void Piratemon_red::MoveUpdate(float _Delta)
 {
 	if (CurTileType == TileObjectOrder::PopRange)
 	{
-		//KillCountPlus();
+		KillCountPlus();
 		ChangeState(MonsterState::Die);
 	}
 
