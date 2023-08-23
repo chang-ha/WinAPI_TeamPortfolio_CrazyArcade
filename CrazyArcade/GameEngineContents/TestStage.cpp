@@ -6,6 +6,7 @@
 #include "GlobalUtils.h"
 #include "GameMapInfo.h"
 #include "FadeObject.h"
+#include "BaseCharacter.h"
 
 #include "Item.h"
 #include "Snowmon_black.h"
@@ -23,6 +24,8 @@ TestStage::~TestStage()
 void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	PlayLevel::LevelStart(_PrevLevel);
+
+	PlayLevel::CurPlayLevel->GetPlayer()->SwitchChangeReadyToIdle();
 
 	// Map
 	MapFileLoad("TestMap2.map");
