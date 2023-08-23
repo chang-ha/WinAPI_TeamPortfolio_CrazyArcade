@@ -35,7 +35,7 @@ protected:
 	void setNextLevelString(const std::string& _NextLevelName);
 
 private:
-	const float CONST_FadeInTime = 0.4f;
+	const float CONST_FadeInTime = 0.3f;
 	const float CONST_FadeOutTIme = 0.4f;
 
 

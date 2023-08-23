@@ -6,6 +6,7 @@
 
 #include "FadeObject.h"
 #include "Button.h"
+#include "CommonTexture.h"
 
 
 TitleLevel::TitleLevel()
@@ -38,7 +39,7 @@ void TitleLevel::Start()
 	ContentLevel::Start();
 
 	Back = CreateActor<BackGround>(UpdateOrder::Map);
-	Back->Init("TitleLevel.bmp");
+	Back->Init("Title2.bmp");
 	Back->SetPos(GlobalValue::WinScale.Half());
 
 	// Sound
@@ -51,7 +52,26 @@ void TitleLevel::Start()
 
 void TitleLevel::CreateTitleUI()
 {
+	setupTitileButtonFrame();
 	InitTitleButton();
+}
+
+void TitleLevel::setupTitileButtonFrame()
+{
+	m_ButtonFrame = CreateActor<CommonTexture>(UpdateOrder::UI);
+	if (nullptr == m_ButtonFrame)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_ButtonFrame->setRendererOrder(RenderOrder::FirstElementUI);
+	m_ButtonFrame->loadTexture("Title_Button_Border.bmp", "Resources\\Textures\\UI\\Button");
+	m_ButtonFrame->setTexture("Title_Button_Border.bmp");
+	float4 FrameScale = m_ButtonFrame->getTextureScale();
+	float4 FramePos = CONST_ButtonFrameStartPos + FrameScale.Half();
+
+	m_ButtonFrame->SetPos(FramePos);
 }
 
 void TitleLevel::InitTitleButton()
@@ -71,7 +91,7 @@ void TitleLevel::setupTitleGameStartButton()
 		return;
 	}
 
-	GameStartButton->setRenderer(RenderOrder::FirstElementUI);
+	GameStartButton->setRenderer(6);
 	GameStartButton->setButtonTexture(ButtonState::Normal, "Title_GameStart_Button_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	GameStartButton->setButtonTexture(ButtonState::Hover, "Title_GameStart_Button_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
 	GameStartButton->setButtonTexture(ButtonState::Click, "Title_GameStart_Button_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
@@ -80,7 +100,7 @@ void TitleLevel::setupTitleGameStartButton()
 	GameStartButton->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
 
 	float4 GameStartButtonScale = GameStartButton->getButtonScale();
-	float4 GameStartButtonPos = CONST_GameStartButtonStartPos + GameStartButtonScale.Half();
+	float4 GameStartButtonPos = CONST_ButtonFrameStartPos + CONST_GameStartButtonStartPosToFrame;
 	GameStartButton->setButtonPos(GameStartButtonPos);
 
 	vecTitleButton[static_cast<int>(TitleButtonActor::GameStart)] = GameStartButton;
@@ -101,7 +121,7 @@ void TitleLevel::setupTitleMapEditorButton()
 		return;
 	}
 
-	MapEditorButton->setRenderer(RenderOrder::FirstElementUI);
+	MapEditorButton->setRenderer(6);
 	MapEditorButton->setButtonTexture(ButtonState::Normal, "Title_MapEditor_Button_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	MapEditorButton->setButtonTexture(ButtonState::Hover, "Title_MapEditor_Button_Hover.bmp", "Resources\\Textures\\UI\\Button", 1, 2);
 	MapEditorButton->setButtonTexture(ButtonState::Click, "Title_MapEditor_Button_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
@@ -110,7 +130,7 @@ void TitleLevel::setupTitleMapEditorButton()
 	MapEditorButton->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
 
 	float4 MapEditorButtonScale = MapEditorButton->getButtonScale();
-	float4 MapEditorButtonPos = CONST_MapEditorButtonStartPos + MapEditorButtonScale.Half();
+	float4 MapEditorButtonPos = CONST_ButtonFrameStartPos + CONST_MapEditorButtonStartPosToFrame;
 	MapEditorButton->setButtonPos(MapEditorButtonPos);
 
 	vecTitleButton[static_cast<int>(TitleButtonActor::MapEditor)] = MapEditorButton;
@@ -120,6 +140,8 @@ void TitleLevel::CallBackMapEditorButtonFunc()
 {
 	FadeObject::CallFadeOut(this, "MapEditor", GlobalValue::g_ChangeLevelFadeSpeed);
 }
+
+
 
 void TitleLevel::Update(float _Delta)
 {
