@@ -58,7 +58,6 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	}
 
 	float MoveSpeed = GetSpeed();
-	float PassSpeed = MoveSpeed * 0.8f;
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos1 = float4::ZERO;

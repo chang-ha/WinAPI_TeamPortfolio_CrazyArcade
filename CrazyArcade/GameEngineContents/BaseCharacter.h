@@ -1,21 +1,21 @@
 #pragma once
 
+#define LEFTTOPCHECKPOS { -15.0f, -10.0f }
 #define TOPCHECKPOS { 0.0f, -10.0f }
-#define LEFTTOPCHECKPOS { -16.0f, -10.0f }
-#define RIGHTTOPCHECKPOS { 16.0f, -10.0f }
+#define RIGHTTOPCHECKPOS { 15.0f, -10.0f }
 
 
-#define LEFTCHECKPOS { -21.0f, 10.0f }
-#define LEFTMOVETOPCHECKPOS { -21.0f, -8.0f }
-#define LEFTMOVEBOTCHECKPOS { -21.0f, 28.0f }
+#define LEFTMOVETOPCHECKPOS { -21.0f, -6.0f }
+#define LEFTCHECKPOS { -21.0f, 12.0f }
+#define LEFTMOVEBOTCHECKPOS { -21.0f, 26.0f }
 
-#define RIGHTCHECKPOS { 21.0f, 10.0f }
-#define RIGHTMOVETOPCHECKPOS { 21.0f, -8.0f }
-#define RIGHTMOVEBOTCHECKPOS { 21.0f, 28.0f }
+#define RIGHTMOVETOPCHECKPOS { 21.0f, -6.0f }
+#define RIGHTCHECKPOS { 21.0f, 12.0f }
+#define RIGHTMOVEBOTCHECKPOS { 21.0f, 26.0f }
 
+#define LEFTBOTCHECKPOS { -15.0f, 34.0f }
 #define BOTCHECKPOS { 0.0f, 34.0f }
-#define LEFTBOTCHECKPOS { -16.0f, 34.0f }
-#define RIGHTBOTCHECKPOS { 16.0f, 34.0f }
+#define RIGHTBOTCHECKPOS { 15.0f, 34.0f }
 
 #define CHARACTERCOLLISIONPOS { 0.0f, 5.0f }
 
@@ -208,6 +208,7 @@ protected:
 protected:
 	ActorDir Dir = ActorDir::Down;
 	float Speed = 0.0f;
+	float PassSpeed = 160.0f;
 	int BombPower = 1;
 	int BombCount = 1;
 	int NeedleCount = 0;
