@@ -138,6 +138,14 @@ void BaseMonster::MoveUpdate(float _Delta)
 	{
 		RandomDir("Move");
 	}
+
+	if (MoveTimer > 4.0f)
+	{
+		RandomDir("Move");
+		MoveTimer = 0.0f;
+	}
+
+	MoveTimer += _Delta;
 }
 
 void BaseMonster::FreezeStart()
@@ -217,8 +225,6 @@ void BaseMonster::AngerMoveStart()
 
 void BaseMonster::AngerMoveUpdate(float _Delta)
 {
-	MainTimer = 0.0f;
-
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 	float AngerSpeed = 100.0f;
@@ -263,6 +269,14 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 	{
 		RandomDir("AngerMove");
 	}
+
+	if (MoveTimer > 4.0f)
+	{
+		RandomDir("Move");
+		MoveTimer = 0.0f;
+	}
+
+	MoveTimer += _Delta;
 }
 
 void BaseMonster::EggSummonStart()

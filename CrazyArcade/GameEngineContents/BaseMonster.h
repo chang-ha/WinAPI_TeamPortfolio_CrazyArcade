@@ -132,6 +132,7 @@ private:
 
 	float MainTimer = 0.0f;
 	float FreezeTimer = 0.0f;
+	float MoveTimer = 0.0f;
 
 	float4 EggSummonStartPos = float4::ZERO;
 	float4 EggSummonEndPos = float4::ZERO;
