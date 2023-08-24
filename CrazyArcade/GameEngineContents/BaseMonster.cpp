@@ -317,6 +317,11 @@ void BaseMonster::TrackingTileUpdate()
 
 void BaseMonster::CheckPlayerTracking()
 {
+	if (PlayLevel::CurPlayLevel->GetPlayer()->State == CharacterState::Die)
+	{
+		return;
+	}
+
 	float4 PlayerPos = PlayLevel::CurPlayLevel->Player->GetPos() + float4{ 0.0f, 15.0f } - GlobalValue::TileStartPos;
 	float4 PlayerIndex = CurLevelTile->PosToIndex(PlayerPos);
 
