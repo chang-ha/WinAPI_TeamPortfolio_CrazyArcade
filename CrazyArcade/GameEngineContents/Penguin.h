@@ -95,7 +95,6 @@ private:
 	bool IsDebugMode = false;
 	bool Invincibility = false;
 	bool IsHitten = false;
-	bool IsSoundPlaying = false;
 	bool BubblePatternStart = false;
 	bool SummonPatternStart = false;
 	bool SequentialPatternStart = false;

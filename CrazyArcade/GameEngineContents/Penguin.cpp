@@ -560,8 +560,7 @@ void Penguin::MoveStart()
 
 void Penguin::MoveUpdate(float _Delta)
 {
-	MonsterEffectSound.IsPlaying(&IsSoundPlaying);
-	if (false == IsSoundPlaying)
+	if (false == MonsterEffectSound.IsPlaying())
 	{
 		MonsterEffectSound = GameEngineSound::SoundPlay("Boss_Move.wav");
 	}
