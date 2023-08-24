@@ -27,6 +27,10 @@ void GameEngineSoundPlayer::Stop()
 	Control->stop();
 }
 
+void GameEngineSoundPlayer::IsPlaying(bool* IsPlayingValue)
+{
+	Control->isPlaying(IsPlayingValue);
+}
 
 //////////////////////////////////////////////// 관리를 위한 코드 
 

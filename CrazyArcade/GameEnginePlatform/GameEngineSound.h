@@ -14,6 +14,7 @@ public:
 	void SetLoop(int _Count);
 	void SetVolume(float _Volume);
 	void Stop();
+	void IsPlaying(bool* IsPlayingValue);
 
 	GameEngineSoundPlayer() 
 	{
