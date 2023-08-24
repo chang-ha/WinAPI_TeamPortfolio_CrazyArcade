@@ -14,6 +14,7 @@ public:
 	void SetLoop(int _Count);
 	void SetVolume(float _Volume);
 	void Stop();
+	bool IsPlaying();
 
 	GameEngineSoundPlayer() 
 	{
@@ -27,6 +28,7 @@ private:
 	{
 	}
 
+	bool IsPlayingValue = false;
 	FMOD::Channel* Control = nullptr;
 };
 

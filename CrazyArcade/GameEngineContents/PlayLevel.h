@@ -134,8 +134,10 @@ protected:
 	// Item
 	void ItemSetting();
 	void ItemRelease();
-	void CreateItemInBlock(int _X, int _Y);
 	void CreateItemInTile(int _X, int _Y, ItemType _Type);
+	void SetItemInBlock(int _X, int _Y, ItemType _Type);
+	void CreateItemInBlockRandom(int _X, int _Y);
+	void CreateItemInBlock(int _X, int _Y, ItemType _Type);
 
 	bool ItemDebugValue = false;
 
@@ -165,6 +167,12 @@ protected:
 
 	void CreateUIElements();
 	void CreatePortrait();
+
+	void ChangeStageStartValue(bool _Value)
+	{
+		GameStartCheckValue = _Value;
+	}
+
 	void ReleaseLevelComposition();
 
 	

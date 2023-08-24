@@ -83,10 +83,14 @@ void Penguin::Start()
 	}
 
 	// Sound Load
-	if (nullptr == GameEngineSound::FindSound("Locked_In_Bubble.wav"))
+	if (nullptr == GameEngineSound::FindSound("Boss_Locked_In_Bubble.wav"))
 	{
-		GlobalUtils::SoundFileLoad("Locked_In_Bubble.wav", "Resources\\Sounds\\Character\\");
-		GlobalUtils::SoundFileLoad("Character_Death.wav", "Resources\\Sounds\\Character\\");
+		GlobalUtils::SoundFileLoad("Boss_Locked_In_Bubble.wav", "Resources\\Sounds\\Boss\\");
+		// GlobalUtils::SoundFileLoad("Character_Death.wav", "Resources\\Sounds\\Character\\");
+		GlobalUtils::SoundFileLoad("Boss_Death.wav", "Resources\\Sounds\\Boss\\");
+		GlobalUtils::SoundFileLoad("Boss_Move.wav", "Resources\\Sounds\\Boss\\");
+		GlobalUtils::SoundFileLoad("Hit_Boss.wav", "Resources\\Sounds\\Boss\\");
+		GlobalUtils::SoundFileLoad("Sommoning_Eggs.wav", "Resources\\Sounds\\Boss\\");
 	}
 
 	{
@@ -401,6 +405,7 @@ void Penguin::IdleStart()
 {
 	ChangeAnimationState(MonsterState::Idle);
 	IsHitten = false;
+	MonsterEffectSound.Stop();
 }
 
 void Penguin::IdleUpdate(float _Delta)
@@ -525,6 +530,8 @@ void Penguin::MoveStart()
 		return;
 	}
 
+	MonsterEffectSound.Stop();
+
 	GameEngineRandom::MainRandom.SetSeed(time(NULL));
 	int MoveIndex = GameEngineRandom::MainRandom.RandomInt(1,3);
 	DirDecision(MoveIndex);
@@ -553,6 +560,10 @@ void Penguin::MoveStart()
 
 void Penguin::MoveUpdate(float _Delta)
 {
+	if (false == MonsterEffectSound.IsPlaying())
+	{
+		MonsterEffectSound = GameEngineSound::SoundPlay("Boss_Move.wav");
+	}
 	float4 MovePos = float4::ZERO;
 	switch (Dir)
 	{
@@ -628,7 +639,8 @@ void Penguin::AngerUpdate(float _Delta)
 void Penguin::DieReadyStart()
 {
 	MainRenderer->ChangeAnimation("Die_Ready");
-	MonsterEffectSound = GameEngineSound::SoundPlay("Locked_In_Bubble.wav");
+	MonsterEffectSound.Stop();
+	MonsterEffectSound = GameEngineSound::SoundPlay("Boss_Locked_In_Bubble.wav");
 }
 
 void Penguin::DieReadyUpdate(float _Delta)
@@ -682,7 +694,8 @@ void Penguin::DieBubbleUpdate(float _Delta)
 void Penguin::DieStart()
 {
 	MainRenderer->ChangeAnimation("Die");
-	MonsterEffectSound = GameEngineSound::SoundPlay("Character_Death.wav");
+	MonsterEffectSound.Stop();
+	MonsterEffectSound = GameEngineSound::SoundPlay("Boss_Death.wav");
 }
 
 void Penguin::DieUpdate(float _Delta)
@@ -736,6 +749,8 @@ void Penguin::HitJudgement()
 
 void Penguin::HittenStart()
 {
+	MonsterEffectSound.Stop();
+	MonsterEffectSound = GameEngineSound::SoundPlay("Hit_Boss.wav");
 	ChangeAnimationState(MonsterState::Hitten);
 }
 
@@ -757,6 +772,9 @@ void Penguin::SummonStart()
 	MainRenderer->ChangeAnimation("Summon");
 	SummonPatternStart = true;
 	SummonPatternTimer = 0.0f;
+
+	MonsterEffectSound.Stop();
+	MonsterEffectSound = GameEngineSound::SoundPlay("Sommoning_Eggs.wav");
 }
 
 void Penguin::SummonUpdate(float _Delta)
