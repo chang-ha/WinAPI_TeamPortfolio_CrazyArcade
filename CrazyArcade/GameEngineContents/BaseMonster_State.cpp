@@ -154,7 +154,6 @@ void BaseMonster::MoveUpdate(float _Delta)
 	{
 		RandomDir("Move");
 	}
-
 	else
 	{
 		MoveFix(CheckTile1, CheckTile2, Speed, _Delta);
@@ -162,8 +161,8 @@ void BaseMonster::MoveUpdate(float _Delta)
 
 	if (MoveTimer > 4.0f)
 	{
-		RandomDir("Move");
 		MoveTimer = 0.0f;
+		RandomDir("Move");
 	}
 
 	MoveTimer += _Delta;
@@ -269,8 +268,8 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 	{
 		MovePos = { 0.0f, -AngerSpeed * _Delta };
 		CheckPos = TOPPOS;
-		CheckPos1 = LEFTBOTPOS;
-		CheckPos2 = RIGHTBOTPOS;
+		CheckPos1 = LEFTTOPPOS;
+		CheckPos2 = RIGHTTOPPOS;
 	}
 
 	if (Dir == ActorDir::Left)
@@ -311,7 +310,7 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 	{
 		MoveFix(CheckTile1, CheckTile2, AngerSpeed, _Delta);
 	}
-
+	
 	if (MoveTimer > 4.0f)
 	{
 		RandomDir("AngerMove");

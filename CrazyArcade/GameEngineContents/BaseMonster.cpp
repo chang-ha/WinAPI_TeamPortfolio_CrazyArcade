@@ -523,7 +523,11 @@ void BaseMonster::KillCountPlus()
 
 void BaseMonster::MoveFix(const bool& _Check1, const bool& _Check2, float _Speed, float _Delta)
 {
-	if (ActorDir::Down == Dir && true == _Check1 && false == _Check2)
+	if (false == _Check1 && false == _Check2)
+	{
+		return;
+	}
+	else if (ActorDir::Down == Dir && true == _Check1 && false == _Check2)
 	{
 		AddPos(float4::RIGHT * _Speed * _Delta);
 	}
@@ -557,5 +561,9 @@ void BaseMonster::MoveFix(const bool& _Check1, const bool& _Check2, float _Speed
 	else if (ActorDir::Right == Dir && false == _Check1 && true == _Check2)
 	{
 		AddPos(float4::UP * _Speed * _Delta);
+	}
+	else
+	{
+		return;
 	}
 }
