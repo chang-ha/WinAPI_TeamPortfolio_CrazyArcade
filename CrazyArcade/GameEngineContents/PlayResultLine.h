@@ -90,13 +90,13 @@ private:
 	void setupKillNumber();
 	int m_KillNumberSlot = 2;
 	int m_killNumber = 0;
-	const int CONST_KillEXPAmount = 10;
+	const int CONST_KillEXPAmount = 20;
 	const float4 CONST_KillNumberStartPos = float4{ 196.0f , 5.0f };
 
 	void setupSaveNumber();
 	int m_SaveNumberSlot = 2;
 	int m_SaveNumber = 0;
-	const int CONST_SaveEXPAmount = 50;
+	const int CONST_SaveEXPAmount = 45;
 	const float4 CONST_SaveNumberStartPos = float4{ 238.0f , 5.0f };
 
 	void setupExp();
