@@ -8,10 +8,21 @@
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineActor.h>
 
+#define LEFTTOPPOS { -16.0f, 0.0f }
 #define TOPPOS { 0.0f, 0.0f }
+#define RIGHTTOPPOS { 16.0f, 0.0f }
+
+#define TOPLEFTPOS { -20.0f, 4.0f }
 #define LEFTPOS { -20.0f, 20.0f }
+#define BOTLEFTPOS { -20.0f, 36.0f }
+
+#define TOPRIGHTPOS { 20.0f, 4.0f }
 #define RIGHTPOS { 20.0f, 20.0f }
+#define BOTRIGHTPOS { 20.0f, 36.0f }
+
+#define LEFTBOTPOS { -16.0f, 40.0f }
 #define BOTPOS { 0.0f, 40.0f }
+#define RIGHTBOTPOS { 16.0f, 40.0f }
 
 #define CENTERPOS { 0.0f, 20.0f }
 
@@ -53,6 +64,7 @@ protected:
 	virtual void StateUpdate(float _Delta);
 	virtual void ChangeState(MonsterState _State);
 	virtual void ChangeAnimationState(const std::string& _StateName);
+	void MoveFix(const bool& _Point1, const bool& _Point2, float _Speed, float _Delta);
 
 	class GameEngineRenderer* MainRenderer = nullptr;
 	class GameEngineRenderer* ShadowRenderer = nullptr;
@@ -72,7 +84,7 @@ protected:
 	std::vector<float4> TrackingTiles;
 
 	void TrackingTileUpdate();
-	void CheckPlayerTracking();
+	void CheckPlayerTracking(const std::string& _State);
 
 	void SwitchDebugData()
 	{
@@ -132,6 +144,7 @@ private:
 
 	float MainTimer = 0.0f;
 	float FreezeTimer = 0.0f;
+	float MoveTimer = 0.0f;
 
 	float4 EggSummonStartPos = float4::ZERO;
 	float4 EggSummonEndPos = float4::ZERO;

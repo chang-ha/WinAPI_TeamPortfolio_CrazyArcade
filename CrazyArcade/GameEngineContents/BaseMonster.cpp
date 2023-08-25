@@ -82,7 +82,21 @@ void BaseMonster::Render(float _Delta)
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
+
+		Data.Pos = GetPos() + float4 LEFTTOPPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
 		Data.Pos = GetPos() + float4 TOPPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 RIGHTTOPPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+
+		Data.Pos = GetPos() + float4 LEFTBOTPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
@@ -90,13 +104,36 @@ void BaseMonster::Render(float _Delta)
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
+		Data.Pos = GetPos() + float4 RIGHTBOTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+
+		Data.Pos = GetPos() + float4 TOPLEFTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
 		Data.Pos = GetPos() + float4 LEFTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 BOTLEFTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+
+		Data.Pos = GetPos() + float4 TOPRIGHTPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
 		Data.Pos = GetPos() + float4 RIGHTPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 BOTRIGHTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
 
 		Data.Pos = GetPos() + float4 CENTERPOS;
 		Data.Scale = { 3, 3 };
@@ -256,11 +293,7 @@ void BaseMonster::CheckDeath()
 	}
 }
 
-void BaseMonster::ChangeAnimationState(const std::string& _StateName) 
-{
-
-}
-
+void BaseMonster::ChangeAnimationState(const std::string& _StateName) {}
 
 void BaseMonster::TrackingTileUpdate()
 {
@@ -315,7 +348,7 @@ void BaseMonster::TrackingTileUpdate()
 	TrackingTiles[7] = NewValue;
 }
 
-void BaseMonster::CheckPlayerTracking()
+void BaseMonster::CheckPlayerTracking(const std::string& _State)
 {
 	if (PlayLevel::CurPlayLevel->GetPlayer()->State == CharacterState::Die)
 	{
@@ -340,7 +373,7 @@ void BaseMonster::CheckPlayerTracking()
 			{
 				Dir = ActorDir::Left;
 
-				ChangeAnimationState("Move");
+				ChangeAnimationState(_State);
 				return;
 			}
 		}
@@ -357,7 +390,7 @@ void BaseMonster::CheckPlayerTracking()
 			{
 				Dir = ActorDir::Left;
 
-				ChangeAnimationState("Move");
+				ChangeAnimationState(_State);
 				return;
 			}
 		}
@@ -374,7 +407,7 @@ void BaseMonster::CheckPlayerTracking()
 			{
 				Dir = ActorDir::Right;
 
-				ChangeAnimationState("Move");
+				ChangeAnimationState(_State);
 				return;
 			}
 		}
@@ -391,7 +424,7 @@ void BaseMonster::CheckPlayerTracking()
 			{
 				Dir = ActorDir::Right;
 
-				ChangeAnimationState("Move");
+				ChangeAnimationState(_State);
 				return;
 			}
 		}
@@ -408,7 +441,7 @@ void BaseMonster::CheckPlayerTracking()
 			{
 				Dir = ActorDir::Up;
 
-				ChangeAnimationState("Move");
+				ChangeAnimationState(_State);
 				return;
 			}
 		}
@@ -425,7 +458,7 @@ void BaseMonster::CheckPlayerTracking()
 			{
 				Dir = ActorDir::Up;
 
-				ChangeAnimationState("Move");
+				ChangeAnimationState(_State);
 				return;
 			}
 		}
@@ -442,7 +475,7 @@ void BaseMonster::CheckPlayerTracking()
 			{
 				Dir = ActorDir::Down;
 
-				ChangeAnimationState("Move");
+				ChangeAnimationState(_State);
 				return;
 			}
 		}
@@ -459,7 +492,7 @@ void BaseMonster::CheckPlayerTracking()
 			{
 				Dir = ActorDir::Down;
 
-				ChangeAnimationState("Move");
+				ChangeAnimationState(_State);
 				return;
 			}
 		}
@@ -481,6 +514,53 @@ void BaseMonster::KillCountPlus()
 	{
 		PlayLevel::CurPlayLevel->GetPlayer2()->AddKillCount();
 		return;
+	}
+	else
+	{
+		return;
+	}
+}
+
+void BaseMonster::MoveFix(const bool& _Check1, const bool& _Check2, float _Speed, float _Delta)
+{
+	if (false == _Check1 && false == _Check2)
+	{
+		return;
+	}
+	else if (ActorDir::Down == Dir && true == _Check1 && false == _Check2)
+	{
+		AddPos(float4::RIGHT * _Speed * _Delta);
+	}
+	else if (ActorDir::Down == Dir && false == _Check1 && true == _Check2)
+	{
+		AddPos(float4::LEFT * _Speed * _Delta);
+	}
+
+	else if (ActorDir::Up == Dir && true == _Check1 && false == _Check2)
+	{
+		AddPos(float4::RIGHT * _Speed * _Delta);
+	}
+	else if (ActorDir::Up == Dir && false == _Check1 && true == _Check2)
+	{
+		AddPos(float4::LEFT * _Speed * _Delta);
+	}
+
+	else if (ActorDir::Left == Dir && true == _Check1 && false == _Check2)
+	{
+		AddPos(float4::DOWN * _Speed * _Delta);
+	}
+	else if (ActorDir::Left == Dir && false == _Check1 && true == _Check2)
+	{
+		AddPos(float4::UP * _Speed * _Delta);
+	}
+
+	else if (ActorDir::Right == Dir && true == _Check1 && false == _Check2)
+	{
+		AddPos(float4::DOWN * _Speed * _Delta);
+	}
+	else if (ActorDir::Right == Dir && false == _Check1 && true == _Check2)
+	{
+		AddPos(float4::UP * _Speed * _Delta);
 	}
 	else
 	{

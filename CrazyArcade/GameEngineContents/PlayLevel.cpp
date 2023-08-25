@@ -607,7 +607,6 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _Pl
 
 	GameEngineRenderer* NextTile = ObjectTile->GetTile(CheckX, CheckY);
 
-	// LerpTimer 기능 수정 필요
 	static GameMapInfo* PrevTile = nullptr;
 
 	if (true == ObjectTile->IsOver(CheckX, CheckY))
