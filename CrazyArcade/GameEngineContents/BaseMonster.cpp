@@ -82,7 +82,21 @@ void BaseMonster::Render(float _Delta)
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
+
+		Data.Pos = GetPos() + float4 LEFTTOPPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
 		Data.Pos = GetPos() + float4 TOPPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 RIGHTTOPPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+
+		Data.Pos = GetPos() + float4 LEFTBOTPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
@@ -90,13 +104,36 @@ void BaseMonster::Render(float _Delta)
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
+		Data.Pos = GetPos() + float4 RIGHTBOTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+
+		Data.Pos = GetPos() + float4 TOPLEFTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
 		Data.Pos = GetPos() + float4 LEFTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 BOTLEFTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+
+		Data.Pos = GetPos() + float4 TOPRIGHTPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 
 		Data.Pos = GetPos() + float4 RIGHTPOS;
 		Data.Scale = { 3, 3 };
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		Data.Pos = GetPos() + float4 BOTRIGHTPOS;
+		Data.Scale = { 3, 3 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
 
 		Data.Pos = GetPos() + float4 CENTERPOS;
 		Data.Scale = { 3, 3 };
@@ -256,11 +293,7 @@ void BaseMonster::CheckDeath()
 	}
 }
 
-void BaseMonster::ChangeAnimationState(const std::string& _StateName) 
-{
-
-}
-
+void BaseMonster::ChangeAnimationState(const std::string& _StateName) {}
 
 void BaseMonster::TrackingTileUpdate()
 {

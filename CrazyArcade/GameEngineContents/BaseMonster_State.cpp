@@ -33,11 +33,13 @@ void BaseMonster::MoveUpdate(float _Delta)
 {
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
+	float4 CheckPos1 = float4::ZERO;
+	float4 CheckPos2 = float4::ZERO;
 	float Speed = 50.0f;
 
 	CheckDeath();
 
-	//if (nullptr != PlayLevel::CurPlayLevel->Player)
+	//if (nullptr != PlayLevel::CurPlayLevel->Player && CharacterState::Die != PlayLevel::CurPlayLevel->Player->GetState())
 	//{
 	//	// 플레이어 위치 체크
 	//	float4 PlayerPos = PlayLevel::CurPlayLevel->Player->GetPos();
@@ -104,33 +106,81 @@ void BaseMonster::MoveUpdate(float _Delta)
 	{
 		MovePos = { 0.0f, Speed * _Delta };
 		CheckPos = BOTPOS;
+		CheckPos1 = LEFTBOTPOS;
+		CheckPos2 = RIGHTBOTPOS;
 	}
 
 	if (Dir == ActorDir::Up)
 	{
 		MovePos = { 0.0f, -Speed * _Delta };
 		CheckPos = TOPPOS;
+		CheckPos1 = LEFTTOPPOS;
+		CheckPos2 = RIGHTTOPPOS;
 	}
 
 	if (Dir == ActorDir::Left)
 	{
 		MovePos = { -Speed * _Delta, 0.0f };
 		CheckPos = LEFTPOS;
+		CheckPos1 = TOPLEFTPOS;
+		CheckPos2 = BOTLEFTPOS;
 	}
 
 	if (Dir == ActorDir::Right)
 	{
 		MovePos = { Speed * _Delta, 0.0f };
 		CheckPos = RIGHTPOS;
+		CheckPos1 = TOPRIGHTPOS;
+		CheckPos2 = BOTRIGHTPOS;
 	}
 
 	CheckPos += GetPos();
+	CheckPos1 += GetPos();
+	CheckPos2 += GetPos();
 
 	bool CheckTile = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos, _Delta);
+	bool CheckTile1 = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos1, _Delta);
+	bool CheckTile2 = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos2, _Delta);
 
-	if (false == CheckTile)
+	if (false == CheckTile && false == CheckTile1 && false == CheckTile2)
 	{
 		AddPos(MovePos);
+	}
+
+	else if (ActorDir::Down == Dir && true == CheckTile1 && false == CheckTile2)
+	{
+		AddPos(float4::RIGHT * Speed * _Delta);
+	}
+	else if (ActorDir::Down == Dir && false == CheckTile1 && true == CheckTile2)
+	{
+		AddPos(float4::LEFT * Speed * _Delta);
+	}
+
+	else if (ActorDir::Up == Dir && true == CheckTile1 && false == CheckTile2)
+	{
+		AddPos(float4::RIGHT * Speed * _Delta);
+	}
+	else if (ActorDir::Up == Dir && false == CheckTile1 && true == CheckTile2)
+	{
+		AddPos(float4::LEFT * Speed * _Delta);
+	}
+
+	else if (ActorDir::Left == Dir && true == CheckTile1 && false == CheckTile2)
+	{
+		AddPos(float4::DOWN * Speed * _Delta);
+	}
+	else if (ActorDir::Left == Dir && false == CheckTile1 && true == CheckTile2)
+	{
+		AddPos(float4::UP * Speed * _Delta);
+	}
+
+	else if (ActorDir::Right == Dir && true == CheckTile1 && false == CheckTile2)
+	{
+		AddPos(float4::DOWN * Speed * _Delta);
+	}
+	else if (ActorDir::Right == Dir && false == CheckTile1 && true == CheckTile2)
+	{
+		AddPos(float4::UP * Speed * _Delta);
 	}
 
 	// 방향 전환

@@ -8,10 +8,21 @@
 #include <GameEnginePlatform/GameEngineSound.h>
 #include <GameEngineCore/GameEngineActor.h>
 
+#define LEFTTOPPOS { -16.0f, 0.0f }
 #define TOPPOS { 0.0f, 0.0f }
+#define RIGHTTOPPOS { 16.0f, 0.0f }
+
+#define TOPLEFTPOS { -20.0f, 4.0f }
 #define LEFTPOS { -20.0f, 20.0f }
+#define BOTLEFTPOS { -20.0f, 36.0f }
+
+#define TOPRIGHTPOS { 20.0f, 4.0f }
 #define RIGHTPOS { 20.0f, 20.0f }
+#define BOTRIGHTPOS { 20.0f, 36.0f }
+
+#define LEFTBOTPOS { -16.0f, 40.0f }
 #define BOTPOS { 0.0f, 40.0f }
+#define RIGHTBOTPOS { 16.0f, 40.0f }
 
 #define CENTERPOS { 0.0f, 20.0f }
 
