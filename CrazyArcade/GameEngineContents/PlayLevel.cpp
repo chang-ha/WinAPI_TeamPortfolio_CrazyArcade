@@ -1469,6 +1469,26 @@ void PlayLevel::StartGameOver()
 		return;
 	}
 
+	// 각 플레이어 승리 조건 
+	if (true == WinCheckValue)
+	{
+		VecPlayerResult[0].PlayerWinValue = true;
+
+		if (Player2)
+		{
+			VecPlayerResult[1].PlayerWinValue = true;
+		}
+	}
+	else
+	{
+		VecPlayerResult[0].PlayerWinValue = false;
+
+		if (Player2)
+		{
+			VecPlayerResult[1].PlayerWinValue = false;
+		}
+	}
+
 	// Kill 수, Save 수 입력--------------------------------------
 	VecPlayerResult[0].KillNUmber = Player->GetKillCount();
 	VecPlayerResult[0].SaveNUmber = Player->GetSaveCount();

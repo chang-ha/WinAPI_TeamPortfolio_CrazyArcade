@@ -90,7 +90,7 @@ private:
 	void setupKillNumber();
 	int m_KillNumberSlot = 2;
 	int m_killNumber = 0;
-	const int CONST_KillEXPAmount = 20;
+	const int CONST_KillEXPAmount = 24;
 	const float4 CONST_KillNumberStartPos = float4{ 196.0f , 5.0f };
 
 	void setupSaveNumber();
