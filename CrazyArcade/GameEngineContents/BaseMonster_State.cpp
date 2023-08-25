@@ -100,7 +100,7 @@ void BaseMonster::MoveUpdate(float _Delta)
 	//	}
 	//}
 
-	CheckPlayerTracking();
+	CheckPlayerTracking("Move");
 
 	if (Dir == ActorDir::Down)
 	{
@@ -138,55 +138,26 @@ void BaseMonster::MoveUpdate(float _Delta)
 	CheckPos1 += GetPos();
 	CheckPos2 += GetPos();
 
+	
 	bool CheckTile = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos, _Delta);
 	bool CheckTile1 = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos1, _Delta);
 	bool CheckTile2 = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos2, _Delta);
+	
 
 	if (false == CheckTile && false == CheckTile1 && false == CheckTile2)
 	{
 		AddPos(MovePos);
 	}
 
-	else if (ActorDir::Down == Dir && true == CheckTile1 && false == CheckTile2)
-	{
-		AddPos(float4::RIGHT * Speed * _Delta);
-	}
-	else if (ActorDir::Down == Dir && false == CheckTile1 && true == CheckTile2)
-	{
-		AddPos(float4::LEFT * Speed * _Delta);
-	}
-
-	else if (ActorDir::Up == Dir && true == CheckTile1 && false == CheckTile2)
-	{
-		AddPos(float4::RIGHT * Speed * _Delta);
-	}
-	else if (ActorDir::Up == Dir && false == CheckTile1 && true == CheckTile2)
-	{
-		AddPos(float4::LEFT * Speed * _Delta);
-	}
-
-	else if (ActorDir::Left == Dir && true == CheckTile1 && false == CheckTile2)
-	{
-		AddPos(float4::DOWN * Speed * _Delta);
-	}
-	else if (ActorDir::Left == Dir && false == CheckTile1 && true == CheckTile2)
-	{
-		AddPos(float4::UP * Speed * _Delta);
-	}
-
-	else if (ActorDir::Right == Dir && true == CheckTile1 && false == CheckTile2)
-	{
-		AddPos(float4::DOWN * Speed * _Delta);
-	}
-	else if (ActorDir::Right == Dir && false == CheckTile1 && true == CheckTile2)
-	{
-		AddPos(float4::UP * Speed * _Delta);
-	}
-
 	// 방향 전환
 	else if (true == CheckTile)
 	{
 		RandomDir("Move");
+	}
+
+	else
+	{
+		MoveFix(CheckTile1, CheckTile2, Speed, _Delta);
 	}
 
 	if (MoveTimer > 4.0f)
@@ -277,40 +248,56 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 {
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
+	float4 CheckPos1 = float4::ZERO;
+	float4 CheckPos2 = float4::ZERO;
 	float AngerSpeed = 100.0f;
 
 	CheckDeath();
+
+	CheckPlayerTracking("AngerMove");
 
 	// 이동 체크
 	if (Dir == ActorDir::Down)
 	{
 		MovePos = { 0.0f, AngerSpeed * _Delta };
 		CheckPos = BOTPOS;
+		CheckPos1 = LEFTBOTPOS;
+		CheckPos2 = RIGHTBOTPOS;
 	}
 
 	if (Dir == ActorDir::Up)
 	{
 		MovePos = { 0.0f, -AngerSpeed * _Delta };
 		CheckPos = TOPPOS;
+		CheckPos1 = LEFTBOTPOS;
+		CheckPos2 = RIGHTBOTPOS;
 	}
 
 	if (Dir == ActorDir::Left)
 	{
 		MovePos = { -AngerSpeed * _Delta, 0.0f };
 		CheckPos = LEFTPOS;
+		CheckPos1 = TOPLEFTPOS;
+		CheckPos2 = BOTLEFTPOS;
 	}
 
 	if (Dir == ActorDir::Right)
 	{
 		MovePos = { AngerSpeed * _Delta, 0.0f };
 		CheckPos = RIGHTPOS;
+		CheckPos1 = TOPRIGHTPOS;
+		CheckPos2 = BOTRIGHTPOS;
 	}
 
 	CheckPos += GetPos();
+	CheckPos1 += GetPos();
+	CheckPos2 += GetPos();
 
 	bool CheckTile = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos, _Delta);
+	bool CheckTile1 = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos1, _Delta);
+	bool CheckTile2 = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos2, _Delta);
 
-	if (false == CheckTile)
+	if (false == CheckTile && false == CheckTile1 && false == CheckTile2)
 	{
 		AddPos(MovePos);
 	}
@@ -320,9 +307,14 @@ void BaseMonster::AngerMoveUpdate(float _Delta)
 		RandomDir("AngerMove");
 	}
 
+	else
+	{
+		MoveFix(CheckTile1, CheckTile2, AngerSpeed, _Delta);
+	}
+
 	if (MoveTimer > 4.0f)
 	{
-		RandomDir("Move");
+		RandomDir("AngerMove");
 		MoveTimer = 0.0f;
 	}
 
@@ -379,39 +371,56 @@ void BaseMonster::EggMoveUpdate(float _Delta)
 {
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
+	float4 CheckPos1 = float4::ZERO;
+	float4 CheckPos2 = float4::ZERO;
 	float EggSpeed = 30.0f;
 
 	CheckDeath();
+
+	CheckPlayerTracking("EggMove");
 
 	if (Dir == ActorDir::Down)
 	{
 		MovePos = { 0.0f, EggSpeed * _Delta };
 		CheckPos = BOTPOS;
+		CheckPos1 = LEFTBOTPOS;
+		CheckPos2 = RIGHTBOTPOS;
+
 	}
 
 	if (Dir == ActorDir::Up)
 	{
 		MovePos = { 0.0f, -EggSpeed * _Delta };
 		CheckPos = TOPPOS;
+		CheckPos1 = LEFTTOPPOS;
+		CheckPos2 = RIGHTTOPPOS;
 	}
 
 	if (Dir == ActorDir::Left)
 	{
 		MovePos = { -EggSpeed * _Delta, 0.0f };
 		CheckPos = LEFTPOS;
+		CheckPos1 = TOPLEFTPOS;
+		CheckPos2 = BOTLEFTPOS;
 	}
 
 	if (Dir == ActorDir::Right)
 	{
 		MovePos = { EggSpeed * _Delta, 0.0f };
 		CheckPos = RIGHTPOS;
+		CheckPos1 = TOPRIGHTPOS;
+		CheckPos2 = BOTRIGHTPOS;
 	}
 
 	CheckPos += GetPos();
+	CheckPos1 += GetPos();
+	CheckPos2 += GetPos();
 
 	bool CheckTile = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos, _Delta);
+	bool CheckTile1 = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos1, _Delta);
+	bool CheckTile2 = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos2, _Delta);
 
-	if (false == CheckTile)
+	if (false == CheckTile && false == CheckTile1 && false == CheckTile2)
 	{
 		AddPos(MovePos);
 	}
@@ -420,6 +429,11 @@ void BaseMonster::EggMoveUpdate(float _Delta)
 	else if (true == CheckTile)
 	{
 		RandomDir("EggMove");
+	}
+
+	else
+	{
+		MoveFix(CheckTile1, CheckTile2, EggSpeed, _Delta);
 	}
 
 	// Egg Hatch

@@ -116,39 +116,54 @@ void Piratemon_black::MoveUpdate(float _Delta)
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
+	float4 CheckPos1 = float4::ZERO;
+	float4 CheckPos2 = float4::ZERO;
 	float Speed = 50.0f;
 
-	CheckPlayerTracking();
+	CheckPlayerTracking("Move");
 
 	if (Dir == ActorDir::Down)
 	{
 		MovePos = { 0.0f, Speed * _Delta };
 		CheckPos = BOTPOS;
+		CheckPos1 = LEFTBOTPOS;
+		CheckPos2 = RIGHTBOTPOS;
 	}
 
 	if (Dir == ActorDir::Up)
 	{
 		MovePos = { 0.0f, -Speed * _Delta };
 		CheckPos = TOPPOS;
+		CheckPos1 = LEFTTOPPOS;
+		CheckPos2 = RIGHTTOPPOS;
 	}
 
 	if (Dir == ActorDir::Left)
 	{
 		MovePos = { -Speed * _Delta, 0.0f };
 		CheckPos = LEFTPOS;
+		CheckPos1 = TOPLEFTPOS;
+		CheckPos2 = BOTLEFTPOS;
 	}
 
 	if (Dir == ActorDir::Right)
 	{
 		MovePos = { Speed * _Delta, 0.0f };
 		CheckPos = RIGHTPOS;
+		CheckPos1 = TOPRIGHTPOS;
+		CheckPos2 = BOTRIGHTPOS;
 	}
 
 	CheckPos += GetPos();
+	CheckPos1 += GetPos();
+	CheckPos2 += GetPos();
+
 
 	bool CheckTile = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos, _Delta);
+	bool CheckTile1 = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos1, _Delta);
+	bool CheckTile2 = PlayLevel::CurPlayLevel->MonsterCheckTile(CheckPos2, _Delta);
 
-	if (false == CheckTile)
+	if (false == CheckTile && false == CheckTile1 && false == CheckTile2)
 	{
 		AddPos(MovePos);
 	}
@@ -157,6 +172,11 @@ void Piratemon_black::MoveUpdate(float _Delta)
 	else if (true == CheckTile)
 	{
 		RandomDir("Move");
+	}
+
+	else
+	{
+		MoveFix(CheckTile1, CheckTile2, Speed, _Delta);
 	}
 }
 

@@ -64,6 +64,7 @@ protected:
 	virtual void StateUpdate(float _Delta);
 	virtual void ChangeState(MonsterState _State);
 	virtual void ChangeAnimationState(const std::string& _StateName);
+	void MoveFix(const bool& _Point1, const bool& _Point2, float _Speed, float _Delta);
 
 	class GameEngineRenderer* MainRenderer = nullptr;
 	class GameEngineRenderer* ShadowRenderer = nullptr;
@@ -83,7 +84,7 @@ protected:
 	std::vector<float4> TrackingTiles;
 
 	void TrackingTileUpdate();
-	void CheckPlayerTracking();
+	void CheckPlayerTracking(const std::string& _State);
 
 	void SwitchDebugData()
 	{
