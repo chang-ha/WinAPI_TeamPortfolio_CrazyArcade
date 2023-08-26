@@ -118,6 +118,7 @@ protected:
 	void Render(float _Delta) override;
 
 	void MapFileLoad(const std::string& _FileName);
+	void CreateTile();
 	void TileSetting();
 
 	// Player
@@ -257,5 +258,5 @@ private:
 	void ClearBossPattern();
 
 private:
-	float LerpTime = 1.0f;
+	float LerpTime = 0.3f;
 };

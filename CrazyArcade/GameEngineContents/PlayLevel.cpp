@@ -143,6 +143,9 @@ void PlayLevel::Start()
 	// Object Texture Load
 	GlobalLoad::TileTextureLoad();
 
+	// Create Tile
+	CreateTile();
+
 	// TileInfo Initialize
 	TileInfo.assign(GlobalValue::MapTileIndex_Y, (std::vector<GameMapInfo>(GlobalValue::MapTileIndex_X, GameMapInfo::DefaultInfo)));
 
@@ -370,6 +373,7 @@ void PlayLevel::MapFileLoad(const std::string& _FileName)
 	{
 		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
 		{
+			//TileInfo[Y][X] = GameMapInfo::DefaultInfo;
 			fread(&TileInfo[Y][X], sizeof(TileInfo[Y][X]), 1, File);
 		}
 	}
@@ -378,10 +382,9 @@ void PlayLevel::MapFileLoad(const std::string& _FileName)
 	fclose(File);
 }
 
-void PlayLevel::TileSetting()
+void PlayLevel::CreateTile()
 {
-	// TileInfo에 저장된 정보를 이용하여 타일맵 생성합니다.
-
+	// 타일 생성
 	if (nullptr == GroundTile)
 	{
 		GroundTile = CreateActor<TileMap>();
@@ -406,7 +409,11 @@ void PlayLevel::TileSetting()
 
 		ObjectTile->CreateTileMap("Structures.bmp", GlobalValue::MapTileIndex_X, GlobalValue::MapTileIndex_Y, GlobalValue::MapTileSize, RenderOrder::MapObject);
 	}
+}
 
+void PlayLevel::TileSetting()
+{
+	// TileInfo에 저장된 정보를 이용하여 타일맵 생성합니다.
 	for (int Y = 0; Y < GlobalValue::MapTileIndex_Y; Y++)
 	{
 		for (int X = 0; X < GlobalValue::MapTileIndex_X; X++)
@@ -424,6 +431,7 @@ void PlayLevel::TileSetting()
 				ObjectTile->SetTileToSprite(X, Y, "MovableBlocks.bmp", TileInfo[Y][X].ObjectTextureInfo, GlobalValue::TileStartPos - GlobalValue::BlockOverSize, true);
 				break;
 			default:
+				ObjectTile->DeathTile(X, Y);
 				break;
 			}
 		}
