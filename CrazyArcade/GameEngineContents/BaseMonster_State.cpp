@@ -27,6 +27,8 @@ void BaseMonster::MoveStart()
 {
 	ChangeAnimationState("Move");
 	MainTimer = 0.0f;
+
+	CheckMovePattern();
 }
 
 void BaseMonster::MoveUpdate(float _Delta)
@@ -39,68 +41,8 @@ void BaseMonster::MoveUpdate(float _Delta)
 
 	CheckDeath();
 
-	//if (nullptr != PlayLevel::CurPlayLevel->Player && CharacterState::Die != PlayLevel::CurPlayLevel->Player->GetState())
-	//{
-	//	// 플레이어 위치 체크
-	//	float4 PlayerPos = PlayLevel::CurPlayLevel->Player->GetPos();
-	//	float4 PlayerIndex = PlayLevel::CurPlayLevel->GetGroundTile()->PosToIndex(PlayerPos - GlobalValue::TileStartPos);
-
-	//	float4 MonsterPos = GetPos() - float4{0,30.0f};
-	//	float4 MonsterIndex = PlayLevel::CurPlayLevel->GetGroundTile()->PosToIndex(MonsterPos - GlobalValue::TileStartPos - GlobalValue::MapTileSize.Half());
-	//	checkplayerdur -= _Delta;
-	//	if (5.0f< (PlayerPos - MonsterPos).Size() && (PlayerPos - MonsterPos).Size() < 120.0f && checkplayerdur<0)
-	//	{
-	//		// 따라와야함
-	//		float4 TmpDir = PlayerPos - MonsterPos;
-	//		if (abs(TmpDir.X) > abs(TmpDir.Y))
-	//		{
-	//			if (TmpDir.X > 0)
-	//			{
-	//				TileObjectOrder MoveTileOrder = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 RIGHTPOS);
-
-	//				if (TileObjectOrder::Empty == MoveTileOrder)
-	//				{
-	//					Dir = ActorDir::Right;
-	//				}
-	//				
-	//			}
-	//			else
-	//			{
-	//				TileObjectOrder MoveTileOrder = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 LEFTPOS);
-
-	//				if (TileObjectOrder::Empty == MoveTileOrder)
-	//				{
-	//					Dir = ActorDir::Left;
-	//				}
-	//			}
-	//		}
-	//		else
-	//		{
-	//			if (TmpDir.Y > 0)
-	//			{
-	//				TileObjectOrder MoveTileOrder = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 BOTPOS);
-
-	//				if (TileObjectOrder::Empty == MoveTileOrder)
-	//				{
-	//					Dir = ActorDir::Down;
-	//				}
-	//			}
-	//			else
-	//			{
-	//				TileObjectOrder MoveTileOrder = PlayLevel::CurPlayLevel->GetCurTileType(GetPos() + float4 TOPPOS);
-
-	//				if (TileObjectOrder::Empty == MoveTileOrder)
-	//				{
-	//					Dir = ActorDir::Up;
-	//				}
-	//			}
-	//		}
-	//		ChangeAnimationState("Move");
-	//		checkplayerdur = 0.2f;
-	//	}
-	//}
-
 	CheckPlayerTracking("Move");
+
 
 	if (Dir == ActorDir::Down)
 	{
@@ -152,13 +94,23 @@ void BaseMonster::MoveUpdate(float _Delta)
 	// 방향 전환
 	else if (true == CheckTile)
 	{
-		RandomDir("Move");
+		if (true == IsMonsterMovePattern)
+		{
+			PatternDir("Move");
+		}
+
+		else
+		{
+			RandomDir("Move");
+		}
 	}
+
 	else
 	{
 		MoveFix(CheckTile1, CheckTile2, Speed, _Delta);
 	}
 
+	// 일정시간 이후 방향 자동전환
 	if (MoveTimer > 4.0f)
 	{
 		MoveTimer = 0.0f;

@@ -44,7 +44,7 @@ void CrazyArcadeCore::Start()
 	GameEngineCore::CreateLevel<TitleNexon>("TitleNexon");
 	GameEngineCore::CreateLevel<TitleLodumani>("TitleLodumani");
 	
-	GameEngineCore::ChangeLevel("TitleNexon");
+	GameEngineCore::ChangeLevel("Penguin_Stage1");
 }
 
 void CrazyArcadeCore::Update(float _Delta)

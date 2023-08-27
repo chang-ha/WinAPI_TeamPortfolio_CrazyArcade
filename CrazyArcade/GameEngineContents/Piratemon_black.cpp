@@ -115,6 +115,8 @@ void Piratemon_black::MoveUpdate(float _Delta)
 		return;
 	}
 
+	CheckMovePattern();
+
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
 	float4 CheckPos1 = float4::ZERO;
@@ -172,7 +174,15 @@ void Piratemon_black::MoveUpdate(float _Delta)
 	// 방향 전환
 	else if (true == CheckTile)
 	{
-		RandomDir("Move");
+		if (true == IsMonsterMovePattern)
+		{
+			PatternDir("Move");
+		}
+
+		else
+		{
+			RandomDir("Move");
+		}
 	}
 
 	else

@@ -253,6 +253,17 @@ void BaseMonster::RandomDir(const std::string& _StateName)
 	}
 }
 
+void BaseMonster::PatternDir(const std::string& _StateName)
+{
+	if (false == MonsterMovePattern.empty())
+	{
+		Dir = MonsterMovePattern.front();
+		ChangeAnimationState(_StateName);
+
+		MonsterMovePattern.pop_front();
+	}
+}
+
 void BaseMonster::CheckCollision()
 {
 	std::vector<GameEngineCollision*> Col;
@@ -567,5 +578,18 @@ void BaseMonster::MoveFix(const bool& _Check1, const bool& _Check2, float _Speed
 	else
 	{
 		return;
+	}
+}
+
+void BaseMonster::CheckMovePattern()
+{
+	if (true == MonsterMovePattern.empty())
+	{
+		IsMonsterMovePattern = false;
+	}
+
+	else
+	{
+		IsMonsterMovePattern = true;
 	}
 }
