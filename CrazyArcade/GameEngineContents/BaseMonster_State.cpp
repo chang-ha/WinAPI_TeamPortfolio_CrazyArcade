@@ -165,6 +165,7 @@ void BaseMonster::MoveUpdate(float _Delta)
 		RandomDir("Move");
 	}
 
+	CheckDeath();
 	MoveTimer += _Delta;
 }
 

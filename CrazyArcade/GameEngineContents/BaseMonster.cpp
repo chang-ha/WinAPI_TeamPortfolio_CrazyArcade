@@ -285,11 +285,13 @@ void BaseMonster::CheckDeath()
 	{
 		KillCountPlus();
 		ChangeState(MonsterState::EggDeath);
+		return;
 	}
 
 	else if (CurTileType == TileObjectOrder::PopRange)
 	{
 		ChangeState(MonsterState::Freeze);
+		return;
 	}
 }
 
