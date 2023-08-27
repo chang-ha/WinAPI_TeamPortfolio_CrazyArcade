@@ -344,7 +344,7 @@ void PlayLevel::Update(float _Delta)
 	}
 
 	// Cheet : All Monster Death
-	if (true == GameEngineInput::IsDown(VK_F9))
+	if (true == GameEngineInput::IsDown(VK_F9) && true == GameStartCheckValue)
 	{
 		StageMonstersDeath();
 		return;
