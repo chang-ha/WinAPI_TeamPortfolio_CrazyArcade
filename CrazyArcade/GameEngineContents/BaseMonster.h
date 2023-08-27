@@ -44,7 +44,7 @@ public:
 	BaseMonster& operator=(BaseMonster&& _Other) noexcept = delete;
 
 	void RandomDir(const std::string& _StateName);
-	void ChangeDir(const std::string& _StateName);
+	void PatternDir(const std::string& _StateName);
 
 	void SetState(MonsterState _State)
 	{
@@ -61,7 +61,6 @@ public:
 		return State;
 	}
 
-	// 몬스터 초기 이동패턴 세팅
 	void SetMonsterMovePattern(const std::list<ActorDir>& _MonsterMovePattern)
 	{
 		MonsterMovePattern = _MonsterMovePattern;
@@ -90,6 +89,7 @@ protected:
 	TileMap* CurLevelTile = nullptr;
 	std::vector<float4> TrackingTiles;
 	std::list<ActorDir> MonsterMovePattern;
+
 	bool IsMonsterMovePattern = false;
 
 	void TrackingTileUpdate();
@@ -104,6 +104,8 @@ protected:
 	void Render(float _Delta) override;
 
 	void CheckCollision();
+
+	void CheckMovePattern();
 
 	GameEngineSoundPlayer MonsterEffectSound;
 

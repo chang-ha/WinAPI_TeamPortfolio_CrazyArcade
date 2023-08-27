@@ -54,16 +54,16 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 	std::list<ActorDir> MonsterDir;
 	MonsterDir.push_back(ActorDir::Right);
 	MonsterDir.push_back(ActorDir::Down);
-	//MonsterDir.push_back(ActorDir::Left);
-	//MonsterDir.push_back(ActorDir::Right);
-	//MonsterDir.push_back(ActorDir::Up);
-	//MonsterDir.push_back(ActorDir::Left);
-	//MonsterDir.push_back(ActorDir::Up);
-	//MonsterDir.push_back(ActorDir::Right);
-	//MonsterDir.push_back(ActorDir::Left);
-	//MonsterDir.push_back(ActorDir::Down);
-	//MonsterDir.push_back(ActorDir::Right);
-	//MonsterDir.push_back(ActorDir::Down);
+	MonsterDir.push_back(ActorDir::Left);
+	MonsterDir.push_back(ActorDir::Right);
+	MonsterDir.push_back(ActorDir::Up);
+	MonsterDir.push_back(ActorDir::Left);
+	MonsterDir.push_back(ActorDir::Up);
+	MonsterDir.push_back(ActorDir::Right);
+	MonsterDir.push_back(ActorDir::Left);
+	MonsterDir.push_back(ActorDir::Down);
+	MonsterDir.push_back(ActorDir::Right);
+	MonsterDir.push_back(ActorDir::Down);
 	
 	BaseMonster* Monster = CreateMonster<Snowmon_black>();
 	Monster->SetPos(GroundTile->IndexToPos(1, 6));

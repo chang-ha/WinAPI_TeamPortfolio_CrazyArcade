@@ -115,17 +115,7 @@ void Piratemon_black::MoveUpdate(float _Delta)
 		return;
 	}
 
-	// 이동패턴 없음
-	if (true == MonsterMovePattern.empty())
-	{
-		IsMonsterMovePattern = false;
-	}
-
-	// 이동패턴 있음
-	else
-	{
-		IsMonsterMovePattern = true;
-	}
+	CheckMovePattern();
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
@@ -184,13 +174,11 @@ void Piratemon_black::MoveUpdate(float _Delta)
 	// 방향 전환
 	else if (true == CheckTile)
 	{
-		// 이동패턴 있음
 		if (true == IsMonsterMovePattern)
 		{
-			ChangeDir("Move");
+			PatternDir("Move");
 		}
 
-		// 이동패턴 없음
 		else
 		{
 			RandomDir("Move");

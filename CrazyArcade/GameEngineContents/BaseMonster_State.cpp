@@ -28,17 +28,7 @@ void BaseMonster::MoveStart()
 	ChangeAnimationState("Move");
 	MainTimer = 0.0f;
 
-	// 이동패턴 없음
-	if (true == MonsterMovePattern.empty())
-	{
-		IsMonsterMovePattern = false;
-	}
-
-	// 이동패턴 있음
-	else
-	{
-		IsMonsterMovePattern = true;
-	}
+	CheckMovePattern();
 }
 
 void BaseMonster::MoveUpdate(float _Delta)
@@ -104,13 +94,11 @@ void BaseMonster::MoveUpdate(float _Delta)
 	// 방향 전환
 	else if (true == CheckTile)
 	{
-		// 이동패턴 있음
 		if (true == IsMonsterMovePattern)
 		{
-			ChangeDir("Move");
+			PatternDir("Move");
 		}
 
-		// 이동패턴 없음
 		else
 		{
 			RandomDir("Move");
@@ -122,6 +110,7 @@ void BaseMonster::MoveUpdate(float _Delta)
 		MoveFix(CheckTile1, CheckTile2, Speed, _Delta);
 	}
 
+	// 일정시간 이후 방향 자동전환
 	if (MoveTimer > 4.0f)
 	{
 		MoveTimer = 0.0f;

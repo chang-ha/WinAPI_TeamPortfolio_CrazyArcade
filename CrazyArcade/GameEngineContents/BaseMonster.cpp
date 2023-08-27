@@ -253,7 +253,7 @@ void BaseMonster::RandomDir(const std::string& _StateName)
 	}
 }
 
-void BaseMonster::ChangeDir(const std::string& _StateName)
+void BaseMonster::PatternDir(const std::string& _StateName)
 {
 	if (false == MonsterMovePattern.empty())
 	{
@@ -578,5 +578,18 @@ void BaseMonster::MoveFix(const bool& _Check1, const bool& _Check2, float _Speed
 	else
 	{
 		return;
+	}
+}
+
+void BaseMonster::CheckMovePattern()
+{
+	if (true == MonsterMovePattern.empty())
+	{
+		IsMonsterMovePattern = false;
+	}
+
+	else
+	{
+		IsMonsterMovePattern = true;
 	}
 }
