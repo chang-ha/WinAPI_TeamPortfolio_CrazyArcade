@@ -26,12 +26,11 @@ void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	// BGM
 	BGMPlayer = GameEngineSound::SoundPlay("TitleBGM.wav", 10000);
 	BGMPlayer.SetVolume(BGMVolume);
-
 }
 
 void TitleLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-	BGMPlayer.Stop();
+	ContentLevel::LevelEnd(_NextLevel);
 }
 
 void TitleLevel::Start()

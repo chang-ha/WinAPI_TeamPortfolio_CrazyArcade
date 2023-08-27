@@ -7,10 +7,13 @@
 #include "GameMapInfo.h"
 #include "FadeObject.h"
 #include "BaseCharacter.h"
-
 #include "Item.h"
 #include "Snowmon_black.h"
+#include "Snowmon_red.h"
+#include "Piratemon_black.h"
+#include "Piratemon_red.h"
 #include "Button.h"
+#include <GameEngineCore/TileMap.h>
 
 
 TestStage::TestStage()
@@ -32,6 +35,21 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 		PlayLevel::CurPlayLevel->GetPlayer2()->SwitchChangeReadyToIdle();
 	}
 
+	if (Player != nullptr)
+	{
+		Player->SetPos(GroundTile->IndexToPos(11, 7));
+	}
+	else
+	{
+		MsgBoxAssert("1P가 생성되지 못 했습니다");
+		return;
+	}
+
+	if (Player2 != nullptr)
+	{
+		Player2->SetPos(GroundTile->IndexToPos(13, 7));
+	}
+
 	// Map
 	MapFileLoad("TestMap2.map");
 	TileSetting();
@@ -41,8 +59,17 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 	BGMPlayer.SetVolume(BGMVolume);
 
 	// 몬스터 테스트
-	Monster = CreateActor<Snowmon_black>();
-	Monster->SetPos({ GlobalValue::WinScale.Half().X + 200, GlobalValue::WinScale.Half().Y });
+	BaseMonster* Monster = CreateMonster<Snowmon_black>();
+	Monster->SetPos(GroundTile->IndexToPos(1, 6));
+
+	Monster = CreateMonster<Snowmon_red>();
+	Monster->SetPos(GroundTile->IndexToPos(1, 7));
+
+	Monster = CreateMonster<Piratemon_black>();
+	Monster->SetPos(GroundTile->IndexToPos(1, 8));
+
+	Monster = CreateMonster<Piratemon_red>();
+	Monster->SetPos(GroundTile->IndexToPos(2, 7));
 
 	// 아이템 테스트
 	CreateItemInTile(3, 6, ItemType::Bubble);
@@ -69,8 +96,8 @@ void TestStage::LevelEnd(GameEngineLevel* _NextLevel)
 	PlayLevel::LevelEnd(_NextLevel);
 	ReleaseLevelComposition();
 
-	Monster->Death();
-	Monster = nullptr;
+	//Monster->Death();
+	//Monster = nullptr;
 }
 
 void TestStage::Start()

@@ -26,7 +26,7 @@ void ContentLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 void ContentLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	BGMPlayer.Stop();
 }
 
 void ContentLevel::Start()

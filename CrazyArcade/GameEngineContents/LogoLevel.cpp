@@ -32,7 +32,7 @@ void LogoLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 void LogoLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	ContentLevel::LevelEnd(_NextLevel);
 }
 
 void LogoLevel::Start()
@@ -98,8 +98,8 @@ void LogoLevel::updateFadeInState(float _Delta)
 	{
 		if ("" != m_stringEffectSoundName)
 		{
-			GameEngineSoundPlayer EffectSoundPlayer = GameEngineSound::SoundPlay(m_stringEffectSoundName);
-			EffectSoundPlayer.SetVolume(m_LogoEffectSoundVolume);
+			BGMPlayer = GameEngineSound::SoundPlay(m_stringEffectSoundName);
+			BGMPlayer.SetVolume(m_LogoEffectSoundVolume);
 		}
 
 		m_EffectSoundValue = true;

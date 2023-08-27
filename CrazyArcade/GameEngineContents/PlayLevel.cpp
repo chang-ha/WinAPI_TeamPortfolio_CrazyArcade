@@ -97,6 +97,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	ContentLevel::LevelEnd(_NextLevel);
 	if (Player != nullptr)
 	{
 		Player->Death();
@@ -121,7 +122,6 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 
 	UILevelEnd();
 
-	BGMPlayer.Stop();
 }
 
 void PlayLevel::Start()
@@ -157,30 +157,28 @@ void PlayLevel::Start()
 
 void PlayLevel::Update(float _Delta)
 {
+	ContentLevel::Update(_Delta);
+
 	if (true == GameEngineInput::IsDown('H'))
 	{
 		CollisionDebugRenderSwitch();
 	}
 
-	if (true == GameEngineInput::IsDown(VK_F5))
-	{
-		GameEngineCore::ChangeLevel("Penguin_Stage1");
-	}
-	if (true == GameEngineInput::IsDown(VK_F6))
-	{
-		GameEngineCore::ChangeLevel("Penguin_Stage2");
-	}
-	if (true == GameEngineInput::IsDown(VK_F7))
-	{
-		GameEngineCore::ChangeLevel("Penguin_Stage3");
-	}
+	//if (true == GameEngineInput::IsDown(VK_F5))
+	//{
+	//	GameEngineCore::ChangeLevel("Penguin_Stage1");
+	//}
+	//if (true == GameEngineInput::IsDown(VK_F6))
+	//{
+	//	GameEngineCore::ChangeLevel("Penguin_Stage2");
+	//}
+	//if (true == GameEngineInput::IsDown(VK_F7))
+	//{
+	//	GameEngineCore::ChangeLevel("Penguin_Stage3");
+	//}
 
 	updateGameOverResult(_Delta);
-
-	ContentLevel::Update(_Delta);
-
 	updateVictoryRoll();
-
 	updateCharacterPortrait();
 
 	ClearBossPattern();

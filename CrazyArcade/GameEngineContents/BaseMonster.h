@@ -26,7 +26,7 @@
 
 #define CENTERPOS { 0.0f, 20.0f }
 
-#define MONSTERCOLLISIONSCALE { 30.0f, 30.0f }
+#define MONSTERCOLLISIONSCALE { 20.0f, 10.0f }
 
 // Ό³Έν :
 class BaseMonster : public GameEngineActor
