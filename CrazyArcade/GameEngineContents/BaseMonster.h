@@ -44,6 +44,7 @@ public:
 	BaseMonster& operator=(BaseMonster&& _Other) noexcept = delete;
 
 	void RandomDir(const std::string& _StateName);
+	void ChangeDir(const std::string& _StateName);
 
 	void SetState(MonsterState _State)
 	{
@@ -58,6 +59,12 @@ public:
 	inline MonsterState GetState()
 	{
 		return State;
+	}
+
+	// 몬스터 초기 이동패턴 세팅
+	void SetMonsterMovePattern(const std::list<ActorDir>& _MonsterMovePattern)
+	{
+		MonsterMovePattern = _MonsterMovePattern;
 	}
 
 protected:
@@ -82,6 +89,8 @@ protected:
 
 	TileMap* CurLevelTile = nullptr;
 	std::vector<float4> TrackingTiles;
+	std::list<ActorDir> MonsterMovePattern;
+	bool IsMonsterMovePattern = false;
 
 	void TrackingTileUpdate();
 	void CheckPlayerTracking(const std::string& _State);
@@ -150,5 +159,6 @@ private:
 	float4 EggSummonEndPos = float4::ZERO;
 
 	float checkplayerdur = 1.0f;
+
 };
 

@@ -253,6 +253,17 @@ void BaseMonster::RandomDir(const std::string& _StateName)
 	}
 }
 
+void BaseMonster::ChangeDir(const std::string& _StateName)
+{
+	if (false == MonsterMovePattern.empty())
+	{
+		Dir = MonsterMovePattern.front();
+		ChangeAnimationState(_StateName);
+
+		MonsterMovePattern.pop_front();
+	}
+}
+
 void BaseMonster::CheckCollision()
 {
 	std::vector<GameEngineCollision*> Col;
