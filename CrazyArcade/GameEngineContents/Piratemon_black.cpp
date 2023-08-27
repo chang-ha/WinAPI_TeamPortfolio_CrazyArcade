@@ -112,6 +112,7 @@ void Piratemon_black::MoveUpdate(float _Delta)
 	{
 		KillCountPlus();
 		ChangeState(MonsterState::Die);
+		return;
 	}
 
 	float4 MovePos = float4::ZERO;
