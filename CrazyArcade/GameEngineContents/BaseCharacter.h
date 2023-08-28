@@ -25,7 +25,7 @@
 
 #define FOOTPOS { 0.0f, 25.0f }
 
-#define SPEEDREFERENCEVALUE 40.0f
+#define SPEEDREFERENCEVALUE 35.0f
 
 #define BODYCOLLISIONSCALE { 30.0f, 30.0f }
 
