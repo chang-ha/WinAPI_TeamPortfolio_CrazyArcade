@@ -144,43 +144,85 @@ void BaseCharacter::MoveUpdate(float _Delta)
 	bool SecondCheck = PlayLevel::CurPlayLevel->CheckTile(CheckPos2, _Delta, PlayerNumber);
 	bool ThirdCheck = PlayLevel::CurPlayLevel->CheckSidePos(CheckPos3, PlayerNumber);
 
+	TileObjectOrder MiddleCheckPosTile = PlayLevel::CurPlayLevel->GetCurTileType(CheckPos2);
+
 	if (false == FirstCheck && false == SecondCheck && false == ThirdCheck)
 	{
 		AddPos(MovePos);
 	}
 
-	else if (ActorDir::Left == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
+	else if (
+		ActorDir::Left == Dir
+		&& true == FirstCheck
+		&& false == ThirdCheck
+		&& TileObjectOrder::MovableBlock != MiddleCheckPosTile
+		)
 	{
 		AddPos(float4::DOWN * PassSpeed * _Delta);
 	}
-	else if (ActorDir::Left == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
+	else if (
+		ActorDir::Left == Dir
+		&& false == FirstCheck
+		&& true == ThirdCheck
+		&& TileObjectOrder::MovableBlock != MiddleCheckPosTile
+		)
 	{
 		AddPos(float4::UP * PassSpeed * _Delta);
 	}
 
-	else if (ActorDir::Right == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
+	else if (
+		ActorDir::Right == Dir
+		&& true == FirstCheck
+		&& false == ThirdCheck
+		&& TileObjectOrder::MovableBlock != MiddleCheckPosTile
+		)
 	{
 		AddPos(float4::DOWN * PassSpeed * _Delta);
 	}
-	else if (ActorDir::Right == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
+	else if (
+		ActorDir::Right == Dir
+		&& false == FirstCheck
+		&& true == ThirdCheck
+		&& TileObjectOrder::MovableBlock != MiddleCheckPosTile
+		)
 	{
 		AddPos(float4::UP * PassSpeed * _Delta);
 	}
 
-	else if (ActorDir::Up == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
+	else if (
+		ActorDir::Up == Dir
+		&& true == FirstCheck
+		&& false == ThirdCheck
+		&& TileObjectOrder::MovableBlock != MiddleCheckPosTile
+		)
 	{
 		AddPos(float4::RIGHT * PassSpeed * _Delta);
 	}
-	else if (ActorDir::Up == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
+	else if (
+		ActorDir::Up == Dir
+		&& false == FirstCheck
+		&& true == ThirdCheck
+		&& TileObjectOrder::MovableBlock != MiddleCheckPosTile
+		)
 	{
 		AddPos(float4::LEFT * PassSpeed * _Delta);
 	}
 
-	else if (ActorDir::Down == Dir && true == FirstCheck /*&& false == SecondCheck*/ && false == ThirdCheck)
+	else if (
+		ActorDir::Down == Dir
+		&& true == FirstCheck
+		&& false == ThirdCheck
+		&& TileObjectOrder::MovableBlock != MiddleCheckPosTile
+		)
 	{
 		AddPos(float4::RIGHT * PassSpeed * _Delta);
 	}
-	else if (ActorDir::Down == Dir && false == FirstCheck /*&& false == SecondCheck*/ && true == ThirdCheck)
+	else if (
+		ActorDir::Down == Dir
+		&& false == FirstCheck
+		&& true == ThirdCheck
+		&& TileObjectOrder::MovableBlock != MiddleCheckPosTile
+		)
 	{
 		AddPos(float4::LEFT * PassSpeed * _Delta);
 	}

@@ -41,7 +41,7 @@ void Penguin::Start()
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 	MainRenderer->SetYPivot(GlobalValue::MapTileSize.Y * 2 + 10);
-	GameEngineRenderer* HPBar_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
+	HPBar_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
 	HP_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
 	Shadow = CreateRenderer(RenderOrder::Shadow);
 
@@ -98,7 +98,7 @@ void Penguin::Start()
 		{
 			// Idle
 			MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 8, IDLE_ANI_SPEED);
-			MainRenderer->FindAnimation("Down_Idle")->Inters[8] = 5.0f;
+			MainRenderer->FindAnimation("Down_Idle")->Inters[8] = IDLE_ANI_TIMER;
 
 			// Move
 			MainRenderer->CreateAnimation("Down_Move", "Down_Move", 0, 5, MOVE_ANI_SPEED);
@@ -696,21 +696,31 @@ void Penguin::DieStart()
 {
 	MainRenderer->ChangeAnimation("Die");
 	MonsterEffectSound.Stop();
-	MonsterEffectSound = GameEngineSound::SoundPlay("Boss_Death.wav");
+	if (true == IsDeathSound)
+	{
+		MonsterEffectSound = GameEngineSound::SoundPlay("Boss_Death.wav");
+	}
 }
 
 void Penguin::DieUpdate(float _Delta)
 {
 	if (0 >= DieAlpha)
 	{
-		Death();
-		PlayLevel::CurPlayLevel->MonsterListDelete();
-		BossMonster = nullptr;
+		BossIsDeath = true;
+		Shadow->Off();
+		HPBar_Renderer->Off();
+		//Death();
+		//PlayLevel::CurPlayLevel->MonsterListDelete();
+		//BossMonster = nullptr;
 	}
 
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		DieAlpha -= _Delta * 255;
+		if (0.0f >= DieAlpha)
+		{
+			DieAlpha = 0.0f;
+		}
 		MainRenderer->SetAlpha(static_cast<unsigned char>(DieAlpha));
 	}
 }

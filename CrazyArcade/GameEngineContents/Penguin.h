@@ -1,5 +1,6 @@
 #pragma once
 #define IDLE_ANI_SPEED 0.10f
+#define IDLE_ANI_TIMER 3.0f
 #define MOVE_ANI_SPEED 0.10f
 #define HITTEN_ANI_SPEED 0.15f
 #define ANGER_ANI_SPEED 0.15f
@@ -93,6 +94,7 @@ private:
 	void SequentialPatternUpdate();
 
 	bool IsDebugMode = false;
+	bool BossIsDeath = false;
 	bool Invincibility = false;
 	bool IsHitten = false;
 	bool BubblePatternStart = false;
@@ -115,6 +117,7 @@ private:
 
 	float DieAlpha = 255.0f;
 
+	GameEngineRenderer* HPBar_Renderer = nullptr;
 	GameEngineRenderer* HP_Renderer = nullptr;
 	GameEngineRenderer* Shadow = nullptr;
 	std::vector<std::vector<float4>> BossTile;
