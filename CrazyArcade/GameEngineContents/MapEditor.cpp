@@ -124,6 +124,7 @@ void MapEditor::LoadButton()
 	NextButton->setButtonTexture(ButtonState::Normal, "Button_Next_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	NextButton->setButtonTexture(ButtonState::Click, "Button_Next_Click.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
 	NextButton->setButtonTexture(ButtonState::Hover, "Button_Next_Normal.bmp", "Resources\\Textures\\UI\\Button", 1, 1);
+	NextButton->setButtonSound(ButtonEventState::Click, "Select.wav", "Resources\\Sounds\\Lobby");
 
 	//ButtonPtr->setButtonSound(ButtonEventState::Click, )
 
