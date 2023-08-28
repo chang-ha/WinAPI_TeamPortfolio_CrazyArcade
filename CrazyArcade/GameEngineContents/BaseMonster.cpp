@@ -151,6 +151,8 @@ void BaseMonster::StateUpdate(float _Delta)
 		return MoveUpdate(_Delta);
 	case MonsterState::Freeze:
 		return FreezeUpdate(_Delta);
+	case MonsterState::Ready:
+		return ReadyUpdate(_Delta);
 	case MonsterState::Anger:
 		return AngerUpdate(_Delta);
 	case MonsterState::AngerIdle:
@@ -186,6 +188,9 @@ void BaseMonster::ChangeState(MonsterState _State)
 		break;
 	case MonsterState::Freeze:
 		FreezeStart();
+		break;
+	case MonsterState::Ready:
+		ReadyStart();
 		break;
 	case MonsterState::Anger:
 		AngerStart();

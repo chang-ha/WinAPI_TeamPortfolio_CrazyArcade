@@ -127,6 +127,9 @@ private:
 	virtual void DieStart();
 	void DieUpdate(float _Delta);
 
+	void ReadyStart();
+	void ReadyUpdate(float _Delta);
+
 	void AngerStart();
 	void AngerUpdate(float _Delta);
 

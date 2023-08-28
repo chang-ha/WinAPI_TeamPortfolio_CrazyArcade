@@ -159,6 +159,19 @@ void BaseMonster::FreezeUpdate(float _Delta)
 	FreezeTimer += _Delta;
 }
 
+void BaseMonster::ReadyStart()
+{
+	ChangeAnimationState("Ready");
+}
+
+void BaseMonster::ReadyUpdate(float _Delta)
+{
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		ChangeState(MonsterState::Idle);
+	}
+}
+
 void BaseMonster::AngerStart()
 {
 	ChangeAnimationState("Anger");

@@ -53,6 +53,7 @@ void Snowmon_red::Start()
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_Freeze.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Red\\", 3, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_Die.Bmp",				"Resources\\Textures\\Monster\\Snowmon\\Red\\", 3, 1);
 	GlobalUtils::SpriteFileLoad("Snowmon_Red_Anger.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Red\\", 9, 1);
+	GlobalUtils::SpriteFileLoad("Snowmon_Red_Ready.Bmp",			"Resources\\Textures\\Monster\\Snowmon\\Red\\", 5, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 
@@ -89,10 +90,11 @@ void Snowmon_red::Start()
 	MainRenderer->CreateAnimation("Snowmon_Red_Freeze",		"Snowmon_Red_Freeze.Bmp", 0, 2, 0.2f, false);
 	MainRenderer->CreateAnimation("Snowmon_Red_Die",		"Snowmon_Red_Die.Bmp", 0, 2, 0.1f, false);
 	MainRenderer->CreateAnimation("Snowmon_Red_Anger",		"Snowmon_Red_Anger.Bmp", 0, 8, 0.1f, false);
+	MainRenderer->CreateAnimation("Snowmon_Red_Ready",		"Snowmon_Red_Ready.Bmp", 0, 4, 0.1f, false);
 
 	MainRenderer->SetRenderPos({ 0, 15 });
 
-	ChangeState(MonsterState::Idle);
+	ChangeState(MonsterState::Ready);
 
 	ShadowRenderer->SetRenderPos(ShadowPos);
 }

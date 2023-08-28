@@ -25,33 +25,34 @@ void Piratemon_red::Start()
 {
 	BaseMonster::Start();
 
-	GlobalUtils::SpriteFileLoad("Pirate_Red_Idle_Down.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 1, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Red_Idle_Up.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 1, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Red_Idle_Right.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 1, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Red_Idle_Left.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 1, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Red_Move_Down.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Red_Move_Up.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Red_Move_Right.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Red_Move_Left.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Red_Death.Bmp", "Resources\\Textures\\Monster\\Pirate\\Red\\", 4, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Red_Idle_Down.Bmp",		"Resources\\Textures\\Monster\\Pirate\\Red\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Red_Idle_Up.Bmp",		"Resources\\Textures\\Monster\\Pirate\\Red\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Red_Idle_Right.Bmp",	"Resources\\Textures\\Monster\\Pirate\\Red\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Red_Idle_Left.Bmp",		"Resources\\Textures\\Monster\\Pirate\\Red\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Red_Move_Down.Bmp",		"Resources\\Textures\\Monster\\Pirate\\Red\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Red_Move_Up.Bmp",		"Resources\\Textures\\Monster\\Pirate\\Red\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Red_Move_Right.Bmp",	"Resources\\Textures\\Monster\\Pirate\\Red\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Red_Move_Left.Bmp",		"Resources\\Textures\\Monster\\Pirate\\Red\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Red_Death.Bmp",			"Resources\\Textures\\Monster\\Pirate\\Red\\", 4, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 
-	MainRenderer->CreateAnimation("PiratemonRed_Idle_Down", "Pirate_Red_Idle_Down.Bmp");
-	MainRenderer->CreateAnimation("PiratemonRed_Idle_Up", "Pirate_Red_Idle_Up.Bmp");
-	MainRenderer->CreateAnimation("PiratemonRed_Idle_Right", "Pirate_Red_Idle_Right.Bmp");
-	MainRenderer->CreateAnimation("PiratemonRed_Idle_Left", "Pirate_Red_Idle_Left.Bmp");
-	MainRenderer->CreateAnimation("PiratemonRed_Move_Down", "Pirate_Red_Move_Down.Bmp", -1, -1, 0.2f, true);
-	MainRenderer->CreateAnimation("PiratemonRed_Move_Up", "Pirate_Red_Move_Up.Bmp", -1, -1, 0.2f, true);
-	MainRenderer->CreateAnimation("PiratemonRed_Move_Right", "Pirate_Red_Move_Right.Bmp", -1, -1, 0.2f, true);
-	MainRenderer->CreateAnimation("PiratemonRed_Move_Left", "Pirate_Red_Move_Left.Bmp", -1, -1, 0.2f, true);
-	MainRenderer->CreateAnimation("PiratemonRed_Die", "Pirate_Red_Death.Bmp", -1, -1, 0.2f, false);
+	MainRenderer->CreateAnimation("PiratemonRed_Idle_Down",		"Pirate_Red_Idle_Down.Bmp");
+	MainRenderer->CreateAnimation("PiratemonRed_Idle_Up",		"Pirate_Red_Idle_Up.Bmp");
+	MainRenderer->CreateAnimation("PiratemonRed_Idle_Right",	"Pirate_Red_Idle_Right.Bmp");
+	MainRenderer->CreateAnimation("PiratemonRed_Idle_Left",		"Pirate_Red_Idle_Left.Bmp");
+	MainRenderer->CreateAnimation("PiratemonRed_Move_Down",		"Pirate_Red_Move_Down.Bmp", -1, -1, 0.2f, true);
+	MainRenderer->CreateAnimation("PiratemonRed_Move_Up",		"Pirate_Red_Move_Up.Bmp", -1, -1, 0.2f, true);
+	MainRenderer->CreateAnimation("PiratemonRed_Move_Right",	"Pirate_Red_Move_Right.Bmp", -1, -1, 0.2f, true);
+	MainRenderer->CreateAnimation("PiratemonRed_Move_Left",		"Pirate_Red_Move_Left.Bmp", -1, -1, 0.2f, true);
+	MainRenderer->CreateAnimation("PiratemonRed_Die",			"Pirate_Red_Death.Bmp", -1, -1, 0.2f, false);
+	MainRenderer->CreateAnimation("PiratemonRed_Ready",			"Pirate_Red_Death.Bmp", 3, 0, 0.1f, false);
 
 	MainRenderer->SetRenderPos({ 0, 15 });
 
 	ShadowRenderer->SetRenderPos(ShadowPos);
 
-	ChangeState(MonsterState::Idle);
+	ChangeState(MonsterState::Ready);
 }
 
 void Piratemon_red::Update(float _Delta)

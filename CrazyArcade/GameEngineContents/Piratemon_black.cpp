@@ -25,33 +25,34 @@ void Piratemon_black::Start()
 {
 	BaseMonster::Start();
 
-	GlobalUtils::SpriteFileLoad("Pirate_Black_Idle_Down.Bmp", "Resources\\Textures\\Monster\\Pirate\\Black\\", 1, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Black_Idle_Up.Bmp", "Resources\\Textures\\Monster\\Pirate\\Black\\", 1, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Black_Idle_Right.Bmp", "Resources\\Textures\\Monster\\Pirate\\Black\\", 1, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Black_Idle_Left.Bmp", "Resources\\Textures\\Monster\\Pirate\\Black\\", 1, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Black_Move_Down.Bmp", "Resources\\Textures\\Monster\\Pirate\\Black\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Black_Move_Up.Bmp", "Resources\\Textures\\Monster\\Pirate\\Black\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Black_Move_Right.Bmp", "Resources\\Textures\\Monster\\Pirate\\Black\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Black_Move_Left.Bmp", "Resources\\Textures\\Monster\\Pirate\\Black\\", 2, 1);
-	GlobalUtils::SpriteFileLoad("Pirate_Black_Death.Bmp", "Resources\\Textures\\Monster\\Pirate\\Black\\", 4, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Black_Idle_Down.Bmp",	"Resources\\Textures\\Monster\\Pirate\\Black\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Black_Idle_Up.Bmp",		"Resources\\Textures\\Monster\\Pirate\\Black\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Black_Idle_Right.Bmp",	"Resources\\Textures\\Monster\\Pirate\\Black\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Black_Idle_Left.Bmp",	"Resources\\Textures\\Monster\\Pirate\\Black\\", 1, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Black_Move_Down.Bmp",	"Resources\\Textures\\Monster\\Pirate\\Black\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Black_Move_Up.Bmp",		"Resources\\Textures\\Monster\\Pirate\\Black\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Black_Move_Right.Bmp",	"Resources\\Textures\\Monster\\Pirate\\Black\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Black_Move_Left.Bmp",	"Resources\\Textures\\Monster\\Pirate\\Black\\", 2, 1);
+	GlobalUtils::SpriteFileLoad("Pirate_Black_Death.Bmp",		"Resources\\Textures\\Monster\\Pirate\\Black\\", 4, 1);
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 
-	MainRenderer->CreateAnimation("PiratemonBlack_Idle_Down", "Pirate_Black_Idle_Down.Bmp");
-	MainRenderer->CreateAnimation("PiratemonBlack_Idle_Up", "Pirate_Black_Idle_Up.Bmp");
-	MainRenderer->CreateAnimation("PiratemonBlack_Idle_Right", "Pirate_Black_Idle_Right.Bmp");
-	MainRenderer->CreateAnimation("PiratemonBlack_Idle_Left", "Pirate_Black_Idle_Left.Bmp");
-	MainRenderer->CreateAnimation("PiratemonBlack_Move_Down", "Pirate_Black_Move_Down.Bmp", -1, -1, 0.2f, true);
-	MainRenderer->CreateAnimation("PiratemonBlack_Move_Up", "Pirate_Black_Move_Up.Bmp", -1, -1, 0.2f, true);
-	MainRenderer->CreateAnimation("PiratemonBlack_Move_Right", "Pirate_Black_Move_Right.Bmp", -1, -1, 0.2f, true);
-	MainRenderer->CreateAnimation("PiratemonBlack_Move_Left", "Pirate_Black_Move_Left.Bmp", -1, -1, 0.2f, true);
-	MainRenderer->CreateAnimation("PiratemonBlack_Die", "Pirate_Black_Death.Bmp", -1, -1, 0.2f, false);
+	MainRenderer->CreateAnimation("PiratemonBlack_Idle_Down",	"Pirate_Black_Idle_Down.Bmp");
+	MainRenderer->CreateAnimation("PiratemonBlack_Idle_Up",		"Pirate_Black_Idle_Up.Bmp");
+	MainRenderer->CreateAnimation("PiratemonBlack_Idle_Right",	"Pirate_Black_Idle_Right.Bmp");
+	MainRenderer->CreateAnimation("PiratemonBlack_Idle_Left",	"Pirate_Black_Idle_Left.Bmp");
+	MainRenderer->CreateAnimation("PiratemonBlack_Move_Down",	"Pirate_Black_Move_Down.Bmp", -1, -1, 0.2f, true);
+	MainRenderer->CreateAnimation("PiratemonBlack_Move_Up",		"Pirate_Black_Move_Up.Bmp", -1, -1, 0.2f, true);
+	MainRenderer->CreateAnimation("PiratemonBlack_Move_Right",	"Pirate_Black_Move_Right.Bmp", -1, -1, 0.2f, true);
+	MainRenderer->CreateAnimation("PiratemonBlack_Move_Left",	"Pirate_Black_Move_Left.Bmp", -1, -1, 0.2f, true);
+	MainRenderer->CreateAnimation("PiratemonBlack_Die",			"Pirate_Black_Death.Bmp", -1, -1, 0.2f, false);
+	MainRenderer->CreateAnimation("PiratemonBlack_Ready",		"Pirate_Black_Death.Bmp", 3, 0, 0.1f, false);
 
 	MainRenderer->SetRenderPos({ 0, 15 });
 
 	ShadowRenderer->SetRenderPos(ShadowPos);
 
-	ChangeState(MonsterState::Idle);
+	ChangeState(MonsterState::Ready);
 }
 
 void Piratemon_black::Update(float _Delta)
