@@ -50,7 +50,6 @@ void Penguin_Stage1::LevelStart(GameEngineLevel* _PrevLevel)
 		Player2->SetPos(GroundTile->IndexToPos(6, 10));
 	}
 
-	// 오 아 왼 오 위 왼 위 오 왼 아 오 아
 	std::list<ActorDir> MonsterDir;
 	MonsterDir.push_back(ActorDir::Right);
 	MonsterDir.push_back(ActorDir::Down);
