@@ -98,7 +98,7 @@ void Penguin::Start()
 		{
 			// Idle
 			MainRenderer->CreateAnimation("Down_Idle", "Down_Idle", 0, 8, IDLE_ANI_SPEED);
-			MainRenderer->FindAnimation("Down_Idle")->Inters[8] = 5.0f;
+			MainRenderer->FindAnimation("Down_Idle")->Inters[8] = IDLE_ANI_TIMER;
 
 			// Move
 			MainRenderer->CreateAnimation("Down_Move", "Down_Move", 0, 5, MOVE_ANI_SPEED);
@@ -696,16 +696,24 @@ void Penguin::DieStart()
 {
 	MainRenderer->ChangeAnimation("Die");
 	MonsterEffectSound.Stop();
-	MonsterEffectSound = GameEngineSound::SoundPlay("Boss_Death.wav");
+	if (true == IsDeathSound)
+	{
+		MonsterEffectSound = GameEngineSound::SoundPlay("Boss_Death.wav");
+	}
 }
 
 void Penguin::DieUpdate(float _Delta)
 {
 	if (0 >= DieAlpha)
 	{
-		Death();
-		PlayLevel::CurPlayLevel->MonsterListDelete();
-		BossMonster = nullptr;
+		static float DieTimer = 0.0f;
+		DieTimer += _Delta;
+		if (DieTimer >= 3.0f)
+		{
+			Death();
+			PlayLevel::CurPlayLevel->MonsterListDelete();
+			BossMonster = nullptr;
+		}
 	}
 
 	if (true == MainRenderer->IsAnimationEnd())
