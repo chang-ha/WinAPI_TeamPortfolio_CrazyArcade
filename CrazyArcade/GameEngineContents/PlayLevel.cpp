@@ -1629,7 +1629,7 @@ bool PlayLevel::detectAllMonsterKill()
 	{
 		// 3 스테이지에서는 펭귄 보스가 죽으면 승리하게 됩니다.
 
-		if (nullptr != Penguin::BossMonster && 0.0f >= Penguin::BossMonster->DieAlpha)
+		if (nullptr != Penguin::BossMonster && true == Penguin::BossMonster->BossIsDeath)
 		{
 			StageMonstersDeath();
 

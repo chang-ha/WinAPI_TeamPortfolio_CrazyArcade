@@ -41,7 +41,7 @@ void Penguin::Start()
 
 	MainRenderer = CreateRenderer(RenderOrder::MapObject);
 	MainRenderer->SetYPivot(GlobalValue::MapTileSize.Y * 2 + 10);
-	GameEngineRenderer* HPBar_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
+	HPBar_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
 	HP_Renderer = CreateRenderer(RenderOrder::FirstElementUI);
 	Shadow = CreateRenderer(RenderOrder::Shadow);
 
@@ -706,19 +706,21 @@ void Penguin::DieUpdate(float _Delta)
 {
 	if (0 >= DieAlpha)
 	{
-		static float DieTimer = 0.0f;
-		DieTimer += _Delta;
-		if (DieTimer >= 3.0f)
-		{
-			Death();
-			PlayLevel::CurPlayLevel->MonsterListDelete();
-			BossMonster = nullptr;
-		}
+		BossIsDeath = true;
+		Shadow->Off();
+		HPBar_Renderer->Off();
+		//Death();
+		//PlayLevel::CurPlayLevel->MonsterListDelete();
+		//BossMonster = nullptr;
 	}
 
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		DieAlpha -= _Delta * 255;
+		if (0.0f >= DieAlpha)
+		{
+			DieAlpha = 0.0f;
+		}
 		MainRenderer->SetAlpha(static_cast<unsigned char>(DieAlpha));
 	}
 }
