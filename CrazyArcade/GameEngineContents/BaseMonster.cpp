@@ -374,12 +374,11 @@ void BaseMonster::CheckPlayerTracking(const std::string& _State)
 	float4 PlayerPos = float4::ZERO;
 	float4 MyPos = GetPos();
 
-	if (Player->State == CharacterState::Die)
-	{
-		return;
-	}
-
-	if (Player2 != nullptr)
+	if (
+		Player != nullptr
+		&& Player->State != CharacterState::Die
+		&& Player2 != nullptr
+		&& Player2->State != CharacterState::Die)
 	{
 		float4 PlayerDistance = Player->GetPos() - MyPos;
 		float4 Player2Distance = Player2->GetPos() - MyPos;
@@ -388,9 +387,20 @@ void BaseMonster::CheckPlayerTracking(const std::string& _State)
 			PlayerPos = Player->GetPos() + float4{ 0.0f, 15.0f } - GlobalValue::TileStartPos
 			: PlayerPos = Player2->GetPos() + float4{ 0.0f, 15.0f } - GlobalValue::TileStartPos;
 	}
-	else
+
+	else if(Player != nullptr && Player->State != CharacterState::Die)
 	{
 		PlayerPos = Player->GetPos() + float4{ 0.0f, 15.0f } - GlobalValue::TileStartPos;
+	}
+
+	else if(Player2 != nullptr && Player2->State != CharacterState::Die)
+	{
+		PlayerPos = Player2->GetPos() + float4{ 0.0f, 15.0f } - GlobalValue::TileStartPos;
+	}
+
+	else
+	{
+		return;
 	}
 
 	float4 Check = PlayerPos;
