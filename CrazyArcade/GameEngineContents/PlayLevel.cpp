@@ -1569,6 +1569,7 @@ void PlayLevel::updateVictoryRoll()
 				WinCheckValue = false;
 	
 				StartGameOver();
+				StageMonstersDeath();
 				return;
 			}
 		}
@@ -1582,6 +1583,7 @@ void PlayLevel::updateVictoryRoll()
 					WinCheckValue = false;
 
 					StartGameOver();
+					StageMonstersDeath();
 					return;
 				}
 			}
