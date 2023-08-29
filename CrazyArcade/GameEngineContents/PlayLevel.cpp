@@ -1164,6 +1164,8 @@ void PlayLevel::PrevBubblePop(const int _X, const int _Y)
 // 블록이 물풍선에 맞을 경우 터지는 함수
 void PlayLevel::PopTile(const int _X, const int _Y)
 {
+	TileInfo[_Y][_X].MapInfo = TileObjectOrder::ImmovableBlock;
+
 	GameEngineRenderer* TileRenderer = ObjectTile->GetTile(_X, _Y);
 
 	if (nullptr == TileRenderer->FindAnimation("Pop_Tile"))
