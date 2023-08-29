@@ -368,12 +368,32 @@ void BaseMonster::TrackingTileUpdate()
 
 void BaseMonster::CheckPlayerTracking(const std::string& _State)
 {
-	if (PlayLevel::CurPlayLevel->GetPlayer()->State == CharacterState::Die)
+	BaseCharacter* Player = PlayLevel::CurPlayLevel->GetPlayer();
+	BaseCharacter* Player2 = PlayLevel::CurPlayLevel->GetPlayer2();
+
+	float4 PlayerPos = float4::ZERO;
+	float4 MyPos = GetPos();
+
+	if (Player->State == CharacterState::Die)
 	{
 		return;
 	}
 
-	float4 PlayerPos = PlayLevel::CurPlayLevel->Player->GetPos() + float4{ 0.0f, 15.0f } - GlobalValue::TileStartPos;
+	if (Player2 != nullptr)
+	{
+		float4 PlayerDistance = Player->GetPos() - MyPos;
+		float4 Player2Distance = Player2->GetPos() - MyPos;
+
+		PlayerDistance.Size() < Player2Distance.Size() ?
+			PlayerPos = Player->GetPos() + float4{ 0.0f, 15.0f } - GlobalValue::TileStartPos
+			: PlayerPos = Player2->GetPos() + float4{ 0.0f, 15.0f } - GlobalValue::TileStartPos;
+	}
+	else
+	{
+		PlayerPos = Player->GetPos() + float4{ 0.0f, 15.0f } - GlobalValue::TileStartPos;
+	}
+
+	float4 Check = PlayerPos;
 	float4 PlayerIndex = CurLevelTile->PosToIndex(PlayerPos);
 
 	float4 Value = float4::ZERO;
