@@ -614,6 +614,7 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _Pl
 	GameEngineRenderer* NextTile = ObjectTile->GetTile(CheckX, CheckY);
 
 	static GameMapInfo* PrevTile = nullptr;
+	static GameMapInfo* PrevTile2 = nullptr;
 
 	if (true == ObjectTile->IsOver(CheckX, CheckY))
 	{
@@ -621,18 +622,38 @@ bool PlayLevel::CheckTile(const float4& _Pos, float _Delta, const PlayerNum& _Pl
 	}
 	else
 	{
-		GameMapInfo& CurTile = TileInfo[CheckY][CheckX];
-
-		if (nullptr == PrevTile)
+		if (PlayerNum::P1 == _PlayerNum)
 		{
-			PrevTile = &CurTile;
+			GameMapInfo& CurTile = TileInfo[CheckY][CheckX];
+
+			if (nullptr == PrevTile)
+			{
+				PrevTile = &CurTile;
+			}
+			else
+			{
+				if (PrevTile != &CurTile)
+				{
+					PrevTile->LerpTimer = 0.0f;
+					PrevTile = &CurTile;
+				}
+			}
 		}
 		else
 		{
-			if (PrevTile != &CurTile)
+			GameMapInfo& CurTile = TileInfo[CheckY][CheckX];
+
+			if (nullptr == PrevTile2)
 			{
-				PrevTile->LerpTimer = 0.0f;
-				PrevTile = &CurTile;
+				PrevTile2 = &CurTile;
+			}
+			else
+			{
+				if (PrevTile2 != &CurTile)
+				{
+					PrevTile2->LerpTimer = 0.0f;
+					PrevTile2 = &CurTile;
+				}
 			}
 		}
 
