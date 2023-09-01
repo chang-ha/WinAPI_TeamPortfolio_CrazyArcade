@@ -75,7 +75,7 @@ void Penguin_Stage3::Start()
 	// Sound
 	GlobalUtils::SoundFileLoad("Boss_1_Phase_BGM.wav", "Resources\\Sounds\\BGM");
 	GlobalUtils::SoundFileLoad("Boss_2_Phase_BGM.wav", "Resources\\Sounds\\BGM");
-	BGMVolume = 1.0f;
+	BGMVolume = 0.0f;
 
 	CurrentStage = 3;
 	NextLevelName = "RoomLevel";

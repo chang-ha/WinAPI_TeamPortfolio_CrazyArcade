@@ -43,7 +43,7 @@ void TitleLevel::Start()
 
 	// Sound
 	GlobalUtils::SoundFileLoad("TitleBGM.wav", "Resources\\Sounds\\BGM");
-	BGMVolume = 1.2f;
+	BGMVolume = 0.0f;
 
 
 	CreateTitleUI();
