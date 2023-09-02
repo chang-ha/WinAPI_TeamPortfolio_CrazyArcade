@@ -28,6 +28,8 @@ private:
 
 private:
 	void SetupGoBackButton();
+	void SommonMonster();
+	void SommonItem();
 	class Button* m_GoBackButton = nullptr;
 	const float4 CONST_GoBackButtonStartPos = float4{ 647.0f , 561.0f };
 

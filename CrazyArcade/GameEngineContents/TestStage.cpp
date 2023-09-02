@@ -39,6 +39,7 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		Player->SetPos(GroundTile->IndexToPos(11, 7));
 	}
+
 	else
 	{
 		MsgBoxAssert("1P가 생성되지 못 했습니다");
@@ -58,27 +59,6 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 	BGMPlayer = GameEngineSound::SoundPlay("Penguin_Stage_BGM.wav", 10000);
 	BGMPlayer.SetVolume(BGMVolume);
 
-	// 몬스터 테스트
-	BaseMonster* Monster = CreateMonster<Snowmon_black>();
-	Monster->SetPos(GroundTile->IndexToPos(1, 6));
-
-	Monster = CreateMonster<Snowmon_red>();
-	Monster->SetPos(GroundTile->IndexToPos(1, 7));
-
-	Monster = CreateMonster<Piratemon_black>();
-	Monster->SetPos(GroundTile->IndexToPos(1, 8));
-
-	Monster = CreateMonster<Piratemon_red>();
-	Monster->SetPos(GroundTile->IndexToPos(2, 7));
-
-	// 아이템 테스트
-	CreateItemInTile(3, 6, ItemType::Bubble);
-	CreateItemInTile(8, 6, ItemType::Fluid);
-	CreateItemInTile(4, 6, ItemType::Roller);
-	CreateItemInTile(5, 6, ItemType::Needle);
-	CreateItemInTile(6, 6, ItemType::Ultra);
-	CreateItemInTile(7, 6, ItemType::Red_Devil);
-
 	ItemSetting();
 
 	SetItemInBlock(1, 0, ItemType::Needle);
@@ -91,6 +71,32 @@ void TestStage::LevelStart(GameEngineLevel* _PrevLevel)
 	ChangeStageStartValue(true);
 }
 
+void TestStage::SommonMonster()
+{
+
+	BaseMonster* Monster = CreateMonster<Snowmon_black>();
+	Monster->SetPos(GroundTile->IndexToPos(1, 6));
+
+	Monster = CreateMonster<Snowmon_red>();
+	Monster->SetPos(GroundTile->IndexToPos(1, 7));
+
+	Monster = CreateMonster<Piratemon_black>();
+	Monster->SetPos(GroundTile->IndexToPos(1, 8));
+
+	Monster = CreateMonster<Piratemon_red>();
+	Monster->SetPos(GroundTile->IndexToPos(2, 7));
+
+}
+void TestStage::SommonItem()
+{
+	// 아이템 테스트
+	CreateItemInTile(3, 6, ItemType::Bubble);
+	CreateItemInTile(8, 6, ItemType::Fluid);
+	CreateItemInTile(4, 6, ItemType::Roller);
+	CreateItemInTile(5, 6, ItemType::Needle);
+	CreateItemInTile(6, 6, ItemType::Ultra);
+	CreateItemInTile(7, 6, ItemType::Red_Devil);
+}
 void TestStage::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
@@ -145,6 +151,16 @@ void TestStage::clickGoBackButton()
 void TestStage::Update(float _Delta)
 {
 	PlayLevel::Update(_Delta);
+
+	if (true == GameEngineInput::IsDown('B'))
+	{
+		SommonMonster();
+	}
+	if (true == GameEngineInput::IsDown('V'))
+	{
+		SommonItem();
+	}
+	
 }
 
 void TestStage::Render(float _Delta)
