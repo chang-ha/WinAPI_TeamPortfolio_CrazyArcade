@@ -91,11 +91,11 @@ void TestStage::SommonItem()
 {
 	// 아이템 테스트
 	CreateItemInTile(3, 6, ItemType::Bubble);
-	CreateItemInTile(8, 6, ItemType::Fluid);
-	CreateItemInTile(4, 6, ItemType::Roller);
-	CreateItemInTile(5, 6, ItemType::Needle);
-	CreateItemInTile(6, 6, ItemType::Ultra);
-	CreateItemInTile(7, 6, ItemType::Red_Devil);
+	CreateItemInTile(4, 6, ItemType::Fluid);
+	CreateItemInTile(5, 6, ItemType::Roller);
+	CreateItemInTile(6, 6, ItemType::Needle);
+	CreateItemInTile(7, 6, ItemType::Ultra);
+	CreateItemInTile(8, 6, ItemType::Red_Devil);
 }
 void TestStage::LevelEnd(GameEngineLevel* _NextLevel)
 {
