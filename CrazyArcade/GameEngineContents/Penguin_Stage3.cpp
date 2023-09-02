@@ -27,7 +27,8 @@ void Penguin_Stage3::LevelStart(GameEngineLevel* _PrevLevel)
 	BGMPlayer.SetVolume(BGMVolume);
 
 	// Map
-	MapFileLoad("Penguin_Stage3.map");
+	//MapFileLoad("Penguin_Stage3.map");
+	MapFileLoad("IceGround.map");
 	TileSetting();
 
 	// Item
