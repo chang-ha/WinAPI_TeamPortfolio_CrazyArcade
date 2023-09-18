@@ -10,6 +10,17 @@
 
 Bazzi::Bazzi()
 {
+	MinSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Bazzi)].MinSpeed;
+	MaxSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Bazzi)].MaxSpeed;
+	Speed = MinSpeed;
+
+	MinBombPower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Bazzi)].MinBombPower;
+	MaxBombPower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Bazzi)].MaxBombPower;
+	BombPower = MinBombPower;
+
+	MinBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Bazzi)].MinWaterBombs;
+	MaxBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Bazzi)].MaxWaterBombs;
+	BombCount = MinBombCount;
 }
 
 Bazzi::~Bazzi()

@@ -127,29 +127,74 @@ protected:
 		IsDebugData = !IsDebugData;
 	}
 
-	virtual float GetSpeed()
+	float GetSpeed()
 	{
-		return Speed;
+		return Speed * SPEEDREFERENCEVALUE;
 	}
 
-	virtual int GetBombPower()
+	int GetBombPower()
 	{
 		return BombPower;
 	}
 
-	virtual int GetBombCount()
+	int GetBombCount()
 	{
 		return BombCount;
 	}
 
-	virtual void BombCountPlus() {}
-	virtual void BombCountMinus() {}
+	void BombCountPlus()
+	{
+		if (BombCount < MaxBombCount)
+		{
+			++BombCount;
+			return;
+		}
+		else
+		{
+			return;
+		}
+	}
 
-	virtual void BombPowerPlus() {}
-	virtual void ChangeMaxBombPower() {}
+	void BombCountMinus()
+	{
+		--BombCount;
+	}
 
-	virtual void SpeedUp() {}
-	virtual void ChangeMaxSpeed() {}
+	void BombPowerPlus()
+	{
+		if (BombPower < MaxBombPower)
+		{
+			++BombPower;
+			return;
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	void ChangeMaxBombPower()
+	{
+		BombPower = MaxBombPower;
+	}
+
+	void SpeedUp()
+	{
+		if (Speed < MaxSpeed)
+		{
+			++Speed;
+			return;
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	void ChangeMaxSpeed()
+	{
+		Speed = MaxSpeed;
+	}
 
 	virtual bool GetPlayerDeath()
 	{
@@ -207,11 +252,21 @@ protected:
 
 protected:
 	ActorDir Dir = ActorDir::Down;
-	float Speed = 0.0f;
 	float PassSpeed = 160.0f;
-	int BombPower = 1;
-	int BombCount = 1;
+
 	int NeedleCount = 0;
+
+	int MinSpeed = 1;
+	int MaxSpeed = 5;
+	int Speed = MinSpeed;
+
+	int MinBombPower = 1;
+	int MaxBombPower = 5;
+	int BombPower = MinBombPower;
+
+	int MinBombCount = 1;
+	int MaxBombCount = 5;
+	int BombCount = MinBombCount;
 
 	float BubbleTimer = 0.0f;
 

@@ -10,6 +10,17 @@
 
 Marid::Marid()
 {
+	MinSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MinSpeed;
+	MaxSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MaxSpeed;
+	Speed = MinSpeed;
+
+	MinBombPower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MinBombPower;
+	MaxBombPower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MaxBombPower;
+	BombPower = MinBombPower;
+
+	MinBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MinWaterBombs;
+	MaxBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Marid)].MaxWaterBombs;
+	BombCount = MinBombCount;
 }
 
 Marid::~Marid()

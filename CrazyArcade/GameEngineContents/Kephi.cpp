@@ -10,6 +10,17 @@
 
 Kephi::Kephi()
 {
+	MinSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MinSpeed;
+	MaxSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MaxSpeed;
+	Speed = MinSpeed;
+
+	MinBombPower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MinBombPower;
+	MaxBombPower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MaxBombPower;
+	BombPower = MinBombPower;
+
+	MinBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MinWaterBombs;
+	MaxBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Kephi)].MaxWaterBombs;
+	BombCount = MinBombCount;
 }
 
 Kephi::~Kephi()

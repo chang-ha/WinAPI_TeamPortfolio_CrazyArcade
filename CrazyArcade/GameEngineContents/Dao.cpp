@@ -10,6 +10,17 @@
 
 Dao::Dao()
 {
+	MinSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MinSpeed;
+	MaxSpeed = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MaxSpeed;
+	Speed = MinSpeed;
+
+	MinBombPower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MinBombPower;
+	MaxBombPower = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MaxBombPower;
+	BombPower = MinBombPower;
+
+	MinBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MinWaterBombs;
+	MaxBombCount = GlobalValue::VecCharacterTraits[static_cast<int>(CharacterList::Dao)].MaxWaterBombs;
+	BombCount = MinBombCount;
 }
 
 Dao::~Dao()
